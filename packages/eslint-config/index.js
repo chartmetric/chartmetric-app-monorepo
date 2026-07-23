@@ -6,7 +6,7 @@ const tseslint = require("typescript-eslint");
 
 module.exports = defineConfig(
   js.configs.recommended,
-  tseslint.configs.recommended,
+  tseslint.configs.strict,
   prettier,
   {
     languageOptions: {
