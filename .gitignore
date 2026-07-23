@@ -1,11 +1,26 @@
-.DS_Store
+# dependencies
 node_modules
-.turbo
-*.log
+
+# build output
 dist
 dist-ssr
-*.local
-.env
+*.tsbuildinfo
+*.d.ts.map
+
+# caches
+.turbo
 .cache
-server/dist
-public/dist
+.eslintcache
+coverage
+
+# logs
+*.log
+
+# environment
+.env
+.env.*
+!.env.example
+*.local
+
+# OS
+.DS_Store

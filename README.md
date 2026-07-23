@@ -1,32 +1,49 @@
-# `Turborepo` Vite starter
+# Chartmetric App Monorepo
 
-This is a community-maintained example. If you experience a problem, please submit a pull request with a fix. GitHub Issues will be closed.
+A [Turborepo](https://turborepo.dev) + [pnpm](https://pnpm.io) workspace containing the Chartmetric web app and API, plus shared internal packages.
 
-## Using this example
+The web app is a [React](https://reactjs.org/) application built with [Vite](https://vite.dev/).
+The API is a [Fastify](https://www.fastify.io/) application.
 
-Run the following command:
+## Setup
+
+**Prerequisites:** Node 26 (see `.nvmrc`) and pnpm 11.
 
 ```sh
-npx create-turbo@latest -e with-vite-react
+nvm install   # reads .nvmrc → Node 26
+nvm use
+corepack enable   # or: npm i -g pnpm@11 — the repo pins pnpm 11 via packageManager
+pnpm install
 ```
 
-## What's inside?
+## Common commands
 
-This Turborepo includes the following packages and apps:
+Run from the repo root:
 
-### Apps and Packages
+```sh
+pnpm dev      # start all apps in dev mode
+pnpm build    # build all apps and packages
+pnpm lint     # lint all workspaces
+pnpm format   # format with Prettier
+```
 
-- `web`: react [vite](https://vitejs.dev) ts app
-- `@repo/ui`: a stub component library shared by `web` application
-- `@repo/eslint-config`: shared `eslint` configurations
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+To target a single workspace, use a turbo filter, e.g. `pnpm build --filter=api` or `pnpm dev --filter=web`.
 
-Each package and app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Apps
 
-### Utilities
+| App | Description | Stack |
+| --- | --- | --- |
+| `apps/web` | Frontend web app | React 19, Vite 8 |
+| `apps/api` | HTTP API (`GET /ping` health check, listens on `:8080`) | Fastify 5 |
 
-This Turborepo has some additional tools already setup for you:
+The api builds to `apps/api/dist/` (`pnpm build --filter=api`), then runs with `pnpm dev --filter=api`.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## Packages
+
+| Package | Description |
+| --- | --- |
+| `@repo/ui` | Shared React component library |
+| `@repo/eslint-config` | Shared ESLint flat config (ESLint 10, typescript-eslint, Prettier) |
+| `@repo/typescript-config` | Shared `tsconfig.json` bases (`base.json`, `vite.json`, `react-library.json`) |
+
+Everything is 100% [TypeScript](https://www.typescriptlang.org/).
