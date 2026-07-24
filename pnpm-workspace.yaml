@@ -4,21 +4,21 @@ packages:
 allowBuilds:
   unrs-resolver: true
 minimumReleaseAgeExclude:
-  - '@turbo/darwin-64@2.10.6'
-  - '@turbo/darwin-arm64@2.10.6'
-  - '@turbo/linux-64@2.10.6'
-  - '@turbo/linux-arm64@2.10.6'
-  - '@turbo/windows-64@2.10.6'
-  - '@turbo/windows-arm64@2.10.6'
-  - '@vitejs/plugin-react@6.0.4'
+  - "@turbo/darwin-64@2.10.6"
+  - "@turbo/darwin-arm64@2.10.6"
+  - "@turbo/linux-64@2.10.6"
+  - "@turbo/linux-arm64@2.10.6"
+  - "@turbo/windows-64@2.10.6"
+  - "@turbo/windows-arm64@2.10.6"
+  - "@vitejs/plugin-react@6.0.4"
   - turbo@2.10.6
-  - '@eslint-react/ast@5.18.0'
-  - '@eslint-react/core@5.18.0'
-  - '@eslint-react/eslint-plugin@5.18.0'
-  - '@eslint-react/eslint@5.18.0'
-  - '@eslint-react/jsx@5.18.0'
-  - '@eslint-react/shared@5.18.0'
-  - '@eslint-react/var@5.18.0'
+  - "@eslint-react/ast@5.18.0"
+  - "@eslint-react/core@5.18.0"
+  - "@eslint-react/eslint-plugin@5.18.0"
+  - "@eslint-react/eslint@5.18.0"
+  - "@eslint-react/jsx@5.18.0"
+  - "@eslint-react/shared@5.18.0"
+  - "@eslint-react/var@5.18.0"
   - eslint-plugin-react-dom@5.18.0
   - eslint-plugin-react-jsx@5.18.0
   - eslint-plugin-react-naming-convention@5.18.0
