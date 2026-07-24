@@ -1,7 +1,7 @@
 import react from "@eslint-react/eslint-plugin";
-import { defineConfig } from "eslint/config";
 import prettier from "eslint-config-prettier";
 import reactHooks from "eslint-plugin-react-hooks";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 
 import base from "./base.js";
@@ -28,6 +28,11 @@ export default defineConfig(
     rules: {
       // React APIs (useRef(null), returning null from components) require null
       "unicorn/no-null": "off",
+      // Components conventionally live in PascalCase files (Counter.tsx)
+      "unicorn/filename-case": [
+        "warn",
+        { cases: { kebabCase: true, pascalCase: true } },
+      ],
     },
   },
   prettier,

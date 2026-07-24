@@ -1,11 +1,11 @@
 import js from "@eslint/js";
-import { defineConfig } from "eslint/config";
 import prettier from "eslint-config-prettier";
 import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
 import importX, { createNodeResolver } from "eslint-plugin-import-x";
 import perfectionist from "eslint-plugin-perfectionist";
 import sonarjs from "eslint-plugin-sonarjs";
 import unicorn from "eslint-plugin-unicorn";
+import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 const CONFIG_FILES = [
@@ -136,11 +136,23 @@ export default defineConfig(
       "import-x/no-extraneous-dependencies": [
         "error",
         {
-          devDependencies: [...CONFIG_FILES, "**/*.test.*", "**/*.spec.*"],
+          devDependencies: [
+            ...CONFIG_FILES,
+            "**/*.test.*",
+            "**/*.spec.*",
+            "**/vitest.setup.*",
+            "**/__tests__/**",
+          ],
         },
       ],
+      // cross-package imports must go through the package's `exports` map,
+      // never relative paths into another workspace's source tree
+      "import-x/no-relative-packages": "error",
       "import-x/no-self-import": "error",
-      "import-x/no-unresolved": ["error", { ignore: ["\\.css$", "^/"] }],
+      "import-x/no-unresolved": [
+        "error",
+        { ignore: [String.raw`\.css$`, "^/"] },
+      ],
 
       // ── stylistic/consistency (warn): conventions, ordering, naming ──
       "no-else-return": ["warn", { allowElseIf: false }],
@@ -239,9 +251,14 @@ export default defineConfig(
     },
   },
   {
-    // Plain JS files (eslint.config.mjs etc.) are not covered by tsconfigs
+    // Plain JS files (eslint.config.mjs etc.) are not covered by tsconfigs,
+    // and cannot carry type annotations
     extends: [tseslint.configs.disableTypeChecked],
     files: ["**/*.{js,mjs,cjs}"],
+    rules: {
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+    },
   },
   prettier,
 );

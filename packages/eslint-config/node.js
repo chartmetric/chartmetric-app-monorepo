@@ -1,6 +1,6 @@
-import { defineConfig } from "eslint/config";
 import prettier from "eslint-config-prettier";
 import n from "eslint-plugin-n";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 
 import base from "./base.js";

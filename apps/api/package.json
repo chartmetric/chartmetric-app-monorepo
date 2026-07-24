@@ -10,6 +10,7 @@
     "dev": "node --watch index.ts",
     "start": "node index.ts",
     "lint": "eslint . --max-warnings 0",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "@types/node": "^26.1.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.7.0",
-    "typescript": "npm:@typescript/typescript6@^6.0.2"
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vitest": "^4.1.10"
   }
 }
