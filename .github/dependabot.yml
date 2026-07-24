@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    # matches the pnpm minimumReleaseAge supply-chain policy: never pick up
+    # a release in its first week
+    cooldown:
+      default-days: 7
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # pinned experimental TS7/TS6 dual setup — bump deliberately, not via bot
+      - dependency-name: typescript
+      - dependency-name: "@typescript/native"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
