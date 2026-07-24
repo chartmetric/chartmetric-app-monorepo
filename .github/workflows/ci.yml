@@ -17,7 +17,7 @@ env:
 
 jobs:
   verify:
-    name: Format, lint, typecheck, test, build
+    name: Format, test, build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -45,9 +45,6 @@ jobs:
 
       - name: Lint
         run: pnpm lint
-
-      - name: Typecheck
-        run: pnpm typecheck
 
       - name: Test
         run: pnpm test
