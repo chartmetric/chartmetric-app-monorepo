@@ -140,6 +140,8 @@ export default defineConfig(
         { amountOfExportsToConsiderModuleAsBarrel: 0 },
       ],
       "barrel-files/avoid-re-export-all": "error",
+      // CommonJS is opaque to tree shakers — bundled code must stay ESM
+      "import-x/no-commonjs": "error",
       "import-x/no-cycle": "error",
       "import-x/no-extraneous-dependencies": [
         "error",
@@ -256,6 +258,13 @@ export default defineConfig(
     files: CONFIG_FILES,
     rules: {
       "import-x/no-default-export": "off",
+    },
+  },
+  {
+    // .cjs files are CommonJS by definition (never bundled)
+    files: ["**/*.cjs"],
+    rules: {
+      "import-x/no-commonjs": "off",
     },
   },
   {
