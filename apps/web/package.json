@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite --clearScreen false",
     "start": "vite --host",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint src"
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@typescript/native": "npm:typescript@^7.0.2",

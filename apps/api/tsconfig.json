@@ -1,8 +1,10 @@
 {
-  "extends": "@repo/typescript-config/base.json",
+  "extends": "@repo/typescript-config/node.json",
   "compilerOptions": {
-    "strictNullChecks": true,
-    "outDir": "dist"
+    // thread-stream (pino/fastify logger dep) ships a .d.ts that is broken
+    // against @types/node 26 (worker_threads.TransferListItem). Remove this
+    // override once fastify's chain is fixed upstream.
+    "skipLibCheck": true
   },
-  "include": ["index.ts"]
+  "include": ["**/*.ts"]
 }

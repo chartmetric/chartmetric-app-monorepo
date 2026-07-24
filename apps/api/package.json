@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=26"
+  },
   "scripts": {
     "dev": "node --watch index.ts",
-    "build": "tsc -p tsconfig.json",
     "start": "node index.ts",
-    "lint": "eslint ."
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "express": "^5.2.1",
     "fastify": "^5.10.0"
   },
   "devDependencies": {

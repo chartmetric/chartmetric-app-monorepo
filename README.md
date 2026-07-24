@@ -31,19 +31,17 @@ To target a single workspace, use a turbo filter, e.g. `pnpm build --filter=api`
 
 ## Apps
 
-| App | Description | Stack |
-| --- | --- | --- |
-| `apps/web` | Frontend web app | React 19, Vite 8 |
-| `apps/api` | HTTP API (`GET /ping` health check, listens on `:8080`) | Fastify 5 |
-
-The api builds to `apps/api/dist/` (`pnpm build --filter=api`), then runs with `pnpm dev --filter=api`.
+| App        | Description                                             | Stack            |
+| ---------- | ------------------------------------------------------- | ---------------- |
+| `apps/web` | Frontend web app                                        | React 19, Vite 8 |
+| `apps/api` | HTTP API | Fastify 5        |
 
 ## Packages
 
-| Package | Description |
-| --- | --- |
-| `@repo/ui` | Shared React component library |
-| `@repo/eslint-config` | Shared ESLint flat config (ESLint 10, typescript-eslint, Prettier) |
-| `@repo/typescript-config` | Shared `tsconfig.json` bases (`base.json`, `vite.json`, `react-library.json`) |
+| Package                   | Description                                                                   |
+| ------------------------- | ----------------------------------------------------------------------------- |
+| `@repo/ui`                | Shared React component library                                                |
+| `@repo/eslint-config`     | Strict shared ESLint flat configs for apps |
+| `@repo/typescript-config` | Strict shared `tsconfig.json` bases for apps and packages                                                  |
 
 Everything is 100% [TypeScript](https://www.typescriptlang.org/).
