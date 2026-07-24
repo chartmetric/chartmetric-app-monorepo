@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
 import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
+import barrelFiles from "eslint-plugin-barrel-files";
 import importX, { createNodeResolver } from "eslint-plugin-import-x";
 import perfectionist from "eslint-plugin-perfectionist";
 import sonarjs from "eslint-plugin-sonarjs";
@@ -64,7 +65,7 @@ export default defineConfig(
         projectService: true,
       },
     },
-    plugins: { perfectionist },
+    plugins: { "barrel-files": barrelFiles, perfectionist },
     settings: {
       "import-x/resolver-next": [
         createTypeScriptImportResolver(),
@@ -132,6 +133,13 @@ export default defineConfig(
           requireDefaultForNonUnion: true,
         },
       ],
+      // no barrel files: packages expose code via `exports` subpaths pointing
+      // at real modules, never via re-export aggregation files
+      "barrel-files/avoid-barrel-files": [
+        "error",
+        { amountOfExportsToConsiderModuleAsBarrel: 0 },
+      ],
+      "barrel-files/avoid-re-export-all": "error",
       "import-x/no-cycle": "error",
       "import-x/no-extraneous-dependencies": [
         "error",
