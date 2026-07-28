@@ -52,7 +52,6 @@ export const ListenersChart: FC = () => {
         curveType="monotone"
         data={monthlyListeners}
         dataKey="month"
-
         h={fullscreen ? "calc(100vh - 140px)" : 220}
         mt="md"
         series={[{ color: "blue.6", name: "listeners" }]}
