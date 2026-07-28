@@ -13,6 +13,11 @@
     "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },
   "dependencies": {
+    "@mantine/charts": "^9.5.0",
+    "@mantine/core": "^9.5.0",
+    "@mantine/form": "^9.5.0",
+    "@mantine/hooks": "^9.5.0",
+    "@mantine/modals": "^9.5.0",
     "@repo/ui": "workspace:*",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
@@ -28,6 +33,9 @@
     "@vitejs/plugin-react": "^6.0.4",
     "eslint": "^10.7.0",
     "jsdom": "^29.1.1",
+    "postcss": "^8.5.23",
+    "postcss-preset-mantine": "^1.18.0",
+    "postcss-simple-vars": "^7.0.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.1.5",
     "vitest": "^4.1.10"

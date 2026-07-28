@@ -257,6 +257,7 @@ export default defineConfig(
     // Tooling/config files legitimately use default exports (vite, eslint, etc.)
     files: CONFIG_FILES,
     rules: {
+      "barrel-files/avoid-barrel-files": "off",
       "import-x/no-default-export": "off",
     },
   },

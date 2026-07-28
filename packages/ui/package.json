@@ -13,6 +13,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@mantine/charts": "^9.5.0",
+    "@mantine/core": "^9.5.0",
+    "@mantine/form": "^9.5.0",
+    "@mantine/hooks": "^9.5.0",
+    "@mantine/modals": "^9.5.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
