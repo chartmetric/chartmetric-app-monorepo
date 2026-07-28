@@ -13,6 +13,7 @@ The API is a [Fastify](https://www.fastify.io/) application.
 nvm install          # reads .nvmrc → Node 26
 nvm use
 npm install -g pnpm@11   # Node 26 no longer bundles corepack; the repo pins pnpm via packageManager
+pnpm config set "//npm.fontawesome.com/:_authToken" "<token>"   # once per machine — FontAwesome Pro token from the team vault
 pnpm install         # also installs the git hooks (husky) via the prepare script
 ```
 

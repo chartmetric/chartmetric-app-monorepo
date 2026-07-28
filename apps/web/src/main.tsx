@@ -1,3 +1,4 @@
+import { config } from "@fortawesome/fontawesome-svg-core";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { MantineProvider } from "@mantine/core";
@@ -7,8 +8,13 @@ import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { detectLocale, dynamicActivate } from "./i18n";
 
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
+
+// The stylesheet is imported above; per-icon inline <style> injection is
+// redundant and breaks strict Content-Security-Policy setups.
+config.autoAddCss = false;
 
 const container = document.querySelector("#app");
 if (container === null) {

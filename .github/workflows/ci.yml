@@ -30,6 +30,13 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
 
+      - name: Authenticate FontAwesome registry
+        # pnpm only honors registry credentials from user-level config,
+        # never from the committed project .npmrc
+        run: echo "//npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}" >> ~/.npmrc
+        env:
+          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
