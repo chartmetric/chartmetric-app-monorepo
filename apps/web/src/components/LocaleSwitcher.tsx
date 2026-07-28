@@ -1,29 +1,42 @@
 import type { FC } from "react";
 
+import { faCheck } from "@fortawesome/pro-solid-svg-icons/faCheck";
+import { faGlobe } from "@fortawesome/pro-solid-svg-icons/faGlobe";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
-import { Select } from "@mantine/core";
+import { ActionIcon, Menu } from "@mantine/core";
 
 import { dynamicActivate, isLocale, LOCALE_LABELS } from "../i18n";
-
-const LOCALE_OPTIONS = Object.entries(LOCALE_LABELS).map(([value, label]) => ({
-  label,
-  value,
-}));
 
 export const LocaleSwitcher: FC = () => {
   const { i18n, t } = useLingui();
 
   return (
-    <Select
-      allowDeselect={false}
-      aria-label={t`Language`}
-      data={LOCALE_OPTIONS}
-      onChange={(value) => {
-        if (value !== null && isLocale(value)) {
-          void dynamicActivate(value);
-        }
-      }}
-      value={i18n.locale}
-    />
+    <Menu>
+      <Menu.Target>
+        <ActionIcon aria-label={t`Language`} size="input-sm" variant="default">
+          <FontAwesomeIcon icon={faGlobe} />
+        </ActionIcon>
+      </Menu.Target>
+      <Menu.Dropdown>
+        {Object.entries(LOCALE_LABELS).map(([locale, label]) => (
+          <Menu.Item
+            key={locale}
+            leftSection={
+              locale === i18n.locale ? (
+                <FontAwesomeIcon icon={faCheck} />
+              ) : undefined
+            }
+            onClick={() => {
+              if (isLocale(locale)) {
+                void dynamicActivate(locale);
+              }
+            }}
+          >
+            {label}
+          </Menu.Item>
+        ))}
+      </Menu.Dropdown>
+    </Menu>
   );
 };

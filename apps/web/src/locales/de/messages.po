@@ -21,15 +21,15 @@ msgstr "Künstler hinzufügen"
 msgid "Apr"
 msgstr "Apr"
 
-#: src/components/AddArtistForm.tsx:31
+#: src/components/AddArtistForm.tsx:33
 msgid "Artist name"
 msgstr "Künstlername"
 
-#: src/components/AddArtistForm.tsx:38
+#: src/components/AddArtistForm.tsx:40
 msgid "artist@example.com"
 msgstr "kuenstler@beispiel.de"
 
-#: src/components/AddArtistForm.tsx:37
+#: src/components/AddArtistForm.tsx:39
 msgid "Contact email"
 msgstr "Kontakt-E-Mail"
 
@@ -37,7 +37,7 @@ msgstr "Kontakt-E-Mail"
 msgid "Feb"
 msgstr "Feb"
 
-#: src/components/AddArtistForm.tsx:18
+#: src/components/AddArtistForm.tsx:19
 msgid "Invalid email"
 msgstr "Ungültige E-Mail-Adresse"
 
@@ -49,7 +49,7 @@ msgstr "Jan"
 msgid "Jun"
 msgstr "Jun"
 
-#: src/components/LocaleSwitcher.tsx:19
+#: src/components/LocaleSwitcher.tsx:17
 msgid "Language"
 msgstr "Sprache"
 
@@ -65,7 +65,7 @@ msgstr "Mai"
 msgid "Monthly listeners"
 msgstr "Monatliche Hörer"
 
-#: src/components/AddArtistForm.tsx:19
+#: src/components/AddArtistForm.tsx:20
 msgid "Name is required"
 msgstr "Name ist erforderlich"
 
@@ -73,11 +73,19 @@ msgstr "Name ist erforderlich"
 msgid "Open modal"
 msgstr "Modal öffnen"
 
+#: src/components/AddArtistForm.tsx:45
+msgid "Password"
+msgstr "Passwort"
+
+#: src/components/AddArtistForm.tsx:21
+msgid "Password is required"
+msgstr "Passwort ist erforderlich"
+
 #: src/components/ListenersChart.tsx:24
 msgid "Sample data, first half of the year"
 msgstr "Beispieldaten, erstes Halbjahr"
 
-#: src/components/AddArtistForm.tsx:43
+#: src/components/AddArtistForm.tsx:50
 msgid "Save"
 msgstr "Speichern"
 
@@ -89,7 +97,7 @@ msgstr "Zum dunklen Modus wechseln"
 msgid "Switch to light mode"
 msgstr "Zum hellen Modus wechseln"
 
-#: src/components/AddArtistForm.tsx:32
+#: src/components/AddArtistForm.tsx:34
 msgid "Tame Impala"
 msgstr "Tame Impala"
 

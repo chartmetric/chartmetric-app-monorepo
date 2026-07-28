@@ -1,7 +1,15 @@
 version: 2
+registries:
+  fontawesome:
+    type: npm-registry
+    url: https://npm.fontawesome.com
+    token: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
 updates:
   - package-ecosystem: npm
     directory: /
+    registries:
+      - fontawesome
     schedule:
       interval: weekly
       day: monday

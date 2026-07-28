@@ -21,15 +21,15 @@ msgstr "アーティストを追加"
 msgid "Apr"
 msgstr "4月"
 
-#: src/components/AddArtistForm.tsx:31
+#: src/components/AddArtistForm.tsx:33
 msgid "Artist name"
 msgstr "アーティスト名"
 
-#: src/components/AddArtistForm.tsx:38
+#: src/components/AddArtistForm.tsx:40
 msgid "artist@example.com"
 msgstr "artist@example.com"
 
-#: src/components/AddArtistForm.tsx:37
+#: src/components/AddArtistForm.tsx:39
 msgid "Contact email"
 msgstr "連絡先メールアドレス"
 
@@ -37,7 +37,7 @@ msgstr "連絡先メールアドレス"
 msgid "Feb"
 msgstr "2月"
 
-#: src/components/AddArtistForm.tsx:18
+#: src/components/AddArtistForm.tsx:19
 msgid "Invalid email"
 msgstr "無効なメールアドレス"
 
@@ -49,7 +49,7 @@ msgstr "1月"
 msgid "Jun"
 msgstr "6月"
 
-#: src/components/LocaleSwitcher.tsx:19
+#: src/components/LocaleSwitcher.tsx:17
 msgid "Language"
 msgstr "言語"
 
@@ -65,7 +65,7 @@ msgstr "5月"
 msgid "Monthly listeners"
 msgstr "月間リスナー"
 
-#: src/components/AddArtistForm.tsx:19
+#: src/components/AddArtistForm.tsx:20
 msgid "Name is required"
 msgstr "名前は必須です"
 
@@ -73,11 +73,19 @@ msgstr "名前は必須です"
 msgid "Open modal"
 msgstr "モーダルを開く"
 
+#: src/components/AddArtistForm.tsx:45
+msgid "Password"
+msgstr "パスワード"
+
+#: src/components/AddArtistForm.tsx:21
+msgid "Password is required"
+msgstr "パスワードは必須です"
+
 #: src/components/ListenersChart.tsx:24
 msgid "Sample data, first half of the year"
 msgstr "サンプルデータ（上半期）"
 
-#: src/components/AddArtistForm.tsx:43
+#: src/components/AddArtistForm.tsx:50
 msgid "Save"
 msgstr "保存"
 
@@ -89,7 +97,7 @@ msgstr "ダークモードに切り替え"
 msgid "Switch to light mode"
 msgstr "ライトモードに切り替え"
 
-#: src/components/AddArtistForm.tsx:32
+#: src/components/AddArtistForm.tsx:34
 msgid "Tame Impala"
 msgstr "Tame Impala"
 
