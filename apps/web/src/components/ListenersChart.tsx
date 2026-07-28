@@ -1,11 +1,16 @@
 import type { FC } from "react";
 
+import { faCompress } from "@fortawesome/pro-solid-svg-icons/faCompress";
+import { faExpand } from "@fortawesome/pro-solid-svg-icons/faExpand";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { AreaChart } from "@mantine/charts";
-import { Paper, Text, Title } from "@mantine/core";
+import { ActionIcon, Group, Paper, Text, Title } from "@mantine/core";
+import { useFullscreenElement } from "@mantine/hooks";
 
 export const ListenersChart: FC = () => {
   const { t } = useLingui();
+  const { fullscreen, ref, toggle } = useFullscreenElement<HTMLDivElement>();
   const monthlyListeners = [
     { listeners: 890, month: t`Jan` },
     { listeners: 1240, month: t`Feb` },
@@ -16,18 +21,39 @@ export const ListenersChart: FC = () => {
   ];
 
   return (
-    <Paper maw={480} p="lg" radius="md" w="100%" withBorder>
-      <Title order={4} ta="left">
-        <Trans>Monthly listeners</Trans>
-      </Title>
-      <Text c="dimmed" size="sm" ta="left">
-        <Trans>Sample data, first half of the year</Trans>
-      </Text>
+    <Paper
+      maw={fullscreen ? undefined : 480}
+      p="lg"
+      radius="md"
+      ref={ref}
+      w="100%"
+      withBorder
+    >
+      <Group align="flex-start" justify="space-between">
+        <div>
+          <Title order={4} ta="left">
+            <Trans>Monthly listeners</Trans>
+          </Title>
+          <Text c="dimmed" size="sm" ta="left">
+            <Trans>Sample data, first half of the year</Trans>
+          </Text>
+        </div>
+        <ActionIcon
+          aria-label={fullscreen ? t`Exit full screen` : t`Full screen`}
+          onClick={() => {
+            void toggle();
+          }}
+          variant="subtle"
+        >
+          <FontAwesomeIcon icon={fullscreen ? faCompress : faExpand} />
+        </ActionIcon>
+      </Group>
       <AreaChart
         curveType="monotone"
         data={monthlyListeners}
         dataKey="month"
-        h={220}
+
+        h={fullscreen ? "calc(100vh - 140px)" : 220}
         mt="md"
         series={[{ color: "blue.6", name: "listeners" }]}
       />

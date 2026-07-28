@@ -35,6 +35,9 @@ describe("App", () => {
     expect(
       await screen.findByRole("heading", { name: "Monthly listeners" }),
     ).toBeDefined();
+    expect(
+      await screen.findByRole("button", { name: "Full screen" }),
+    ).toBeDefined();
     expect(screen.getByRole("button", { name: "Open modal" })).toBeDefined();
   });
 
