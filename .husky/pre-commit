@@ -1,3 +1,5 @@
 npx lint-staged
+pnpm --filter web extract
+git add apps/web/src/locales
 pnpm typecheck
 pnpm test

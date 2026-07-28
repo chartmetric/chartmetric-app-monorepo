@@ -1,2 +1,5 @@
 # machine-generated — pnpm owns this file's formatting
 pnpm-lock.yaml
+
+# Vendored agent skills (managed by `npx skills`)
+.agents/skills/

@@ -1,5 +1,6 @@
 import type { FC } from "react";
 
+import { Trans, useLingui } from "@lingui/react/macro";
 import { Button, Stack, TextInput } from "@mantine/core";
 import { isEmail, isNotEmpty, useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
@@ -10,11 +11,12 @@ interface AddArtistFormValues {
 }
 
 export const AddArtistForm: FC = () => {
+  const { t } = useLingui();
   const form = useForm<AddArtistFormValues>({
     initialValues: { email: "", name: "" },
     validate: {
-      email: isEmail("Invalid email"),
-      name: isNotEmpty("Name is required"),
+      email: isEmail(t`Invalid email`),
+      name: isNotEmpty(t`Name is required`),
     },
   });
 
@@ -26,18 +28,20 @@ export const AddArtistForm: FC = () => {
     >
       <Stack>
         <TextInput
-          label="Artist name"
-          placeholder="Tame Impala"
+          label={t`Artist name`}
+          placeholder={t`Tame Impala`}
           withAsterisk
           {...form.getInputProps("name")}
         />
         <TextInput
-          label="Contact email"
-          placeholder="artist@example.com"
+          label={t`Contact email`}
+          placeholder={t`artist@example.com`}
           withAsterisk
           {...form.getInputProps("email")}
         />
-        <Button type="submit">Save</Button>
+        <Button type="submit">
+          <Trans>Save</Trans>
+        </Button>
       </Stack>
     </form>
   );

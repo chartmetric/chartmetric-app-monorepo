@@ -1,0 +1,21 @@
+{
+  "name": "@repo/lingui-config",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": false,
+  "license": "MIT",
+  "exports": {
+    "./base": "./base.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "eslint": "^10.7.0",
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
+  }
+}

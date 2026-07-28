@@ -1,5 +1,6 @@
 import type { FC } from "react";
 
+import { Trans } from "@lingui/react/macro";
 import {
   Button,
   useComputedColorScheme,
@@ -18,7 +19,11 @@ export const ColorSchemeToggle: FC = () => {
       }}
       variant="default"
     >
-      {isLight ? "Switch to dark mode" : "Switch to light mode"}
+      {isLight ? (
+        <Trans>Switch to dark mode</Trans>
+      ) : (
+        <Trans>Switch to light mode</Trans>
+      )}
     </Button>
   );
 };

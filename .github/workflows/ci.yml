@@ -46,6 +46,14 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: i18n catalogs in sync with source
+        run: |
+          pnpm --filter web extract
+          git diff --exit-code -- apps/web/src/locales
+
+      - name: i18n translations complete
+        run: pnpm --filter web exec lingui compile --strict
+
       - name: Test
         run: pnpm test
 
