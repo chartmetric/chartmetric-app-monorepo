@@ -1,17 +1,17 @@
+import { Button } from "@mantine/core";
 import { type FC, useState } from "react";
 
 export const Counter: FC = () => {
   const [count, setCount] = useState(0);
 
   return (
-    <button
+    <Button
       id="counter"
       onClick={() => {
         setCount(count + 1);
       }}
-      type="button"
     >
       {count}
-    </button>
+    </Button>
   );
 };

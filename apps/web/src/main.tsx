@@ -1,34 +1,20 @@
-import type { FC } from "react";
-
-import { Counter } from "@repo/ui/counter";
-import { Header } from "@repo/ui/header";
+import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
 import { createRoot } from "react-dom/client";
 
-import typescriptLogo from "/typescript.svg";
+import { App } from "./App";
 
-import "./style.css";
-
-const App: FC = () => (
-  <div>
-    <a href="https://vitejs.dev" rel="noreferrer" target="_blank">
-      <img alt="Vite logo" className="logo" src="/vite.svg" />
-    </a>
-    <a href="https://www.typescriptlang.org/" rel="noreferrer" target="_blank">
-      <img
-        alt="TypeScript logo"
-        className="logo vanilla"
-        src={typescriptLogo}
-      />
-    </a>
-    <Header title="Web" />
-    <div className="card">
-      <Counter />
-    </div>
-  </div>
-);
+import "@mantine/core/styles.css";
+import "@mantine/charts/styles.css";
 
 const container = document.querySelector("#app");
 if (container === null) {
   throw new Error("Root element #app not found");
 }
-createRoot(container).render(<App />);
+createRoot(container).render(
+  <MantineProvider defaultColorScheme="auto">
+    <ModalsProvider>
+      <App />
+    </ModalsProvider>
+  </MantineProvider>,
+);
