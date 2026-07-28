@@ -163,6 +163,14 @@ export default defineConfig(
         "error",
         { ignore: [String.raw`\.css$`, "^/"] },
       ],
+      "max-lines": [
+        "error",
+        { max: 300, skipBlankLines: true, skipComments: true },
+      ],
+      "max-lines-per-function": [
+        "error",
+        { IIFEs: true, max: 80, skipBlankLines: true, skipComments: true },
+      ],
 
       // ── stylistic/consistency (warn): conventions, ordering, naming ──
       "no-else-return": ["warn", { allowElseIf: false }],
@@ -259,6 +267,15 @@ export default defineConfig(
     rules: {
       "barrel-files/avoid-barrel-files": "off",
       "import-x/no-default-export": "off",
+    },
+  },
+  {
+    // Test suites and setup files are structurally one long describe()/setup
+    // block — the per-function limit would just force artificial splitting.
+    // The per-file limit still applies.
+    files: ["**/*.test.{ts,tsx}", "**/vitest.setup.ts"],
+    rules: {
+      "max-lines-per-function": "off",
     },
   },
   {
