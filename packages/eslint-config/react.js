@@ -1,5 +1,6 @@
 import react from "@eslint-react/eslint-plugin";
 import prettier from "eslint-config-prettier";
+import lingui from "eslint-plugin-lingui";
 import reactHooks from "eslint-plugin-react-hooks";
 import { defineConfig } from "eslint/config";
 import globals from "globals";
@@ -12,11 +13,50 @@ export default defineConfig(
     extends: [
       react.configs["recommended-type-checked"],
       reactHooks.configs.flat.recommended,
+      lingui.configs["flat/recommended"],
     ],
     files: ["**/*.{ts,tsx}"],
     rules: {
       "react-hooks/exhaustive-deps": "error",
       "react-hooks/rules-of-hooks": "error",
+    },
+  },
+  {
+    // User-facing strings must go through Lingui. Options follow the
+    // suggested baseline from the rule docs; tests and tooling are exempt.
+    files: ["**/src/**/*.{ts,tsx}", "**/components/**/*.{ts,tsx}"],
+    ignores: ["**/*.test.{ts,tsx}", "**/vitest.setup.ts"],
+    rules: {
+      "lingui/no-unlocalized-strings": [
+        "error",
+        {
+          ignore: [String.raw`^(?![A-Z])\S+$`, "^[A-Z0-9_-]+$"],
+          ignoreFunctions: [
+            "cva",
+            "cn",
+            "track",
+            "Error",
+            "console.*",
+            "*.headers.set",
+            "*.addEventListener",
+            "require",
+          ],
+          ignoreMethodsOnTypes: ["Map.get", "Map.has", "Set.has"],
+          ignoreNames: [
+            "className",
+            "styleName",
+            "src",
+            "srcSet",
+            "type",
+            "id",
+            "width",
+            "height",
+            "displayName",
+            "Authorization",
+          ],
+          useTsTypes: true,
+        },
+      ],
     },
   },
   {

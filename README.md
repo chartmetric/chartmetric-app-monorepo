@@ -26,6 +26,27 @@ if [ -s "$NVM_DIR/nvm.sh" ]; then
 fi
 ```
 
+## AI agent skills (optional)
+
+The repo ships shared agent skills in [`.agents/`](.agents), pinned by `skills-lock.json`. They give AI coding agents project-specific knowledge.
+
+**If you use Claude Code**, point it at the shared directory once per machine, from the repo root:
+
+```sh
+ln -s .agents .claude
+```
+
+The symlink is gitignored (per-machine, only relevant to Claude Code users) and must be created from the repo root — its target resolves relative to the link's location. Windows: `New-Item -ItemType SymbolicLink -Path .claude -Target .agents` (PowerShell, requires Developer Mode). Other agent tools can read `.agents/` directly or use their own pointer convention.
+
+To manage skills, use the [`skills` CLI](https://github.com/vercel-labs/skills) — never edit `.agents/skills/` or `skills-lock.json` by hand:
+
+```sh
+npx skills experimental_install   # restore skills from skills-lock.json (fresh clone)
+npx skills add <owner>/<repo>     # add a skill package
+npx skills update                 # update to latest upstream versions
+npx skills remove <name>          # remove a skill (also updates the lock)
+```
+
 ## Common commands
 
 Run from the repo root:
