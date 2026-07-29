@@ -1,103 +1,38 @@
 # TypeScript Configuration Package Instructions
 
-This package contains shared TypeScript configuration for the workspace.
+This package contains the shared TypeScript configuration for the workspace.
 
 Also follow:
 
 - `/AGENTS.md`
 - `/packages/AGENTS.md`
 
-## Responsibility
+## Do not modify this package
 
-Provide stable, reusable TypeScript configuration for applications and packages.
+Never modify anything in this package. This includes compiler options, `include`/`exclude`
+patterns, path aliases, added or removed configuration files, and the package's exports.
 
-This package must not contain runtime application code.
+Never work around it from a consuming workspace either:
 
-## Configuration strategy
+- Do not override shared compiler options in an application or package `tsconfig.json`.
+- Do not add `// @ts-nocheck`, `// @ts-expect-error`, or `any` to silence an error that
+  the shared configuration is correctly reporting.
+- Do not add path aliases that bypass workspace package exports.
 
-Prefer a small hierarchy of configurations with clear purposes.
+## When a type error appears
 
-Examples:
+Fix the code, not the configuration.
 
-```text
-base.json
-node.json
-react.json
-library.json
-```
+If a type error genuinely cannot be fixed in the code because the shared configuration is
+wrong, stop and report it. Describe the error, the file, and why the configuration appears
+to be at fault, and let a human decide. Do not change the configuration yourself.
 
-Do not create many nearly identical configurations.
+## Changes requested by a human
 
-Shared defaults belong here.
+Only make a change here when a human explicitly asks for that specific change to this
+package. In that case:
 
-Application-specific file includes, environment libraries, and build behavior belong in the consuming application when they are not genuinely shared.
-
-## Type safety
-
-Preserve strict TypeScript behavior.
-
-Do not disable strictness repository-wide to resolve a local error.
-
-Avoid weakening options such as:
-
-```json
-{
-  "compilerOptions": {
-    "strict": false,
-    "noImplicitAny": false
-  }
-}
-```
-
-Prefer correcting the affected code or applying the narrowest justified exception.
-
-## Package boundaries
-
-Do not add TypeScript path aliases that bypass workspace package exports.
-
-Avoid aliases that let applications import another package’s private source files.
-
-Workspace packages should be consumed through their package names and declared exports.
-
-## Environment-specific configuration
-
-Browser and Node environments require different libraries and types.
-
-Do not add DOM globals to every workspace merely because the web application needs them.
-
-Do not add Node globals to every frontend package unless they are genuinely required by tooling.
-
-## Build behavior
-
-Be deliberate about:
-
-- `noEmit`.
-- Declaration generation.
-- Source maps.
-- Composite projects.
-- Incremental compilation.
-- Module resolution.
-- JSX configuration.
-- Target runtime.
-
-Shared libraries and deployable applications may require different settings.
-
-## Configuration changes
-
-Before changing a shared compiler option:
-
-1. Identify all consumers.
-2. Understand the effect on Vite, Node, tests, and package builds.
-3. Avoid changing unrelated options.
-4. Run type checks and builds across the workspace.
-5. Document behavior that is not self-explanatory.
-
-## Validation
-
-Before completing changes:
-
-- Run all available type-checking commands.
-- Build both applications.
-- Build or type-check shared packages.
-- Confirm editor type resolution remains correct.
-- Confirm package imports resolve through declared workspace boundaries.
+1. Make the narrowest change that satisfies the request.
+2. Change nothing else.
+3. Run type checks and builds across every consuming workspace.
+4. Report what changed and what ran.

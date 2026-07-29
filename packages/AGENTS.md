@@ -68,11 +68,9 @@ Do not use relative paths to reach another package’s source directory.
 
 ## Configuration packages
 
-Configuration packages affect many workspaces.
+Never modify `packages/eslint-config` or `packages/typescript-config`, and never work around them locally with disable comments, `@ts-nocheck`, `any`, or overriding config in a consuming workspace.
 
-Changes to ESLint or TypeScript configuration should be validated across all consuming applications and packages.
-
-Do not weaken global checks simply to resolve one local issue.
+When lint or type checking fails, fix the code. If the configuration itself appears wrong, stop and report it rather than changing it. See each package's `AGENTS.md`.
 
 ## Completion checklist
 
@@ -82,5 +80,6 @@ Before completing package work:
 - Public exports are intentional.
 - No application code is imported.
 - No circular dependency was introduced.
+- No shared ESLint or TypeScript configuration was modified or worked around.
 - All consumers still type-check and build.
 - Relevant documentation is updated.

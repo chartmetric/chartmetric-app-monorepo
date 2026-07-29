@@ -1,87 +1,39 @@
 # ESLint Configuration Package Instructions
 
-This package contains shared ESLint configuration for the workspace.
+This package contains the shared ESLint configuration for the workspace.
 
 Also follow:
 
 - `/AGENTS.md`
 - `/packages/AGENTS.md`
 
-## Responsibility
+## Do not modify this package
 
-This package should provide reusable lint configurations for applications and packages.
+Never modify anything in this package. This includes rules, severities, plugins, parser
+options, `files`/`ignores` patterns, added or removed configuration files, and the
+package's exports.
 
-It must not contain application runtime logic.
+Never work around it from a consuming workspace either:
 
-## Change impact
+- Do not add or edit a local ESLint config to relax a shared rule.
+- Do not add `eslint-disable`, `eslint-disable-next-line`, or `eslint-disable` file
+  headers to silence a rule that is correctly reporting a problem.
+- Do not delete or rename code to avoid a rule instead of fixing what it flags.
 
-Changes here may affect the entire monorepo.
+## When a lint error appears
 
-Before modifying a shared rule:
+Fix the code, not the configuration.
 
-1. Identify every workspace using the configuration.
-2. Understand why the current rule is failing.
-3. Prefer fixing the local code when the rule is valid.
-4. Avoid globally disabling a rule to resolve one isolated case.
-5. Run linting across all affected workspaces.
+If a rule genuinely should not apply, stop and report it. Describe the rule, the file, and
+why the rule appears wrong for this case, and let a human decide. Do not disable the rule
+yourself.
 
-## Rule changes
+## Changes requested by a human
 
-When adding or changing a rule:
+Only make a change here when a human explicitly asks for that specific change to this
+package. In that case:
 
-- Prefer official or well-maintained plugins.
-- Avoid redundant plugins.
-- Confirm compatibility with the installed ESLint version.
-- Document non-obvious repository-wide exceptions.
-- Use the narrowest practical override.
-- Keep frontend, backend, and library environments distinct where necessary.
-
-Avoid broad configuration such as:
-
-```js
-{
-  rules: {
-    "important-rule": "off"
-  }
-}
-```
-
-when a file-pattern override or local refactor would solve the issue.
-
-## Type-aware linting
-
-If enabling type-aware rules:
-
-- Confirm each consuming workspace provides the required TypeScript configuration.
-- Consider lint performance.
-- Do not accidentally include build output or generated files.
-- Ensure editor linting still works.
-
-## Generated files
-
-Generated files may be excluded when linting them provides no value.
-
-Do not exclude manually maintained source files merely because they currently contain errors.
-
-## Exports
-
-Keep configuration exports clear and stable.
-
-Examples may include separate configurations for:
-
-- Base TypeScript.
-- React applications.
-- Node applications.
-- Shared libraries.
-
-Do not require consumers to import internal implementation paths.
-
-## Validation
-
-Before completing changes:
-
-- Run the root lint command.
-- Verify both apps/api and apps/web.
-- Verify representative shared packages.
-- Confirm no new broad disable comments were introduced.
-- Confirm editor-compatible configuration remains valid.
+1. Make the narrowest change that satisfies the request.
+2. Change nothing else.
+3. Run linting across every consuming workspace.
+4. Report what changed and what ran.
