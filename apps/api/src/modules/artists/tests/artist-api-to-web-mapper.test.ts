@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { toArtistList } from "../service.ts";
+import { toArtistList } from "../artist-api-to-web-mapper.ts";
 
 describe("toArtistList", () => {
   it("prefers profile metadata and echoes pagination", () => {
