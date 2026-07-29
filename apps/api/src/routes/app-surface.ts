@@ -13,6 +13,12 @@ export const appSurface: FastifyPluginAsyncTypebox<AppSurfaceOptions> = async (
   fastify,
   options,
 ) => {
+  // The public docs cover /v1 only; /app routes keep their TypeBox schemas
+  // for validation and type inference but stay out of the OpenAPI spec.
+  fastify.addHook("onRoute", (route) => {
+    route.schema = { ...route.schema, hide: true };
+  });
+
   await fastify.register(cors, { origin: options.corsOrigins ?? true });
   await fastify.register(artistsRoutes);
 };
