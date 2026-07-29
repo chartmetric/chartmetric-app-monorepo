@@ -4,6 +4,10 @@ packages:
 allowBuilds:
   unrs-resolver: true
 minimumReleaseAgeExclude:
+  # FontAwesome Pro lives on a private vendor registry; the release-age check
+  # would need registry auth in every consumer (including services that never
+  # install FontAwesome, e.g. api), so skip it for the whole scope.
+  - "@fortawesome/*"
   - "@turbo/darwin-64@2.10.6"
   - "@turbo/darwin-arm64@2.10.6"
   - "@turbo/linux-64@2.10.6"
