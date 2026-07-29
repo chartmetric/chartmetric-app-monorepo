@@ -35,6 +35,12 @@ export const detectLocale = (): Locale => {
   return DEFAULT_LOCALE;
 };
 
+// Persist only explicit user choices (the locale switcher) — persisting the
+// boot-time detected locale would pin it even when the browser language changes.
+export const storeLocale = (locale: Locale): void => {
+  localStorage.setItem(STORAGE_KEY, locale);
+};
+
 export const dynamicActivate = async (locale: Locale): Promise<void> => {
   const { messages } = (await import(`./locales/${locale}/messages.po`)) as {
     messages: Messages;
@@ -42,5 +48,4 @@ export const dynamicActivate = async (locale: Locale): Promise<void> => {
 
   i18n.load(locale, messages);
   i18n.activate(locale);
-  localStorage.setItem(STORAGE_KEY, locale);
 };

@@ -8,17 +8,60 @@ import { AreaChart } from "@mantine/charts";
 import { ActionIcon, Group, Paper, Text, Title } from "@mantine/core";
 import { useFullscreenElement } from "@mantine/hooks";
 
+const getMonthlyListeners = (
+  t: (message: { comment: string; message: string }) => string,
+): {
+  listeners: number;
+  month: string;
+}[] => [
+  {
+    listeners: 890,
+    month: t({
+      comment: "Abbreviated month name on the chart's x-axis",
+      message: "Jan",
+    }),
+  },
+  {
+    listeners: 1240,
+    month: t({
+      comment: "Abbreviated month name on the chart's x-axis",
+      message: "Feb",
+    }),
+  },
+  {
+    listeners: 1180,
+    month: t({
+      comment: "Abbreviated month name on the chart's x-axis",
+      message: "Mar",
+    }),
+  },
+  {
+    listeners: 1710,
+    month: t({
+      comment: "Abbreviated month name on the chart's x-axis",
+      message: "Apr",
+    }),
+  },
+  {
+    listeners: 2350,
+    month: t({
+      comment: "Abbreviated month name on the chart's x-axis",
+      message: "May",
+    }),
+  },
+  {
+    listeners: 2810,
+    month: t({
+      comment: "Abbreviated month name on the chart's x-axis",
+      message: "Jun",
+    }),
+  },
+];
+
 export const ListenersChart: FC = () => {
   const { t } = useLingui();
   const { fullscreen, ref, toggle } = useFullscreenElement<HTMLDivElement>();
-  const monthlyListeners = [
-    { listeners: 890, month: t`Jan` },
-    { listeners: 1240, month: t`Feb` },
-    { listeners: 1180, month: t`Mar` },
-    { listeners: 1710, month: t`Apr` },
-    { listeners: 2350, month: t`May` },
-    { listeners: 2810, month: t`Jun` },
-  ];
+  const monthlyListeners = getMonthlyListeners(t);
 
   return (
     <Paper
