@@ -26,11 +26,15 @@ Consumers should import from declared package exports.
 
 Preferred:
 
+```ts
 import { Button } from "@chartmetric/ui";
+```
 
 Avoid:
 
+```ts
 import { Button } from "@chartmetric/ui/src/components/Button";
+```
 
 Keep package internals private unless they are intentionally part of the supported API.
 
@@ -40,17 +44,19 @@ Changing an exported type or function can affect multiple applications. Treat pu
 
 A shared package should:
 
-Have a focused purpose.
-Declare its own dependencies.
-Avoid hidden reliance on application environment variables.
-Avoid side effects during import.
-Expose typed APIs.
-Include tests for important logic.
-Build independently where appropriate.
-Internal dependencies
+- Have a focused purpose.
+- Declare its own dependencies.
+- Avoid hidden reliance on application environment variables.
+- Avoid side effects during import.
+- Expose typed APIs.
+- Include tests for important logic.
+- Build independently where appropriate.
+
+## Internal dependencies
 
 Use workspace dependency declarations such as:
-```ts
+
+```json
 {
   "dependencies": {
     "@chartmetric/ui": "workspace:*"
@@ -72,9 +78,9 @@ Do not weaken global checks simply to resolve one local issue.
 
 Before completing package work:
 
-The package responsibility remains focused.
-Public exports are intentional.
-No application code is imported.
-No circular dependency was introduced.
-All consumers still type-check and build.
-Relevant documentation is updated.
+- The package responsibility remains focused.
+- Public exports are intentional.
+- No application code is imported.
+- No circular dependency was introduced.
+- All consumers still type-check and build.
+- Relevant documentation is updated.

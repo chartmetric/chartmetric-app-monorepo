@@ -2,7 +2,7 @@
 
 This directory contains the persistent Fastify backend.
 
-Also follow `/AGENTS.md`, `/apps/AGENTS.md`, `/docs/architecture/access-and-feature-gating.md`, `/docs/contracts/openapi.md`, and `/docs/contracts/access-context.md`.
+Also follow `/AGENTS.md`, `/apps/AGENTS.md`, `/docs/architecture/access-and-feature-gating.md`, and `/docs/contracts/access-context.md`.
 
 ## API surfaces
 

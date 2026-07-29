@@ -45,13 +45,13 @@ The frontend consumes resolved products and permissions from AuthService.
 Preferred:
 
 ```ts
-can("exports.create")
+can("exports.create");
 ```
 
 Forbidden:
 
 ```ts
-plan === "enterprise"
+plan === "enterprise";
 ```
 
 The frontend may hide navigation, disable actions, display upgrade messaging, and protect routes from confusing navigation. It is not the security boundary. Every protected operation must also be enforced by the API.

@@ -59,7 +59,7 @@ Avoid aliases that let applications import another package’s private source fi
 
 Workspace packages should be consumed through their package names and declared exports.
 
-Environment-specific configuration
+## Environment-specific configuration
 
 Browser and Node environments require different libraries and types.
 
@@ -71,14 +71,14 @@ Do not add Node globals to every frontend package unless they are genuinely requ
 
 Be deliberate about:
 
-noEmit.
-Declaration generation.
-Source maps.
-Composite projects.
-Incremental compilation.
-Module resolution.
-JSX configuration.
-Target runtime.
+- `noEmit`.
+- Declaration generation.
+- Source maps.
+- Composite projects.
+- Incremental compilation.
+- Module resolution.
+- JSX configuration.
+- Target runtime.
 
 Shared libraries and deployable applications may require different settings.
 
@@ -86,41 +86,18 @@ Shared libraries and deployable applications may require different settings.
 
 Before changing a shared compiler option:
 
-Identify all consumers.
-Understand the effect on Vite, Node, tests, and package builds.
-Avoid changing unrelated options.
-Run type checks and builds across the workspace.
-Document behavior that is not self-explanatory.
+1. Identify all consumers.
+2. Understand the effect on Vite, Node, tests, and package builds.
+3. Avoid changing unrelated options.
+4. Run type checks and builds across the workspace.
+5. Document behavior that is not self-explanatory.
 
 ## Validation
 
 Before completing changes:
 
-Run all available type-checking commands.
-Build both applications.
-Build or type-check shared packages.
-Confirm editor type resolution remains correct.
-Confirm package imports resolve through declared workspace boundaries.
-
----
-
-## Expected tree afterward
-
-```text
-.
-├── AGENTS.md
-├── apps
-│   ├── AGENTS.md
-│   ├── api
-│   │   └── AGENTS.md
-│   └── web
-│       └── AGENTS.md
-└── packages
-    ├── AGENTS.md
-    ├── eslint-config
-    │   └── AGENTS.md
-    ├── typescript-config
-    │   └── AGENTS.md
-    └── ui
-        └── AGENTS.md
-```
+- Run all available type-checking commands.
+- Build both applications.
+- Build or type-check shared packages.
+- Confirm editor type resolution remains correct.
+- Confirm package imports resolve through declared workspace boundaries.

@@ -52,11 +52,12 @@ when a file-pattern override or local refactor would solve the issue.
 
 If enabling type-aware rules:
 
-Confirm each consuming workspace provides the required TypeScript configuration.
-Consider lint performance.
-Do not accidentally include build output or generated files.
-Ensure editor linting still works.
-Generated files
+- Confirm each consuming workspace provides the required TypeScript configuration.
+- Consider lint performance.
+- Do not accidentally include build output or generated files.
+- Ensure editor linting still works.
+
+## Generated files
 
 Generated files may be excluded when linting them provides no value.
 
@@ -68,10 +69,10 @@ Keep configuration exports clear and stable.
 
 Examples may include separate configurations for:
 
-Base TypeScript.
-React applications.
-Node applications.
-Shared libraries.
+- Base TypeScript.
+- React applications.
+- Node applications.
+- Shared libraries.
 
 Do not require consumers to import internal implementation paths.
 
@@ -79,8 +80,8 @@ Do not require consumers to import internal implementation paths.
 
 Before completing changes:
 
-Run the root lint command.
-Verify both apps/api and apps/web.
-Verify representative shared packages.
-Confirm no new broad disable comments were introduced.
-Confirm editor-compatible configuration remains valid.
+- Run the root lint command.
+- Verify both apps/api and apps/web.
+- Verify representative shared packages.
+- Confirm no new broad disable comments were introduced.
+- Confirm editor-compatible configuration remains valid.

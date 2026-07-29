@@ -84,13 +84,13 @@ AuthService determines whether the current account has that permission. Vertical
 
 ## Source of truth
 
-| Question | Canonical source |
-|---|---|
-| Which product does this hostname represent? | VerticalConfig registry |
-| What branding and terminology does it use? | VerticalConfig |
-| Does a feature exist? | Application code |
-| Is a user allowed to use it? | AuthService AccessContext |
-| Is access enforced? | API authorization |
+| Question                                    | Canonical source          |
+| ------------------------------------------- | ------------------------- |
+| Which product does this hostname represent? | VerticalConfig registry   |
+| What branding and terminology does it use?  | VerticalConfig            |
+| Does a feature exist?                       | Application code          |
+| Is a user allowed to use it?                | AuthService AccessContext |
+| Is access enforced?                         | API authorization         |
 
 ## Adding a vertical
 

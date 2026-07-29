@@ -49,6 +49,7 @@ Preferred:
 ```
 
 Avoid:
+
 ```ts
 <EntityHeader artistId={artistId} />
 ```
@@ -69,10 +70,9 @@ Use Mantine APIs and theme values.
 
 Do not add:
 
-Tailwind.
-CSS-in-JS libraries that duplicate Mantine.
-A second design-token system.
-Hard-coded vertical brand palettes throughout components.
+- A styling framework or CSS-in-JS library that duplicates what Mantine already provides.
+- A second design-token system.
+- Hard-coded vertical brand palettes throughout components.
 
 Local CSS modules may be used when Mantine styling APIs are insufficient, but keep them scoped and explain unusually complex styling.
 
@@ -82,9 +82,9 @@ Shared UI components may own local interaction state when it is intrinsic to the
 
 Examples:
 
-Whether a popover is open.
-Which accordion item is expanded.
-Temporary input state.
+- Whether a popover is open.
+- Which accordion item is expanded.
+- Temporary input state.
 
 They should not own shared server state or application-wide business state.
 
@@ -96,16 +96,15 @@ Do not require consumers to import from internal paths.
 
 Keep internal helpers unexported unless they are intentionally reusable.
 
-
 ## Testing
 
 Important shared components should test:
 
-Basic rendering.
-User interaction.
-Disabled and loading behavior.
-Accessibility-relevant behavior.
-Relevant edge cases.
+- Basic rendering.
+- User interaction.
+- Disabled and loading behavior.
+- Accessibility-relevant behavior.
+- Relevant edge cases.
 
 Avoid snapshot-only tests as the sole validation of behavior.
 
@@ -113,11 +112,11 @@ Avoid snapshot-only tests as the sole validation of behavior.
 
 Before completing UI-package work:
 
-The component is genuinely reusable.
-It is presentational.
-It does not fetch product data.
-It does not enforce authorization.
-It uses Mantine and semantic theme values.
-It is not hard-coded to one vertical.
-Its public export is intentional.
-Relevant tests and consuming builds pass.
+- The component is genuinely reusable.
+- It is presentational.
+- It does not fetch product data.
+- It does not enforce authorization.
+- It uses Mantine and semantic theme values.
+- It is not hard-coded to one vertical.
+- Its public export is intentional.
+- Relevant tests and consuming builds pass.

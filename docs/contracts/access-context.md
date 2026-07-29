@@ -32,7 +32,7 @@ Example:
 {
   "schemaVersion": 1,
   "user": { "id": "user_123" },
-  "account": { "id": "sony", "role": "analyst" },
+  "account": { "id": "account_123", "role": "analyst" },
   "products": ["sports", "chartmetric_flow"],
   "permissions": [
     "exports.create",
@@ -99,14 +99,14 @@ A product backend may cache AccessContext for approximately one to five minutes.
 
 ## Source of truth
 
-| Concern | Canonical source |
-|---|---|
-| Context schema | Shared runtime schema in code |
-| Product/permission mapping | AuthService access policy |
-| Permission enforcement | API helpers and route tests |
-| Frontend visibility | UI code reading AccessContext |
-| Stripe plan definitions | Stripe |
-| Identity and org role | PropelAuth |
+| Concern                    | Canonical source              |
+| -------------------------- | ----------------------------- |
+| Context schema             | Shared runtime schema in code |
+| Product/permission mapping | AuthService access policy     |
+| Permission enforcement     | API helpers and route tests   |
+| Frontend visibility        | UI code reading AccessContext |
+| Stripe plan definitions    | Stripe                        |
+| Identity and org role      | PropelAuth                    |
 
 This document states policy and intent. It must not duplicate the live permission catalog.
 

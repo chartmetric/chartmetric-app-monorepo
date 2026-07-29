@@ -72,6 +72,16 @@ Before finishing:
 
 Never claim a check passed unless it actually ran successfully.
 
+## Validation
+
+Local pre-commit hooks run ESLint and Prettier on staged files, repository type checking, and repository tests.
+
+Pull-request CI runs Prettier verification, linting, tests, and production builds, which also run type checking through Turborepo.
+
+Before completing a task, run the checks relevant to the changed packages.
+
+Generated-artifact no-diff validation must be added when the repository first commits generated contracts, clients, SDKs, or documentation. Do not introduce placeholder generation infrastructure before then.
+
 ## Documentation
 
 Update architecture documentation only when architecture, ownership, or policy changes.

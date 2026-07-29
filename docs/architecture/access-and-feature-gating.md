@@ -145,7 +145,7 @@ Example:
 {
   "schemaVersion": 1,
   "user": { "id": "user_123" },
-  "account": { "id": "sony", "role": "analyst" },
+  "account": { "id": "account_123", "role": "analyst" },
   "products": ["sports", "chartmetric_flow"],
   "permissions": [
     "exports.create",
@@ -202,8 +202,7 @@ The same metadata may drive route guards and navigation visibility:
 
 ```ts
 const visibleRoutes = routes.filter(
-  (route) =>
-    !route.requiredPermission || can(route.requiredPermission),
+  (route) => !route.requiredPermission || can(route.requiredPermission),
 );
 ```
 
@@ -245,16 +244,16 @@ if (stripePlan === "enterprise") {
 
 ## 10. Source-of-truth model
 
-| Question | Canonical source |
-|---|---|
-| Does a route or feature exist? | Application code |
-| What permission does a restricted operation require? | Route/API implementation |
-| Which products and permissions does this account have? | AuthService AccessContext |
-| How do Stripe plans map to permissions? | AuthService access policy |
-| What product is selected by this hostname? | Vertical config |
-| What branding and terminology does it use? | Vertical config |
-| Is access actually allowed? | API authorization check |
-| What should the frontend display? | Route/component code filtered by AccessContext |
+| Question                                               | Canonical source                               |
+| ------------------------------------------------------ | ---------------------------------------------- |
+| Does a route or feature exist?                         | Application code                               |
+| What permission does a restricted operation require?   | Route/API implementation                       |
+| Which products and permissions does this account have? | AuthService AccessContext                      |
+| How do Stripe plans map to permissions?                | AuthService access policy                      |
+| What product is selected by this hostname?             | Vertical config                                |
+| What branding and terminology does it use?             | Vertical config                                |
+| Is access actually allowed?                            | API authorization check                        |
+| What should the frontend display?                      | Route/component code filtered by AccessContext |
 
 There is no central manually maintained inventory of all application features.
 
