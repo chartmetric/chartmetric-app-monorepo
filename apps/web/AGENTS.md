@@ -8,12 +8,9 @@ Also follow `/AGENTS.md`, `/apps/AGENTS.md`, and `/docs/architecture/access-and-
 
 - React with Vite.
 - Static client-rendered SPA.
-- Mantine v8.
+- Mantine.
 - TanStack Query.
 - OpenAPI-generated API client.
-- Minimal hostname-selected VerticalConfig.
-- No authenticated-app SSR.
-- No Tailwind, Redux, or Zustand.
 
 ## VerticalConfig
 

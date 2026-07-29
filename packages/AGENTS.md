@@ -16,12 +16,6 @@ Do not create a package solely to hold miscellaneous helpers.
 
 Packages must not import from applications.
 
-Forbidden:
-
-```ts
-import { something } from "../../apps/web/src/...";
-```
-
 Packages may depend on other packages when the dependency direction is clear and does not create a cycle.
 
 Prefer lower-level packages that do not depend on application-specific concepts.

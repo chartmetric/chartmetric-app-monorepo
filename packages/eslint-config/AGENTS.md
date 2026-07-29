@@ -38,8 +38,6 @@ When adding or changing a rule:
 
 Avoid broad configuration such as:
 
-Avoid broad configuration such as:
-
 ```js
 {
   rules: {

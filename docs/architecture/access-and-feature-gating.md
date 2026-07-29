@@ -41,23 +41,9 @@ Examples that usually require no new permission:
 
 ### AuthService
 
-AuthService resolves:
+AuthService resolves the products and permissions available to the current user and account. The exact inputs it resolves from are not settled yet and are intentionally not documented here.
 
-```text
-PropelAuth identity and role
-+
-Stripe entitlements
-+
-seat assignments
-+
-approved overrides
-=
-products and resolved permissions
-```
-
-It returns permissions, not plan names.
-
-Product code should not need to understand that Enterprise includes exports, Pro Plus includes advanced analytics, or an account has a temporary override. It should only ask whether the account has a stable permission such as `exports.create`.
+It returns permissions, not plan names. Product code asks whether the account has a stable permission such as `exports.create`, and does not interpret plan packaging.
 
 ### Vertical configuration
 
@@ -123,10 +109,8 @@ export const sportsConfig = {
     primaryColor: "sportsBrand",
   },
   terminology: {
-    primaryEntitySingular: "Athlete",
-    primaryEntityPlural: "Athletes",
-    secondaryEntitySingular: "Team",
-    secondaryEntityPlural: "Teams",
+    primaryEntitySingular: "…",
+    primaryEntityPlural: "…",
   },
 } satisfies VerticalConfig;
 ```
@@ -227,43 +211,13 @@ Ordinary unrestricted routes do not need permission metadata.
 
 ## 7. Frontend behavior
 
-The hostname determines product identity:
-
-```ts
-const vertical = resolveVerticalConfig(window.location.hostname);
-```
-
-AuthService determines user/account access:
-
-```ts
-const access = useAccessContext();
-```
-
-Product availability:
-
-```ts
-const hasProduct = access.products.includes(vertical.id);
-```
-
-Restricted action:
-
-```ts
-const canExport = access.permissions.includes("exports.create");
-```
+The hostname determines product identity. AuthService determines user and account access, which the frontend reads to check product availability and restricted actions.
 
 The frontend check improves user experience only. The API must independently enforce the same permission.
 
 ## 8. API enforcement
 
-```ts
-fastify.post("/app/exports", async (request) => {
-  requireProduct(request.accessContext, "sports");
-  requirePermission(request.accessContext, "exports.create");
-  return exportService.create(request);
-});
-```
-
-Shared helpers should deny missing products and permissions, produce the standard API error shape, avoid exposing sensitive policy details, and be covered by authorization tests.
+Every restricted API operation checks the required product and permission against the trusted server-side AccessContext. Shared helpers should deny missing products and permissions, produce the standard API error shape, avoid exposing sensitive policy details, and be covered by authorization tests. The concrete helper API is not settled yet.
 
 ## 9. Stripe and plan mapping
 

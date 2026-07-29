@@ -57,16 +57,7 @@ when that causes the shared component to fetch data or depend on application-spe
 
 ## Vertical neutrality
 
-Do not hard-code words such as:
-
-Artist.
-Track.
-Athlete.
-Team.
-Sports.
-Music.
-
-when the component can receive the label or entity description through props.
+Do not hard-code vertical-specific entity names when the component can receive the label or entity description through props.
 
 Do not hard-code vertical colors, logos, or hostnames.
 

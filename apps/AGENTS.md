@@ -21,13 +21,7 @@ Read this file first, then every applicable nested `AGENTS.md`. More specific in
 
 ## Technology choices
 
-- Frontend: React, Vite, Mantine, TanStack Query.
-- Backend: Fastify.
-- PostgreSQL: Drizzle.
-- ClickHouse: governed hypequery definitions.
-- API contract: OpenAPI.
-
-Do not add Tailwind, Redux, Zustand, a second component library, or direct raw ClickHouse access without an approved architecture change.
+Follow the stack already in use in the app you are touching. Do not introduce an additional framework, state manager, component library, styling system, or data-access path when an existing one already covers the need; propose the change first.
 
 ## Access and feature architecture
 
@@ -77,6 +71,28 @@ Before finishing:
 5. Report exactly what changed and what ran.
 
 Never claim a check passed unless it actually ran successfully.
+
+## Validation
+
+Local pre-commit hooks run:
+
+- ESLint and Prettier on staged files.
+- Repository type checking.
+- Repository tests.
+
+Pull-request CI runs:
+
+- Prettier verification.
+- Linting.
+- Tests.
+- Production builds, which also run type checking through Turborepo.
+
+Before completing a task, run the checks relevant to the changed packages.
+Do not claim a check passed unless it was actually run.
+
+Generated-artifact no-diff validation must be added when the repository
+first commits generated contracts, clients, SDKs, or documentation. Do not
+introduce placeholder generation infrastructure before then.
 
 ## Documentation
 

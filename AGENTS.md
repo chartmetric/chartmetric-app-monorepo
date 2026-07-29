@@ -21,13 +21,7 @@ Read this file first, then every applicable nested `AGENTS.md`. More specific in
 
 ## Technology choices
 
-- Frontend: React, Vite, Mantine, TanStack Query.
-- Backend: Fastify.
-- PostgreSQL: Drizzle.
-- ClickHouse: governed hypequery definitions.
-- API contract: OpenAPI.
-
-Do not add Tailwind, Redux, Zustand, a second component library, or direct raw ClickHouse access without an approved architecture change.
+Follow the stack already in use in the workspace you are touching. Do not introduce an additional framework, state manager, component library, styling system, or data-access path when an existing one already covers the need; propose the change first.
 
 ## Access and feature architecture
 
@@ -85,3 +79,9 @@ Update architecture documentation only when architecture, ownership, or policy c
 Do not duplicate live feature catalogs, permission catalogs, API shapes, or route inventories in Markdown.
 
 Prefer code and generated artifacts as operational sources of truth.
+
+## Generated files
+
+Packages that generate source code, OpenAPI specs, SDKs, or documentation must expose a `generate` script.
+
+Generated files are never edited manually. Modify the canonical source, run the relevant generator, and commit the generated output.
