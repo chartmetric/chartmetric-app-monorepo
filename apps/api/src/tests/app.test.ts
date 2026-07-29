@@ -64,7 +64,7 @@ describe("buildApp", () => {
     await app.close();
   });
 
-  it("exposes the OpenAPI contract with both surfaces", async () => {
+  it("documents the v1 surface but hides /app routes", async () => {
     const app = await buildApp({
       clickhouse: stubClickhouse(),
       config: testConfig,
@@ -79,8 +79,11 @@ describe("buildApp", () => {
     }>();
     expect(document.openapi).toBe("3.1.0");
     expect(Object.keys(document.paths)).toEqual(
-      expect.arrayContaining(["/health", "/app/artists", "/v1/artists"]),
+      expect.arrayContaining(["/health", "/v1/artists"]),
     );
+    expect(
+      Object.keys(document.paths).filter((route) => route.startsWith("/app")),
+    ).toEqual([]);
     await app.close();
   });
 
