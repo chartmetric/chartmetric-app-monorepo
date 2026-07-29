@@ -4,14 +4,6 @@ This directory contains the authenticated React and Vite SPA.
 
 Also follow `/AGENTS.md`, `/apps/AGENTS.md`, and `/docs/architecture/access-and-feature-gating.md`.
 
-## Target architecture
-
-- React with Vite.
-- Static client-rendered SPA.
-- Mantine.
-- TanStack Query.
-- OpenAPI-generated API client.
-
 ## VerticalConfig
 
 VerticalConfig may define only product ID, hostnames, product name, logo/favicon, Mantine theme inputs, and entity terminology.
