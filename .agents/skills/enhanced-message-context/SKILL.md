@@ -17,11 +17,46 @@ Add a `comment` field when the message:
   - Table column headers, tooltip content, standalone button labels, menu items
 - **Has domain-specific meaning**: Terms with different meanings across contexts
   - "Post" (verb or noun?), "Tag" (noun or verb?), "Follow" (social media or instruction?)
+- **Is an ambiguous music-industry term**: Chartmetric's domain vocabulary collides with common UI words
+  - "Track" (a song, or the action of monitoring an artist?), "Label" (a record label, or a form field label?), "Release" (an album/single, or the act of publishing?), "Play" (a stream count, or the playback button?)
 - **Depends on grammatical gender**: The translation depends on what the message refers to
   - "Selected" (masculine/feminine/neutral depends on what is selected)
 - **Uses unclear variables**: Placeholder names don't reveal what they contain
   - `{count}` (count of what?), `{name}` (user name, file name, project name?)
 - **Could benefit from UI context even if clear**: Where the text appears (button, dialog, banner, form field) affects tone and length - add a brief location or purpose comment when it helps.
+
+## When to Add Context
+
+A `comment` is a hint for translators; `context` goes further — it changes extraction. Two messages with the same text but different `context` values become **separate catalog entries**, each translated independently. Use `context` when the same English string must be translated differently depending on meaning:
+
+```jsx
+import { Trans } from "@lingui/react/macro";
+
+// Two separate catalog entries — each gets its own translation
+<Trans context="direction">Right</Trans>
+<Trans context="correct">Right</Trans>
+```
+
+Music-industry terms are a common case in this codebase:
+
+```jsx
+// "Track" as a song — e.g. German "Titel"
+<Trans context="a song in a release">Track</Trans>
+
+// "Track" as the monitoring action — e.g. German "verfolgen"
+<Trans context="action: monitor an artist's stats">Track</Trans>
+```
+
+The `t` macro takes it the same way:
+
+```js
+const label = t({
+  context: "record label (music company)",
+  message: "Label",
+});
+```
+
+Rule of thumb: reach for `comment` first — it costs translators nothing. Add `context` only when the same source string genuinely needs different translations, because every distinct context is an extra entry translators must fill.
 
 ## Writing Effective Comments
 

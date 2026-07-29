@@ -17,10 +17,6 @@ msgstr ""
 msgid "Add artist"
 msgstr "Add artist"
 
-#: src/components/ListenersChart.tsx:18
-msgid "Apr"
-msgstr "Apr"
-
 #: src/components/AddArtistForm.tsx:33
 msgid "Artist name"
 msgstr "Artist name"
@@ -33,15 +29,11 @@ msgstr "artist@example.com"
 msgid "Contact email"
 msgstr "Contact email"
 
-#: src/components/ListenersChart.tsx:42
+#: src/components/ListenersChart.tsx:85
 msgid "Exit full screen"
 msgstr "Exit full screen"
 
-#: src/components/ListenersChart.tsx:16
-msgid "Feb"
-msgstr "Feb"
-
-#: src/components/ListenersChart.tsx:42
+#: src/components/ListenersChart.tsx:85
 msgid "Full screen"
 msgstr "Full screen"
 
@@ -49,27 +41,11 @@ msgstr "Full screen"
 msgid "Invalid email"
 msgstr "Invalid email"
 
-#: src/components/ListenersChart.tsx:15
-msgid "Jan"
-msgstr "Jan"
-
-#: src/components/ListenersChart.tsx:20
-msgid "Jun"
-msgstr "Jun"
-
 #: src/components/LocaleSwitcher.tsx:17
 msgid "Language"
 msgstr "Language"
 
-#: src/components/ListenersChart.tsx:17
-msgid "Mar"
-msgstr "Mar"
-
-#: src/components/ListenersChart.tsx:19
-msgid "May"
-msgstr "May"
-
-#: src/components/ListenersChart.tsx:35
+#: src/components/ListenersChart.tsx:78
 msgid "Monthly listeners"
 msgstr "Monthly listeners"
 
@@ -89,7 +65,7 @@ msgstr "Password"
 msgid "Password is required"
 msgstr "Password is required"
 
-#: src/components/ListenersChart.tsx:38
+#: src/components/ListenersChart.tsx:81
 msgid "Sample data, first half of the year"
 msgstr "Sample data, first half of the year"
 

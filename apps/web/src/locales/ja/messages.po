@@ -17,10 +17,6 @@ msgstr ""
 msgid "Add artist"
 msgstr "アーティストを追加"
 
-#: src/components/ListenersChart.tsx:18
-msgid "Apr"
-msgstr "4月"
-
 #: src/components/AddArtistForm.tsx:33
 msgid "Artist name"
 msgstr "アーティスト名"
@@ -33,15 +29,11 @@ msgstr "artist@example.com"
 msgid "Contact email"
 msgstr "連絡先メールアドレス"
 
-#: src/components/ListenersChart.tsx:42
+#: src/components/ListenersChart.tsx:85
 msgid "Exit full screen"
 msgstr "全画面表示を終了"
 
-#: src/components/ListenersChart.tsx:16
-msgid "Feb"
-msgstr "2月"
-
-#: src/components/ListenersChart.tsx:42
+#: src/components/ListenersChart.tsx:85
 msgid "Full screen"
 msgstr "全画面表示"
 
@@ -49,27 +41,11 @@ msgstr "全画面表示"
 msgid "Invalid email"
 msgstr "無効なメールアドレス"
 
-#: src/components/ListenersChart.tsx:15
-msgid "Jan"
-msgstr "1月"
-
-#: src/components/ListenersChart.tsx:20
-msgid "Jun"
-msgstr "6月"
-
 #: src/components/LocaleSwitcher.tsx:17
 msgid "Language"
 msgstr "言語"
 
-#: src/components/ListenersChart.tsx:17
-msgid "Mar"
-msgstr "3月"
-
-#: src/components/ListenersChart.tsx:19
-msgid "May"
-msgstr "5月"
-
-#: src/components/ListenersChart.tsx:35
+#: src/components/ListenersChart.tsx:78
 msgid "Monthly listeners"
 msgstr "月間リスナー"
 
@@ -89,7 +65,7 @@ msgstr "パスワード"
 msgid "Password is required"
 msgstr "パスワードは必須です"
 
-#: src/components/ListenersChart.tsx:38
+#: src/components/ListenersChart.tsx:81
 msgid "Sample data, first half of the year"
 msgstr "サンプルデータ（上半期）"
 

@@ -17,10 +17,6 @@ msgstr ""
 msgid "Add artist"
 msgstr "아티스트 추가"
 
-#: src/components/ListenersChart.tsx:18
-msgid "Apr"
-msgstr "4월"
-
 #: src/components/AddArtistForm.tsx:33
 msgid "Artist name"
 msgstr "아티스트 이름"
@@ -33,15 +29,11 @@ msgstr "artist@example.com"
 msgid "Contact email"
 msgstr "연락처 이메일"
 
-#: src/components/ListenersChart.tsx:42
+#: src/components/ListenersChart.tsx:85
 msgid "Exit full screen"
 msgstr "전체 화면 종료"
 
-#: src/components/ListenersChart.tsx:16
-msgid "Feb"
-msgstr "2월"
-
-#: src/components/ListenersChart.tsx:42
+#: src/components/ListenersChart.tsx:85
 msgid "Full screen"
 msgstr "전체 화면"
 
@@ -49,27 +41,11 @@ msgstr "전체 화면"
 msgid "Invalid email"
 msgstr "유효하지 않은 이메일"
 
-#: src/components/ListenersChart.tsx:15
-msgid "Jan"
-msgstr "1월"
-
-#: src/components/ListenersChart.tsx:20
-msgid "Jun"
-msgstr "6월"
-
 #: src/components/LocaleSwitcher.tsx:17
 msgid "Language"
 msgstr "언어"
 
-#: src/components/ListenersChart.tsx:17
-msgid "Mar"
-msgstr "3월"
-
-#: src/components/ListenersChart.tsx:19
-msgid "May"
-msgstr "5월"
-
-#: src/components/ListenersChart.tsx:35
+#: src/components/ListenersChart.tsx:78
 msgid "Monthly listeners"
 msgstr "월간 청취자"
 
@@ -89,7 +65,7 @@ msgstr "비밀번호"
 msgid "Password is required"
 msgstr "비밀번호는 필수입니다"
 
-#: src/components/ListenersChart.tsx:38
+#: src/components/ListenersChart.tsx:81
 msgid "Sample data, first half of the year"
 msgstr "샘플 데이터, 상반기"
 

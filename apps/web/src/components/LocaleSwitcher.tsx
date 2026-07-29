@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { ActionIcon, Menu } from "@mantine/core";
 
-import { dynamicActivate, isLocale, LOCALE_LABELS } from "../i18n";
+import { dynamicActivate, isLocale, LOCALE_LABELS, storeLocale } from "../i18n";
 
 export const LocaleSwitcher: FC = () => {
   const { i18n, t } = useLingui();
@@ -28,9 +28,11 @@ export const LocaleSwitcher: FC = () => {
               ) : undefined
             }
             onClick={() => {
-              if (isLocale(locale)) {
-                void dynamicActivate(locale);
+              if (!isLocale(locale)) {
+                return;
               }
+              storeLocale(locale);
+              void dynamicActivate(locale);
             }}
           >
             {label}

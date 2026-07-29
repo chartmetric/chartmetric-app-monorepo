@@ -17,6 +17,8 @@ pnpm config set "//npm.fontawesome.com/:_authToken" "<token>"   # once per machi
 pnpm install         # also installs the git hooks (husky) via the prepare script
 ```
 
+CI, Dependabot, and Railway supply the same token from their own secret stores (`FONTAWESOME_NPM_AUTH_TOKEN`); on Railway each service's `RAILPACK_INSTALL_CMD` writes it to `~/.npmrc` before a `--filter`-scoped install (`api` is filtered out of the FontAwesome subtree and carries no token).
+
 **If you use nvm:** git hooks don't load your shell profile, so commits from GUI clients (or a shell on a different Node) can fail with old-Node errors. Fix once per machine by creating `~/.config/husky/init.sh`:
 
 ```sh
