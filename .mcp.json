@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "clickhouse": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "dotenv-cli",
+        "-e",
+        "apps/api/.env",
+        "--",
+        "sh",
+        "-c",
+        "H=\"${CLICKHOUSE_HOST#http://}\"; H=\"${H#https://}\"; export CLICKHOUSE_HOST=\"${H%%:*}\"; exec uvx --from mcp-clickhouse --python 3.10 mcp-clickhouse"
+      ],
+      "env": {
+        "CLICKHOUSE_SECURE": "true",
+        "CLICKHOUSE_VERIFY": "true",
+        "CLICKHOUSE_CONNECT_TIMEOUT": "30",
+        "CLICKHOUSE_SEND_RECEIVE_TIMEOUT": "30"
+      }
+    }
+  }
+}

@@ -3,6 +3,13 @@ packages:
   - "packages/*"
 allowBuilds:
   unrs-resolver: true
+packageExtensions:
+  # Upstream bug: the plugin's .d.ts does `import("fastify")` but the package
+  # declares no fastify dependency/peer, so under pnpm's strict layout its
+  # types collapse to `any` (hidden by skipLibCheck, caught by lint).
+  "@scalar/fastify-api-reference":
+    peerDependencies:
+      fastify: "*"
 minimumReleaseAgeExclude:
   # FontAwesome Pro lives on a private vendor registry; the release-age check
   # would need registry auth in every consumer (including services that never

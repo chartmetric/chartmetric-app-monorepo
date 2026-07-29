@@ -3,8 +3,9 @@
   "compilerOptions": {
     "noEmit": false,
     "outDir": "dist",
+    "rootDir": "src",
     "rewriteRelativeImportExtensions": true,
     "sourceMap": true
   },
-  "exclude": ["dist", "**/*.test.ts", "**/*.spec.ts"]
+  "exclude": ["dist", "**/*.test.ts", "**/*.spec.ts", "**/tests/**"]
 }
