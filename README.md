@@ -42,7 +42,7 @@ ln -s AGENTS.md CLAUDE.md
 
 `.claude` exposes the shared skills to Claude Code; `CLAUDE.md` makes it load the repo instructions in `AGENTS.md`. Both symlinks are gitignored (per-machine, only relevant to Claude Code users) and must be created from the repo root — their targets resolve relative to the link's location. Windows (PowerShell, requires Developer Mode): `New-Item -ItemType SymbolicLink -Path .claude -Target .agents` and `New-Item -ItemType SymbolicLink -Path CLAUDE.md -Target AGENTS.md`. Other agent tools can read `.agents/` and `AGENTS.md` directly or use their own pointer convention.
 
-To manage skills, use the [`skills` CLI](https://github.com/vercel-labs/skills) — never edit `.agents/skills/` or `skills-lock.json` by hand:
+Registry skills are managed with the [`skills` CLI](https://github.com/vercel-labs/skills) and pinned in `skills-lock.json` — never edit those skill directories or the lock by hand. Skills without a lock entry (e.g. `comment-discipline`, `enhanced-message-context`) are repo-authored or repo-customized: edit them in place, and never reinstall them from the registry, which would overwrite the customizations.
 
 ```sh
 npx skills experimental_install   # restore skills from skills-lock.json (fresh clone)
