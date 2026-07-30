@@ -85,7 +85,7 @@ Generated-artifact no-diff validation must be added when the repository first co
 
 ## Agent skills
 
-Installed skills live in `.agents/skills/` (exposed to Claude Code via the `.claude` symlink). Each nested `AGENTS.md` lists the skills relevant to its workspace; read the matching skill before working on that technology. Manage skills with `npx skills` (they are tracked in `skills-lock.json`), not by hand-editing skill directories.
+Installed skills live in `.agents/skills/` (exposed to Claude Code via the per-machine `.claude` symlink; see the README setup). Each nested `AGENTS.md` lists the skills relevant to its workspace; read the matching skill before working on that technology. Registry-installed skills are managed with `npx skills` and pinned in `skills-lock.json`; do not hand-edit them. Skills with no lock entry (e.g. `comment-discipline`, `enhanced-message-context`) are repo-authored or carry repo-specific customizations: edit them in place and never reinstall them from the registry, which would overwrite the customizations.
 
 Repo-wide skills:
 
