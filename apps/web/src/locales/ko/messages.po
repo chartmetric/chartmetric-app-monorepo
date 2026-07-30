@@ -29,11 +29,11 @@ msgstr "artist@example.com"
 msgid "Contact email"
 msgstr "연락처 이메일"
 
-#: src/components/ListenersChart.tsx:85
+#: src/components/ListenersChart.tsx:83
 msgid "Exit full screen"
 msgstr "전체 화면 종료"
 
-#: src/components/ListenersChart.tsx:85
+#: src/components/ListenersChart.tsx:83
 msgid "Full screen"
 msgstr "전체 화면"
 
@@ -45,7 +45,7 @@ msgstr "유효하지 않은 이메일"
 msgid "Language"
 msgstr "언어"
 
-#: src/components/ListenersChart.tsx:78
+#: src/components/ListenersChart.tsx:77
 msgid "Monthly listeners"
 msgstr "월간 청취자"
 
@@ -65,7 +65,7 @@ msgstr "비밀번호"
 msgid "Password is required"
 msgstr "비밀번호는 필수입니다"
 
-#: src/components/ListenersChart.tsx:81
+#: src/components/ListenersChart.tsx:80
 msgid "Sample data, first half of the year"
 msgstr "샘플 데이터, 상반기"
 
@@ -85,6 +85,6 @@ msgstr "라이트 모드로 전환"
 msgid "Tame Impala"
 msgstr "Tame Impala"
 
-#: src/App.tsx:23
+#: src/App.tsx:18
 msgid "Web"
 msgstr "Web"

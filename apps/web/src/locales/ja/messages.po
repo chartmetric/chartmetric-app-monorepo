@@ -29,11 +29,11 @@ msgstr "artist@example.com"
 msgid "Contact email"
 msgstr "連絡先メールアドレス"
 
-#: src/components/ListenersChart.tsx:85
+#: src/components/ListenersChart.tsx:83
 msgid "Exit full screen"
 msgstr "全画面表示を終了"
 
-#: src/components/ListenersChart.tsx:85
+#: src/components/ListenersChart.tsx:83
 msgid "Full screen"
 msgstr "全画面表示"
 
@@ -45,7 +45,7 @@ msgstr "無効なメールアドレス"
 msgid "Language"
 msgstr "言語"
 
-#: src/components/ListenersChart.tsx:78
+#: src/components/ListenersChart.tsx:77
 msgid "Monthly listeners"
 msgstr "月間リスナー"
 
@@ -65,7 +65,7 @@ msgstr "パスワード"
 msgid "Password is required"
 msgstr "パスワードは必須です"
 
-#: src/components/ListenersChart.tsx:81
+#: src/components/ListenersChart.tsx:80
 msgid "Sample data, first half of the year"
 msgstr "サンプルデータ（上半期）"
 
@@ -85,6 +85,6 @@ msgstr "ライトモードに切り替え"
 msgid "Tame Impala"
 msgstr "Tame Impala"
 
-#: src/App.tsx:23
+#: src/App.tsx:18
 msgid "Web"
 msgstr "Web"

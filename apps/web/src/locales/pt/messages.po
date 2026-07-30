@@ -29,11 +29,11 @@ msgstr "artista@exemplo.com"
 msgid "Contact email"
 msgstr "E-mail de contato"
 
-#: src/components/ListenersChart.tsx:85
+#: src/components/ListenersChart.tsx:83
 msgid "Exit full screen"
 msgstr "Sair da tela cheia"
 
-#: src/components/ListenersChart.tsx:85
+#: src/components/ListenersChart.tsx:83
 msgid "Full screen"
 msgstr "Tela cheia"
 
@@ -45,7 +45,7 @@ msgstr "E-mail inválido"
 msgid "Language"
 msgstr "Idioma"
 
-#: src/components/ListenersChart.tsx:78
+#: src/components/ListenersChart.tsx:77
 msgid "Monthly listeners"
 msgstr "Ouvintes mensais"
 
@@ -65,7 +65,7 @@ msgstr "Senha"
 msgid "Password is required"
 msgstr "A senha é obrigatória"
 
-#: src/components/ListenersChart.tsx:81
+#: src/components/ListenersChart.tsx:80
 msgid "Sample data, first half of the year"
 msgstr "Dados de exemplo, primeira metade do ano"
 
@@ -85,6 +85,6 @@ msgstr "Mudar para o modo claro"
 msgid "Tame Impala"
 msgstr "Tame Impala"
 
-#: src/App.tsx:23
+#: src/App.tsx:18
 msgid "Web"
 msgstr "Web"
