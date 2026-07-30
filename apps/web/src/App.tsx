@@ -2,17 +2,12 @@ import { useLingui } from "@lingui/react/macro";
 import { Center, Group, Skeleton, Stack } from "@mantine/core";
 import { Counter } from "@repo/ui/counter";
 import { Header } from "@repo/ui/header";
-import { type FC, lazy, Suspense } from "react";
+import { type FC, Suspense } from "react";
 
 import { ColorSchemeToggle } from "./components/ColorSchemeToggle";
 import { DemoModalButton } from "./components/DemoModalButton";
+import { ListenersChart } from "./components/ListenersChart";
 import { LocaleSwitcher } from "./components/LocaleSwitcher";
-
-// Charts pull in recharts (~115 kB gzipped) — keep it out of the initial bundle.
-const ListenersChart = lazy(async () => {
-  const module = await import("./components/ListenersChart");
-  return { default: module.ListenersChart };
-});
 
 export const App: FC = () => {
   const { t } = useLingui();

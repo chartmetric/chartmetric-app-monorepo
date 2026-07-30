@@ -4,7 +4,9 @@
   "sideEffects": false,
   "exports": {
     "./counter": "./components/Counter/Counter.tsx",
-    "./header": "./components/Header.tsx"
+    "./header": "./components/Header.tsx",
+    "./theme": "./theme/theme.ts",
+    "./theme/colors": "./theme/colors.ts"
   },
   "license": "MIT",
   "scripts": {

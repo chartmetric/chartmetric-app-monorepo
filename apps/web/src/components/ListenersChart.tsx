@@ -73,14 +73,12 @@ export const ListenersChart: FC = () => {
       withBorder
     >
       <Group align="flex-start" justify="space-between">
-        <div>
-          <Title order={4} ta="left">
-            <Trans>Monthly listeners</Trans>
-          </Title>
-          <Text c="dimmed" size="sm" ta="left">
-            <Trans>Sample data, first half of the year</Trans>
-          </Text>
-        </div>
+        <Title order={4} ta="left">
+          <Trans>Monthly listeners</Trans>
+        </Title>
+        <Text c="dimmed" size="sm" ta="left">
+          <Trans>Sample data, first half of the year</Trans>
+        </Text>
         <ActionIcon
           aria-label={fullscreen ? t`Exit full screen` : t`Full screen`}
           onClick={() => {

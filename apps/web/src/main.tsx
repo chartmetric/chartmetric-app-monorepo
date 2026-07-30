@@ -3,11 +3,13 @@ import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
+import { baseTheme } from "@repo/ui/theme";
 import { createRoot } from "react-dom/client";
 
 import { App } from "./App";
 import { detectLocale, dynamicActivate } from "./i18n";
 
+import "@fontsource-variable/inter";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
@@ -25,7 +27,7 @@ await dynamicActivate(detectLocale());
 
 createRoot(container).render(
   <I18nProvider i18n={i18n}>
-    <MantineProvider defaultColorScheme="auto">
+    <MantineProvider defaultColorScheme="auto" theme={baseTheme}>
       <ModalsProvider>
         <App />
       </ModalsProvider>
