@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-07-28 12:03-0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: pt\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/verticals.ts:21
+msgid "Artists"
+msgstr "Artistas"
+
+#: src/verticals.ts:28
+msgid "Athletes"
+msgstr "Atletas"
+
+#: src/layout/components/VerticalSelector.tsx:30
+msgid "Chartmetric Dash"
+msgstr "Chartmetric Dash"
+
+#: src/verticals.ts:34
+msgid "for Creators"
+msgstr "para Criadores"
+
+#: src/verticals.ts:20
+msgid "for Music"
+msgstr "para Música"
+
+#: src/verticals.ts:27
+msgid "for Sports"
+msgstr "para Esportes"
+
+#: src/verticals.ts:35
+msgid "Influencers"
+msgstr "Influenciadores"
+
+#: src/layout/components/LocaleSwitcher.tsx:22
+msgid "Language"
+msgstr "Idioma"
+
+#: src/layout/components/ColorSchemeToggle.tsx:21
+msgid "Switch to dark mode"
+msgstr "Mudar para o modo escuro"
+
+#: src/layout/components/ColorSchemeToggle.tsx:21
+msgid "Switch to light mode"
+msgstr "Mudar para o modo claro"
+
+#: src/layout/components/VerticalSelector.tsx:25
+msgid "Switch vertical"
+msgstr "Trocar de vertical"
+
+#: src/layout/Layout.tsx:35
+#: src/layout/Layout.tsx:52
+msgid "Toggle navigation"
+msgstr "Alternar navegação"

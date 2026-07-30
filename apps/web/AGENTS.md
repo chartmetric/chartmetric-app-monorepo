@@ -54,6 +54,16 @@ Use Mantine before custom primitives. Components should have typed props, semant
 
 Generic presentational components belong in `packages/ui`. Application-specific components stay here.
 
+## Responsive layout
+
+Every screen, layout, and component must remain usable at mobile widths. This applies to all UI work, not only pages designed for mobile.
+
+Rules:
+
+- Use Mantine responsive primitives: AppShell `breakpoint`/`collapsed`, `hiddenFrom`/`visibleFrom`, responsive style props (`w={{ base: "100%", sm: 400 }}`), and `Grid`/`Flex`/`SimpleGrid` responsive props.
+- Do not hard-code widths or heights that overflow small screens. Wide content (tables, charts) scrolls within its own container instead of the page.
+- Verify layout changes at a mobile width (below the AppShell `breakpoint`) and at desktop width before finishing.
+
 ## TanStack Query
 
 Use TanStack Query for remote server state. Do not mirror query results into another global store.
