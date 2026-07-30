@@ -1,10 +1,10 @@
 import type { ClickHouseDatabase } from "../../db/clickhouse/client.ts";
-import type { ArtistQueries } from "./types.ts";
+import type { PaginationQuery } from "../../lib/pagination.ts";
 
-export const createArtistQueries = (
-  database: ClickHouseDatabase,
-): ArtistQueries => ({
-  listArtists: (pagination) =>
+type ArtistQueriesFactory = (database: ClickHouseDatabase) => unknown;
+
+export const createArtistQueries = ((database) => ({
+  listArtists: (pagination: PaginationQuery) =>
     database
       .table("new_vertical.cm_artist")
       .select(["id", "name", "image_url", "code2", "record_label"])
@@ -15,7 +15,7 @@ export const createArtistQueries = (
       .limit(pagination.limit)
       .offset(pagination.offset),
 
-  profilesBySourceIds: (sourceIds) =>
+  profilesBySourceIds: (sourceIds: number[]) =>
     database
       .table("new_vertical.profiles")
       .select(["id", "name", "image_url", "source_id"])
@@ -24,4 +24,12 @@ export const createArtistQueries = (
       .where("active", "eq", "true")
       .where("source_id", "in", sourceIds.map(String))
       .orderBy("id", "ASC"),
-});
+})) satisfies ArtistQueriesFactory;
+
+export type ArtistQueries = ReturnType<typeof createArtistQueries>;
+export type ArtistRow = Awaited<
+  ReturnType<ReturnType<ArtistQueries["listArtists"]>["execute"]>
+>[number];
+export type ProfileRow = Awaited<
+  ReturnType<ReturnType<ArtistQueries["profilesBySourceIds"]>["execute"]>
+>[number];

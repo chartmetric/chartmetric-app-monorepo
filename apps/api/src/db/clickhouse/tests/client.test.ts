@@ -9,12 +9,15 @@ import { pickClickhouseAgent } from "../http-agent.ts";
 describe("buildClientOptions", () => {
   const options = buildClientOptions(testConfig);
 
-  it("carries the production-proven settings", () => {
+  it("carries the production-proven transport settings", () => {
     expect(options.request_timeout).toBe(60_000);
     expect(options.set_basic_auth_header).toBe(true);
-    expect(
-      options.clickhouse_settings?.output_format_json_quote_64bit_integers,
-    ).toBe(0);
+  });
+
+  it("preserves quoted 64-bit integers for type-safe query results", () => {
+    expect(options).not.toHaveProperty(
+      "clickhouse_settings.output_format_json_quote_64bit_integers",
+    );
   });
 
   it("never pins a database — queries use fully-qualified names", () => {

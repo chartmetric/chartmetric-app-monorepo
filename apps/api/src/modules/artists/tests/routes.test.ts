@@ -19,7 +19,7 @@ const rows = {
       id: 1,
       image_url: "https://img/profile-1.jpg",
       name: "Profile Name",
-      source_id: 42,
+      source_id: "42",
     },
   ],
 };
