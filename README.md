@@ -37,9 +37,10 @@ The repo ships shared agent skills in [`.agents/`](.agents), pinned by `skills-l
 
 ```sh
 ln -s .agents .claude
+ln -s AGENTS.md CLAUDE.md
 ```
 
-The symlink is gitignored (per-machine, only relevant to Claude Code users) and must be created from the repo root — its target resolves relative to the link's location. Windows: `New-Item -ItemType SymbolicLink -Path .claude -Target .agents` (PowerShell, requires Developer Mode). Other agent tools can read `.agents/` directly or use their own pointer convention.
+`.claude` exposes the shared skills to Claude Code; `CLAUDE.md` makes it load the repo instructions in `AGENTS.md`. Both symlinks are gitignored (per-machine, only relevant to Claude Code users) and must be created from the repo root — their targets resolve relative to the link's location. Windows (PowerShell, requires Developer Mode): `New-Item -ItemType SymbolicLink -Path .claude -Target .agents` and `New-Item -ItemType SymbolicLink -Path CLAUDE.md -Target AGENTS.md`. Other agent tools can read `.agents/` and `AGENTS.md` directly or use their own pointer convention.
 
 To manage skills, use the [`skills` CLI](https://github.com/vercel-labs/skills) — never edit `.agents/skills/` or `skills-lock.json` by hand:
 

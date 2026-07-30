@@ -4,6 +4,14 @@ This directory contains the persistent Fastify backend.
 
 Also follow `/AGENTS.md`, `/apps/AGENTS.md`, `/docs/architecture/access-and-feature-gating.md`, and `/docs/contracts/access-context.md`.
 
+## Skills
+
+Consult the matching skill in `/.agents/skills/` before working in its area:
+
+- `fastify-best-practices` — Fastify plugins, routing, validation, and lifecycle patterns.
+- `clickhouse-best-practices` — ClickHouse schema design and query patterns.
+- `vitest` — writing and structuring tests.
+
 ## API surfaces
 
 - `/app/*`: first-party user/session authentication. CORS is enabled here (allowlist via `CORS_ORIGIN`).
