@@ -16,6 +16,7 @@ import { v1Surface } from "./routes/v1-surface.ts";
 export interface BuildAppOptions {
   clickhouse?: ClickHouse;
   config: Config;
+  openapiAudience?: "complete" | "public";
 }
 
 export const buildApp = async (
@@ -38,6 +39,7 @@ export const buildApp = async (
   await app.register(healthRoutes);
   await app.register(appSurface, {
     corsOrigins: options.config.corsOrigins,
+    hideFromOpenApi: options.openapiAudience !== "complete",
     prefix: "/app",
   });
   await app.register(v1Surface, { prefix: "/v1" });

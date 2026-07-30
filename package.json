@@ -7,6 +7,8 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,js,mjs,cjs,json,md}\"",
+    "generate:api-client": "pnpm --filter api generate:openapi && pnpm --filter @repo/api-client generate",
+    "check:generated": "pnpm generate:api-client && git diff --exit-code -- apps/api/openapi.generated.json packages/api-client/src/schema.generated.ts",
     "start": "turbo run start",
     "prepare": "husky"
   },

@@ -30,6 +30,7 @@
     "@mantine/hooks": "^9.5.0",
     "@mantine/modals": "^9.5.0",
     "@propelauth/react": "^2.1.1",
+    "@repo/api-client": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tanstack/react-query": "^5.101.4",
     "react": "^19.2.8",
