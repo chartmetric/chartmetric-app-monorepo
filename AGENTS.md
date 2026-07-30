@@ -61,6 +61,7 @@ During implementation:
 4. Avoid unrelated cleanup.
 5. Do not silently change public contracts.
 6. Do not introduce a permission unless access genuinely differs by plan, role, seat, security boundary, override, or API scope.
+7. Write self-documenting code, not comments. Comment only non-obvious constraints, the reason for a surprising approach, formulas, or legal requirements — never narration, change descriptions, or JSDoc that restates a signature. Follow the `comment-discipline` skill.
 
 Before finishing:
 
@@ -81,6 +82,17 @@ Pull-request CI runs Prettier verification, linting, tests, and production build
 Before completing a task, run the checks relevant to the changed packages.
 
 Generated-artifact no-diff validation must be added when the repository first commits generated contracts, clients, SDKs, or documentation. Do not introduce placeholder generation infrastructure before then.
+
+## Agent skills
+
+Installed skills live in `.agents/skills/` (exposed to Claude Code via the `.claude` symlink). Each nested `AGENTS.md` lists the skills relevant to its workspace; read the matching skill before working on that technology. Manage skills with `npx skills` (they are tracked in `skills-lock.json`), not by hand-editing skill directories.
+
+Repo-wide skills:
+
+- `turborepo` — task pipelines, caching, `--filter`/`--affected`, internal package boundaries.
+- `pnpm` — workspace configuration, catalogs, and dependency management.
+- `typescript-advanced-types` — generics, conditional/mapped types, and type-level utilities.
+- `comment-discipline` — the repository's no-unnecessary-comments policy; applies to every code change.
 
 ## Documentation
 

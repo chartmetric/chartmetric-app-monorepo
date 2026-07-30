@@ -4,6 +4,18 @@ This directory contains the authenticated React and Vite SPA.
 
 Also follow `/AGENTS.md`, `/apps/AGENTS.md`, and `/docs/architecture/access-and-feature-gating.md`.
 
+## Skills
+
+Consult the matching skill in `/.agents/skills/` before working in its area:
+
+- `vercel-react-best-practices` — React component and performance patterns.
+- `vercel-composition-patterns` — component composition, compound components, and reusable component APIs.
+- `web-design-guidelines` — UI, UX, and accessibility review.
+- `mantine-custom-components`, `mantine-form`, `mantine-combobox` — building on Mantine primitives, forms, and select/autocomplete components.
+- `vite` — Vite configuration and plugins.
+- `vitest` — writing and structuring tests.
+- `lingui-best-practices`, `enhanced-message-context` — i18n, message extraction, and translations.
+
 ## VerticalConfig
 
 VerticalConfig may define only product ID, hostnames, product name, logo/favicon, Mantine theme inputs, and entity terminology.

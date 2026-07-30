@@ -29,6 +29,7 @@ coverage
 apps/web/src/locales/*/messages.js
 
 # Agent config: .agents/ is committed (tool-agnostic); local state and
-# per-tool symlinks (e.g. `ln -s .agents .claude` for Claude Code) are not
+# per-tool symlinks (`ln -s .agents .claude`, `ln -s AGENTS.md CLAUDE.md`) are not
 .agents/settings.local.json
 .claude
+/CLAUDE.md
