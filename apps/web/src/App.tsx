@@ -1,33 +1,35 @@
-import { useLingui } from "@lingui/react/macro";
-import { Center, Group, Skeleton, Stack } from "@mantine/core";
-import { Counter } from "@repo/ui/counter";
-import { Header } from "@repo/ui/header";
-import { type FC, Suspense } from "react";
+import { type FC, useState } from "react";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router";
 
-import { ColorSchemeToggle } from "./components/ColorSchemeToggle";
-import { DemoModalButton } from "./components/DemoModalButton";
-import { ListenersChart } from "./components/ListenersChart";
-import { LocaleSwitcher } from "./components/LocaleSwitcher";
+import { Layout } from "./layout/Layout";
+import { InfluencersPage } from "./pages/creators/influencers/InfluencersPage";
+import { DemoPage } from "./pages/demo/DemoPage";
+import { ArtistsPage } from "./pages/music/artists/ArtistsPage";
+import { AthletesPage } from "./pages/sports/athletes/AthletesPage";
+import { DEFAULT_VERTICAL } from "./verticals";
+
+const routes = [
+  {
+    children: [
+      {
+        element: <Navigate replace to={DEFAULT_VERTICAL.homePath} />,
+        index: true,
+      },
+      { element: <ArtistsPage />, path: "/music/artists" },
+      { element: <AthletesPage />, path: "/sports/athletes" },
+      { element: <InfluencersPage />, path: "/creators/influencers" },
+      { element: <DemoPage />, path: "/demo" },
+      {
+        element: <Navigate replace to={DEFAULT_VERTICAL.homePath} />,
+        path: "*",
+      },
+    ],
+    element: <Layout />,
+  },
+];
 
 export const App: FC = () => {
-  const { t } = useLingui();
+  const [router] = useState(() => createBrowserRouter(routes));
 
-  return (
-    <Center mih="100vh">
-      <Stack align="center" gap="xl" p="xl" ta="center">
-        <Header title={t`Web`} />
-        <Group justify="center">
-          <ColorSchemeToggle />
-          <LocaleSwitcher />
-        </Group>
-        <Suspense fallback={<Skeleton h={332} maw={480} w="100%" />}>
-          <ListenersChart />
-        </Suspense>
-        <Group justify="center">
-          <Counter />
-          <DemoModalButton />
-        </Group>
-      </Stack>
-    </Center>
-  );
+  return <RouterProvider router={router} />;
 };

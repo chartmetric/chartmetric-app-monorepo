@@ -4,10 +4,10 @@ git add apps/web/src/locales
 pnpm --filter web exec lingui compile --strict || {
   echo ""
   echo "✗ i18n: untranslated messages found. Fill the empty msgstr entries in"
-  echo "  apps/web/src/locales/*/messages.po (e.g. via a Claude Code session),"
+  echo "  apps/web/src/locales/*/*/messages.po (e.g. via a Claude Code session),"
   echo "  then commit again."
   exit 1
 }
-rm -f apps/web/src/locales/*/messages.js
+rm -f apps/web/src/locales/*/*/messages.js
 pnpm typecheck
 pnpm test

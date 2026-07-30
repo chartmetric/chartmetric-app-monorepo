@@ -41,10 +41,24 @@ export const storeLocale = (locale: Locale): void => {
   localStorage.setItem(STORAGE_KEY, locale);
 };
 
+// One catalog per directory under src/pages, plus "common" for everything
+// else (see lingui.config.ts). Add new page directories here.
+const CATALOG_NAMES = ["common", "creators", "demo", "music", "sports"];
+
 export const dynamicActivate = async (locale: Locale): Promise<void> => {
-  const { messages } = (await import(`./locales/${locale}/messages.po`)) as {
-    messages: Messages;
-  };
+  const catalogs = await Promise.all(
+    CATALOG_NAMES.map(
+      async (name) =>
+        (await import(`./locales/${name}/${locale}/messages.po`)) as {
+          messages: Messages;
+        },
+    ),
+  );
+
+  const messages: Messages = {};
+  for (const catalog of catalogs) {
+    Object.assign(messages, catalog.messages);
+  }
 
   i18n.load(locale, messages);
   i18n.activate(locale);
