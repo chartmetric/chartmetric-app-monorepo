@@ -5,6 +5,57 @@ builder ([hypequery](https://hypequery.com)). Column names and types are
 checked at compile time, so a typo in a query or a schema change in the
 database shows up as a TypeScript error instead of a runtime failure.
 
+## How it works, in plain terms
+
+Think of one request passing through three stations:
+
+1. **The front door (Fastify + TypeBox).** Every route declares a schema:
+   what the query/params must look like, and exactly what the response
+   contains. Fastify rejects bad input before our code runs, and strips
+   anything from the response that isn't in the schema. That one schema is
+   also where our TypeScript types and the API docs come from — we never
+   write the same shape twice.
+2. **The kitchen (queries + service).** The route handler asks the module's
+   queries for data (built with hypequery, so a wrong column name won't even
+   compile) and the module's service reshapes raw database rows into the
+   clean API response (e.g. turning ClickHouse's `''` into proper `null`).
+3. **The pantry (ClickHouse).** Where the data actually lives. The API only
+   reads from it.
+
+```
+            GET /v1/artists?limit=3
+                     │
+        ┌────────────▼─────────────────────────┐
+        │ FASTIFY  (the web server)            │
+        │  1. validate input   ← TypeBox schema│
+        │  2. run the handler:                 │
+        │       queries.ts ──hypequery──► ClickHouse
+        │       service.ts  rows → API shape   │
+        │  3. shape the output ← TypeBox schema│
+        └────────────┬─────────────────────────┘
+                     ▼
+               JSON response
+
+   The same TypeBox schemas also feed /openapi.json,
+   which /docs renders as browsable documentation.
+```
+
+### Who does what
+
+| Package                          | Role in one sentence                                                                             | Docs                                                                                                         |
+| -------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `fastify`                        | The web server: routing, request lifecycle, logging.                                             | [fastify.dev](https://fastify.dev/docs/latest/)                                                              |
+| `@sinclair/typebox`              | Define a route's input/output shape **once** — used for validation, TypeScript types, and docs.  | [github.com/sinclairzx81/typebox](https://github.com/sinclairzx81/typebox)                                   |
+| `@fastify/type-provider-typebox` | The glue that makes Fastify infer TS types from those schemas automatically.                     | [github.com/fastify/fastify-type-provider-typebox](https://github.com/fastify/fastify-type-provider-typebox) |
+| `@fastify/sensible`              | Small quality-of-life helpers, mainly standard HTTP errors like `fastify.httpErrors.notFound()`. | [github.com/fastify/fastify-sensible](https://github.com/fastify/fastify-sensible)                           |
+| `@fastify/swagger`               | Walks every route's schema and generates the OpenAPI spec at `/openapi.json`.                    | [github.com/fastify/fastify-swagger](https://github.com/fastify/fastify-swagger)                             |
+| `@scalar/fastify-api-reference`  | Renders that spec as the interactive docs page at `/docs`.                                       | [scalar.com](https://guides.scalar.com/scalar/scalar-api-references/integrations/fastify)                    |
+| `@hypequery/clickhouse`          | Type-safe ClickHouse query builder — tables and columns are checked at compile time.             | [hypequery.com](https://hypequery.com/docs/)                                                                 |
+
+The API is served twice under two prefixes: `/app/*` for our own web app and
+`/v1/*` for external developers. Same routes, different future auth — and only
+`/v1` appears in the public docs.
+
 ## 1. Setup
 
 Copy the example env file and fill in the ClickHouse credentials (ask the team
