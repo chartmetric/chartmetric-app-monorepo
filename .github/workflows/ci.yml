@@ -53,6 +53,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: API contracts in sync
+        run: pnpm check:generated
+
       - name: i18n catalogs in sync with source
         run: |
           pnpm --filter web extract

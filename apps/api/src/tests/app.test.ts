@@ -87,6 +87,22 @@ describe("buildApp", () => {
     await app.close();
   });
 
+  it("includes both API surfaces in the complete contract", async () => {
+    const app = await buildApp({
+      clickhouse: stubClickhouse(),
+      config: testConfig,
+      openapiAudience: "complete",
+    });
+
+    const response = await app.inject({ method: "GET", url: "/openapi.json" });
+    const document = response.json<{ paths: Record<string, unknown> }>();
+
+    expect(Object.keys(document.paths)).toEqual(
+      expect.arrayContaining(["/app/artists", "/v1/artists"]),
+    );
+    await app.close();
+  });
+
   it("serves the docs UI", async () => {
     const app = await buildApp({
       clickhouse: stubClickhouse(),

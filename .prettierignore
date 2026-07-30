@@ -3,3 +3,7 @@ pnpm-lock.yaml
 
 # Vendored agent skills (managed by `npx skills`)
 .agents/skills/
+
+# Machine-generated API contracts
+apps/api/openapi.generated.json
+packages/api-client/src/schema.generated.ts

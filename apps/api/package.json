@@ -13,7 +13,8 @@
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "generate:ch-schema": "node --env-file-if-exists=.env scripts/generate-ch-schema.mjs"
+    "generate:ch-schema": "node --env-file-if-exists=.env scripts/generate-ch-schema.mjs",
+    "generate:openapi": "node scripts/generate-openapi.mjs"
   },
   "dependencies": {
     "@clickhouse/client": "^1.23.1",
