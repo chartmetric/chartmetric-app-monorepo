@@ -25,7 +25,7 @@ describe("toArtistList", () => {
         id: 1,
         image_url: "https://img/profile-1.jpg",
         name: "Profile Name",
-        source_id: 42,
+        source_id: "42",
       },
     ];
 
@@ -73,7 +73,7 @@ describe("toArtistList", () => {
         record_label: "",
       },
     ];
-    const profiles = [{ id: 2, image_url: "", name: "", source_id: 7 }];
+    const profiles = [{ id: 2, image_url: "", name: "", source_id: "7" }];
 
     const reply = toArtistList(artists, profiles, { limit: 10, offset: 0 });
 
@@ -91,7 +91,9 @@ describe("toArtistList", () => {
         record_label: "",
       },
     ];
-    const profiles = [{ id: 2, image_url: null, name: "Linked", source_id: 7 }];
+    const profiles = [
+      { id: 2, image_url: null, name: "Linked", source_id: "7" },
+    ];
 
     const reply = toArtistList(artists, profiles, { limit: 10, offset: 0 });
 

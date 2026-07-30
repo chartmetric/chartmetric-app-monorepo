@@ -1,6 +1,6 @@
 import type { PaginationQuery } from "../../lib/pagination.ts";
+import type { ArtistRow, ProfileRow } from "./queries.ts";
 import type { ListArtistsReply } from "./schemas.ts";
-import type { ArtistRow, ProfileRow } from "./types.ts";
 
 const emptyToNull = (value: string): string | null =>
   value === "" ? null : value;

@@ -19,10 +19,6 @@ export const buildClientOptions = (
   config: Config,
 ): NonNullable<Parameters<typeof createClient>[0]> => ({
   application: "chartmetric-app-api",
-  clickhouse_settings: {
-    // 64-bit integers otherwise come back as strings in JSON output
-    output_format_json_quote_64bit_integers: 0,
-  },
   http_agent: pickClickhouseAgent(config.clickhouseHost),
   password: config.clickhousePassword,
   request_timeout: 60_000,
