@@ -7,6 +7,7 @@ type SchemaUnit = ReturnType<typeof typia.json.schema<unknown, "3.1">>;
 
 interface ReplyDefinition {
   mapperImport: string;
+  responseName: string;
   schemaName: string;
   schemaUnit: SchemaUnit;
   typeName: string;
@@ -92,6 +93,9 @@ ${JSON.stringify(toStandaloneSchema(reply.schemaUnit), null, 2)
   .join("\n")},
 );`;
 
+const renderReplyType = (reply: ReplyDefinition): string =>
+  `export type ${reply.typeName} = Awaited<ReturnType<typeof ${reply.responseName}ResponseMapper>>;`;
+
 const writeIfChanged = async (file: string, source: string): Promise<void> => {
   const existingSource = await readFile(file, "utf8").catch(
     (error: NodeJS.ErrnoException) => {
@@ -121,11 +125,16 @@ export const writeResponseSchemaFiles = async (
         .map(
           ([mapperImport, importedReplies]) =>
             `import type { ${importedReplies
-              .map((reply) => reply.typeName)
+              .map(
+                (reply) =>
+                  `${reply.responseName} as ${reply.responseName}ResponseMapper`,
+              )
               .join(", ")} } from ${JSON.stringify(mapperImport)};`,
         )
         .join("\n");
-      const schemas = replies.map(renderSchema).join("\n\n");
+      const schemas = replies
+        .map((reply) => `${renderReplyType(reply)}\n\n${renderSchema(reply)}`)
+        .join("\n\n");
       const source = `import { Type } from "@sinclair/typebox";
 
 ${typeImports}

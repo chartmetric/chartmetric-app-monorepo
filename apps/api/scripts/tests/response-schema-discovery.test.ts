@@ -1,39 +1,76 @@
 import { describe, expect, it } from "vitest";
 
-import { discoverMapperReplyTypes } from "../lib/response-schema-discovery.ts";
+import { discoverApiResponseContracts } from "../lib/response-schema-discovery.ts";
 
-describe("discoverMapperReplyTypes", () => {
-  it("discovers exported mapper return types in stable order", () => {
-    const replies = discoverMapperReplyTypes(
-      "example-api-to-web-mapper.ts",
+describe("discoverApiResponseContracts", () => {
+  it("discovers markers independently of filenames and reply suffixes", () => {
+    const contracts = discoverApiResponseContracts(
+      "anything.ts",
       `
+        import { defineApiResponse as response } from "../../lib/api-response.ts";
+
         const toList = () => ({ data: [] });
         const toDetail = async () => ({ id: 1 });
 
-        export type ListReply = ReturnType<typeof toList>;
-        export type DetailReply = Awaited<ReturnType<typeof toDetail>>;
-        export type MapperMetadata = { version: number };
+        export const ListArtists = response(toList);
+        export const ArtistDetail = response(toDetail);
       `,
     );
 
-    expect(replies).toEqual(["DetailReply", "ListReply"]);
+    expect(contracts).toEqual([
+      { mapperName: "toDetail", name: "ArtistDetail" },
+      { mapperName: "toList", name: "ListArtists" },
+    ]);
   });
 
-  it("rejects manually declared reply shapes", () => {
-    expect(() =>
-      discoverMapperReplyTypes(
-        "example-api-to-web-mapper.ts",
-        "export type DetailReply = { id: number };",
+  it("ignores files without a marker import", () => {
+    expect(
+      discoverApiResponseContracts(
+        "unrelated.ts",
+        `
+          const defineApiResponse = (value: unknown) => value;
+          export const NotAContract = defineApiResponse({ id: 1 });
+        `,
       ),
-    ).toThrow(/ReturnType/);
+    ).toEqual([]);
   });
 
-  it("requires every mapper file to expose a reply type", () => {
+  it("requires markers to be exported constants", () => {
     expect(() =>
-      discoverMapperReplyTypes(
-        "example-api-to-web-mapper.ts",
-        "export const toDetail = () => ({ id: 1 });",
+      discoverApiResponseContracts(
+        "invalid.ts",
+        `
+          import { defineApiResponse } from "../../lib/api-response.ts";
+          const toDetail = () => ({ id: 1 });
+          const ArtistDetail = defineApiResponse(toDetail);
+        `,
       ),
-    ).toThrow(/at least one \*Reply/);
+    ).toThrow(/top-level exported const/);
+  });
+
+  it("requires a PascalCase contract name", () => {
+    expect(() =>
+      discoverApiResponseContracts(
+        "invalid.ts",
+        `
+          import { defineApiResponse } from "../../lib/api-response.ts";
+          const toDetail = () => ({ id: 1 });
+          export const artistDetail = defineApiResponse(toDetail);
+        `,
+      ),
+    ).toThrow(/PascalCase/);
+  });
+
+  it("requires exactly one mapper identifier", () => {
+    expect(() =>
+      discoverApiResponseContracts(
+        "invalid.ts",
+        `
+          import { defineApiResponse } from "../../lib/api-response.ts";
+          const toDetail = () => ({ id: 1 });
+          export const ArtistDetail = defineApiResponse(() => toDetail());
+        `,
+      ),
+    ).toThrow(/one mapper identifier/);
   });
 });

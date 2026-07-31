@@ -66,31 +66,36 @@ The first generation on a machine compiles Typia's transformer and requires a
 Go toolchain; subsequent runs reuse its cache. This is a development and CI
 requirement only.
 
-The mapper exports `ReturnType<typeof mapper>` as its reply type. The response
-schema generator consumes that type, OpenAPI consumes the generated Fastify
-schema, and the frontend client consumes OpenAPI. `pnpm check:generated` runs
-the full chain and fails in CI if any committed artifact is stale.
+The mapper marks its public response with `defineApiResponse(mapper)`. The
+response schema generator infers the mapper return type, OpenAPI consumes the
+generated Fastify schema, and the frontend client consumes OpenAPI. `pnpm
+check:generated` runs the full chain and fails in CI if any committed artifact
+is stale.
 
 For a new response:
 
-1. Create a `*-api-to-web-mapper.ts` file under `src/modules`.
-2. Export the mapper and a type named `*Reply`:
+1. Create a mapper in any non-test TypeScript file under `src/modules`.
+2. Export the mapper and mark the public response:
 
    ```ts
+   import { defineApiResponse } from "../../lib/api-response.ts";
+
    export const toArtistDetail = (row: ArtistDetailRow) => ({
      id: row.id,
      name: row.name,
    });
 
-   export type ArtistDetailReply = ReturnType<typeof toArtistDetail>;
+   export const ArtistDetail = defineApiResponse(toArtistDetail);
    ```
 
-3. Run `pnpm --filter api generate`. The generator discovers the reply and
-   emits `ArtistDetailReplySchema` in the module's `schemas.generated.ts`.
+3. Run `pnpm --filter api generate`. The generator emits the inferred
+   `ArtistDetailReply` type and `ArtistDetailReplySchema` in the module's
+   `schemas.generated.ts`.
 4. Import that schema in the route's `schema.response`.
 
-No generator registry or field-by-field response schema is required. To update
-the committed OpenAPI snapshot and frontend client as well, run:
+No filename convention, reply-type suffix, generator registry, or
+field-by-field response schema is required. To update the committed OpenAPI
+snapshot and frontend client as well, run:
 
 ```sh
 pnpm generate:api-client
