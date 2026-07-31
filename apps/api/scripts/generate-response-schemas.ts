@@ -1,9 +1,13 @@
 import { spawn } from "node:child_process";
-import { mkdir, readFile, readdir, unlink, writeFile } from "node:fs/promises";
+import { readFile, readdir, unlink, writeFile } from "node:fs/promises";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { discoverMapperReplyTypes } from "./lib/response-schema-discovery.ts";
+import {
+  createResponseSchemaWorkerWorkspace,
+  removeResponseSchemaWorkerWorkspace,
+} from "./lib/response-schema-worker.ts";
 
 interface MapperContract {
   file: string;
@@ -39,14 +43,6 @@ const findFiles = async (
 const toImportSpecifier = (fromDirectory: string, toFile: string): string => {
   const path = relative(fromDirectory, toFile).split(sep).join("/");
   return path.startsWith(".") ? path : `./${path}`;
-};
-
-const unlinkIfPresent = async (file: string): Promise<void> => {
-  await unlink(file).catch((error: NodeJS.ErrnoException) => {
-    if (error.code !== "ENOENT") {
-      throw error;
-    }
-  });
 };
 
 const mapperFiles = await findFiles(modulesRoot, (name) =>
@@ -87,29 +83,29 @@ for (const [outputFile, outputContracts] of groupedContracts) {
   }
 }
 
-const temporaryDirectory = join(apiRoot, "scripts/response-schema-codegen");
-await mkdir(temporaryDirectory, { recursive: true });
-const workerFile = join(temporaryDirectory, "worker.generated.ts");
-const emitterImport = toImportSpecifier(
-  temporaryDirectory,
-  join(apiRoot, "scripts/lib/response-schema-emitter.ts"),
-);
+const workerRoot = join(apiRoot, "scripts/response-schema-codegen");
+const workerWorkspace = await createResponseSchemaWorkerWorkspace(workerRoot);
 
-let replyIndex = 0;
-const workerImports: string[] = [];
-const workerDefinitions = [...groupedContracts.entries()].map(
-  ([outputFile, outputContracts]) => {
-    const replies = outputContracts.flatMap((contract) =>
-      contract.replies.map((typeName) => {
-        const workerTypeName = `DiscoveredReply${replyIndex}`;
-        replyIndex += 1;
-        workerImports.push(
-          `import type { ${typeName} as ${workerTypeName} } from ${JSON.stringify(
-            toImportSpecifier(temporaryDirectory, contract.file),
-          )};`,
-        );
+try {
+  const emitterImport = toImportSpecifier(
+    workerWorkspace.directory,
+    join(apiRoot, "scripts/lib/response-schema-emitter.ts"),
+  );
+  let replyIndex = 0;
+  const workerImports: string[] = [];
+  const workerDefinitions = [...groupedContracts.entries()].map(
+    ([outputFile, outputContracts]) => {
+      const replies = outputContracts.flatMap((contract) =>
+        contract.replies.map((typeName) => {
+          const workerTypeName = `DiscoveredReply${replyIndex}`;
+          replyIndex += 1;
+          workerImports.push(
+            `import type { ${typeName} as ${workerTypeName} } from ${JSON.stringify(
+              toImportSpecifier(workerWorkspace.directory, contract.file),
+            )};`,
+          );
 
-        return `      {
+          return `      {
         mapperImport: ${JSON.stringify(
           toImportSpecifier(dirname(outputFile), contract.file),
         )},
@@ -117,19 +113,19 @@ const workerDefinitions = [...groupedContracts.entries()].map(
         schemaUnit: typia.json.schema<${workerTypeName}, "3.1">(),
         typeName: ${JSON.stringify(typeName)},
       }`;
-      }),
-    );
+        }),
+      );
 
-    return `  {
+      return `  {
     outputFile: ${JSON.stringify(outputFile)},
     replies: [
 ${replies.join(",\n")}
     ],
   }`;
-  },
-);
+    },
+  );
 
-const workerSource = `import typia from "typia";
+  const workerSource = `import typia from "typia";
 
 import { writeResponseSchemaFiles } from ${JSON.stringify(emitterImport)};
 ${workerImports.join("\n")}
@@ -139,13 +135,16 @@ ${workerDefinitions.join(",\n")}
 ]);
 `;
 
-await writeFile(workerFile, workerSource);
+  await writeFile(workerWorkspace.file, workerSource);
 
-const runWorker = (): Promise<void> =>
-  new Promise((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     const child = spawn(
       "ttsx",
-      ["--project", join(apiRoot, "tsconfig.codegen.json"), workerFile],
+      [
+        "--project",
+        join(apiRoot, "tsconfig.codegen.json"),
+        workerWorkspace.file,
+      ],
       {
         cwd: apiRoot,
         stdio: "inherit",
@@ -169,9 +168,6 @@ const runWorker = (): Promise<void> =>
     });
   });
 
-try {
-  await runWorker();
-
   const expectedOutputs = new Set(groupedContracts.keys());
   const existingOutputs = await findFiles(
     modulesRoot,
@@ -184,5 +180,5 @@ try {
       .map((file) => unlink(file)),
   );
 } finally {
-  await unlinkIfPresent(workerFile);
+  await removeResponseSchemaWorkerWorkspace(workerWorkspace);
 }
