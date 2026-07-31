@@ -5,5 +5,5 @@
     "rewriteRelativeImportExtensions": true,
     "rootDir": "."
   },
-  "include": ["scripts/generate-response-schemas.ts"]
+  "include": ["scripts/**/*.ts"]
 }
