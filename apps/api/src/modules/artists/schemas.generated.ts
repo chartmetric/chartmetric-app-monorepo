@@ -1,6 +1,8 @@
 import { Type } from "@sinclair/typebox";
 
-import type { ListArtistsReply } from "./artist-api-to-web-mapper.ts";
+import type { ListArtists as ListArtistsResponseMapper } from "./artist-api-to-web-mapper.ts";
+
+export type ListArtistsReply = Awaited<ReturnType<typeof ListArtistsResponseMapper>>;
 
 export const ListArtistsReplySchema = Type.Unsafe<ListArtistsReply>(
   {

@@ -28,7 +28,7 @@ Feature code lives under `src/modules/<name>/`:
 - `routes.ts` — registrar only; registers one plugin per route.
 - `routes/<route>.ts` — one file per route: its TypeBox schema block plus a thin handler.
 - `queries.ts` — a `create<Name>Queries(database)` factory built once per route plugin; individual queries never pass the database handle around.
-- `*-api-to-web-mapper.ts` — maps database rows to API shapes and directly exports each response as `*Reply = ReturnType<typeof mapper>` (or `Awaited<ReturnType<...>>`).
+- Mapper files — may use any filename; map database rows to API shapes and mark each public response with a top-level `export const PascalCaseName = defineApiResponse(mapper)`.
 - `schemas.generated.ts` — generated TypeBox-compatible response contracts; never edit these files manually.
 - `schemas.ts` — handwritten TypeBox request contracts when a module has request-specific schemas.
 - `types.ts` — row and query interfaces.
@@ -76,7 +76,7 @@ Protected operations require allowed and denied tests.
 
 Fastify route schemas are the runtime public contracts consumed by `@fastify/swagger`. Handwritten TypeBox schemas define requests.
 
-`pnpm --filter api generate` recursively discovers every `*-api-to-web-mapper.ts` file under `src/modules`. Each mapper file must directly export at least one type named `*Reply` using `ReturnType<typeof mapper>` or `Awaited<ReturnType<typeof mapper>>`. The generator emits `schemas.generated.ts` beside the mapper and exports the matching `*ReplySchema` values. Do not register endpoints in the generator.
+`pnpm --filter api generate` recursively scans non-test TypeScript files under `src/modules` for exported `defineApiResponse(mapper)` markers. The marker's PascalCase variable name is the contract name: `export const ListArtists = defineApiResponse(toArtistList)` generates `ListArtistsReply` and `ListArtistsReplySchema` in `schemas.generated.ts` beside the marker. The filename and handwritten type aliases do not participate in discovery. Do not register endpoints in the generator.
 
 `pnpm dev` watches and regenerates response schemas. Runtime `/openapi.json` and `/docs` update from the Fastify schemas. When a public response changes, run `pnpm generate:api-client` from the repository root to regenerate the committed response schemas, OpenAPI snapshot, and frontend client. CI runs `pnpm check:generated` and fails for stale or untracked artifacts. Production builds consume the committed artifacts and do not run Typia.
 

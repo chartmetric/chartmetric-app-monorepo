@@ -3,16 +3,16 @@ import { readFile, readdir, unlink, writeFile } from "node:fs/promises";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { discoverMapperReplyTypes } from "./lib/response-schema-discovery.ts";
+import { discoverApiResponseContracts } from "./lib/response-schema-discovery.ts";
 import {
   createResponseSchemaWorkerWorkspace,
   removeResponseSchemaWorkerWorkspace,
 } from "./lib/response-schema-worker.ts";
 
-interface MapperContract {
+interface ResponseContract {
   file: string;
   outputFile: string;
-  replies: string[];
+  responseName: string;
 }
 
 const apiRoot = fileURLToPath(new URL("..", import.meta.url));
@@ -45,24 +45,34 @@ const toImportSpecifier = (fromDirectory: string, toFile: string): string => {
   return path.startsWith(".") ? path : `./${path}`;
 };
 
-const mapperFiles = await findFiles(modulesRoot, (name) =>
-  name.endsWith("-api-to-web-mapper.ts"),
+const sourceFiles = await findFiles(
+  modulesRoot,
+  (name) =>
+    name.endsWith(".ts") &&
+    !name.endsWith(".d.ts") &&
+    !name.endsWith(".generated.ts") &&
+    !name.endsWith(".spec.ts") &&
+    !name.endsWith(".test.ts"),
 );
 
-if (mapperFiles.length === 0) {
-  throw new Error(`No *-api-to-web-mapper.ts files found under ${modulesRoot}`);
-}
-
-const contracts: MapperContract[] = await Promise.all(
-  mapperFiles.map(async (file) => ({
-    file,
-    outputFile: join(dirname(file), "schemas.generated.ts"),
-    replies: discoverMapperReplyTypes(
-      relative(apiRoot, file),
-      await readFile(file, "utf8"),
+const contracts: ResponseContract[] = (
+  await Promise.all(
+    sourceFiles.map(async (file) =>
+      discoverApiResponseContracts(
+        relative(apiRoot, file),
+        await readFile(file, "utf8"),
+      ).map(({ name }) => ({
+        file,
+        outputFile: join(dirname(file), "schemas.generated.ts"),
+        responseName: name,
+      })),
     ),
-  })),
-);
+  )
+).flat();
+
+if (contracts.length === 0) {
+  throw new Error(`No defineApiResponse markers found under ${modulesRoot}`);
+}
 
 const groupedContracts = Map.groupBy(
   contracts,
@@ -70,14 +80,17 @@ const groupedContracts = Map.groupBy(
 );
 
 for (const [outputFile, outputContracts] of groupedContracts) {
-  const duplicateReplies = outputContracts
-    .flatMap((contract) => contract.replies)
-    .filter((reply, index, replies) => replies.indexOf(reply) !== index);
+  const responseNames = outputContracts.map(
+    (contract) => contract.responseName,
+  );
+  const duplicateResponses = responseNames.filter(
+    (responseName, index) => responseNames.indexOf(responseName) !== index,
+  );
 
-  if (duplicateReplies.length > 0) {
+  if (duplicateResponses.length > 0) {
     throw new Error(
-      `${relative(apiRoot, outputFile)} has duplicate reply types: ${[
-        ...new Set(duplicateReplies),
+      `${relative(apiRoot, outputFile)} has duplicate API responses: ${[
+        ...new Set(duplicateResponses),
       ].join(", ")}`,
     );
   }
@@ -95,26 +108,26 @@ try {
   const workerImports: string[] = [];
   const workerDefinitions = [...groupedContracts.entries()].map(
     ([outputFile, outputContracts]) => {
-      const replies = outputContracts.flatMap((contract) =>
-        contract.replies.map((typeName) => {
-          const workerTypeName = `DiscoveredReply${replyIndex}`;
-          replyIndex += 1;
-          workerImports.push(
-            `import type { ${typeName} as ${workerTypeName} } from ${JSON.stringify(
-              toImportSpecifier(workerWorkspace.directory, contract.file),
-            )};`,
-          );
+      const replies = outputContracts.map((contract) => {
+        const workerTypeName = `DiscoveredResponse${replyIndex}`;
+        const typeName = `${contract.responseName}Reply`;
+        replyIndex += 1;
+        workerImports.push(
+          `import type { ${contract.responseName} as ${workerTypeName} } from ${JSON.stringify(
+            toImportSpecifier(workerWorkspace.directory, contract.file),
+          )};`,
+        );
 
-          return `      {
+        return `      {
         mapperImport: ${JSON.stringify(
           toImportSpecifier(dirname(outputFile), contract.file),
         )},
+        responseName: ${JSON.stringify(contract.responseName)},
         schemaName: ${JSON.stringify(`${typeName}Schema`)},
-        schemaUnit: typia.json.schema<${workerTypeName}, "3.1">(),
+        schemaUnit: typia.json.schema<Awaited<ReturnType<typeof ${workerTypeName}>>, "3.1">(),
         typeName: ${JSON.stringify(typeName)},
       }`;
-        }),
-      );
+      });
 
       return `  {
     outputFile: ${JSON.stringify(outputFile)},

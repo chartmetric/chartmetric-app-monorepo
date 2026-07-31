@@ -1,6 +1,8 @@
 import type { PaginationQuery } from "../../lib/pagination.ts";
 import type { ArtistRow, ProfileRow } from "./queries.ts";
 
+import { defineApiResponse } from "../../lib/api-response.ts";
+
 const emptyToNull = (value: string): string | null =>
   value === "" ? null : value;
 
@@ -38,4 +40,4 @@ export const toArtistList = ((artists, profiles, pagination) => {
   };
 }) satisfies ArtistListMapper;
 
-export type ListArtistsReply = ReturnType<typeof toArtistList>;
+export const ListArtists = defineApiResponse(toArtistList);
