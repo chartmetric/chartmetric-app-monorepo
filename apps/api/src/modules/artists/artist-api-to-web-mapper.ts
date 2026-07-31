@@ -1,15 +1,16 @@
 import type { PaginationQuery } from "../../lib/pagination.ts";
 import type { ArtistRow, ProfileRow } from "./queries.ts";
-import type { ListArtistsReply } from "./schemas.ts";
 
 const emptyToNull = (value: string): string | null =>
   value === "" ? null : value;
 
-export const toArtistList = (
+type ArtistListMapper = (
   artists: ArtistRow[],
   profiles: ProfileRow[],
   pagination: PaginationQuery,
-): ListArtistsReply => {
+) => unknown;
+
+export const toArtistList = ((artists, profiles, pagination) => {
   const profilesBySourceId = new Map(
     profiles
       .filter((profile) => profile.source_id !== null)
@@ -35,4 +36,6 @@ export const toArtistList = (
       offset: pagination.offset,
     },
   };
-};
+}) satisfies ArtistListMapper;
+
+export type ListArtistsReply = ReturnType<typeof toArtistList>;

@@ -1,8 +1,9 @@
-import { type TSchema, Type } from "@sinclair/typebox";
+import type { TSchema } from "@sinclair/typebox";
+
 import { Value } from "@sinclair/typebox/value";
 import { describe, expect, it } from "vitest";
 
-import { paginatedReplySchema, PaginationQuerySchema } from "../pagination.ts";
+import { PaginationQuerySchema } from "../pagination.ts";
 
 // Runtime values arrive untyped — widening keeps the type guard meaningful.
 const isValid = (schema: TSchema, value: unknown): boolean =>
@@ -24,16 +25,5 @@ describe("PaginationQuerySchema", () => {
     expect(isValid(PaginationQuerySchema, { limit: 1, offset: -1 })).toBe(
       false,
     );
-  });
-});
-
-describe("paginatedReplySchema", () => {
-  it("wraps the item schema in a data/meta envelope", () => {
-    const schema = paginatedReplySchema(Type.Object({ id: Type.Integer() }));
-
-    expect(
-      isValid(schema, { data: [{ id: 1 }], meta: { limit: 50, offset: 0 } }),
-    ).toBe(true);
-    expect(isValid(schema, { data: [{ id: "nope" }] })).toBe(false);
   });
 });

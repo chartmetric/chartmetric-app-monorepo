@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rewriteRelativeImportExtensions": true,
+    "rootDir": "."
+  },
+  "include": ["scripts/generate-response-schemas.ts"]
+}

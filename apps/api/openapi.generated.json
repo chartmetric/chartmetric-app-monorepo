@@ -74,22 +74,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
                   "properties": {
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
-                        "required": [
-                          "countryCode",
-                          "id",
-                          "imageUrl",
-                          "name",
-                          "recordLabel"
-                        ],
                         "properties": {
                           "countryCode": {
                             "anyOf": [
@@ -102,7 +91,7 @@
                             ]
                           },
                           "id": {
-                            "type": "integer"
+                            "type": "number"
                           },
                           "imageUrl": {
                             "anyOf": [
@@ -127,25 +116,36 @@
                               }
                             ]
                           }
-                        }
+                        },
+                        "required": [
+                          "countryCode",
+                          "id",
+                          "imageUrl",
+                          "name",
+                          "recordLabel"
+                        ]
                       }
                     },
                     "meta": {
                       "type": "object",
+                      "properties": {
+                        "limit": {
+                          "type": "number"
+                        },
+                        "offset": {
+                          "type": "number"
+                        }
+                      },
                       "required": [
                         "limit",
                         "offset"
-                      ],
-                      "properties": {
-                        "limit": {
-                          "type": "integer"
-                        },
-                        "offset": {
-                          "type": "integer"
-                        }
-                      }
+                      ]
                     }
-                  }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
                 }
               }
             }
@@ -188,22 +188,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
                   "properties": {
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
-                        "required": [
-                          "countryCode",
-                          "id",
-                          "imageUrl",
-                          "name",
-                          "recordLabel"
-                        ],
                         "properties": {
                           "countryCode": {
                             "anyOf": [
@@ -216,7 +205,7 @@
                             ]
                           },
                           "id": {
-                            "type": "integer"
+                            "type": "number"
                           },
                           "imageUrl": {
                             "anyOf": [
@@ -241,25 +230,36 @@
                               }
                             ]
                           }
-                        }
+                        },
+                        "required": [
+                          "countryCode",
+                          "id",
+                          "imageUrl",
+                          "name",
+                          "recordLabel"
+                        ]
                       }
                     },
                     "meta": {
                       "type": "object",
+                      "properties": {
+                        "limit": {
+                          "type": "number"
+                        },
+                        "offset": {
+                          "type": "number"
+                        }
+                      },
                       "required": [
                         "limit",
                         "offset"
-                      ],
-                      "properties": {
-                        "limit": {
-                          "type": "integer"
-                        },
-                        "offset": {
-                          "type": "integer"
-                        }
-                      }
+                      ]
                     }
-                  }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
                 }
               }
             }
