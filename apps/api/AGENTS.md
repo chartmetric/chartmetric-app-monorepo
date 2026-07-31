@@ -28,7 +28,7 @@ Feature code lives under `src/modules/<name>/`:
 - `routes.ts` — registrar only; registers one plugin per route.
 - `routes/<route>.ts` — one file per route: its TypeBox schema block plus a thin handler.
 - `queries.ts` — a `create<Name>Queries(database)` factory built once per route plugin; individual queries never pass the database handle around.
-- `<name>-api-to-web-mapper.ts` — maps database rows to the API shape and exports response types with `ReturnType`.
+- `*-api-to-web-mapper.ts` — maps database rows to API shapes and directly exports each response as `*Reply = ReturnType<typeof mapper>` (or `Awaited<ReturnType<...>>`).
 - `schemas.generated.ts` — generated TypeBox-compatible response contracts; never edit these files manually.
 - `schemas.ts` — handwritten TypeBox request contracts when a module has request-specific schemas.
 - `types.ts` — row and query interfaces.
@@ -74,7 +74,13 @@ Protected operations require allowed and denied tests.
 
 ## OpenAPI
 
-Fastify route schemas are the runtime public contracts consumed by `@fastify/swagger`. Handwritten TypeBox schemas define requests. Response types are inferred from mapper return values, then `pnpm --filter api generate` converts them into committed TypeBox-compatible schemas. Generated response schemas, clients, and specs are never edited manually.
+Fastify route schemas are the runtime public contracts consumed by `@fastify/swagger`. Handwritten TypeBox schemas define requests.
+
+`pnpm --filter api generate` recursively discovers every `*-api-to-web-mapper.ts` file under `src/modules`. Each mapper file must directly export at least one type named `*Reply` using `ReturnType<typeof mapper>` or `Awaited<ReturnType<typeof mapper>>`. The generator emits `schemas.generated.ts` beside the mapper and exports the matching `*ReplySchema` values. Do not register endpoints in the generator.
+
+`pnpm dev` watches and regenerates response schemas. Runtime `/openapi.json` and `/docs` update from the Fastify schemas. When a public response changes, run `pnpm generate:api-client` from the repository root to regenerate the committed response schemas, OpenAPI snapshot, and frontend client. CI runs `pnpm check:generated` and fails for stale or untracked artifacts. Production builds consume the committed artifacts and do not run Typia.
+
+TypeScript represents integer and floating-point values as `number`, so inferred schemas emit `type: "number"` unless the mapper return type carries explicit Typia numeric metadata. Never fix this by editing generated files.
 
 hypequery-generated ClickHouse types remain inside the module boundary. The mapper deliberately selects and normalizes the public fields; its inferred return type feeds response-schema generation, so mapper changes propagate without exposing raw database rows.
 
@@ -96,6 +102,7 @@ ClickHouse specifics:
 - No unnecessary permission was introduced.
 - Required permissions are server-enforced.
 - Request schemas are explicit and response schemas are generated from mapper return types.
+- Public response changes include the `pnpm generate:api-client` artifacts.
 - Data boundaries are preserved.
 - `pnpm generate:ch-schema` was rerun if queries touched new ClickHouse tables or columns.
 - New `/app` routes are absent from `/openapi.json`; new `/v1` routes are documented.

@@ -24,6 +24,7 @@
       "inputs": [
         "$TURBO_DEFAULT$",
         "!src/modules/**/schemas.generated.ts",
+        "!scripts/response-schema-codegen/worker.generated.ts",
         "!openapi.generated.json"
       ],
       "outputs": ["src/modules/**/schemas.generated.ts"]

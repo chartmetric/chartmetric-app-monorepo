@@ -62,15 +62,45 @@ one-off regeneration, run:
 pnpm --filter api generate
 ```
 
+The first generation on a machine compiles Typia's transformer and requires a
+Go toolchain; subsequent runs reuse its cache. This is a development and CI
+requirement only.
+
 The mapper exports `ReturnType<typeof mapper>` as its reply type. The response
 schema generator consumes that type, OpenAPI consumes the generated Fastify
 schema, and the frontend client consumes OpenAPI. `pnpm check:generated` runs
 the full chain and fails in CI if any committed artifact is stale.
 
-For a new response, export its inferred reply type and register that type and
-output file in `scripts/generate-response-schemas.ts`. That is one-time route
-wiring; later field, nesting, and nullability changes come from the mapper
-without a parallel field-by-field schema edit.
+For a new response:
+
+1. Create a `*-api-to-web-mapper.ts` file under `src/modules`.
+2. Export the mapper and a type named `*Reply`:
+
+   ```ts
+   export const toArtistDetail = (row: ArtistDetailRow) => ({
+     id: row.id,
+     name: row.name,
+   });
+
+   export type ArtistDetailReply = ReturnType<typeof toArtistDetail>;
+   ```
+
+3. Run `pnpm --filter api generate`. The generator discovers the reply and
+   emits `ArtistDetailReplySchema` in the module's `schemas.generated.ts`.
+4. Import that schema in the route's `schema.response`.
+
+No generator registry or field-by-field response schema is required. To update
+the committed OpenAPI snapshot and frontend client as well, run:
+
+```sh
+pnpm generate:api-client
+```
+
+The live `/openapi.json` and `/docs` endpoints follow the regenerated Fastify
+schema automatically. Production builds use committed generated files and do
+not execute Typia. TypeScript only exposes ordinary numeric values as `number`,
+so use explicit Typia numeric metadata when OpenAPI must distinguish integers;
+never edit generated output to add that distinction.
 
 ## 1. Setup
 
