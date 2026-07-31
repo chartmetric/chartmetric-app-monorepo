@@ -3,7 +3,7 @@ import type { FastifyPluginCallbackTypebox } from "@fastify/type-provider-typebo
 import { PaginationQuerySchema } from "../../../lib/pagination.ts";
 import { toArtistList } from "../artist-api-to-web-mapper.ts";
 import { createArtistQueries } from "../queries.ts";
-import { ListArtistsReplySchema } from "../schemas.ts";
+import { ListArtistsReplySchema } from "../schemas.generated.ts";
 
 export const listArtistsRoute: FastifyPluginCallbackTypebox = (
   fastify,

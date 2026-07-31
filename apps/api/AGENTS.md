@@ -28,8 +28,9 @@ Feature code lives under `src/modules/<name>/`:
 - `routes.ts` — registrar only; registers one plugin per route.
 - `routes/<route>.ts` — one file per route: its TypeBox schema block plus a thin handler.
 - `queries.ts` — a `create<Name>Queries(database)` factory built once per route plugin; individual queries never pass the database handle around.
-- `service.ts` — maps database rows to the API shape. This is the only place DB and API types meet.
-- `schemas.ts` — TypeBox contracts (source for both TS types and OpenAPI).
+- `<name>-api-to-web-mapper.ts` — maps database rows to the API shape and exports response types with `ReturnType`.
+- `schemas.generated.ts` — generated TypeBox-compatible response contracts; never edit these files manually.
+- `schemas.ts` — handwritten TypeBox request contracts when a module has request-specific schemas.
 - `types.ts` — row and query interfaces.
 
 ## Route rules
@@ -73,9 +74,9 @@ Protected operations require allowed and denied tests.
 
 ## OpenAPI
 
-Fastify TypeBox route schemas are the single public contract source: `@fastify/swagger` generates the OpenAPI spec from them at runtime, and `Static<>` derives the TS types. Generated clients and specs are never edited manually.
+Fastify route schemas are the runtime public contracts consumed by `@fastify/swagger`. Handwritten TypeBox schemas define requests. Response types are inferred from mapper return values, then `pnpm --filter api generate` converts them into committed TypeBox-compatible schemas. Generated response schemas, clients, and specs are never edited manually.
 
-hypequery-generated ClickHouse types are a database-side snapshot only. They never feed the OpenAPI spec or leave the module's `service.ts` mapping — the two type chains are deliberately decoupled so the API contract stays stable when the database changes.
+hypequery-generated ClickHouse types remain inside the module boundary. The mapper deliberately selects and normalizes the public fields; its inferred return type feeds response-schema generation, so mapper changes propagate without exposing raw database rows.
 
 ## Data boundaries
 
@@ -94,7 +95,7 @@ ClickHouse specifics:
 - No Stripe plan logic leaked into product routes.
 - No unnecessary permission was introduced.
 - Required permissions are server-enforced.
-- Request and response schemas are explicit.
+- Request schemas are explicit and response schemas are generated from mapper return types.
 - Data boundaries are preserved.
 - `pnpm generate:ch-schema` was rerun if queries touched new ClickHouse tables or columns.
 - New `/app` routes are absent from `/openapi.json`; new `/v1` routes are documented.

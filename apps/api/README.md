@@ -9,15 +9,14 @@ database shows up as a TypeScript error instead of a runtime failure.
 
 Think of one request passing through three stations:
 
-1. **The front door (Fastify + TypeBox).** Every route declares a schema:
-   what the query/params must look like, and exactly what the response
-   contains. Fastify rejects bad input before our code runs, and strips
-   anything from the response that isn't in the schema. That one schema is
-   also where our TypeScript types and the API docs come from — we never
-   write the same shape twice.
-2. **The kitchen (queries + service).** The route handler asks the module's
+1. **The front door (Fastify + TypeBox).** Every route declares schemas for
+   its request and response. Request schemas are handwritten because they
+   carry runtime validation constraints. Response schemas are generated from
+   the mapper's inferred TypeScript return type. Fastify validates input,
+   shapes output, and gives the same schemas to the API docs.
+2. **The kitchen (queries + mapper).** The route handler asks the module's
    queries for data (built with hypequery, so a wrong column name won't even
-   compile) and the module's service reshapes raw database rows into the
+   compile) and the module's mapper reshapes raw database rows into the
    clean API response (e.g. turning ClickHouse's `''` into proper `null`).
 3. **The pantry (ClickHouse).** Where the data actually lives. The API only
    reads from it.
@@ -30,8 +29,8 @@ Think of one request passing through three stations:
         │  1. validate input   ← TypeBox schema│
         │  2. run the handler:                 │
         │       queries.ts ──hypequery──► ClickHouse
-        │       service.ts  rows → API shape   │
-        │  3. shape the output ← TypeBox schema│
+        │       mapper.ts   rows → API shape   │
+        │  3. shape output ← generated schema │
         └────────────┬─────────────────────────┘
                      ▼
                JSON response
@@ -45,7 +44,7 @@ Think of one request passing through three stations:
 | Package                          | Role in one sentence                                                                             | Docs                                                                                                         |
 | -------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | `fastify`                        | The web server: routing, request lifecycle, logging.                                             | [fastify.dev](https://fastify.dev/docs/latest/)                                                              |
-| `@sinclair/typebox`              | Define a route's input/output shape **once** — used for validation, TypeScript types, and docs.  | [github.com/sinclairzx81/typebox](https://github.com/sinclairzx81/typebox)                                   |
+| `@sinclair/typebox`              | Defines request validation and hosts generated response schemas for Fastify and OpenAPI.         | [github.com/sinclairzx81/typebox](https://github.com/sinclairzx81/typebox)                                   |
 | `@fastify/type-provider-typebox` | The glue that makes Fastify infer TS types from those schemas automatically.                     | [github.com/fastify/fastify-type-provider-typebox](https://github.com/fastify/fastify-type-provider-typebox) |
 | `@fastify/sensible`              | Small quality-of-life helpers, mainly standard HTTP errors like `fastify.httpErrors.notFound()`. | [github.com/fastify/fastify-sensible](https://github.com/fastify/fastify-sensible)                           |
 | `@fastify/swagger`               | Walks every route's schema and generates the OpenAPI spec at `/openapi.json`.                    | [github.com/fastify/fastify-swagger](https://github.com/fastify/fastify-swagger)                             |
@@ -55,6 +54,23 @@ Think of one request passing through three stations:
 The API is served twice under two prefixes: `/app/*` for our own web app and
 `/v1/*` for external developers. Same routes, different future auth — and only
 `/v1` appears in the public docs.
+
+Response contract generation runs automatically under `pnpm dev`. For a
+one-off regeneration, run:
+
+```sh
+pnpm --filter api generate
+```
+
+The mapper exports `ReturnType<typeof mapper>` as its reply type. The response
+schema generator consumes that type, OpenAPI consumes the generated Fastify
+schema, and the frontend client consumes OpenAPI. `pnpm check:generated` runs
+the full chain and fails in CI if any committed artifact is stale.
+
+For a new response, export its inferred reply type and register that type and
+output file in `scripts/generate-response-schemas.ts`. That is one-time route
+wiring; later field, nesting, and nullability changes come from the mapper
+without a parallel field-by-field schema edit.
 
 ## 1. Setup
 
