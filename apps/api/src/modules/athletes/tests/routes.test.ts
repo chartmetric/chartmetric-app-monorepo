@@ -14,6 +14,24 @@ const rows = {
       sport: "Football",
       type: "athlete",
     },
+    {
+      cm_score: 72.1,
+      image_url: null,
+      name: "Christine Sinclair",
+      nationality: "Canada",
+      profile_id: 43,
+      sport: "Football",
+      type: "athlete",
+    },
+    {
+      cm_score: null,
+      image_url: null,
+      name: "",
+      nationality: null,
+      profile_id: 44,
+      sport: "Tennis",
+      type: "",
+    },
   ],
 };
 
@@ -41,6 +59,24 @@ describe("GET /athletes", () => {
           sport: "Football",
           type: "athlete",
         },
+        {
+          cmScore: 72.1,
+          id: 43,
+          imageUrl: null,
+          name: "Christine Sinclair",
+          nationality: "Canada",
+          sport: "Football",
+          type: "athlete",
+        },
+        {
+          cmScore: null,
+          id: 44,
+          imageUrl: null,
+          name: null,
+          nationality: null,
+          sport: "Tennis",
+          type: null,
+        },
       ],
       meta: { limit: 25, offset: 0 },
     });
@@ -56,6 +92,48 @@ describe("GET /athletes", () => {
     const response = await app.inject({ method: "GET", url: "/v1/athletes" });
 
     expect(response.statusCode).toBe(404);
+    await app.close();
+  });
+
+  it("returns complete athlete filter options on the app surface", async () => {
+    const app = await buildApp({
+      clickhouse: stubClickhouse(rows),
+      config: testConfig,
+    });
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/app/athletes/filter-options",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual({
+      cmScore: { max: 87.4, min: 72.1 },
+      nationalities: [
+        { count: 1, value: "Canada" },
+        { count: 1, value: "United States" },
+      ],
+      sports: [
+        { count: 2, value: "Football" },
+        { count: 1, value: "Tennis" },
+      ],
+      types: [{ count: 2, value: "athlete" }],
+    });
+    await app.close();
+  });
+
+  it("accepts repeated include and exclude filter parameters", async () => {
+    const app = await buildApp({
+      clickhouse: stubClickhouse(rows),
+      config: testConfig,
+    });
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/app/athletes?limit=25&offset=0&sports=Football&sports=Tennis&excludeNationalities=Canada",
+    });
+
+    expect(response.statusCode).toBe(200);
     await app.close();
   });
 

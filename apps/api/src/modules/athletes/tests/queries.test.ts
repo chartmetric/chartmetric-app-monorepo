@@ -27,23 +27,27 @@ describe("listAthletes", () => {
   it("applies every supported filter and requested sort", () => {
     const { parameters, sql } = queries
       .listAthletes({
+        excludeNationalities: ["Canada", "Mexico"],
+        excludeTypes: ["team"],
         limit: 25,
         maxCmScore: 90,
         minCmScore: 10,
         name: "alex",
-        nationality: "United States",
+        nationalities: ["United States"],
         offset: 0,
         sortBy: "name",
         sortDirection: "asc",
-        sport: "Football",
-        type: "athlete",
+        sports: ["Football", "Tennis"],
+        types: ["athlete"],
       })
       .toSQLWithParams();
 
     expect(sql).toContain("positionCaseInsensitiveUTF8(name, ?)");
-    expect(sql).toContain("equals(lowerUTF8(sport), lowerUTF8(?))");
-    expect(sql).toContain("equals(lowerUTF8(nationality), lowerUTF8(?))");
-    expect(sql).toContain("equals(lowerUTF8(type), lowerUTF8(?))");
+    expect(sql).toContain("sport IN (?, ?)");
+    expect(sql).toContain("nationality IN (?)");
+    expect(sql).toContain("type IN (?)");
+    expect(sql).toContain("nationality NOT IN (?, ?)");
+    expect(sql).toContain("type NOT IN (?)");
     expect(sql).toContain("cm_score >= ?");
     expect(sql).toContain("cm_score <= ?");
     expect(sql).toContain("ORDER BY name ASC, profile_id ASC");
@@ -52,10 +56,31 @@ describe("listAthletes", () => {
       "alex",
       0,
       "Football",
+      "Tennis",
       "United States",
       "athlete",
+      "Canada",
+      "Mexico",
+      "team",
       10,
       90,
     ]);
+  });
+
+  it("selects bounded source rows for filter options", () => {
+    const query = queries.listAthleteFilterOptions();
+    const sql = query.toSQL();
+
+    expect(sql).toContain("FROM new_vertical.athletes_cache FINAL");
+    expect(sql).toMatch(
+      /SELECT\s+sport,\s*nationality,\s*type,\s*cm_score\s+FROM/i,
+    );
+    expect(sql).toContain("is_active = 1");
+    expect(sql).toContain("isNull(deleted_at)");
+    expect(sql).toContain("LIMIT 100000");
+    expect(query.getQueryNode().settings).toMatchObject({
+      max_execution_time: 30,
+      max_rows_to_read: 1_000_000,
+    });
   });
 });

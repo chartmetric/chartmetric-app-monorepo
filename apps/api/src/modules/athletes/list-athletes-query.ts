@@ -19,20 +19,31 @@ const OptionalTextFilter = Type.Optional(
   Type.String({ maxLength: 100, minLength: 1 }),
 );
 
+const OptionalCategoricalFilter = Type.Optional(
+  Type.Array(Type.String({ maxLength: 100, minLength: 1 }), {
+    maxItems: 100,
+    minItems: 1,
+    uniqueItems: true,
+  }),
+);
+
 export const ListAthletesQuerySchema = Type.Object({
   ...PaginationQuerySchema.properties,
+  excludeNationalities: OptionalCategoricalFilter,
+  excludeSports: OptionalCategoricalFilter,
+  excludeTypes: OptionalCategoricalFilter,
   maxCmScore: Type.Optional(Type.Number()),
   minCmScore: Type.Optional(Type.Number()),
   name: OptionalTextFilter,
-  nationality: OptionalTextFilter,
+  nationalities: OptionalCategoricalFilter,
   sortBy: Type.Optional(
     Type.Union(AthleteSortBySchema.anyOf, { default: "cmScore" }),
   ),
   sortDirection: Type.Optional(
     Type.Union(SortDirectionSchema.anyOf, { default: "desc" }),
   ),
-  sport: OptionalTextFilter,
-  type: OptionalTextFilter,
+  sports: OptionalCategoricalFilter,
+  types: OptionalCategoricalFilter,
 });
 
 export type ListAthletesQuery = Static<typeof ListAthletesQuerySchema>;

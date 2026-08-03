@@ -2,34 +2,32 @@ import { describe, it } from "vitest";
 
 import { endpointContractChecks } from "../../../tests/endpoint-contract.ts";
 
-describe("GET /athletes endpoint contract", () => {
+describe("GET /athletes/filter-options endpoint contract", () => {
   const checks = endpointContractChecks({
     decisions: {
       access: "App-surface authentication only; no additional route permission",
       data: [
         {
           columns: [
-            "profile_id",
-            "name",
-            "image_url",
             "sport",
             "nationality",
             "type",
             "cm_score",
+            "is_active",
+            "deleted_at",
           ],
           table: "athletes_cache",
         },
       ],
-      errors: "400 for invalid pagination; standard errors for failures",
+      errors: "Standard server errors for ClickHouse failures",
       filters:
-        "Only active, non-deleted rows; FINAL; optional name, include/exclude sport, nationality, and type lists, and CM score range filters; sortable visible columns; default CM score descending",
-      request:
-        "Pagination, name, categorical include/exclude arrays, CM score range, sort column, and sort direction query parameters",
+        "Only active, non-deleted rows; FINAL; omit empty categorical values; sort categorical options by count descending then value; calculate CM score bounds from non-null values",
+      request: "No request body, path parameters, or query parameters",
       response:
-        "Paginated athletes with id, name, imageUrl, sport, nationality, type, and cmScore",
+        "Object with sports, nationalities, and types arrays of value/count options plus nullable cmScore min/max bounds",
     },
     method: "GET",
-    routePath: "/athletes",
+    routePath: "/athletes/filter-options",
     surfaces: ["app"],
   });
 
