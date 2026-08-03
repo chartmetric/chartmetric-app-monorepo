@@ -77,12 +77,18 @@ selection, surface registration, tests, OpenAPI, and the frontend client.
 
 ## 1. Setup
 
-Copy the example env file and fill in the ClickHouse credentials (ask the team
-for the read-only ones):
+From the repository root, copy the API example env file and fill in the
+ClickHouse credentials (ask the team for the read-only ones):
 
 ```sh
-cp .env.example .env
+cp apps/api/.env.example apps/api/.env
 ```
+
+The API reads `apps/api/.env`; a repository-root `.env` is ignored. Local Vite
+development proxies `/app` through the frontend origin, so it does not require
+CORS configuration. Set `API_PROXY_TARGET` in `apps/web/.env` only when the
+local API is not running at `http://127.0.0.1:8008`. `CORS_ORIGIN` is required
+only for clients that call the API directly from another origin.
 
 ## 2. How the ClickHouse types work
 
