@@ -13,6 +13,141 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:8
-msgid "This is the Athletes page"
-msgstr "Esta é a página de Atletas"
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:148
+msgid "Apply filters"
+msgstr "Aplicar filtros"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:107
+msgid "Athlete"
+msgstr "Atleta"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:170
+msgid "Athletes"
+msgstr "Atletas"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:145
+msgid "Clear filters"
+msgstr "Limpar filtros"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:136
+msgid "CM score"
+msgstr "Pontuação CM"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:82
+msgid "Enter a nationality"
+msgstr "Digite uma nacionalidade"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:88
+msgid "Enter a profile type"
+msgstr "Digite um tipo de perfil"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:76
+msgid "Enter a sport"
+msgstr "Digite um esporte"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:70
+msgid "Enter an athlete name"
+msgstr "Digite o nome de um atleta"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:173
+msgid "Explore active athletes across sports."
+msgstr "Explore atletas ativos em diferentes esportes."
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:133
+msgid "Filters"
+msgstr "Filtros"
+
+#. Numeric Chartmetric profile identifier shown below an athlete name
+#: src/pages/sports/athletes/components/AthletesTable.tsx:171
+msgid "ID {athleteIdText}"
+msgstr "ID {athleteIdText}"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:64
+msgid "Loading athletes"
+msgstr "Carregando atletas"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:66
+msgid "Loading athletes…"
+msgstr "Carregando atletas…"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:98
+msgid "Maximum CM score"
+msgstr "Pontuação CM máxima"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:122
+msgid "Maximum CM score must be greater than or equal to the minimum."
+msgstr "A pontuação CM máxima deve ser maior ou igual à mínima."
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:93
+msgid "Minimum CM score"
+msgstr "Pontuação CM mínima"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:81
+#: src/pages/sports/athletes/components/AthletesTable.tsx:121
+msgid "Nationality"
+msgstr "Nacionalidade"
+
+#. Pagination button for the next athletes page
+#: src/pages/sports/athletes/components/AthletesTable.tsx:240
+msgid "Next"
+msgstr "Próxima"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:78
+msgid "No athletes found"
+msgstr "Nenhum atleta encontrado"
+
+#. Current page number in the athletes list
+#: src/pages/sports/athletes/components/AthletesTable.tsx:227
+msgid "Page {currentPageText}"
+msgstr "Página {currentPageText}"
+
+#. Pagination button for the previous athletes page
+#: src/pages/sports/athletes/components/AthletesTable.tsx:217
+msgid "Previous"
+msgstr "Anterior"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:69
+msgid "Search by name"
+msgstr "Pesquisar por nome"
+
+#. Accessible label for a sortable athletes table column
+#: src/pages/sports/athletes/components/AthletesTable.tsx:75
+msgid "Sort by {label}"
+msgstr "Ordenar por {label}"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:75
+#: src/pages/sports/athletes/components/AthletesTable.tsx:114
+msgid "Sport"
+msgstr "Esporte"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:103
+msgid "The athlete list could not be loaded. Try again."
+msgstr "Não foi possível carregar a lista de atletas. Tente novamente."
+
+#: src/pages/sports/athletes/AthletesPage.tsx:81
+msgid "There are no athletes to show on this page."
+msgstr "Não há atletas para mostrar nesta página."
+
+#. Button that retries loading the athletes list
+#: src/pages/sports/athletes/AthletesPage.tsx:106
+msgid "Try again"
+msgstr "Tentar novamente"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:87
+#: src/pages/sports/athletes/components/AthletesTable.tsx:128
+msgid "Type"
+msgstr "Tipo"
+
+#. Error title on the athletes list page
+#: src/pages/sports/athletes/AthletesPage.tsx:96
+msgid "Unable to load athletes"
+msgstr "Não foi possível carregar os atletas"
+
+#. Fallback name when an athlete profile has no name
+#: src/pages/sports/athletes/components/AthletesTable.tsx:158
+msgid "Unnamed athlete"
+msgstr "Atleta sem nome"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:224
+msgid "Updating athletes"
+msgstr "Atualizando atletas"

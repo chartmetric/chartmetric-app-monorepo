@@ -27,9 +27,9 @@ if (container === null) {
   throw new Error("Root element #app not found");
 }
 
-await dynamicActivate(detectLocale());
-
 const queryClient = new QueryClient();
+
+await dynamicActivate(detectLocale());
 
 // Shown while PropelAuth checks the session, before any provider below is
 // mounted — plain markup only (no Mantine/i18n context exists yet).

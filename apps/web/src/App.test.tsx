@@ -65,6 +65,12 @@ const accessContext = {
   user: { id: "user-1" },
 };
 
+const apiGetMock = vi.hoisted(() => vi.fn());
+
+vi.mock("./api/client", () => ({
+  apiClient: { GET: apiGetMock },
+}));
+
 i18n.load({
   en: {
     ...enAccount,
@@ -86,10 +92,11 @@ const stubFetch = (response: Response): ReturnType<typeof vi.fn> => {
 };
 
 const renderApp = (initialPath = "/"): void => {
-  history.pushState({}, "", initialPath);
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
+
+  history.pushState({}, "", initialPath);
   render(
     <QueryClientProvider client={queryClient}>
       <I18nProvider i18n={i18n}>
@@ -107,6 +114,10 @@ describe("App", () => {
   // RequiredAuthProvider in main.tsx guarantees the app only renders for
   // authenticated users, so logged-in is the representative default.
   beforeEach(() => {
+    apiGetMock.mockReset();
+    apiGetMock.mockResolvedValue({
+      data: { data: [], meta: { limit: 25, offset: 0 } },
+    });
     i18n.activate("en");
     auth.state = loggedInState;
   });
@@ -139,7 +150,7 @@ describe("App", () => {
     );
 
     expect(
-      await screen.findByRole("heading", { name: "This is the Athletes page" }),
+      await screen.findByRole("heading", { name: "Athletes" }),
     ).toBeDefined();
     expect(screen.getByRole("link", { name: "Athletes" })).toBeDefined();
     expect(location.pathname).toBe("/sports/athletes");

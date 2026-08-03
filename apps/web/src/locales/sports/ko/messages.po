@@ -13,6 +13,141 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:8
-msgid "This is the Athletes page"
-msgstr "운동선수 페이지입니다"
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:148
+msgid "Apply filters"
+msgstr "필터 적용"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:107
+msgid "Athlete"
+msgstr "선수"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:170
+msgid "Athletes"
+msgstr "선수"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:145
+msgid "Clear filters"
+msgstr "필터 지우기"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:136
+msgid "CM score"
+msgstr "CM 점수"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:82
+msgid "Enter a nationality"
+msgstr "국적 입력"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:88
+msgid "Enter a profile type"
+msgstr "프로필 유형 입력"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:76
+msgid "Enter a sport"
+msgstr "종목 입력"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:70
+msgid "Enter an athlete name"
+msgstr "선수 이름 입력"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:173
+msgid "Explore active athletes across sports."
+msgstr "다양한 스포츠의 현역 선수를 살펴보세요."
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:133
+msgid "Filters"
+msgstr "필터"
+
+#. Numeric Chartmetric profile identifier shown below an athlete name
+#: src/pages/sports/athletes/components/AthletesTable.tsx:171
+msgid "ID {athleteIdText}"
+msgstr "ID {athleteIdText}"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:64
+msgid "Loading athletes"
+msgstr "선수 불러오는 중"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:66
+msgid "Loading athletes…"
+msgstr "선수 불러오는 중…"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:98
+msgid "Maximum CM score"
+msgstr "최대 CM 점수"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:122
+msgid "Maximum CM score must be greater than or equal to the minimum."
+msgstr "최대 CM 점수는 최소 점수보다 크거나 같아야 합니다."
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:93
+msgid "Minimum CM score"
+msgstr "최소 CM 점수"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:81
+#: src/pages/sports/athletes/components/AthletesTable.tsx:121
+msgid "Nationality"
+msgstr "국적"
+
+#. Pagination button for the next athletes page
+#: src/pages/sports/athletes/components/AthletesTable.tsx:240
+msgid "Next"
+msgstr "다음"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:78
+msgid "No athletes found"
+msgstr "선수를 찾을 수 없습니다"
+
+#. Current page number in the athletes list
+#: src/pages/sports/athletes/components/AthletesTable.tsx:227
+msgid "Page {currentPageText}"
+msgstr "{currentPageText}페이지"
+
+#. Pagination button for the previous athletes page
+#: src/pages/sports/athletes/components/AthletesTable.tsx:217
+msgid "Previous"
+msgstr "이전"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:69
+msgid "Search by name"
+msgstr "이름으로 검색"
+
+#. Accessible label for a sortable athletes table column
+#: src/pages/sports/athletes/components/AthletesTable.tsx:75
+msgid "Sort by {label}"
+msgstr "{label} 기준 정렬"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:75
+#: src/pages/sports/athletes/components/AthletesTable.tsx:114
+msgid "Sport"
+msgstr "종목"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:103
+msgid "The athlete list could not be loaded. Try again."
+msgstr "선수 목록을 불러오지 못했습니다. 다시 시도하세요."
+
+#: src/pages/sports/athletes/AthletesPage.tsx:81
+msgid "There are no athletes to show on this page."
+msgstr "이 페이지에 표시할 선수가 없습니다."
+
+#. Button that retries loading the athletes list
+#: src/pages/sports/athletes/AthletesPage.tsx:106
+msgid "Try again"
+msgstr "다시 시도"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:87
+#: src/pages/sports/athletes/components/AthletesTable.tsx:128
+msgid "Type"
+msgstr "유형"
+
+#. Error title on the athletes list page
+#: src/pages/sports/athletes/AthletesPage.tsx:96
+msgid "Unable to load athletes"
+msgstr "선수를 불러올 수 없습니다"
+
+#. Fallback name when an athlete profile has no name
+#: src/pages/sports/athletes/components/AthletesTable.tsx:158
+msgid "Unnamed athlete"
+msgstr "이름 없는 선수"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:224
+msgid "Updating athletes"
+msgstr "선수 정보 업데이트 중"
