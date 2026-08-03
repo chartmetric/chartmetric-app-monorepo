@@ -23,6 +23,7 @@ export const openapiPlugin = fp(
         openapi: "3.1.0",
         tags: [
           { description: "Artist catalog", name: "artists" },
+          { description: "Athlete catalog", name: "athletes" },
           { description: "Service health", name: "system" },
         ],
       },
