@@ -52,7 +52,9 @@ export const validateEndpointPreflight = (
   if (
     !apiSurfaces.includes(preflight.surface as (typeof apiSurfaces)[number])
   ) {
-    throw new Error(`Surface must be one of ${apiSurfaces.join(", ")}`);
+    throw new Error(
+      `Surface must be one of ${apiSurfaces.join(", ")} — ask whether this is a public developer API endpoint before choosing. "v1" and "both" publish it to external API-key customers in /docs and openapi.json; "app" keeps it to the web app.`,
+    );
   }
 
   if (!preflight.routePath.startsWith("/")) {

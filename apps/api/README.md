@@ -166,7 +166,9 @@ observe the expected failure before changing implementation code.
 
 Before editing, decide:
 
-- Whether the route belongs on `/app`, `/v1`, or both.
+- Whether the route belongs on `/app`, `/v1`, or both. Decide this first and
+  explicitly: `/v1` publishes the route to external developers in `/docs` and
+  `openapi.json`, and a published contract cannot be quietly withdrawn.
 - Its method, path, request shape, response shape, pagination, sorting, and errors.
 - Its source tables, selected columns, row filters, and null normalization.
 - Its product, permission, API-scope, and authentication requirements.

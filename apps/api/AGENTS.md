@@ -47,6 +47,8 @@ Do not edit endpoint code until the existing task or the user has resolved:
 - Source tables, selected columns, row filters, and null normalization.
 - Product, permission, API-scope, and authentication requirements.
 
+Always ask the surface question outright — "should this be a public developer API endpoint?" — for new routes and for surface changes to existing ones. `/v1` publishes the route to external API-key customers in `/docs` and `openapi.json`, which cannot be quietly withdrawn; `/app` alone means the feature never reaches the developer API. Neither is a safe default, and surface is per route, not per module.
+
 Ask only about unresolved decisions. Before asking about ClickHouse data, run `pnpm --filter api endpoint:inspect` and show the relevant table and column options. Do not sample application rows unless the user explicitly asks.
 
 For new routes, `pnpm --filter api create:endpoint` records the completed preflight and creates the failing registration/OpenAPI contract test. Run that test and confirm the expected red state before implementation. The route is not ready until the targeted test is green and `pnpm --filter api check:endpoints` passes.
