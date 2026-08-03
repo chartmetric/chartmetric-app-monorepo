@@ -27,7 +27,7 @@ apps/api/scripts/response-schema-codegen/
 .DS_Store
 
 # Lingui compiled catalogs (the Vite plugin compiles .po on demand; only CI runs `lingui compile`)
-apps/web/src/locales/*/messages.js
+apps/web/src/locales/*/*/messages.js
 
 # Agent config: .agents/ is committed (tool-agnostic); local state and
 # per-tool symlinks (`ln -s .agents .claude`, `ln -s AGENTS.md CLAUDE.md`) are not

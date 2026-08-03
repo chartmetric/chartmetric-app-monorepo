@@ -13,6 +13,141 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:8
-msgid "This is the Athletes page"
-msgstr "This is the Athletes page"
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:148
+msgid "Apply filters"
+msgstr "Apply filters"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:107
+msgid "Athlete"
+msgstr "Athlete"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:170
+msgid "Athletes"
+msgstr "Athletes"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:145
+msgid "Clear filters"
+msgstr "Clear filters"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:136
+msgid "CM score"
+msgstr "CM score"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:82
+msgid "Enter a nationality"
+msgstr "Enter a nationality"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:88
+msgid "Enter a profile type"
+msgstr "Enter a profile type"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:76
+msgid "Enter a sport"
+msgstr "Enter a sport"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:70
+msgid "Enter an athlete name"
+msgstr "Enter an athlete name"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:173
+msgid "Explore active athletes across sports."
+msgstr "Explore active athletes across sports."
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:133
+msgid "Filters"
+msgstr "Filters"
+
+#. Numeric Chartmetric profile identifier shown below an athlete name
+#: src/pages/sports/athletes/components/AthletesTable.tsx:171
+msgid "ID {athleteIdText}"
+msgstr "ID {athleteIdText}"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:64
+msgid "Loading athletes"
+msgstr "Loading athletes"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:66
+msgid "Loading athletes…"
+msgstr "Loading athletes…"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:98
+msgid "Maximum CM score"
+msgstr "Maximum CM score"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:122
+msgid "Maximum CM score must be greater than or equal to the minimum."
+msgstr "Maximum CM score must be greater than or equal to the minimum."
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:93
+msgid "Minimum CM score"
+msgstr "Minimum CM score"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:81
+#: src/pages/sports/athletes/components/AthletesTable.tsx:121
+msgid "Nationality"
+msgstr "Nationality"
+
+#. Pagination button for the next athletes page
+#: src/pages/sports/athletes/components/AthletesTable.tsx:240
+msgid "Next"
+msgstr "Next"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:78
+msgid "No athletes found"
+msgstr "No athletes found"
+
+#. Current page number in the athletes list
+#: src/pages/sports/athletes/components/AthletesTable.tsx:227
+msgid "Page {currentPageText}"
+msgstr "Page {currentPageText}"
+
+#. Pagination button for the previous athletes page
+#: src/pages/sports/athletes/components/AthletesTable.tsx:217
+msgid "Previous"
+msgstr "Previous"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:69
+msgid "Search by name"
+msgstr "Search by name"
+
+#. Accessible label for a sortable athletes table column
+#: src/pages/sports/athletes/components/AthletesTable.tsx:75
+msgid "Sort by {label}"
+msgstr "Sort by {label}"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:75
+#: src/pages/sports/athletes/components/AthletesTable.tsx:114
+msgid "Sport"
+msgstr "Sport"
+
+#: src/pages/sports/athletes/AthletesPage.tsx:103
+msgid "The athlete list could not be loaded. Try again."
+msgstr "The athlete list could not be loaded. Try again."
+
+#: src/pages/sports/athletes/AthletesPage.tsx:81
+msgid "There are no athletes to show on this page."
+msgstr "There are no athletes to show on this page."
+
+#. Button that retries loading the athletes list
+#: src/pages/sports/athletes/AthletesPage.tsx:106
+msgid "Try again"
+msgstr "Try again"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:87
+#: src/pages/sports/athletes/components/AthletesTable.tsx:128
+msgid "Type"
+msgstr "Type"
+
+#. Error title on the athletes list page
+#: src/pages/sports/athletes/AthletesPage.tsx:96
+msgid "Unable to load athletes"
+msgstr "Unable to load athletes"
+
+#. Fallback name when an athlete profile has no name
+#: src/pages/sports/athletes/components/AthletesTable.tsx:158
+msgid "Unnamed athlete"
+msgstr "Unnamed athlete"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:224
+msgid "Updating athletes"
+msgstr "Updating athletes"
