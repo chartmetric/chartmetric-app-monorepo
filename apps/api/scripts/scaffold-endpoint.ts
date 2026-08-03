@@ -132,6 +132,13 @@ if (terminal) {
   const route = await ask("Route name");
   const method = await ask("HTTP method", "GET");
   const routePath = await ask("Fastify route path");
+  // Surface is the only preflight answer that cannot be corrected quietly
+  // later: /v1 publishes the route to external developers. No default.
+  console.log(`
+Should this be a public developer API endpoint?
+  app   /app only — the Chartmetric web app; hidden from /docs and openapi.json
+  v1    /v1 only  — external developers with an API key; published in /docs
+  both  both surfaces`);
   const surface = await ask("API surface (app, v1, both)");
   const tableNames = commaSeparated(
     await ask("ClickHouse tables, comma-separated, or none", "none"),

@@ -7,11 +7,29 @@ description: Create or change typed Fastify endpoints in the Chartmetric API thr
 
 Follow the canonical human workflow in `apps/api/README.md#adding-or-changing-an-endpoint` and the policies in `apps/api/AGENTS.md`. Treat every gate below as blocking.
 
-## 1. Complete the preflight
+## 0. Settle the surface before anything else
+
+Surface is the one preflight decision that is never safe to infer, because both defaults are wrong in a way the code cannot detect. Put the route on `/v1` when it should have been internal and you have published a contract to external developers that they may build against and you cannot quietly withdraw. Leave it off `/v1` when it should have been public and the feature silently never ships to the developer API.
+
+Ask the user, in their words, not in ours:
+
+> **Should this be a public developer API endpoint?** Answering yes puts it under `/v1`, in the published `/docs`, and in `openapi.json` for external API-key customers. Answering no keeps it under `/app` only, hidden from the docs, for the Chartmetric web app.
+
+Rules:
+
+- Ask this question even when the task says nothing about surfaces. Silence is not an answer, and `/app` is not a safe default.
+- Ask it with the user-input tool (e.g. `AskUserQuestion`) when one is available, as a standalone question with the three options: app only, v1 only, both.
+- Ask it again when **changing** an existing route — moving a route between surfaces is a publishing decision, not a refactor, and it changes `openapi.generated.json` and the shipped client.
+- Skip it only when the user has already answered it explicitly in this task. A related endpoint's surface, a module's other routes, and "it's like artists" are not answers; surface is per route, not per module.
+- Never resolve it yourself, even under time pressure or in an autonomous run. Stop and ask.
+
+Record the answer verbatim in the `access` decision of the contract test, naming the authentication each chosen surface implies (`/app` session, `/v1` developer API key and scopes).
+
+## 1. Complete the rest of the preflight
 
 Do not edit endpoint code until the task or user has resolved:
 
-- Surface: `/app`, `/v1`, or both.
+- Surface: `/app`, `/v1`, or both — settled in gate 0 above.
 - Method, path, request schema, response shape, pagination, sorting, and errors.
 - Source tables, selected columns, row filters, and null normalization.
 - Product, permission, API-scope, and authentication requirements.
@@ -34,6 +52,8 @@ For a new route, run `pnpm --filter api create:endpoint` after the preflight is 
 Repeat `--table <name> --columns <csv>` for multiple ClickHouse sources. Use `--table none --columns none` only when the approved endpoint does not read ClickHouse.
 
 Run the generated contract test and verify that it fails because the route is not registered. For an existing route, update its contract or behavior assertions first and verify the expected failure before implementation.
+
+Changing a route's surfaces is a contract change, so update the same set every time: `surfaces` and the `access` decision in `<route>.contract.test.ts`, the surface-specific assertions in the module `routes.test.ts`, the `/v1` path list in `src/tests/app.test.ts`, and the tag description in `src/plugins/openapi.ts` when a module reaches the public docs for the first time. Then regenerate, because a new `/v1` path changes `openapi.generated.json` and the frontend client.
 
 Do not proceed when the test fails for an unrelated setup or compilation error.
 
