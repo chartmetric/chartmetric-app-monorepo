@@ -4,7 +4,12 @@
   "sideEffects": false,
   "exports": {
     "./counter": "./components/Counter/Counter.tsx",
+    "./data-table": "./components/data-table/DataTable.tsx",
+    "./filter-bar": "./components/filters/FilterBar.tsx",
     "./header": "./components/Header.tsx",
+    "./multi-select-filter": "./components/filters/MultiSelectFilter.tsx",
+    "./range-filter": "./components/filters/RangeFilter.tsx",
+    "./table-pagination": "./components/data-table/TablePagination.tsx",
     "./theme": "./theme/theme.ts",
     "./theme/colors": "./theme/colors.ts"
   },
