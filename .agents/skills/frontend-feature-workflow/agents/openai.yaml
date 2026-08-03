@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Feature Workflow"
+  short_description: "Build shared-first, cross-entity frontend features"
+  default_prompt: "Use $frontend-feature-workflow to implement this frontend feature with shared components and cross-entity parity."

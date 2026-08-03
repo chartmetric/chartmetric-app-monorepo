@@ -8,6 +8,7 @@ Also follow `/AGENTS.md`, `/apps/AGENTS.md`, and `/docs/architecture/access-and-
 
 Consult the matching skill in `/.agents/skills/` before working in its area:
 
+- `frontend-feature-workflow` — mandatory shared-component discovery, cross-entity precedent review, parity decisions, implementation order, and validation for any frontend feature work.
 - `vercel-react-best-practices` — React component and performance patterns.
 - `vercel-composition-patterns` — component composition, compound components, and reusable component APIs.
 - `web-design-guidelines` — UI, UX, and accessibility review.
@@ -66,6 +67,10 @@ Use Mantine before custom primitives. Components should have typed props, semant
 
 Generic presentational components belong in `packages/ui`. Application-specific components stay here.
 
+Before implementing a frontend feature, inspect the supported `@repo/ui` exports and equivalent features across every entity and vertical. Reuse an existing molecule, extend it generically, or extract repeated mechanics into `packages/ui` before writing entity-specific presentation code.
+
+Equivalent features should remain behaviorally and visually consistent across entities by default. Keep a difference only when product or domain requirements justify it; make the reason evident in the implementation and tests.
+
 ## Responsive layout
 
 Every screen, layout, and component must remain usable at mobile widths. This applies to all UI work, not only pages designed for mobile.
@@ -95,4 +100,6 @@ Do not import Fastify internals, import Drizzle schemas into UI code, duplicate 
 - Restricted actions use stable permissions.
 - Account-scoped query keys include account ID.
 - API contracts are not duplicated.
+- Shared components and peer-entity precedents were inspected before implementation.
+- Cross-entity differences are intentional and tested.
 - Relevant tests and production build pass.
