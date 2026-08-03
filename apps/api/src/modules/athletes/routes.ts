@@ -4,5 +4,5 @@ import { listAthletesRoute } from "./routes/list-athletes.ts";
 
 export const athletesRoutes = createApiRoutes([
   { plugin: athleteFilterOptionsRoute, surfaces: ["app"] },
-  { plugin: listAthletesRoute, surfaces: ["app"] },
+  { plugin: listAthletesRoute, surfaces: ["app", "v1"] },
 ]);

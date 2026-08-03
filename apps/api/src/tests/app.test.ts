@@ -79,7 +79,7 @@ describe("buildApp", () => {
     }>();
     expect(document.openapi).toBe("3.1.0");
     expect(Object.keys(document.paths)).toEqual(
-      expect.arrayContaining(["/health", "/v1/artists"]),
+      expect.arrayContaining(["/health", "/v1/artists", "/v1/athletes"]),
     );
     expect(
       Object.keys(document.paths).filter((route) => route.startsWith("/app")),

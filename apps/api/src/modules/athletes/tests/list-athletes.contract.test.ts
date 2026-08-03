@@ -5,7 +5,8 @@ import { endpointContractChecks } from "../../../tests/endpoint-contract.ts";
 describe("GET /athletes endpoint contract", () => {
   const checks = endpointContractChecks({
     decisions: {
-      access: "App-surface authentication only; no additional route permission",
+      access:
+        "App-surface session authentication and v1 developer API-key authentication; no additional route permission",
       data: [
         {
           columns: [
@@ -30,7 +31,7 @@ describe("GET /athletes endpoint contract", () => {
     },
     method: "GET",
     routePath: "/athletes",
-    surfaces: ["app"],
+    surfaces: ["app", "v1"],
   });
 
   it("is registered only on its declared API surfaces", checks.registration);

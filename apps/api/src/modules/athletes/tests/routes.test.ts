@@ -83,13 +83,36 @@ describe("GET /athletes", () => {
     await app.close();
   });
 
-  it("does not expose the endpoint on v1", async () => {
+  it("serves the same payload on the v1 developer surface", async () => {
     const app = await buildApp({
       clickhouse: stubClickhouse(rows),
       config: testConfig,
     });
 
-    const response = await app.inject({ method: "GET", url: "/v1/athletes" });
+    const appResponse = await app.inject({
+      method: "GET",
+      url: "/app/athletes?limit=25&offset=0",
+    });
+    const v1Response = await app.inject({
+      method: "GET",
+      url: "/v1/athletes?limit=25&offset=0",
+    });
+
+    expect(v1Response.statusCode).toBe(200);
+    expect(v1Response.json()).toEqual(appResponse.json());
+    await app.close();
+  });
+
+  it("keeps filter options off the v1 developer surface", async () => {
+    const app = await buildApp({
+      clickhouse: stubClickhouse(rows),
+      config: testConfig,
+    });
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/v1/athletes/filter-options",
+    });
 
     expect(response.statusCode).toBe(404);
     await app.close();
