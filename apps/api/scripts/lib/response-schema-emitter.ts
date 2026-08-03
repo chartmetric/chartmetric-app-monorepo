@@ -19,7 +19,6 @@ interface SchemaFileDefinition {
 }
 
 const componentReferencePrefix = "#/components/schemas/";
-const definitionReferencePrefix = "#/$defs/";
 
 const isNullSchema = (value: unknown): boolean =>
   typeof value === "object" &&
@@ -53,35 +52,92 @@ const localizeReferences = (value: unknown): unknown => {
 
         return [
           key === "oneOf" ? "anyOf" : key,
-          key === "$ref" &&
-          typeof normalizedEntry === "string" &&
-          normalizedEntry.startsWith(componentReferencePrefix)
-            ? `${definitionReferencePrefix}${normalizedEntry.slice(componentReferencePrefix.length)}`
-            : localizeReferences(normalizedEntry),
+          localizeReferences(normalizedEntry),
         ];
       }),
   );
 };
 
-const toStandaloneSchema = (schemaUnit: SchemaUnit): unknown => {
-  const components = { schemas: {} };
+const inlineComponentReferences = (
+  value: unknown,
+  components: Record<string, unknown>,
+  ancestors: string[] = [],
+): unknown => {
+  if (Array.isArray(value)) {
+    return value.map((entry) =>
+      inlineComponentReferences(entry, components, ancestors),
+    );
+  }
+
+  if (typeof value !== "object" || value === null) {
+    return value;
+  }
+
+  const entries = Object.entries(value);
+  const reference = entries.find(([key]) => key === "$ref")?.[1];
+
+  if (
+    typeof reference === "string" &&
+    reference.startsWith(componentReferencePrefix)
+  ) {
+    const name = reference.slice(componentReferencePrefix.length);
+    const component = components[name];
+
+    if (component === undefined) {
+      throw new Error(`Missing response schema component ${name}`);
+    }
+
+    if (ancestors.includes(name)) {
+      throw new Error(`Recursive response schema component ${name}`);
+    }
+
+    const resolved = inlineComponentReferences(component, components, [
+      ...ancestors,
+      name,
+    ]);
+    const siblings = Object.fromEntries(
+      entries
+        .filter(([key]) => key !== "$ref")
+        .map(([key, entry]) => [
+          key,
+          inlineComponentReferences(entry, components, ancestors),
+        ]),
+    );
+
+    return typeof resolved === "object" &&
+      resolved !== null &&
+      !Array.isArray(resolved)
+      ? { ...resolved, ...siblings }
+      : resolved;
+  }
+
+  return Object.fromEntries(
+    entries.map(([key, entry]) => [
+      key,
+      inlineComponentReferences(entry, components, ancestors),
+    ]),
+  );
+};
+
+export const toStandaloneSchema = (schemaUnit: SchemaUnit): unknown => {
+  const components = OpenApiConverter.downgradeComponents(
+    schemaUnit.components,
+    "3.1",
+  );
   const responseSchema = OpenApiConverter.downgradeSchema({
     components: schemaUnit.components,
     downgraded: components,
     schema: schemaUnit.schema,
     version: "3.1",
   });
-  const localizedResponseSchema = localizeReferences(responseSchema);
-  const localizedComponents = localizeReferences(components.schemas);
-  const hasComponents = Object.keys(components.schemas).length > 0;
+  const localizedResponseSchema = localizeReferences(
+    inlineComponentReferences(responseSchema, components.schemas ?? {}),
+  );
 
   return typeof localizedResponseSchema === "object" &&
     localizedResponseSchema !== null &&
     !Array.isArray(localizedResponseSchema)
-    ? {
-        ...localizedResponseSchema,
-        ...(hasComponents ? { $defs: localizedComponents } : {}),
-      }
+    ? { ...localizedResponseSchema }
     : localizedResponseSchema;
 };
 
