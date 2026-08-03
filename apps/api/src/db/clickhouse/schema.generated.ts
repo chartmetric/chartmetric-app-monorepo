@@ -6,6 +6,51 @@
  * The string literals represent ClickHouse data types for each column
  */
 export interface IntrospectedSchema {
+  athletes_cache: {
+    profile_id: "UInt32";
+    name: "String";
+    type: "String";
+    is_active: "UInt8";
+    sport: "String";
+    turned_pro_year: "Nullable(UInt16)";
+    date_of_birth: "Nullable(Date)";
+    nationality: "Nullable(String)";
+    nationality_continent: "Nullable(String)";
+    football_national_team: "Nullable(String)";
+    football_position: "Nullable(String)";
+    football_club: "Nullable(String)";
+    football_confederation: "Nullable(String)";
+    tennis_tour: "Nullable(String)";
+    tennis_ranking: "Nullable(UInt32)";
+    tennis_playing_style: "Nullable(String)";
+    tennis_grand_slams: "Nullable(UInt32)";
+    tennis_ranking_points: "Nullable(UInt32)";
+    ig_account_id: "Nullable(UInt32)";
+    ig_handle: "Nullable(String)";
+    ig_followers: "Nullable(Int64)";
+    ig_following: "Nullable(Int64)";
+    ig_posts: "Nullable(Int64)";
+    ig_verified: "Nullable(UInt8)";
+    ig_engagement_rate: "Nullable(Float64)";
+    tiktok_account_id: "Nullable(UInt32)";
+    tiktok_handle: "Nullable(String)";
+    tiktok_followers: "Nullable(Int64)";
+    tiktok_hearts: "Nullable(Int64)";
+    tiktok_videos: "Nullable(Int64)";
+    youtube_handle: "Nullable(String)";
+    youtube_followers: "Nullable(Int64)";
+    twitter_handle: "Nullable(String)";
+    twitter_followers: "Nullable(Int64)";
+    facebook_handle: "Nullable(String)";
+    facebook_followers: "Nullable(Int64)";
+    cm_score: "Nullable(Float64)";
+    cm_affinity: "Nullable(Float64)";
+    last_snapshot_date: "Nullable(Date)";
+    created_at: "DateTime";
+    modified_at: "DateTime";
+    image_url: "Nullable(String)";
+    deleted_at: "Nullable(DateTime)";
+  };
   cm_artist: {
     id: "Int32";
     name: "String";
@@ -39,6 +84,52 @@ export interface IntrospectedSchema {
 }
 
 // Type-safe record types for each table
+export interface Athletes_cacheRecord {
+  profile_id: number;
+  name: string;
+  type: string;
+  is_active: number;
+  sport: string;
+  turned_pro_year: number | null;
+  date_of_birth: string | null;
+  nationality: string | null;
+  nationality_continent: string | null;
+  football_national_team: string | null;
+  football_position: string | null;
+  football_club: string | null;
+  football_confederation: string | null;
+  tennis_tour: string | null;
+  tennis_ranking: number | null;
+  tennis_playing_style: string | null;
+  tennis_grand_slams: number | null;
+  tennis_ranking_points: number | null;
+  ig_account_id: number | null;
+  ig_handle: string | null;
+  ig_followers: string | null;
+  ig_following: string | null;
+  ig_posts: string | null;
+  ig_verified: number | null;
+  ig_engagement_rate: number | null;
+  tiktok_account_id: number | null;
+  tiktok_handle: string | null;
+  tiktok_followers: string | null;
+  tiktok_hearts: string | null;
+  tiktok_videos: string | null;
+  youtube_handle: string | null;
+  youtube_followers: string | null;
+  twitter_handle: string | null;
+  twitter_followers: string | null;
+  facebook_handle: string | null;
+  facebook_followers: string | null;
+  cm_score: number | null;
+  cm_affinity: number | null;
+  last_snapshot_date: string | null;
+  created_at: string;
+  modified_at: string;
+  image_url: string | null;
+  deleted_at: string | null;
+}
+
 export interface Cm_artistRecord {
   id: number;
   name: string;
@@ -82,7 +173,7 @@ export interface ProfilesRecord {
  *
  * // Now you have full type safety and autocomplete
  * const results = await db
- *   .table('cm_artist')
+ *   .table('athletes_cache')
  *   .select(['column1', 'column2'])
  *   .where('column1', 'eq', 'value')
  *   .execute();
