@@ -6,10 +6,20 @@ import { describe, expect, it } from "vitest";
 
 import {
   createResponseSchemaWorkerWorkspace,
+  describeResponseSchemaWorkerFailure,
   removeResponseSchemaWorkerWorkspace,
 } from "../lib/response-schema-worker.ts";
 
 describe("response schema worker workspace", () => {
+  it("provides recovery steps when imported API source does not compile", () => {
+    const message = describeResponseSchemaWorkerFailure(2, null);
+
+    expect(message).toContain("API source did not compile");
+    expect(message).toContain("pnpm --filter api typecheck");
+    expect(message).toContain("pnpm --filter api generate:response-schemas");
+    expect(message).toContain("Do not edit schemas.generated.ts");
+  });
+
   it("isolates concurrent workers and cleans them independently", async () => {
     const root = await mkdtemp(join(tmpdir(), "response-schema-worker-test-"));
 

@@ -43,13 +43,25 @@ Follow this order:
 
 1. Add the module query in `src/modules/<module>/queries.ts`.
 2. Run `pnpm --filter api generate:ch-schema` after introducing a table or changed column.
-3. Add a mapper and a top-level `export const PascalCaseName = defineApiResponse(mapper)` marker.
-4. Run `pnpm --filter api generate` unless root `pnpm dev` is watching.
-5. Add one route per `src/modules/<module>/routes/<route>.ts` with explicit request and response schemas.
-6. Register it through `createApiRoutes()` in the module `routes.ts` with the approved surfaces.
-7. Mount a new module from both surface plugins; route-level surface filtering decides actual exposure.
+3. Run `pnpm --filter api typecheck` before response generation and fix every source error.
+4. Add a mapper and a top-level `export const PascalCaseName = defineApiResponse(mapper)` marker.
+5. Run `pnpm --filter api generate` unless root `pnpm dev` is watching.
+6. Add one route per `src/modules/<module>/routes/<route>.ts` with explicit request and response schemas.
+7. Register it through `createApiRoutes()` in the module `routes.ts` with the approved surfaces.
+8. Mount a new module from both surface plugins; route-level surface filtering decides actual exposure.
 
 Keep raw database types inside the module. Select only necessary columns and normalize the public shape in the mapper. Do not edit generated files.
+
+TypeScript does not retain an optional object-property narrowing inside a
+deferred query-builder callback. Capture the narrowed property in a local
+constant before the callback:
+
+```ts
+if (query.name !== undefined) {
+  const name = query.name;
+  builder = builder.where((predicate) => predicate.fn("example", predicate.value(name)));
+}
+```
 
 ## 4. Reach green
 
