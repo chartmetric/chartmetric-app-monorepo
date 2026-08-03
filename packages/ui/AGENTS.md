@@ -7,6 +7,8 @@ Also follow:
 - `/AGENTS.md`
 - `/packages/AGENTS.md`
 
+Use the `frontend-feature-workflow` skill whenever creating, changing, or reviewing shared frontend components.
+
 ## Responsibility
 
 The UI package should contain reusable, brand-aware, presentational components built on Mantine.
@@ -23,6 +25,14 @@ It should not own:
 - Database types.
 
 Use a props-in, events-out design.
+
+## Reuse and cross-entity parity
+
+Before adding a component, inspect the package's existing components and public exports, then inspect equivalent features across applications and entities. Consolidate repeated presentation and interaction mechanics here instead of copying them into entity folders.
+
+Design shared molecules so peer entities can use the same behavior through labels, options, values, configuration, children, and callbacks. Entity-specific API access, translations, authorization, and domain policy remain in the application.
+
+Existing peer behavior is the default baseline, not permission to reproduce an apparent bug. Intentional cross-entity differences belong in application composition and require focused tests.
 
 ## Component design
 
@@ -119,4 +129,6 @@ Before completing UI-package work:
 - It uses Mantine and semantic theme values.
 - It is not hard-coded to one vertical.
 - Its public export is intentional.
+- It does not duplicate an existing shared or peer-entity interaction.
+- Affected consumers retain parity unless a tested requirement says otherwise.
 - Relevant tests and consuming builds pass.
