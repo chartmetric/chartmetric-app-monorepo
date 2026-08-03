@@ -81,5 +81,12 @@ export default defineConfig(
       ],
     },
   },
+  {
+    // Hooks conventionally live in camelCase files (useCounter.ts)
+    files: ["**/use[A-Z]*.{ts,tsx}"],
+    rules: {
+      "unicorn/filename-case": ["warn", { cases: { camelCase: true } }],
+    },
+  },
   prettier,
 );

@@ -45,6 +45,10 @@ msgstr "Influencer"
 msgid "Language"
 msgstr "Sprache"
 
+#: src/layout/components/AuthControls.tsx:30
+msgid "Log out"
+msgstr "Abmelden"
+
 #: src/layout/components/ColorSchemeToggle.tsx:21
 msgid "Switch to dark mode"
 msgstr "Zum dunklen Modus wechseln"
@@ -57,7 +61,7 @@ msgstr "Zum hellen Modus wechseln"
 msgid "Switch vertical"
 msgstr "Bereich wechseln"
 
-#: src/layout/Layout.tsx:35
-#: src/layout/Layout.tsx:52
+#: src/layout/Layout.tsx:36
+#: src/layout/Layout.tsx:54
 msgid "Toggle navigation"
 msgstr "Navigation umschalten"

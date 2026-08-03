@@ -45,6 +45,10 @@ msgstr "인플루언서"
 msgid "Language"
 msgstr "언어"
 
+#: src/layout/components/AuthControls.tsx:30
+msgid "Log out"
+msgstr "로그아웃"
+
 #: src/layout/components/ColorSchemeToggle.tsx:21
 msgid "Switch to dark mode"
 msgstr "다크 모드로 전환"
@@ -57,7 +61,7 @@ msgstr "라이트 모드로 전환"
 msgid "Switch vertical"
 msgstr "버티컬 전환"
 
-#: src/layout/Layout.tsx:35
-#: src/layout/Layout.tsx:52
+#: src/layout/Layout.tsx:36
+#: src/layout/Layout.tsx:54
 msgid "Toggle navigation"
 msgstr "내비게이션 전환"

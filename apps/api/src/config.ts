@@ -14,6 +14,7 @@ const LOG_LEVELS = [
 export type LogLevel = (typeof LOG_LEVELS)[number];
 
 const EnvironmentSchema = Type.Object({
+  AUTHSERVICE_URL: Type.String({ minLength: 1 }),
   CLICKHOUSE_HOST: Type.String({ minLength: 1 }),
   CLICKHOUSE_PASSWORD: Type.String({ minLength: 1 }),
   CLICKHOUSE_USER: Type.String({ minLength: 1 }),
@@ -27,6 +28,7 @@ const EnvironmentSchema = Type.Object({
 });
 
 export interface Config {
+  authServiceUrl: string;
   clickhouseHost: string;
   clickhousePassword: string;
   clickhouseUser: string;
@@ -45,6 +47,7 @@ export const loadConfig = (env: NodeJS.ProcessEnv = process.env): Config => {
   const candidate = Value.Default(
     EnvironmentSchema,
     Value.Convert(EnvironmentSchema, {
+      AUTHSERVICE_URL: env["AUTHSERVICE_URL"],
       CLICKHOUSE_HOST: env["CLICKHOUSE_HOST"],
       CLICKHOUSE_PASSWORD: env["CLICKHOUSE_PASSWORD"],
       CLICKHOUSE_USER: env["CLICKHOUSE_USER"],
@@ -62,6 +65,7 @@ export const loadConfig = (env: NodeJS.ProcessEnv = process.env): Config => {
   }
 
   return {
+    authServiceUrl: candidate.AUTHSERVICE_URL,
     clickhouseHost: candidate.CLICKHOUSE_HOST,
     clickhousePassword: candidate.CLICKHOUSE_PASSWORD,
     clickhouseUser: candidate.CLICKHOUSE_USER,

@@ -6,6 +6,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Link, Outlet, useLocation } from "react-router";
 
 import { findVerticalByPathname } from "../verticals";
+import { AuthControls } from "./components/AuthControls";
 import { ColorSchemeToggle } from "./components/ColorSchemeToggle";
 import { LocaleSwitcher } from "./components/LocaleSwitcher";
 import { VerticalSelector } from "./components/VerticalSelector";
@@ -39,6 +40,7 @@ export const Layout: FC = () => {
             size="sm"
           />
           <Group gap="xs" ml="auto">
+            <AuthControls />
             <ColorSchemeToggle />
             <LocaleSwitcher />
           </Group>

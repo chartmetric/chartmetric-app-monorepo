@@ -6,6 +6,7 @@ import Fastify, { type FastifyInstance } from "fastify";
 import type { Config } from "./config.ts";
 import type { ClickHouse } from "./db/clickhouse/client.ts";
 
+import { authServicePlugin } from "./plugins/auth-service.ts";
 import { clickhousePlugin } from "./plugins/clickhouse.ts";
 import { openapiPlugin } from "./plugins/openapi.ts";
 import { appSurface } from "./routes/app-surface.ts";
@@ -26,6 +27,7 @@ export const buildApp = async (
 
   await app.register(sensible);
   await app.register(openapiPlugin);
+  await app.register(authServicePlugin, { config: options.config });
 
   if (options.clickhouse === undefined) {
     await app.register(clickhousePlugin, { config: options.config });

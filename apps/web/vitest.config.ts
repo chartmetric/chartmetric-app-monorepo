@@ -12,6 +12,10 @@ export default defineConfig({
     }),
   ],
   test: {
+    env: {
+      VITE_API_URL: "https://api.invalid",
+      VITE_PROPELAUTH_AUTH_URL: "https://auth.invalid",
+    },
     environment: "jsdom",
     setupFiles: ["./src/vitest.setup.ts"],
   },

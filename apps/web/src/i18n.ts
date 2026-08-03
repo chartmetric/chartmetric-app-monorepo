@@ -43,7 +43,14 @@ export const storeLocale = (locale: Locale): void => {
 
 // One catalog per directory under src/pages, plus "common" for everything
 // else (see lingui.config.ts). Add new page directories here.
-const CATALOG_NAMES = ["common", "creators", "demo", "music", "sports"];
+const CATALOG_NAMES = [
+  "account",
+  "common",
+  "creators",
+  "demo",
+  "music",
+  "sports",
+];
 
 export const dynamicActivate = async (locale: Locale): Promise<void> => {
   const catalogs = await Promise.all(

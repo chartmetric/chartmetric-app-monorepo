@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { loadConfig } from "../config.ts";
 
 const requiredEnvironment = {
+  AUTHSERVICE_URL: "http://localhost:3000",
   CLICKHOUSE_HOST: "https://clickhouse.example.com:8443",
   CLICKHOUSE_PASSWORD: "secret",
   CLICKHOUSE_USER: "reader",
@@ -11,6 +12,7 @@ const requiredEnvironment = {
 describe("loadConfig", () => {
   it("applies defaults for optional values", () => {
     expect(loadConfig(requiredEnvironment)).toEqual({
+      authServiceUrl: requiredEnvironment.AUTHSERVICE_URL,
       clickhouseHost: requiredEnvironment.CLICKHOUSE_HOST,
       clickhousePassword: requiredEnvironment.CLICKHOUSE_PASSWORD,
       clickhouseUser: requiredEnvironment.CLICKHOUSE_USER,
@@ -49,6 +51,12 @@ describe("loadConfig", () => {
         CLICKHOUSE_USER: requiredEnvironment.CLICKHOUSE_USER,
       }),
     ).toThrow(/CLICKHOUSE_HOST/);
+  });
+
+  it("fails fast when AUTHSERVICE_URL is missing", () => {
+    expect(() =>
+      loadConfig({ ...requiredEnvironment, AUTHSERVICE_URL: undefined }),
+    ).toThrow(/AUTHSERVICE_URL/);
   });
 
   it("rejects an unknown LOG_LEVEL", () => {
