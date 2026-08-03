@@ -22,6 +22,7 @@ interface StubChain {
   offset: () => StubChain;
   orderBy: () => StubChain;
   select: () => StubChain;
+  settings: () => StubChain;
   toSQL: () => string;
   where: () => StubChain;
 }
@@ -38,6 +39,7 @@ export const stubClickhouse = (rowsByTable: StubRows = {}): ClickHouse => {
       offset: () => chain,
       orderBy: () => chain,
       select: () => chain,
+      settings: () => chain,
       toSQL: () => "",
       where: () => chain,
     };
