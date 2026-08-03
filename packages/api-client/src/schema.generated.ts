@@ -92,6 +92,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/app/athletes/filter-options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            cmScore: {
+                                max: number | null;
+                                min: number | null;
+                            };
+                            nationalities: {
+                                count: number;
+                                value: string;
+                            }[];
+                            sports: {
+                                count: number;
+                                value: string;
+                            }[];
+                            types: {
+                                count: number;
+                                value: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/app/athletes": {
         parameters: {
             query?: never;
@@ -104,14 +156,17 @@ export interface paths {
                 query: {
                     limit: number;
                     offset: number;
+                    excludeNationalities?: string[];
+                    excludeSports?: string[];
+                    excludeTypes?: string[];
                     maxCmScore?: number;
                     minCmScore?: number;
                     name?: string;
-                    nationality?: string;
+                    nationalities?: string[];
                     sortBy?: "name" | "sport" | "nationality" | "type" | "cmScore";
                     sortDirection?: "asc" | "desc";
-                    sport?: string;
-                    type?: string;
+                    sports?: string[];
+                    types?: string[];
                 };
                 header?: never;
                 path?: never;

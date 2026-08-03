@@ -153,6 +153,116 @@
         }
       }
     },
+    "/app/athletes/filter-options": {
+      "get": {
+        "tags": [
+          "athletes"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "cmScore": {
+                      "type": "object",
+                      "properties": {
+                        "max": {
+                          "anyOf": [
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "min": {
+                          "anyOf": [
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "max",
+                        "min"
+                      ]
+                    },
+                    "nationalities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "count": {
+                            "type": "number"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "count",
+                          "value"
+                        ]
+                      }
+                    },
+                    "sports": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "count": {
+                            "type": "number"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "count",
+                          "value"
+                        ]
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "count": {
+                            "type": "number"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "count",
+                          "value"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "cmScore",
+                    "nationalities",
+                    "sports",
+                    "types"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/app/athletes": {
       "get": {
         "tags": [
@@ -182,6 +292,54 @@
           },
           {
             "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "excludeNationalities",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "excludeSports",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "excludeTypes",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "number"
             },
             "in": "query",
@@ -208,12 +366,18 @@
           },
           {
             "schema": {
-              "maxLength": 100,
-              "minLength": 1,
-              "type": "string"
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
             },
             "in": "query",
-            "name": "nationality",
+            "name": "nationalities",
             "required": false
           },
           {
@@ -280,22 +444,34 @@
           },
           {
             "schema": {
-              "maxLength": 100,
-              "minLength": 1,
-              "type": "string"
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
             },
             "in": "query",
-            "name": "sport",
+            "name": "sports",
             "required": false
           },
           {
             "schema": {
-              "maxLength": 100,
-              "minLength": 1,
-              "type": "string"
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
             },
             "in": "query",
-            "name": "type",
+            "name": "types",
             "required": false
           }
         ],
