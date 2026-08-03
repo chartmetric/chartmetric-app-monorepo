@@ -2,6 +2,7 @@ import { type FC, useState } from "react";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router";
 
 import { Layout } from "./layout/Layout";
+import { AccountPage } from "./pages/account/AccountPage";
 import { InfluencersPage } from "./pages/creators/influencers/InfluencersPage";
 import { DemoPage } from "./pages/demo/DemoPage";
 import { ArtistsPage } from "./pages/music/artists/ArtistsPage";
@@ -19,6 +20,7 @@ const routes = [
       { element: <AthletesPage />, path: "/sports/athletes" },
       { element: <InfluencersPage />, path: "/creators/influencers" },
       { element: <DemoPage />, path: "/demo" },
+      { element: <AccountPage />, path: "/account" },
       {
         element: <Navigate replace to={DEFAULT_VERTICAL.homePath} />,
         path: "*",

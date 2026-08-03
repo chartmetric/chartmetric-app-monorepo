@@ -3,6 +3,7 @@ import type { ClickHouse } from "../db/clickhouse/client.ts";
 import type { Database } from "../db/clickhouse/schema.ts";
 
 export const testConfig: Config = {
+  authServiceUrl: "https://auth-service.invalid:3000",
   clickhouseHost: "https://clickhouse.invalid:8443",
   clickhousePassword: "secret",
   clickhouseUser: "reader",
