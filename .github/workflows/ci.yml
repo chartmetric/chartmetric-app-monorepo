@@ -56,6 +56,9 @@ jobs:
       - name: API contracts in sync
         run: pnpm check:generated
 
+      - name: API endpoint contracts valid
+        run: pnpm --filter api check:endpoints
+
       - name: i18n catalogs in sync with source
         run: |
           pnpm --filter web extract

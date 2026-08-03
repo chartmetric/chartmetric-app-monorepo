@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Endpoint Workflow"
+  short_description: "Create and update guarded API endpoints"
+  default_prompt: "Use $api-endpoint-workflow to create or update a typed API endpoint safely."
