@@ -1,155 +1,211 @@
-import type { FC } from "react";
-
-import { Trans, useLingui } from "@lingui/react/macro";
+import { useLingui } from "@lingui/react/macro";
+import { TextInput } from "@mantine/core";
+import { FilterBar } from "@repo/ui/filter-bar";
 import {
-  Button,
-  Fieldset,
-  Group,
-  NumberInput,
-  SimpleGrid,
-  Stack,
-  TextInput,
-} from "@mantine/core";
-import { useForm, type UseFormReturnType } from "@mantine/form";
+  MultiSelectFilter,
+  type MultiSelectFilterOption,
+  type MultiSelectFilterValue,
+} from "@repo/ui/multi-select-filter";
+import { type NumericRangeValue, RangeFilter } from "@repo/ui/range-filter";
+import { type FC, useMemo, useState } from "react";
 
+import type { AthleteFilterOptionsReply } from "../athlete-filter-options-query";
 import type { AthleteFilters as AthleteFilterQuery } from "../athlete-list-query";
 
-interface AthleteFilterValues {
-  maxCmScore: number | string;
-  minCmScore: number | string;
+interface AthleteFilterDraft {
+  cmScore: NumericRangeValue;
   name: string;
-  nationality: string;
-  sport: string;
-  type: string;
+  nationalities: MultiSelectFilterValue;
+  sports: MultiSelectFilterValue;
+  types: MultiSelectFilterValue;
 }
 
 interface AthleteFiltersProps {
-  onApply: (filters: AthleteFilterQuery) => void;
+  isLoading: boolean;
+  onChange: (filters: AthleteFilterQuery) => void;
+  options: AthleteFilterOptionsReply | undefined;
 }
 
-const optionalText = (value: string): string | undefined => {
-  const trimmedValue = value.trim();
+const createFilterDraft = (): AthleteFilterDraft => ({
+  cmScore: [null, null],
+  name: "",
+  nationalities: { mode: "include", values: [] },
+  sports: { mode: "include", values: [] },
+  types: { mode: "include", values: [] },
+});
 
-  return trimmedValue === "" ? undefined : trimmedValue;
+const addCategoricalFilter = (
+  filters: AthleteFilterQuery,
+  includeKey: "nationalities" | "sports" | "types",
+  excludeKey: "excludeNationalities" | "excludeSports" | "excludeTypes",
+  selection: MultiSelectFilterValue,
+): void => {
+  if (selection.values.length === 0) return;
+
+  if (selection.mode === "include") {
+    filters[includeKey] = selection.values;
+  } else {
+    filters[excludeKey] = selection.values;
+  }
 };
 
-const optionalNumber = (value: number | string): number | undefined =>
-  typeof value === "number" ? value : undefined;
-
-const toFilterQuery = (values: AthleteFilterValues): AthleteFilterQuery => {
+const toFilterQuery = (draft: AthleteFilterDraft): AthleteFilterQuery => {
   const filters: AthleteFilterQuery = {};
-  const maxCmScore = optionalNumber(values.maxCmScore);
-  const minCmScore = optionalNumber(values.minCmScore);
-  const name = optionalText(values.name);
-  const nationality = optionalText(values.nationality);
-  const sport = optionalText(values.sport);
-  const type = optionalText(values.type);
+  const name = draft.name.trim();
 
-  if (maxCmScore !== undefined) filters.maxCmScore = maxCmScore;
-  if (minCmScore !== undefined) filters.minCmScore = minCmScore;
-  if (name !== undefined) filters.name = name;
-  if (nationality !== undefined) filters.nationality = nationality;
-  if (sport !== undefined) filters.sport = sport;
-  if (type !== undefined) filters.type = type;
+  if (name !== "") filters.name = name;
+  if (draft.cmScore[0] !== null) filters.minCmScore = draft.cmScore[0];
+  if (draft.cmScore[1] !== null) filters.maxCmScore = draft.cmScore[1];
+  addCategoricalFilter(
+    filters,
+    "nationalities",
+    "excludeNationalities",
+    draft.nationalities,
+  );
+  addCategoricalFilter(filters, "sports", "excludeSports", draft.sports);
+  addCategoricalFilter(filters, "types", "excludeTypes", draft.types);
 
   return filters;
 };
 
-interface AthleteFilterFieldsProps {
-  form: UseFormReturnType<AthleteFilterValues>;
+const toDropdownOptions = (
+  options: readonly { count: number; value: string }[],
+  countFormatter: Intl.NumberFormat,
+): MultiSelectFilterOption[] =>
+  options.map(({ count, value }) => ({
+    description: countFormatter.format(count),
+    label: value,
+    value,
+  }));
+
+interface CategoricalFiltersProps {
+  disabled: boolean;
+  draft: AthleteFilterDraft;
+  onChange: (
+    key: "nationalities" | "sports" | "types",
+    value: MultiSelectFilterValue,
+  ) => void;
+  options: AthleteFilterOptionsReply | undefined;
 }
 
-const AthleteFilterFields: FC<AthleteFilterFieldsProps> = ({ form }) => {
-  const { t } = useLingui();
+const CategoricalFilters: FC<CategoricalFiltersProps> = ({
+  disabled,
+  draft,
+  onChange,
+  options,
+}) => {
+  const { i18n, t } = useLingui();
+  const countFormatter = useMemo(
+    () => new Intl.NumberFormat(i18n.locale, { notation: "compact" }),
+    [i18n.locale],
+  );
+  const filterOptions = useMemo(
+    () => ({
+      nationalities: toDropdownOptions(
+        options?.nationalities ?? [],
+        countFormatter,
+      ),
+      sports: toDropdownOptions(options?.sports ?? [], countFormatter),
+      types: toDropdownOptions(options?.types ?? [], countFormatter),
+    }),
+    [countFormatter, options],
+  );
+  const sharedLabels = {
+    emptyMessage: t`No matching options`,
+    excludeLabel: t`Exclude`,
+    includeLabel: t`Include`,
+  };
 
   return (
-    <SimpleGrid cols={{ base: 1, md: 2, xl: 3 }}>
-      <TextInput
-        key={form.key("name")}
-        label={t`Search by name`}
-        placeholder={t`Enter an athlete name`}
-        {...form.getInputProps("name")}
-      />
-      <TextInput
-        key={form.key("sport")}
-        label={t`Sport`}
-        placeholder={t`Enter a sport`}
-        {...form.getInputProps("sport")}
-      />
-      <TextInput
-        key={form.key("nationality")}
-        label={t`Nationality`}
-        placeholder={t`Enter a nationality`}
-        {...form.getInputProps("nationality")}
-      />
-      <TextInput
-        key={form.key("type")}
-        label={t`Type`}
-        placeholder={t`Enter a profile type`}
-        {...form.getInputProps("type")}
-      />
-      <NumberInput
-        key={form.key("minCmScore")}
-        label={t`Minimum CM score`}
-        {...form.getInputProps("minCmScore")}
-      />
-      <NumberInput
-        key={form.key("maxCmScore")}
-        label={t`Maximum CM score`}
-        {...form.getInputProps("maxCmScore")}
-      />
-    </SimpleGrid>
+    <>
+      {(
+        [
+          ["sports", t`Sport`, t`Find a sport…`],
+          ["nationalities", t`Nationality`, t`Find a nationality…`],
+          ["types", t`Type`, t`Find a type…`],
+        ] as const
+      ).map(([key, label, searchPlaceholder]) => (
+        <MultiSelectFilter
+          disabled={disabled}
+          emptyMessage={sharedLabels.emptyMessage}
+          excludeLabel={sharedLabels.excludeLabel}
+          includeLabel={sharedLabels.includeLabel}
+          key={key}
+          label={label}
+          onChange={(value) => {
+            onChange(key, value);
+          }}
+          options={filterOptions[key]}
+          searchPlaceholder={searchPlaceholder}
+          value={draft[key]}
+        />
+      ))}
+    </>
   );
 };
 
-export const AthleteFilters: FC<AthleteFiltersProps> = ({ onApply }) => {
+export const AthleteFilters: FC<AthleteFiltersProps> = ({
+  isLoading,
+  onChange,
+  options,
+}) => {
   const { t } = useLingui();
-  const form = useForm<AthleteFilterValues>({
-    initialValues: {
-      maxCmScore: "",
-      minCmScore: "",
-      name: "",
-      nationality: "",
-      sport: "",
-      type: "",
-    },
-    mode: "uncontrolled",
-    validate: (values) => ({
-      maxCmScore:
-        typeof values.minCmScore === "number" &&
-        typeof values.maxCmScore === "number" &&
-        values.maxCmScore < values.minCmScore
-          ? t`Maximum CM score must be greater than or equal to the minimum.`
-          : null,
-    }),
-  });
+  const [draft, setDraft] = useState(createFilterDraft);
+  const scoreMin = options?.cmScore.min ?? 0;
+  const scoreMax = Math.max(scoreMin + 0.1, options?.cmScore.max ?? 100);
+  const areCategoricalFiltersDisabled = isLoading || options === undefined;
+
+  const commitDraft = (nextDraft: AthleteFilterDraft): void => {
+    setDraft(nextDraft);
+    onChange(toFilterQuery(nextDraft));
+  };
 
   return (
-    <form
-      onSubmit={form.onSubmit((values) => {
-        onApply(toFilterQuery(values));
-      })}
+    <FilterBar
+      clearLabel={t`Clear filters`}
+      label={t`Filters`}
+      onClear={() => {
+        commitDraft(createFilterDraft());
+      }}
     >
-      <Fieldset legend={t`Filters`}>
-        <Stack gap="md">
-          <AthleteFilterFields form={form} />
-          <Group justify="flex-end">
-            <Button
-              onClick={() => {
-                form.reset();
-                onApply({});
-              }}
-              type="button"
-              variant="default"
-            >
-              <Trans>Clear filters</Trans>
-            </Button>
-            <Button type="submit">
-              <Trans>Apply filters</Trans>
-            </Button>
-          </Group>
-        </Stack>
-      </Fieldset>
-    </form>
+      <TextInput
+        aria-label={t`Search by name`}
+        autoComplete="off"
+        name="athlete-search"
+        onChange={(event) => {
+          const name = event.currentTarget.value;
+
+          commitDraft({ ...draft, name });
+        }}
+        placeholder={t`Search athletes…`}
+        value={draft.name}
+        w={{ base: "100%", sm: 240 }}
+      />
+      <CategoricalFilters
+        disabled={areCategoricalFiltersDisabled}
+        draft={draft}
+        onChange={(key, value) => {
+          commitDraft({ ...draft, [key]: value });
+        }}
+        options={options}
+      />
+      <RangeFilter
+        clearLabel={t`Clear range`}
+        disabled={isLoading}
+        label={t`CM score`}
+        max={scoreMax}
+        maximumLabel={t`Maximum CM score`}
+        min={scoreMin}
+        minimumLabel={t`Minimum CM score`}
+        onChange={(cmScore) => {
+          setDraft((currentDraft) => ({ ...currentDraft, cmScore }));
+        }}
+        onChangeEnd={(cmScore) => {
+          commitDraft({ ...draft, cmScore });
+        }}
+        step={0.1}
+        value={draft.cmScore}
+      />
+    </FilterBar>
   );
 };

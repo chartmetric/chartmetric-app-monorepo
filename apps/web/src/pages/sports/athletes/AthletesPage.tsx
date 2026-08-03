@@ -12,6 +12,7 @@ import {
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { type FC, type ReactNode, useState } from "react";
 
+import { loadAthleteFilterOptions } from "./athlete-filter-options-query";
 import {
   type AthleteFilters as AthleteFilterQuery,
   type AthleteListQuery,
@@ -111,8 +112,26 @@ const ErrorState: FC<ErrorStateProps> = ({ retry }) => (
   </Alert>
 );
 
+const FilterOptionsError: FC<ErrorStateProps> = ({ retry }) => (
+  <Alert color="yellow" title={<Trans>Unable to load filter options</Trans>}>
+    <Stack align="flex-start" gap="sm">
+      <Text>
+        <Trans>Category filters are temporarily unavailable.</Trans>
+      </Text>
+      <Button color="yellow" onClick={retry} variant="light">
+        <Trans>Retry filter options</Trans>
+      </Button>
+    </Stack>
+  </Alert>
+);
+
 export const AthletesPage: FC = () => {
   const [query, setQuery] = useState<AthleteListQuery>(DEFAULT_ATHLETE_QUERY);
+  const filterOptionsQuery = useQuery({
+    queryFn: loadAthleteFilterOptions,
+    queryKey: ["athlete-filter-options"],
+    staleTime: 5 * 60 * 1000,
+  });
   const athletesQuery = useQuery({
     placeholderData: keepPreviousData,
     queryFn: async () => await loadAthletes(query),
@@ -173,7 +192,18 @@ export const AthletesPage: FC = () => {
           <Trans>Explore active athletes across sports.</Trans>
         </Text>
       </div>
-      <AthleteFilters onApply={applyFilters} />
+      {filterOptionsQuery.isError ? (
+        <FilterOptionsError
+          retry={() => {
+            void filterOptionsQuery.refetch();
+          }}
+        />
+      ) : null}
+      <AthleteFilters
+        isLoading={filterOptionsQuery.isPending}
+        onChange={applyFilters}
+        options={filterOptionsQuery.data}
+      />
       {content}
     </Stack>
   );

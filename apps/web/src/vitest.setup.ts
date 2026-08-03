@@ -51,6 +51,8 @@ Object.defineProperty(globalThis, "localStorage", {
   value: new MemoryStorage(),
 });
 
+Element.prototype.scrollIntoView = vi.fn();
+
 vi.stubGlobal(
   "matchMedia",
   vi.fn(

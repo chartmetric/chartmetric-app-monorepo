@@ -14,7 +14,15 @@ export type Athlete = AthleteListReply["data"][number];
 
 export type AthleteFilters = Pick<
   AthleteListQuery,
-  "maxCmScore" | "minCmScore" | "name" | "nationality" | "sport" | "type"
+  | "excludeNationalities"
+  | "excludeSports"
+  | "excludeTypes"
+  | "maxCmScore"
+  | "minCmScore"
+  | "name"
+  | "nationalities"
+  | "sports"
+  | "types"
 >;
 
 export type AthleteSortBy = NonNullable<AthleteListQuery["sortBy"]>;
