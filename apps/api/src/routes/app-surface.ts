@@ -23,6 +23,6 @@ export const appSurface: FastifyPluginAsyncTypebox<AppSurfaceOptions> = async (
   }
 
   await fastify.register(cors, { origin: options.corsOrigins ?? true });
-  await fastify.register(artistsRoutes);
+  await fastify.register(artistsRoutes, { surface: "app" });
   await fastify.register(authRoutes);
 };

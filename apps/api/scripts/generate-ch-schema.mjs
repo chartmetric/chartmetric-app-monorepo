@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 const DATABASE = "new_vertical";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
+const repositoryRoot = path.resolve(root, "../..");
 const sourceDir = path.join(root, "src");
 const outputPath = path.join(sourceDir, "db/clickhouse/schema.generated.ts");
 
@@ -78,3 +79,9 @@ if (fixed !== generated) {
   writeFileSync(outputPath, fixed);
   console.log("Collapsed multi-line type literals in generated schema");
 }
+
+execFileSync(
+  path.join(repositoryRoot, "node_modules/.bin/prettier"),
+  ["--write", outputPath],
+  { stdio: "inherit" },
+);
