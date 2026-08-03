@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { discoverApiResponseContracts } from "./lib/response-schema-discovery.ts";
 import {
   createResponseSchemaWorkerWorkspace,
+  describeResponseSchemaWorkerFailure,
   removeResponseSchemaWorkerWorkspace,
 } from "./lib/response-schema-worker.ts";
 
@@ -171,13 +172,7 @@ ${workerDefinitions.join(",\n")}
         return;
       }
 
-      reject(
-        new Error(
-          signal === null
-            ? `Response schema worker exited with code ${String(code)}`
-            : `Response schema worker exited from signal ${signal}`,
-        ),
-      );
+      reject(new Error(describeResponseSchemaWorkerFailure(code, signal)));
     });
   });
 

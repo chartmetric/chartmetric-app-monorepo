@@ -226,6 +226,30 @@ pnpm --filter api generate:ch-schema
 
 Never edit `src/db/clickhouse/schema.generated.ts` manually.
 
+Before adding the response marker or running response generation, verify that
+the query source compiles:
+
+```sh
+pnpm --filter api typecheck
+```
+
+When an optional request property is used inside a query-builder callback,
+capture it after narrowing. TypeScript does not retain an object-property
+narrowing inside a deferred callback:
+
+```ts
+if (query.name !== undefined) {
+  const name = query.name;
+  builder = builder.where((predicate) =>
+    predicate.fn("example", predicate.value(name)),
+  );
+}
+```
+
+If response generation reports a source compilation failure, fix the first
+TypeScript error above it and rerun the typecheck. Do not edit
+`schemas.generated.ts` to resolve a source error.
+
 ### 4. Create the public response mapper
 
 Create a mapper in any non-test TypeScript file inside the module. Normalize
