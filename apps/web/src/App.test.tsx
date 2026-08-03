@@ -115,8 +115,19 @@ describe("App", () => {
   // authenticated users, so logged-in is the representative default.
   beforeEach(() => {
     apiGetMock.mockReset();
-    apiGetMock.mockResolvedValue({
-      data: { data: [], meta: { limit: 25, offset: 0 } },
+    apiGetMock.mockImplementation(async (path: string) => {
+      await Promise.resolve();
+
+      return path === "/app/athletes/filter-options"
+        ? {
+            data: {
+              cmScore: { max: null, min: null },
+              nationalities: [],
+              sports: [],
+              types: [],
+            },
+          }
+        : { data: { data: [], meta: { limit: 25, offset: 0 } } };
     });
     i18n.activate("en");
     auth.state = loggedInState;
