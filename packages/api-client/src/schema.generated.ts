@@ -54,6 +54,8 @@ export interface paths {
                 query: {
                     limit: number;
                     offset: number;
+                    sortBy?: "name" | "countryCode" | "cmScore" | "instagramFollowers" | "tiktokFollowers";
+                    sortDirection?: "asc" | "desc";
                 };
                 header?: never;
                 path?: never;
@@ -69,11 +71,15 @@ export interface paths {
                     content: {
                         "application/json": {
                             data: {
+                                cmScore: number | null;
                                 countryCode: string | null;
                                 id: number;
                                 imageUrl: string | null;
+                                instagramFollowers: number | null;
+                                isVerified: boolean;
                                 name: string;
                                 recordLabel: string | null;
+                                tiktokFollowers: number | null;
                             }[];
                             meta: {
                                 limit: number;
@@ -315,6 +321,8 @@ export interface paths {
                 query: {
                     limit: number;
                     offset: number;
+                    sortBy?: "name" | "countryCode" | "cmScore" | "instagramFollowers" | "tiktokFollowers";
+                    sortDirection?: "asc" | "desc";
                 };
                 header?: never;
                 path?: never;
@@ -330,11 +338,15 @@ export interface paths {
                     content: {
                         "application/json": {
                             data: {
+                                cmScore: number | null;
                                 countryCode: string | null;
                                 id: number;
                                 imageUrl: string | null;
+                                instagramFollowers: number | null;
+                                isVerified: boolean;
                                 name: string;
                                 recordLabel: string | null;
+                                tiktokFollowers: number | null;
                             }[];
                             meta: {
                                 limit: number;

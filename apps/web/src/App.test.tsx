@@ -142,7 +142,7 @@ describe("App", () => {
     renderApp();
 
     expect(
-      await screen.findByRole("heading", { name: "This is the Artists page" }),
+      await screen.findByRole("heading", { level: 1, name: "Artists" }),
     ).toBeDefined();
     expect(screen.getByRole("link", { name: "Artists" })).toBeDefined();
     expect(
