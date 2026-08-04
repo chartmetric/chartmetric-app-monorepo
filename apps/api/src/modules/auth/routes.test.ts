@@ -217,4 +217,14 @@ describe("GET /app/auth", () => {
     expect(Object.keys(spec.paths)).not.toContain("/app/auth");
     await app.close();
   });
+
+  it("stays off the v1 developer surface", async () => {
+    vi.stubGlobal("fetch", vi.fn());
+    const app = await buildTestApp();
+
+    const response = await app.inject({ method: "GET", url: "/v1/auth" });
+
+    expect(response.statusCode).toBe(404);
+    await app.close();
+  });
 });
