@@ -1,6 +1,9 @@
 import { createApiClient } from "@repo/api-client";
 
+import { env } from "../env";
+
 export const apiClient = createApiClient({
-  baseUrl: import.meta.env.DEV ? "" : (import.meta.env.VITE_API_URL ?? ""),
+  // Dev requests stay same-origin so Vite can proxy /app to API_PROXY_TARGET.
+  baseUrl: import.meta.env.DEV ? "" : env.apiUrl,
   credentials: "include",
 });
