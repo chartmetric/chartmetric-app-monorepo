@@ -65,6 +65,68 @@
             "in": "query",
             "name": "offset",
             "required": true
+          },
+          {
+            "schema": {
+              "default": "cmScore",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "name"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "countryCode"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "cmScore"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "instagramFollowers"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokFollowers"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "sortBy",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "desc",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "asc"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "desc"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "sortDirection",
+            "required": false
           }
         ],
         "responses": {
@@ -84,13 +146,27 @@
                       "items": {
                         "type": "object",
                         "required": [
+                          "cmScore",
                           "countryCode",
                           "id",
                           "imageUrl",
+                          "instagramFollowers",
+                          "isVerified",
                           "name",
-                          "recordLabel"
+                          "recordLabel",
+                          "tiktokFollowers"
                         ],
                         "properties": {
+                          "cmScore": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
                           "countryCode": {
                             "anyOf": [
                               {
@@ -114,6 +190,19 @@
                               }
                             ]
                           },
+                          "instagramFollowers": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "isVerified": {
+                            "type": "boolean"
+                          },
                           "name": {
                             "type": "string"
                           },
@@ -121,6 +210,16 @@
                             "anyOf": [
                               {
                                 "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokFollowers": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
                               },
                               {
                                 "type": "null"
@@ -789,6 +888,68 @@
             "in": "query",
             "name": "offset",
             "required": true
+          },
+          {
+            "schema": {
+              "default": "cmScore",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "name"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "countryCode"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "cmScore"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "instagramFollowers"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokFollowers"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "sortBy",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "desc",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "asc"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "desc"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "sortDirection",
+            "required": false
           }
         ],
         "responses": {
@@ -808,13 +969,27 @@
                       "items": {
                         "type": "object",
                         "required": [
+                          "cmScore",
                           "countryCode",
                           "id",
                           "imageUrl",
+                          "instagramFollowers",
+                          "isVerified",
                           "name",
-                          "recordLabel"
+                          "recordLabel",
+                          "tiktokFollowers"
                         ],
                         "properties": {
+                          "cmScore": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
                           "countryCode": {
                             "anyOf": [
                               {
@@ -838,6 +1013,19 @@
                               }
                             ]
                           },
+                          "instagramFollowers": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "isVerified": {
+                            "type": "boolean"
+                          },
                           "name": {
                             "type": "string"
                           },
@@ -845,6 +1033,16 @@
                             "anyOf": [
                               {
                                 "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokFollowers": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
                               },
                               {
                                 "type": "null"

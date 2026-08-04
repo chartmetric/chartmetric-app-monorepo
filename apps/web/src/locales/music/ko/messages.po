@@ -13,6 +13,84 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/music/artists/ArtistsPage.tsx:8
-msgid "This is the Artists page"
-msgstr "아티스트 페이지입니다"
+#: src/pages/music/artists/components/ArtistsTable.tsx:95
+msgid "Artist"
+msgstr "아티스트"
+
+#: src/pages/music/artists/ArtistsPage.tsx:159
+#: src/pages/music/artists/components/ArtistsTable.tsx:171
+msgid "Artists"
+msgstr "아티스트"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:111
+msgid "CM score"
+msgstr "CM 점수"
+
+#: src/pages/music/artists/ArtistsPage.tsx:162
+msgid "Explore artists across the music industry."
+msgstr "음악 업계의 아티스트를 살펴보세요."
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:119
+msgid "Instagram followers"
+msgstr "인스타그램 팔로워"
+
+#: src/pages/music/artists/ArtistsPage.tsx:57
+msgid "Loading artists"
+msgstr "아티스트 불러오는 중"
+
+#: src/pages/music/artists/ArtistsPage.tsx:59
+msgid "Loading artists…"
+msgstr "아티스트 불러오는 중…"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:190
+msgid "Next"
+msgstr "다음"
+
+#: src/pages/music/artists/ArtistsPage.tsx:71
+msgid "No artists found"
+msgstr "아티스트를 찾을 수 없습니다"
+
+#. Current page number in the artists list
+#: src/pages/music/artists/components/ArtistsTable.tsx:155
+msgid "Page {currentPageText}"
+msgstr "{currentPageText}페이지"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:195
+msgid "Previous"
+msgstr "이전"
+
+#. Accessible label for a sortable artists table column
+#: src/pages/music/artists/components/ArtistsTable.tsx:179
+msgid "Sort by {label}"
+msgstr "{label} 기준 정렬"
+
+#: src/pages/music/artists/ArtistsPage.tsx:96
+msgid "The artist list could not be loaded. Try again."
+msgstr "아티스트 목록을 불러오지 못했습니다. 다시 시도하세요."
+
+#: src/pages/music/artists/ArtistsPage.tsx:74
+msgid "There are no artists to show on this page."
+msgstr "이 페이지에 표시할 아티스트가 없습니다."
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:129
+msgid "TikTok followers"
+msgstr "틱톡 팔로워"
+
+#. Button that retries loading the artists list
+#: src/pages/music/artists/ArtistsPage.tsx:99
+msgid "Try again"
+msgstr "다시 시도"
+
+#. Error title on the artists list page
+#: src/pages/music/artists/ArtistsPage.tsx:89
+msgid "Unable to load artists"
+msgstr "아티스트를 불러올 수 없습니다"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:165
+#: src/pages/music/artists/components/ArtistsTable.tsx:189
+msgid "Updating artists"
+msgstr "아티스트 정보 업데이트 중"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:42
+msgid "Verified artist"
+msgstr "인증된 아티스트"

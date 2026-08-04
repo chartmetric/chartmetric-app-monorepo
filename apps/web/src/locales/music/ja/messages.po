@@ -13,6 +13,84 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/music/artists/ArtistsPage.tsx:8
-msgid "This is the Artists page"
-msgstr "これはアーティストページです"
+#: src/pages/music/artists/components/ArtistsTable.tsx:95
+msgid "Artist"
+msgstr "アーティスト"
+
+#: src/pages/music/artists/ArtistsPage.tsx:159
+#: src/pages/music/artists/components/ArtistsTable.tsx:171
+msgid "Artists"
+msgstr "アーティスト"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:111
+msgid "CM score"
+msgstr "CMスコア"
+
+#: src/pages/music/artists/ArtistsPage.tsx:162
+msgid "Explore artists across the music industry."
+msgstr "音楽業界のアーティストを探しましょう。"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:119
+msgid "Instagram followers"
+msgstr "Instagramフォロワー"
+
+#: src/pages/music/artists/ArtistsPage.tsx:57
+msgid "Loading artists"
+msgstr "アーティストを読み込み中"
+
+#: src/pages/music/artists/ArtistsPage.tsx:59
+msgid "Loading artists…"
+msgstr "アーティストを読み込み中…"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:190
+msgid "Next"
+msgstr "次へ"
+
+#: src/pages/music/artists/ArtistsPage.tsx:71
+msgid "No artists found"
+msgstr "アーティストが見つかりません"
+
+#. Current page number in the artists list
+#: src/pages/music/artists/components/ArtistsTable.tsx:155
+msgid "Page {currentPageText}"
+msgstr "{currentPageText}ページ"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:195
+msgid "Previous"
+msgstr "前へ"
+
+#. Accessible label for a sortable artists table column
+#: src/pages/music/artists/components/ArtistsTable.tsx:179
+msgid "Sort by {label}"
+msgstr "{label}で並べ替え"
+
+#: src/pages/music/artists/ArtistsPage.tsx:96
+msgid "The artist list could not be loaded. Try again."
+msgstr "アーティスト一覧を読み込めませんでした。もう一度お試しください。"
+
+#: src/pages/music/artists/ArtistsPage.tsx:74
+msgid "There are no artists to show on this page."
+msgstr "このページに表示するアーティストはいません。"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:129
+msgid "TikTok followers"
+msgstr "TikTokフォロワー"
+
+#. Button that retries loading the artists list
+#: src/pages/music/artists/ArtistsPage.tsx:99
+msgid "Try again"
+msgstr "再試行"
+
+#. Error title on the artists list page
+#: src/pages/music/artists/ArtistsPage.tsx:89
+msgid "Unable to load artists"
+msgstr "アーティストを読み込めません"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:165
+#: src/pages/music/artists/components/ArtistsTable.tsx:189
+msgid "Updating artists"
+msgstr "アーティスト情報を更新中"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:42
+msgid "Verified artist"
+msgstr "認証済みアーティスト"

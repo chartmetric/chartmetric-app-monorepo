@@ -13,6 +13,84 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/music/artists/ArtistsPage.tsx:8
-msgid "This is the Artists page"
-msgstr "Esta es la página de Artistas"
+#: src/pages/music/artists/components/ArtistsTable.tsx:95
+msgid "Artist"
+msgstr "Artista"
+
+#: src/pages/music/artists/ArtistsPage.tsx:159
+#: src/pages/music/artists/components/ArtistsTable.tsx:171
+msgid "Artists"
+msgstr "Artistas"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:111
+msgid "CM score"
+msgstr "Puntuación CM"
+
+#: src/pages/music/artists/ArtistsPage.tsx:162
+msgid "Explore artists across the music industry."
+msgstr "Explora artistas de toda la industria musical."
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:119
+msgid "Instagram followers"
+msgstr "Seguidores de Instagram"
+
+#: src/pages/music/artists/ArtistsPage.tsx:57
+msgid "Loading artists"
+msgstr "Cargando artistas"
+
+#: src/pages/music/artists/ArtistsPage.tsx:59
+msgid "Loading artists…"
+msgstr "Cargando artistas…"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:190
+msgid "Next"
+msgstr "Siguiente"
+
+#: src/pages/music/artists/ArtistsPage.tsx:71
+msgid "No artists found"
+msgstr "No se encontraron artistas"
+
+#. Current page number in the artists list
+#: src/pages/music/artists/components/ArtistsTable.tsx:155
+msgid "Page {currentPageText}"
+msgstr "Página {currentPageText}"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:195
+msgid "Previous"
+msgstr "Anterior"
+
+#. Accessible label for a sortable artists table column
+#: src/pages/music/artists/components/ArtistsTable.tsx:179
+msgid "Sort by {label}"
+msgstr "Ordenar por {label}"
+
+#: src/pages/music/artists/ArtistsPage.tsx:96
+msgid "The artist list could not be loaded. Try again."
+msgstr "No se pudo cargar la lista de artistas. Inténtalo de nuevo."
+
+#: src/pages/music/artists/ArtistsPage.tsx:74
+msgid "There are no artists to show on this page."
+msgstr "No hay artistas para mostrar en esta página."
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:129
+msgid "TikTok followers"
+msgstr "Seguidores de TikTok"
+
+#. Button that retries loading the artists list
+#: src/pages/music/artists/ArtistsPage.tsx:99
+msgid "Try again"
+msgstr "Reintentar"
+
+#. Error title on the artists list page
+#: src/pages/music/artists/ArtistsPage.tsx:89
+msgid "Unable to load artists"
+msgstr "No se pudieron cargar los artistas"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:165
+#: src/pages/music/artists/components/ArtistsTable.tsx:189
+msgid "Updating artists"
+msgstr "Actualizando artistas"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:42
+msgid "Verified artist"
+msgstr "Artista verificado"

@@ -16,32 +16,46 @@ export const testConfig: Config = {
 type StubRows = Partial<Record<keyof Database, unknown[]>>;
 
 interface StubChain {
+  argMax: () => StubChain;
   execute: () => Promise<unknown[]>;
   final: () => StubChain;
+  groupBy: () => StubChain;
+  innerJoin: () => StubChain;
+  leftAnyJoin: () => StubChain;
   limit: () => StubChain;
+  max: () => StubChain;
   offset: () => StubChain;
   orderBy: () => StubChain;
   select: () => StubChain;
   settings: () => StubChain;
   toSQL: () => string;
   where: () => StubChain;
+  whereNull: () => StubChain;
+  withCTE: () => StubChain;
 }
 
 export const stubClickhouse = (rowsByTable: StubRows = {}): ClickHouse => {
   const buildChain = (table: keyof Database): StubChain => {
     const chain: StubChain = {
+      argMax: () => chain,
       execute: async () => {
         await Promise.resolve();
         return rowsByTable[table] ?? [];
       },
       final: () => chain,
+      groupBy: () => chain,
+      innerJoin: () => chain,
+      leftAnyJoin: () => chain,
       limit: () => chain,
+      max: () => chain,
       offset: () => chain,
       orderBy: () => chain,
       select: () => chain,
       settings: () => chain,
       toSQL: () => "",
       where: () => chain,
+      whereNull: () => chain,
+      withCTE: () => chain,
     };
 
     return chain;

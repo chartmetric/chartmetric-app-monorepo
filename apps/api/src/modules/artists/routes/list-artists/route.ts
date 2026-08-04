@@ -1,9 +1,8 @@
 import type { FastifyPluginCallbackTypebox } from "@fastify/type-provider-typebox";
 
-import { PaginationQuerySchema } from "../../../../lib/pagination.ts";
 import { toArtistList } from "./mapper.ts";
 import { createListArtistsQueries } from "./queries.ts";
-import { ListArtistsReplySchema } from "./schemas.ts";
+import { ListArtistsQuerySchema, ListArtistsReplySchema } from "./schemas.ts";
 
 export const listArtistsRoute: FastifyPluginCallbackTypebox = (
   fastify,
@@ -16,7 +15,7 @@ export const listArtistsRoute: FastifyPluginCallbackTypebox = (
     "/artists",
     {
       schema: {
-        querystring: PaginationQuerySchema,
+        querystring: ListArtistsQuerySchema,
         response: {
           200: ListArtistsReplySchema,
         },
@@ -25,14 +24,8 @@ export const listArtistsRoute: FastifyPluginCallbackTypebox = (
     },
     async (request) => {
       const artists = await queries.listArtists(request.query).execute();
-      const profiles =
-        artists.length > 0
-          ? await queries
-              .profilesBySourceIds(artists.map((artist) => artist.id))
-              .execute()
-          : [];
 
-      return toArtistList(artists, profiles, request.query);
+      return toArtistList(artists, request.query);
     },
   );
 
