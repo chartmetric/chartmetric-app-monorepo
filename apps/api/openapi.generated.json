@@ -74,11 +74,22 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "required": [
+                          "countryCode",
+                          "id",
+                          "imageUrl",
+                          "name",
+                          "recordLabel"
+                        ],
                         "properties": {
                           "countryCode": {
                             "anyOf": [
@@ -91,7 +102,7 @@
                             ]
                           },
                           "id": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "imageUrl": {
                             "anyOf": [
@@ -116,36 +127,25 @@
                               }
                             ]
                           }
-                        },
-                        "required": [
-                          "countryCode",
-                          "id",
-                          "imageUrl",
-                          "name",
-                          "recordLabel"
-                        ]
+                        }
                       }
                     },
                     "meta": {
                       "type": "object",
-                      "properties": {
-                        "limit": {
-                          "type": "number"
-                        },
-                        "offset": {
-                          "type": "number"
-                        }
-                      },
                       "required": [
                         "limit",
                         "offset"
-                      ]
+                      ],
+                      "properties": {
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        }
+                      }
                     }
-                  },
-                  "required": [
-                    "data",
-                    "meta"
-                  ]
+                  }
                 }
               }
             }
@@ -165,9 +165,19 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "cmScore",
+                    "nationalities",
+                    "sports",
+                    "types"
+                  ],
                   "properties": {
                     "cmScore": {
                       "type": "object",
+                      "required": [
+                        "max",
+                        "min"
+                      ],
                       "properties": {
                         "max": {
                           "anyOf": [
@@ -189,73 +199,63 @@
                             }
                           ]
                         }
-                      },
-                      "required": [
-                        "max",
-                        "min"
-                      ]
+                      }
                     },
                     "nationalities": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "required": [
+                          "count",
+                          "value"
+                        ],
                         "properties": {
                           "count": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "value": {
                             "type": "string"
                           }
-                        },
-                        "required": [
-                          "count",
-                          "value"
-                        ]
+                        }
                       }
                     },
                     "sports": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "required": [
+                          "count",
+                          "value"
+                        ],
                         "properties": {
                           "count": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "value": {
                             "type": "string"
                           }
-                        },
-                        "required": [
-                          "count",
-                          "value"
-                        ]
+                        }
                       }
                     },
                     "types": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "required": [
+                          "count",
+                          "value"
+                        ],
                         "properties": {
                           "count": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "value": {
                             "type": "string"
                           }
-                        },
-                        "required": [
-                          "count",
-                          "value"
-                        ]
+                        }
                       }
                     }
-                  },
-                  "required": [
-                    "cmScore",
-                    "nationalities",
-                    "sports",
-                    "types"
-                  ]
+                  }
                 }
               }
             }
@@ -482,11 +482,24 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "required": [
+                          "cmScore",
+                          "id",
+                          "imageUrl",
+                          "name",
+                          "nationality",
+                          "sport",
+                          "type"
+                        ],
                         "properties": {
                           "cmScore": {
                             "anyOf": [
@@ -499,7 +512,7 @@
                             ]
                           },
                           "id": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "imageUrl": {
                             "anyOf": [
@@ -551,38 +564,25 @@
                               }
                             ]
                           }
-                        },
-                        "required": [
-                          "cmScore",
-                          "id",
-                          "imageUrl",
-                          "name",
-                          "nationality",
-                          "sport",
-                          "type"
-                        ]
+                        }
                       }
                     },
                     "meta": {
                       "type": "object",
-                      "properties": {
-                        "limit": {
-                          "type": "number"
-                        },
-                        "offset": {
-                          "type": "number"
-                        }
-                      },
                       "required": [
                         "limit",
                         "offset"
-                      ]
+                      ],
+                      "properties": {
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        }
+                      }
                     }
-                  },
-                  "required": [
-                    "data",
-                    "meta"
-                  ]
+                  }
                 }
               }
             }
@@ -798,11 +798,22 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "required": [
+                          "countryCode",
+                          "id",
+                          "imageUrl",
+                          "name",
+                          "recordLabel"
+                        ],
                         "properties": {
                           "countryCode": {
                             "anyOf": [
@@ -815,7 +826,7 @@
                             ]
                           },
                           "id": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "imageUrl": {
                             "anyOf": [
@@ -840,36 +851,25 @@
                               }
                             ]
                           }
-                        },
-                        "required": [
-                          "countryCode",
-                          "id",
-                          "imageUrl",
-                          "name",
-                          "recordLabel"
-                        ]
+                        }
                       }
                     },
                     "meta": {
                       "type": "object",
-                      "properties": {
-                        "limit": {
-                          "type": "number"
-                        },
-                        "offset": {
-                          "type": "number"
-                        }
-                      },
                       "required": [
                         "limit",
                         "offset"
-                      ]
+                      ],
+                      "properties": {
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        }
+                      }
                     }
-                  },
-                  "required": [
-                    "data",
-                    "meta"
-                  ]
+                  }
                 }
               }
             }
@@ -1096,11 +1096,24 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "required": [
+                          "cmScore",
+                          "id",
+                          "imageUrl",
+                          "name",
+                          "nationality",
+                          "sport",
+                          "type"
+                        ],
                         "properties": {
                           "cmScore": {
                             "anyOf": [
@@ -1113,7 +1126,7 @@
                             ]
                           },
                           "id": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "imageUrl": {
                             "anyOf": [
@@ -1165,38 +1178,25 @@
                               }
                             ]
                           }
-                        },
-                        "required": [
-                          "cmScore",
-                          "id",
-                          "imageUrl",
-                          "name",
-                          "nationality",
-                          "sport",
-                          "type"
-                        ]
+                        }
                       }
                     },
                     "meta": {
                       "type": "object",
-                      "properties": {
-                        "limit": {
-                          "type": "number"
-                        },
-                        "offset": {
-                          "type": "number"
-                        }
-                      },
                       "required": [
                         "limit",
                         "offset"
-                      ]
+                      ],
+                      "properties": {
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        }
+                      }
                     }
-                  },
-                  "required": [
-                    "data",
-                    "meta"
-                  ]
+                  }
                 }
               }
             }
