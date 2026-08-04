@@ -6,11 +6,7 @@ export default defineConfig(
   // Generated schemas are regenerated, never hand-edited.
   // scripts/ holds codegen utilities outside the typed-lint TS project.
   {
-    ignores: [
-      "src/db/clickhouse/schema.generated.ts",
-      "src/modules/**/schemas.generated.ts",
-      "scripts/",
-    ],
+    ignores: ["src/db/clickhouse/schema.generated.ts", "scripts/"],
   },
   {
     languageOptions: {

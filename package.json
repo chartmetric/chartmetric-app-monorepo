@@ -2,13 +2,13 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo watch dev generate:response-schemas",
+    "dev": "turbo run dev",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,js,mjs,cjs,json,md}\"",
-    "generate:api-client": "pnpm --filter api generate && pnpm --filter api generate:openapi && pnpm --filter @repo/api-client generate",
-    "check:generated": "pnpm generate:api-client && ! git status --porcelain=v1 --untracked-files=all -- ':(glob)apps/api/src/modules/**/schemas.generated.ts' apps/api/openapi.generated.json packages/api-client/src/schema.generated.ts | grep .",
+    "generate:api-client": "pnpm --filter api generate:openapi && pnpm --filter @repo/api-client generate",
+    "check:generated": "pnpm generate:api-client && ! git status --porcelain=v1 --untracked-files=all -- apps/api/openapi.generated.json packages/api-client/src/schema.generated.ts | grep .",
     "start": "turbo run start",
     "prepare": "husky"
   },

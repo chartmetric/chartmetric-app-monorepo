@@ -12,7 +12,6 @@ dist-ssr
 .cache
 .eslintcache
 coverage
-apps/api/scripts/response-schema-codegen/
 
 # logs
 *.log

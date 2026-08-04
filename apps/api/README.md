@@ -9,11 +9,11 @@ database shows up as a TypeScript error instead of a runtime failure.
 
 Think of one request passing through three stations:
 
-1. **The front door (Fastify + TypeBox).** Every route declares schemas for
-   its request and response. Request schemas are handwritten because they
-   carry runtime validation constraints. Response schemas are generated from
-   the mapper's inferred TypeScript return type. Fastify validates input,
-   shapes output, and gives the same schemas to the API docs.
+1. **The front door (Fastify + TypeBox).** Every route declares handwritten
+   TypeBox schemas for its request and response. The schema is the single
+   source of truth: `Static<typeof Schema>` derives the TypeScript type, the
+   mapper is typed against it, Fastify validates input and shapes output with
+   it, and the API docs read the same schemas.
 2. **The kitchen (queries + mapper).** The route handler asks the module's
    queries for data (built with hypequery, so a wrong column name won't even
    compile) and the module's mapper reshapes raw database rows into the
@@ -30,7 +30,7 @@ Think of one request passing through three stations:
         │  2. run the handler:                 │
         │       queries.ts ──hypequery──► ClickHouse
         │       mapper.ts   rows → API shape   │
-        │  3. shape output ← generated schema │
+        │  3. shape output  ← TypeBox schema   │
         └────────────┬─────────────────────────┘
                      ▼
                JSON response
@@ -44,7 +44,7 @@ Think of one request passing through three stations:
 | Package                          | Role in one sentence                                                                             | Docs                                                                                                         |
 | -------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | `fastify`                        | The web server: routing, request lifecycle, logging.                                             | [fastify.dev](https://fastify.dev/docs/latest/)                                                              |
-| `@sinclair/typebox`              | Defines request validation and hosts generated response schemas for Fastify and OpenAPI.         | [github.com/sinclairzx81/typebox](https://github.com/sinclairzx81/typebox)                                   |
+| `@sinclair/typebox`              | Defines the request and response contracts consumed by Fastify and OpenAPI.                      | [github.com/sinclairzx81/typebox](https://github.com/sinclairzx81/typebox)                                   |
 | `@fastify/type-provider-typebox` | The glue that makes Fastify infer TS types from those schemas automatically.                     | [github.com/fastify/fastify-type-provider-typebox](https://github.com/fastify/fastify-type-provider-typebox) |
 | `@fastify/sensible`              | Small quality-of-life helpers, mainly standard HTTP errors like `fastify.httpErrors.notFound()`. | [github.com/fastify/fastify-sensible](https://github.com/fastify/fastify-sensible)                           |
 | `@fastify/swagger`               | Walks every route's schema and generates the OpenAPI spec at `/openapi.json`.                    | [github.com/fastify/fastify-swagger](https://github.com/fastify/fastify-swagger)                             |
@@ -55,24 +55,17 @@ The API has two prefixes: `/app/*` for our own web app and `/v1/*` for external
 developers. Each route explicitly chooses one or both surfaces, and only `/v1`
 appears in the public docs.
 
-Response contract generation runs automatically under `pnpm dev`. For a
-one-off regeneration, run:
+Each endpoint folder declares its contracts in `schemas.ts` and types its
+mapper against `Static<typeof Schema>`, so a mapper that drifts from the
+contract is a compile error. OpenAPI consumes the Fastify schemas, and the
+frontend client consumes OpenAPI:
 
 ```sh
-pnpm --filter api generate
+pnpm generate:api-client   # openapi.generated.json + the typed frontend client
+pnpm check:generated       # same chain; fails in CI if a committed artifact is stale
 ```
 
-The first generation on a machine compiles Typia's transformer and requires a
-Go toolchain; subsequent runs reuse its cache. This is a development and CI
-requirement only.
-
-The mapper marks its public response with `defineApiResponse(mapper)`. The
-response schema generator infers the mapper return type, OpenAPI consumes the
-generated Fastify schema, and the frontend client consumes OpenAPI. `pnpm
-check:generated` runs the full chain and fails in CI if any committed artifact
-is stale.
-
-The full endpoint workflow below covers response generation together with data
+The full endpoint workflow below covers contracts together with data
 selection, surface registration, tests, OpenAPI, and the frontend client.
 
 ## 1. Setup
@@ -119,7 +112,7 @@ once, so individual queries never pass a database handle around. Routes create
 the factory a single time when they register:
 
 ```ts
-export const createArtistQueries = (database: ClickHouseDatabase) => ({
+export const createListArtistsQueries = (database: ClickHouseDatabase) => ({
   listArtists: (pagination: PaginationQuery) =>
     database
       .table("new_vertical.cm_artist")
@@ -131,7 +124,7 @@ export const createArtistQueries = (database: ClickHouseDatabase) => ({
 });
 
 // in the route plugin — bound once, reused by every request
-const queries = createArtistQueries(fastify.clickhouse.db);
+const queries = createListArtistsQueries(fastify.clickhouse.db);
 ```
 
 Everything is typed end to end: `.table()` only accepts known tables (always
@@ -158,9 +151,7 @@ ClickHouse: rerun the command and the types update.
 
 ## Adding or changing an endpoint
 
-Run these commands from the repository root. A new endpoint moves through each
-gate in order; when changing an endpoint, update its contract test first and
-observe the expected failure before changing implementation code.
+Run these commands from the repository root.
 
 ### 1. Resolve the endpoint preflight
 
@@ -173,54 +164,14 @@ Before editing, decide:
 - Its source tables, selected columns, row filters, and null normalization.
 - Its product, permission, API-scope, and authentication requirements.
 
-List tables already committed to the ClickHouse snapshot:
+Tables and columns already in use are visible in the committed snapshot at
+`src/db/clickhouse/schema.generated.ts`; inspect anything else directly in
+ClickHouse with the read-only credentials from `apps/api/.env`.
 
-```sh
-pnpm --filter api endpoint:inspect
-```
+### 2. Create the query
 
-List columns for one table:
-
-```sh
-pnpm --filter api endpoint:inspect -- --table cm_artist
-```
-
-Use `--live` to inspect the real ClickHouse schema with the credentials in
-`apps/api/.env`. Live inspection reads schema metadata only and does not sample
-application rows:
-
-```sh
-pnpm --filter api endpoint:inspect -- --live --table cm_artist
-```
-
-### 2. Scaffold the red contract test
-
-Run the interactive preflight:
-
-```sh
-pnpm --filter api create:endpoint
-```
-
-The command refuses incomplete surface, data, request, response, error, or
-access decisions. It displays the chosen schema and asks for confirmation,
-then creates:
-
-```text
-src/modules/<module>/tests/<route>.contract.test.ts
-```
-
-The test asserts the Fastify method and path, `/app` and `/v1` registration,
-public OpenAPI visibility, and the complete internal contract. Run the command
-it prints and confirm that the test fails because the route is not registered.
-Use `pnpm --filter api create:endpoint -- --help` for non-interactive agent
-flags. Repeat `--table <name> --columns <csv>` for endpoints that join or
-combine multiple sources; explicitly pass `--table none --columns none` when
-the endpoint does not read ClickHouse. Add `--live` when a selected table is
-not yet in the committed snapshot.
-
-### 3. Create the query
-
-Add or update `src/modules/<module>/queries.ts` with a fully qualified table:
+Add or update `src/modules/<module>/routes/<route>/queries.ts` with a fully
+qualified table:
 
 ```ts
 database.table("new_vertical.cm_artist");
@@ -233,13 +184,6 @@ pnpm --filter api generate:ch-schema
 ```
 
 Never edit `src/db/clickhouse/schema.generated.ts` manually.
-
-Before adding the response marker or running response generation, verify that
-the query source compiles:
-
-```sh
-pnpm --filter api typecheck
-```
 
 When an optional request property is used inside a query-builder callback,
 capture it after narrowing. TypeScript does not retain an object-property
@@ -254,40 +198,38 @@ if (query.name !== undefined) {
 }
 ```
 
-If response generation reports a source compilation failure, fix the first
-TypeScript error above it and rerun the typecheck. Do not edit
-`schemas.generated.ts` to resolve a source error.
+### 3. Declare the response contract and mapper
 
-### 4. Create the public response mapper
-
-Create a mapper in any non-test TypeScript file inside the module. Normalize
-database-specific values there and mark the public response:
+Declare the request and response schemas in the endpoint folder's `schemas.ts`
+and derive their types:
 
 ```ts
-import { defineApiResponse } from "../../lib/api-response.ts";
-
-export const toArtistList = (rows: ArtistRow[]) => ({
-  data: rows.map((row) => ({ id: row.id, name: row.name })),
+export const ListArtistsReplySchema = Type.Object({
+  data: Type.Array(Type.Object({ id: Type.Integer(), name: Type.String() })),
+  meta: PaginationMetaSchema,
 });
 
-export const ListArtists = defineApiResponse(toArtistList);
+export type ListArtistsReply = Static<typeof ListArtistsReplySchema>;
 ```
 
-Root `pnpm dev` regenerates the response schema automatically. Without the
-watcher, run:
+Create a mapper in any non-test TypeScript file inside the module. Normalize
+database-specific values there and type its return as the reply type, so the
+compiler enforces the contract:
 
-```sh
-pnpm --filter api generate
+```ts
+export const toArtistList = (rows: ArtistRow[]): ListArtistsReply => ({
+  data: rows.map((row) => ({ id: row.id, name: row.name })),
+  meta: { limit: 50, offset: 0 },
+});
 ```
 
-The marker name produces `ListArtistsReply` and `ListArtistsReplySchema` in
-the module's `schemas.generated.ts`. Mapper filenames are unrestricted, and
-generated files are never edited manually.
+Use `Type.Integer()` for identifiers and counts — OpenAPI distinguishes
+integers even though TypeScript only has `number`.
 
-### 5. Create and register the route
+### 4. Create and register the route
 
-Create `src/modules/<module>/routes/<route>.ts` with explicit request and
-response schemas. Import the generated reply schema into `schema.response`.
+Create `src/modules/<module>/routes/<route>/route.ts` with explicit request
+and response schemas. Import the reply schema into `schema.response`.
 
 Register it in `src/modules/<module>/routes.ts` with its approved surfaces:
 
@@ -301,43 +243,31 @@ New modules must also be mounted by `src/routes/app-surface.ts` and
 `src/routes/v1-surface.ts`; `createApiRoutes()` filters out routes not intended
 for the current surface.
 
-### 6. Complete the TDD contract
+### 5. Test the route
 
-Make the generated contract test green, then add route-specific assertions for
-request validation, response values, expected errors, and allowed and denied
-authorization where applicable.
+Add route tests covering request validation, response values, expected errors,
+registration on the declared surfaces, and allowed and denied authorization
+where applicable.
 
 ```sh
-pnpm --filter api test src/modules/<module>/tests/<route>.contract.test.ts
-pnpm --filter api check:endpoints
+pnpm --filter api test src/modules/<module>/routes/<route>/tests/
 ```
 
-`check:endpoints` fails when a route is missing its contract test, is absent
-from the module registrar, or disagrees with the test about method, path, or
-surface. It also verifies every recorded ClickHouse table and column against
-the committed generated schema.
-
-### 7. Sync downstream contracts
+### 6. Sync downstream contracts
 
 ```sh
 pnpm generate:api-client
 pnpm check:generated
 ```
 
-This regenerates response schemas, the OpenAPI snapshot, and the frontend
-client. The live `/openapi.json` and `/docs` endpoints follow the Fastify
-schemas automatically.
+This regenerates the OpenAPI snapshot and the frontend client. The live
+`/openapi.json` and `/docs` endpoints follow the Fastify schemas
+automatically.
 
-### 8. Validate the API
+### 7. Validate the API
 
 ```sh
 pnpm --filter api typecheck
 pnpm --filter api lint
 pnpm --filter api test
 ```
-
-Report the expected red test and the final green checks. Production builds use
-committed generated files and do not execute Typia. TypeScript only exposes
-ordinary numeric values as `number`, so use explicit Typia numeric metadata
-when OpenAPI must distinguish integers; never edit generated output to add that
-distinction.
