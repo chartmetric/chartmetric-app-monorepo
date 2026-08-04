@@ -1,8 +1,5 @@
 import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
 
-type AthleteFilterOptionsQueriesFactory = (
-  database: ClickHouseDatabase,
-) => unknown;
 type DatabaseQueryFactory = (database: ClickHouseDatabase) => unknown;
 
 const listAthleteFilterOptions = ((database) =>
@@ -22,9 +19,9 @@ const listAthleteFilterOptions = ((database) =>
 
 export const createAthleteFilterOptionsQueries = ((database) => ({
   listAthleteFilterOptions: () => listAthleteFilterOptions(database),
-})) satisfies AthleteFilterOptionsQueriesFactory;
+})) satisfies DatabaseQueryFactory;
 
-export type AthleteFilterOptionsQueries = ReturnType<
+type AthleteFilterOptionsQueries = ReturnType<
   typeof createAthleteFilterOptionsQueries
 >;
 

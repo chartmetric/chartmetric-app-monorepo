@@ -9,7 +9,6 @@ const sortColumns = {
   type: "type",
 } as const;
 
-type ListAthletesQueriesFactory = (database: ClickHouseDatabase) => unknown;
 type DatabaseQueryFactory = (database: ClickHouseDatabase) => unknown;
 type ListAthletesQueryFactory = (
   database: ClickHouseDatabase,
@@ -95,9 +94,9 @@ const listAthletes = ((database, query) => {
 
 export const createListAthletesQueries = ((database) => ({
   listAthletes: (query: ListAthletesQuery) => listAthletes(database, query),
-})) satisfies ListAthletesQueriesFactory;
+})) satisfies DatabaseQueryFactory;
 
-export type ListAthletesQueries = ReturnType<typeof createListAthletesQueries>;
+type ListAthletesQueries = ReturnType<typeof createListAthletesQueries>;
 
 export type AthleteRow = Awaited<
   ReturnType<ReturnType<ListAthletesQueries["listAthletes"]>["execute"]>
