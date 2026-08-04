@@ -13,13 +13,9 @@
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "check:endpoints": "node scripts/check-endpoints.ts",
-    "create:endpoint": "node --env-file-if-exists=.env scripts/scaffold-endpoint.ts",
-    "endpoint:inspect": "node --env-file-if-exists=.env scripts/inspect-endpoint-data.ts",
-    "generate": "pnpm generate:response-schemas",
+    "generate": "pnpm generate:openapi",
     "generate:ch-schema": "node --env-file-if-exists=.env scripts/generate-ch-schema.mjs",
-    "generate:openapi": "node scripts/generate-openapi.mjs",
-    "generate:response-schemas": "node scripts/generate-response-schemas.ts"
+    "generate:openapi": "node scripts/generate-openapi.mjs"
   },
   "dependencies": {
     "@clickhouse/client": "^1.23.1",
@@ -38,11 +34,8 @@
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^26.1.1",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "@typia/utils": "^13.2.0",
     "eslint": "^10.7.0",
-    "ttsc": "^0.23.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "typia": "^13.2.0",
     "vitest": "^4.1.10"
   }
 }

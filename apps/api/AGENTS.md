@@ -11,7 +11,6 @@ Consult the matching skill in `/.agents/skills/` before working in its area:
 - `fastify-best-practices` — Fastify plugins, routing, validation, and lifecycle patterns.
 - `clickhouse-best-practices` — ClickHouse schema design and query patterns.
 - `vitest` — writing and structuring tests.
-- `api-endpoint-workflow` — mandatory preflight and TDD gates for creating or changing endpoints.
 
 ## API surfaces
 
@@ -27,18 +26,21 @@ The published docs (`/docs`, `/openapi.json`) cover `/v1` and system routes only
 Feature code lives under `src/modules/<name>/`:
 
 - `routes.ts` — registrar only; registers one plugin per route.
-- `routes/<route>.ts` — one file per route: its TypeBox schema block plus a thin handler.
-- `queries.ts` — a `create<Name>Queries(database)` factory built once per route plugin; individual queries never pass the database handle around.
-- Mapper files — may use any filename; map database rows to API shapes and mark each public response with a top-level `export const PascalCaseName = defineApiResponse(mapper)`.
-- `schemas.generated.ts` — generated TypeBox-compatible response contracts; never edit these files manually.
-- `schemas.ts` — handwritten TypeBox request contracts when a module has request-specific schemas.
-- `types.ts` — row and query interfaces.
+- `routes.test.ts` — module-level test exercising registration, surfaces, and responses through the app.
+- `routes/<route>/` — one folder per endpoint. Standard base names inside, never endpoint-prefixed filenames:
+  - `route.ts` — the Fastify plugin: its TypeBox schema block plus a thin handler.
+  - `schemas.ts` — handwritten TypeBox request and response contracts; `Static<typeof Schema>` derives the TypeScript types.
+  - `queries.ts` — a `create<Route>Queries(database)` factory built once per route plugin; individual queries never pass the database handle around. Row types derive from the queries here.
+  - `mapper.ts` — maps database rows to the API shape, with the return type annotated as the reply type from `schemas.ts`.
+  - `types.ts` — row and query interfaces when they outgrow `queries.ts`.
+  - `tests/` — the endpoint's colocated tests (`mapper.test.ts`, `queries.test.ts`).
+- Module-level `schemas.ts` — only for contracts shared across endpoints or consumed outside the module (e.g. auth's `AccessContextSchema`).
 
 `routes.ts` uses `createApiRoutes()` to declare whether each route is available on `app`, `v1`, or both. The surface choice is per route, not per module.
 
 ## Endpoint workflow
 
-Before creating or changing an endpoint, use the `api-endpoint-workflow` skill and follow the canonical [endpoint workflow](./README.md#adding-or-changing-an-endpoint).
+Before creating or changing an endpoint, follow the canonical [endpoint workflow](./README.md#adding-or-changing-an-endpoint).
 
 Do not edit endpoint code until the existing task or the user has resolved:
 
@@ -49,9 +51,7 @@ Do not edit endpoint code until the existing task or the user has resolved:
 
 Always ask the surface question outright — "should this be a public developer API endpoint?" — for new routes and for surface changes to existing ones. `/v1` publishes the route to external API-key customers in `/docs` and `openapi.json`, which cannot be quietly withdrawn; `/app` alone means the feature never reaches the developer API. Neither is a safe default, and surface is per route, not per module.
 
-Ask only about unresolved decisions. Before asking about ClickHouse data, run `pnpm --filter api endpoint:inspect` and show the relevant table and column options. Do not sample application rows unless the user explicitly asks.
-
-For new routes, `pnpm --filter api create:endpoint` records the completed preflight and creates the failing registration/OpenAPI contract test. Run that test and confirm the expected red state before implementation. The route is not ready until the targeted test is green and `pnpm --filter api check:endpoints` passes.
+Ask only about unresolved decisions. Before asking about ClickHouse data, consult the committed snapshot in `src/db/clickhouse/schema.generated.ts` and show the relevant table and column options. Do not sample application rows unless the user explicitly asks.
 
 ## Route rules
 
@@ -94,15 +94,11 @@ Protected operations require allowed and denied tests.
 
 ## OpenAPI
 
-Fastify route schemas are the runtime public contracts consumed by `@fastify/swagger`. Handwritten TypeBox schemas define requests.
+Fastify route schemas are the runtime public contracts consumed by `@fastify/swagger`. Handwritten TypeBox schemas in each module's `schemas.ts` define both requests and responses; use `Type.Integer()` for identifiers and counts so the published contract distinguishes integers from floats.
 
-`pnpm --filter api generate` recursively scans non-test TypeScript files under `src/modules` for exported `defineApiResponse(mapper)` markers. The marker's PascalCase variable name is the contract name: `export const ListArtists = defineApiResponse(toArtistList)` generates `ListArtistsReply` and `ListArtistsReplySchema` in `schemas.generated.ts` beside the marker. The filename and handwritten type aliases do not participate in discovery. Do not register endpoints in the generator.
+Runtime `/openapi.json` and `/docs` update from the Fastify schemas. When a public contract changes, run `pnpm generate:api-client` from the repository root to regenerate the committed OpenAPI snapshot and frontend client. CI runs `pnpm check:generated` and fails for stale or untracked artifacts.
 
-`pnpm dev` watches and regenerates response schemas. Runtime `/openapi.json` and `/docs` update from the Fastify schemas. When a public response changes, run `pnpm generate:api-client` from the repository root to regenerate the committed response schemas, OpenAPI snapshot, and frontend client. CI runs `pnpm check:generated` and fails for stale or untracked artifacts. Production builds consume the committed artifacts and do not run Typia.
-
-TypeScript represents integer and floating-point values as `number`, so inferred schemas emit `type: "number"` unless the mapper return type carries explicit Typia numeric metadata. Never fix this by editing generated files.
-
-hypequery-generated ClickHouse types remain inside the module boundary. The mapper deliberately selects and normalizes the public fields; its inferred return type feeds response-schema generation, so mapper changes propagate without exposing raw database rows.
+hypequery-generated ClickHouse types remain inside the module boundary. The mapper deliberately selects and normalizes the public fields, and its annotated return type ties it to the response contract, so drift between mapper and schema is a compile error and raw database rows never leak.
 
 ## Data boundaries
 
@@ -121,11 +117,10 @@ ClickHouse specifics:
 - No Stripe plan logic leaked into product routes.
 - No unnecessary permission was introduced.
 - Required permissions are server-enforced.
-- Request schemas are explicit and response schemas are generated from mapper return types.
-- Public response changes include the `pnpm generate:api-client` artifacts.
+- Request and response schemas are explicit handwritten TypeBox, and mappers are typed against the reply types.
+- Public contract changes include the `pnpm generate:api-client` artifacts.
 - Data boundaries are preserved.
 - `pnpm --filter api generate:ch-schema` was rerun if queries touched new ClickHouse tables or columns.
 - New `/app` routes are absent from `/openapi.json`; new `/v1` routes are documented.
-- Every route has a matching `*.contract.test.ts` with its method, path, and surfaces.
-- `pnpm --filter api check:endpoints` passes.
+- Route tests cover registration on the declared surfaces.
 - Relevant tests, lint, types, and builds pass.

@@ -19,16 +19,6 @@
       "cache": false,
       "persistent": true
     },
-    "generate:response-schemas": {
-      "cache": false,
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        "!src/modules/**/schemas.generated.ts",
-        "!scripts/response-schema-codegen/**",
-        "!openapi.generated.json"
-      ],
-      "outputs": ["src/modules/**/schemas.generated.ts"]
-    },
     "start": {
       "cache": false,
       "persistent": true
