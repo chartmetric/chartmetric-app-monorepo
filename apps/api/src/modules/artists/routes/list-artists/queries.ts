@@ -26,7 +26,7 @@ export const createListArtistsQueries = ((database) => ({
       .orderBy("id", "ASC"),
 })) satisfies ListArtistsQueriesFactory;
 
-export type ListArtistsQueries = ReturnType<typeof createListArtistsQueries>;
+type ListArtistsQueries = ReturnType<typeof createListArtistsQueries>;
 export type ArtistRow = Awaited<
   ReturnType<ReturnType<ListArtistsQueries["listArtists"]>["execute"]>
 >[number];
