@@ -91,7 +91,11 @@ describe("ArtistsPage columns", () => {
 
     expect(artistCheckbox.disabled).toBe(true);
     expect(artistCheckbox.checked).toBe(true);
-    expect(screen.queryByRole("button", { name: "Move Artist" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Reorder Artist" })).toBeNull();
+    expect(
+      screen.getByRole<HTMLButtonElement>("button", { name: "Move Artist down" })
+        .disabled,
+    ).toBe(true);
   });
 
   it("reorders columns from the picker", async () => {
@@ -108,9 +112,10 @@ describe("ArtistsPage columns", () => {
     ]);
 
     fireEvent.click(screen.getByRole("button", { name: /Columns/ }));
-    fireEvent.keyDown(
-      await screen.findByRole("button", { name: "Move CM score" }),
-      { key: "ArrowDown" },
+    // An explicit button rather than an arrow key on a drag handle, so the
+    // reorder works for keyboard and touch without a pointer gesture.
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Move CM score down" }),
     );
 
     await waitFor(() => {

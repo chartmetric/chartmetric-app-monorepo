@@ -1,5 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@repo/typescript-config/react.json",
-  "include": ["components", "theme", "vitest.config.ts", "vitest.setup.ts"]
+  "include": [
+    "components",
+    "hooks",
+    "theme",
+    "vitest.config.ts",
+    "vitest.setup.ts"
+  ]
 }
