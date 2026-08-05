@@ -54,7 +54,8 @@ export interface paths {
                 query: {
                     limit: number;
                     offset: number;
-                    sortBy?: "name" | "countryCode" | "cmScore" | "instagramFollowers" | "tiktokFollowers";
+                    changePeriod?: "1d" | "7d" | "28d";
+                    sortBy?: "name" | "countryCode" | "cmScore" | "cmScoreChange" | "cmScoreChangePercent" | "instagramFollowers" | "instagramFollowersChange" | "instagramFollowersChangePercent" | "tiktokFollowers" | "tiktokFollowersChange" | "tiktokFollowersChangePercent";
                     sortDirection?: "asc" | "desc";
                 };
                 header?: never;
@@ -72,14 +73,20 @@ export interface paths {
                         "application/json": {
                             data: {
                                 cmScore: number | null;
+                                cmScoreChange: number | null;
+                                cmScoreChangePercent: number | null;
                                 countryCode: string | null;
                                 id: number;
                                 imageUrl: string | null;
                                 instagramFollowers: number | null;
+                                instagramFollowersChange: number | null;
+                                instagramFollowersChangePercent: number | null;
                                 isVerified: boolean;
                                 name: string;
                                 recordLabel: string | null;
                                 tiktokFollowers: number | null;
+                                tiktokFollowersChange: number | null;
+                                tiktokFollowersChangePercent: number | null;
                             }[];
                             meta: {
                                 limit: number;
@@ -321,7 +328,8 @@ export interface paths {
                 query: {
                     limit: number;
                     offset: number;
-                    sortBy?: "name" | "countryCode" | "cmScore" | "instagramFollowers" | "tiktokFollowers";
+                    changePeriod?: "1d" | "7d" | "28d";
+                    sortBy?: "name" | "countryCode" | "cmScore" | "cmScoreChange" | "cmScoreChangePercent" | "instagramFollowers" | "instagramFollowersChange" | "instagramFollowersChangePercent" | "tiktokFollowers" | "tiktokFollowersChange" | "tiktokFollowersChangePercent";
                     sortDirection?: "asc" | "desc";
                 };
                 header?: never;
@@ -339,14 +347,20 @@ export interface paths {
                         "application/json": {
                             data: {
                                 cmScore: number | null;
+                                cmScoreChange: number | null;
+                                cmScoreChangePercent: number | null;
                                 countryCode: string | null;
                                 id: number;
                                 imageUrl: string | null;
                                 instagramFollowers: number | null;
+                                instagramFollowersChange: number | null;
+                                instagramFollowersChangePercent: number | null;
                                 isVerified: boolean;
                                 name: string;
                                 recordLabel: string | null;
                                 tiktokFollowers: number | null;
+                                tiktokFollowersChange: number | null;
+                                tiktokFollowersChangePercent: number | null;
                             }[];
                             meta: {
                                 limit: number;

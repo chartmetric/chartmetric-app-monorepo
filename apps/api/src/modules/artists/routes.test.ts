@@ -7,29 +7,41 @@ const rows = {
   "new_vertical.cm_artist": [
     {
       cm_score: 88.3,
+      cm_score_change: 1.2,
+      cm_score_change_percent: 1.377,
       code2: "US",
       id: 42,
       image_url: "https://img/artist-42.jpg",
       instagram_followers: 404_690_279,
+      instagram_followers_change: 250_000,
+      instagram_followers_change_percent: 0.0618,
       is_verified: 1,
       name: "Artist Name",
       profile_image_url: "https://img/profile-42.jpg",
       profile_name: "Profile Name",
       record_label: "Label A",
       tiktok_followers: "58708640",
+      tiktok_followers_change: "-12345",
+      tiktok_followers_change_percent: -0.021,
     },
     {
       cm_score: null,
+      cm_score_change: null,
+      cm_score_change_percent: null,
       code2: "",
       id: 43,
       image_url: "",
       instagram_followers: null,
+      instagram_followers_change: null,
+      instagram_followers_change_percent: null,
       is_verified: null,
       name: "No Profile",
       profile_image_url: null,
       profile_name: null,
       record_label: "",
       tiktok_followers: null,
+      tiktok_followers_change: null,
+      tiktok_followers_change_percent: null,
     },
   ],
 };
@@ -50,25 +62,37 @@ describe("GET /artists", () => {
         data: [
           {
             cmScore: 88.3,
+            cmScoreChange: 1.2,
+            cmScoreChangePercent: 1.377,
             countryCode: "US",
             id: 42,
             imageUrl: "https://img/profile-42.jpg",
             instagramFollowers: 404_690_279,
+            instagramFollowersChange: 250_000,
+            instagramFollowersChangePercent: 0.0618,
             isVerified: true,
             name: "Profile Name",
             recordLabel: "Label A",
             tiktokFollowers: 58_708_640,
+            tiktokFollowersChange: -12_345,
+            tiktokFollowersChangePercent: -0.021,
           },
           {
             cmScore: null,
+            cmScoreChange: null,
+            cmScoreChangePercent: null,
             countryCode: null,
             id: 43,
             imageUrl: null,
             instagramFollowers: null,
+            instagramFollowersChange: null,
+            instagramFollowersChangePercent: null,
             isVerified: false,
             name: "No Profile",
             recordLabel: null,
             tiktokFollowers: null,
+            tiktokFollowersChange: null,
+            tiktokFollowersChangePercent: null,
           },
         ],
         meta: { limit: 50, offset: 0 },
@@ -77,31 +101,17 @@ describe("GET /artists", () => {
     },
   );
 
-  it("rejects a limit above the maximum", async () => {
+  it.each([
+    ["a limit above the maximum", "/v1/artists?limit=9999"],
+    ["an unknown change period", "/app/artists?changePeriod=90d"],
+    ["an unknown sort column", "/app/artists?sortBy=followers"],
+  ])("rejects %s", async (_case, url) => {
     const app = await buildApp({
       clickhouse: stubClickhouse(rows),
       config: testConfig,
     });
 
-    const response = await app.inject({
-      method: "GET",
-      url: "/v1/artists?limit=9999",
-    });
-
-    expect(response.statusCode).toBe(400);
-    await app.close();
-  });
-
-  it("rejects an unknown sort column", async () => {
-    const app = await buildApp({
-      clickhouse: stubClickhouse(rows),
-      config: testConfig,
-    });
-
-    const response = await app.inject({
-      method: "GET",
-      url: "/app/artists?sortBy=followers",
-    });
+    const response = await app.inject({ method: "GET", url });
 
     expect(response.statusCode).toBe(400);
     await app.close();

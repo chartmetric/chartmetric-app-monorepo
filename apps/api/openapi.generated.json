@@ -68,6 +68,34 @@
           },
           {
             "schema": {
+              "default": "7d",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "1d"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "7d"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "28d"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "changePeriod",
+            "required": false
+          },
+          {
+            "schema": {
               "default": "cmScore",
               "anyOf": [
                 {
@@ -91,13 +119,49 @@
                 {
                   "type": "string",
                   "enum": [
+                    "cmScoreChange"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "cmScoreChangePercent"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
                     "instagramFollowers"
                   ]
                 },
                 {
                   "type": "string",
                   "enum": [
+                    "instagramFollowersChange"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "instagramFollowersChangePercent"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
                     "tiktokFollowers"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokFollowersChange"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokFollowersChangePercent"
                   ]
                 }
               ]
@@ -147,17 +211,43 @@
                         "type": "object",
                         "required": [
                           "cmScore",
+                          "cmScoreChange",
+                          "cmScoreChangePercent",
                           "countryCode",
                           "id",
                           "imageUrl",
                           "instagramFollowers",
+                          "instagramFollowersChange",
+                          "instagramFollowersChangePercent",
                           "isVerified",
                           "name",
                           "recordLabel",
-                          "tiktokFollowers"
+                          "tiktokFollowers",
+                          "tiktokFollowersChange",
+                          "tiktokFollowersChangePercent"
                         ],
                         "properties": {
                           "cmScore": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "cmScoreChange": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "cmScoreChangePercent": {
                             "anyOf": [
                               {
                                 "type": "number"
@@ -200,6 +290,26 @@
                               }
                             ]
                           },
+                          "instagramFollowersChange": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "instagramFollowersChangePercent": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
                           "isVerified": {
                             "type": "boolean"
                           },
@@ -220,6 +330,26 @@
                             "anyOf": [
                               {
                                 "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokFollowersChange": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokFollowersChangePercent": {
+                            "anyOf": [
+                              {
+                                "type": "number"
                               },
                               {
                                 "type": "null"
@@ -891,6 +1021,34 @@
           },
           {
             "schema": {
+              "default": "7d",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "1d"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "7d"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "28d"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "changePeriod",
+            "required": false
+          },
+          {
+            "schema": {
               "default": "cmScore",
               "anyOf": [
                 {
@@ -914,13 +1072,49 @@
                 {
                   "type": "string",
                   "enum": [
+                    "cmScoreChange"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "cmScoreChangePercent"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
                     "instagramFollowers"
                   ]
                 },
                 {
                   "type": "string",
                   "enum": [
+                    "instagramFollowersChange"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "instagramFollowersChangePercent"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
                     "tiktokFollowers"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokFollowersChange"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokFollowersChangePercent"
                   ]
                 }
               ]
@@ -970,17 +1164,43 @@
                         "type": "object",
                         "required": [
                           "cmScore",
+                          "cmScoreChange",
+                          "cmScoreChangePercent",
                           "countryCode",
                           "id",
                           "imageUrl",
                           "instagramFollowers",
+                          "instagramFollowersChange",
+                          "instagramFollowersChangePercent",
                           "isVerified",
                           "name",
                           "recordLabel",
-                          "tiktokFollowers"
+                          "tiktokFollowers",
+                          "tiktokFollowersChange",
+                          "tiktokFollowersChangePercent"
                         ],
                         "properties": {
                           "cmScore": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "cmScoreChange": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "cmScoreChangePercent": {
                             "anyOf": [
                               {
                                 "type": "number"
@@ -1023,6 +1243,26 @@
                               }
                             ]
                           },
+                          "instagramFollowersChange": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "instagramFollowersChangePercent": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
                           "isVerified": {
                             "type": "boolean"
                           },
@@ -1043,6 +1283,26 @@
                             "anyOf": [
                               {
                                 "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokFollowersChange": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokFollowersChangePercent": {
+                            "anyOf": [
+                              {
+                                "type": "number"
                               },
                               {
                                 "type": "null"

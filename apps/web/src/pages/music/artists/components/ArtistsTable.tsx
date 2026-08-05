@@ -1,20 +1,23 @@
-import { faBadgeCheck } from "@fortawesome/pro-solid-svg-icons/faBadgeCheck";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
-import { Avatar, Box, Group, LoadingOverlay, Paper, Text } from "@mantine/core";
+import { Box, LoadingOverlay, Paper, Text } from "@mantine/core";
 import { DataTable, type DataTableColumn } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
-import { type FC, useMemo } from "react";
+import { type FC, type ReactElement, useCallback, useMemo } from "react";
 
-import {
-  type Artist,
-  ARTIST_PAGE_SIZE,
-  type ArtistSortBy,
-  type ArtistSortDirection,
-} from "../artist-list-query";
+import type {
+  Artist,
+  ArtistSortBy,
+  ArtistSortDirection,
+  MetricDisplayMode,
+  MetricSortFamily,
+} from "../types";
+
+import { ARTIST_PAGE_SIZE, METRIC_SORTS } from "../constants";
+import { ArtistIdentity } from "./ArtistIdentity";
 
 interface ArtistsTableProps {
   artists: Artist[];
+  displayMode: MetricDisplayMode;
   isFetching: boolean;
   offset: number;
   onPageChange: (offset: number) => void;
@@ -23,73 +26,148 @@ interface ArtistsTableProps {
   sortDirection: ArtistSortDirection;
 }
 
-interface ArtistIdentityProps {
-  artist: Artist;
-  countryName: string | null;
+interface ChangeValueProps {
+  formatted: string;
+  value: number;
 }
 
-const ArtistIdentity: FC<ArtistIdentityProps> = ({ artist, countryName }) => {
-  const { t } = useLingui();
+const ChangeValue: FC<ChangeValueProps> = ({ formatted, value }) => {
+  let color = "dimmed";
+  if (value !== 0) color = value > 0 ? "teal.7" : "red.7";
 
   return (
-    <Group gap="sm" wrap="nowrap">
-      <Avatar alt={artist.name} name={artist.name} src={artist.imageUrl} />
-      <div>
-        <Group align="center" gap={4} wrap="nowrap">
-          <Text fw={600}>{artist.name}</Text>
-          {artist.isVerified ? (
-            <FontAwesomeIcon
-              aria-label={t`Verified artist`}
-              color="var(--mantine-color-blue-6)"
-              icon={faBadgeCheck}
-              role="img"
-            />
-          ) : null}
-        </Group>
-        {countryName === null ? null : (
-          <Text c="dimmed" size="xs">
-            {countryName}
-          </Text>
-        )}
-      </div>
-    </Group>
+    <Text c={color} component="span" fw={500} size="sm">
+      {formatted}
+    </Text>
   );
 };
 
-const useArtistTableColumns = (): DataTableColumn<Artist, ArtistSortBy>[] => {
-  const { i18n, t } = useLingui();
-  const countryFormatter = useMemo(
-    () => new Intl.DisplayNames([i18n.locale], { type: "region" }),
-    [i18n.locale],
-  );
-  const scoreFormatter = useMemo(
-    () =>
-      new Intl.NumberFormat(i18n.locale, {
-        maximumFractionDigits: 1,
-        minimumFractionDigits: 1,
-      }),
-    [i18n.locale],
-  );
-  const followersFormatter = useMemo(
-    () =>
-      new Intl.NumberFormat(i18n.locale, {
+interface MetricCellValues {
+  change: number | null;
+  percent: number | null;
+  total: number | null;
+}
+
+interface MetricFormatters {
+  followers: Intl.NumberFormat;
+  followersChange: Intl.NumberFormat;
+  percent: Intl.NumberFormat;
+  score: Intl.NumberFormat;
+  scoreChange: Intl.NumberFormat;
+}
+
+const useMetricFormatters = (): MetricFormatters => {
+  const { i18n } = useLingui();
+
+  return useMemo(
+    () => ({
+      followers: new Intl.NumberFormat(i18n.locale, {
         compactDisplay: "short",
         maximumFractionDigits: 1,
         notation: "compact",
       }),
+      followersChange: new Intl.NumberFormat(i18n.locale, {
+        compactDisplay: "short",
+        maximumFractionDigits: 1,
+        notation: "compact",
+        signDisplay: "exceptZero",
+      }),
+      percent: new Intl.NumberFormat(i18n.locale, {
+        maximumFractionDigits: 1,
+        signDisplay: "exceptZero",
+        style: "percent",
+      }),
+      score: new Intl.NumberFormat(i18n.locale, {
+        maximumFractionDigits: 1,
+        minimumFractionDigits: 1,
+      }),
+      scoreChange: new Intl.NumberFormat(i18n.locale, {
+        maximumFractionDigits: 1,
+        minimumFractionDigits: 1,
+        signDisplay: "exceptZero",
+      }),
+    }),
     [i18n.locale],
   );
+};
 
-  return useMemo<DataTableColumn<Artist, ArtistSortBy>[]>(() => {
-    const formatCountry = (countryCode: string): string => {
+const renderMetricValue = (
+  displayMode: MetricDisplayMode,
+  values: MetricCellValues,
+  totalFormatter: Intl.NumberFormat,
+  changeFormatter: Intl.NumberFormat,
+  percentFormatter: Intl.NumberFormat,
+): ReactElement => {
+  if (displayMode === "total") {
+    return (
+      <>{values.total === null ? "—" : totalFormatter.format(values.total)}</>
+    );
+  }
+  if (displayMode === "change") {
+    return values.change === null ? (
+      <>—</>
+    ) : (
+      <ChangeValue
+        formatted={changeFormatter.format(values.change)}
+        value={values.change}
+      />
+    );
+  }
+  return values.percent === null ? (
+    <>—</>
+  ) : (
+    <ChangeValue
+      formatted={percentFormatter.format(values.percent / 100)}
+      value={values.percent}
+    />
+  );
+};
+
+const metricColumn = (
+  family: MetricSortFamily,
+  label: string,
+  displayMode: MetricDisplayMode,
+  values: (artist: Artist) => MetricCellValues,
+  totalFormatter: Intl.NumberFormat,
+  changeFormatter: Intl.NumberFormat,
+  percentFormatter: Intl.NumberFormat,
+): DataTableColumn<Artist, ArtistSortBy> => ({
+  align: "right",
+  key: family,
+  label,
+  renderCell: (artist) =>
+    renderMetricValue(
+      displayMode,
+      values(artist),
+      totalFormatter,
+      changeFormatter,
+      percentFormatter,
+    ),
+  sortKey: METRIC_SORTS[family][displayMode],
+});
+
+const useArtistTableColumns = (
+  displayMode: MetricDisplayMode,
+): DataTableColumn<Artist, ArtistSortBy>[] => {
+  const { i18n, t } = useLingui();
+  const formatters = useMetricFormatters();
+  const countryFormatter = useMemo(
+    () => new Intl.DisplayNames([i18n.locale], { type: "region" }),
+    [i18n.locale],
+  );
+  const formatCountry = useCallback(
+    (countryCode: string): string => {
       try {
         return countryFormatter.of(countryCode) ?? countryCode;
       } catch {
         return countryCode;
       }
-    };
+    },
+    [countryFormatter],
+  );
 
-    return [
+  return useMemo<DataTableColumn<Artist, ArtistSortBy>[]>(
+    () => [
       {
         key: "artist",
         label: t`Artist`,
@@ -105,40 +183,53 @@ const useArtistTableColumns = (): DataTableColumn<Artist, ArtistSortBy>[] => {
         ),
         sortKey: "name",
       },
-      {
-        align: "right",
-        key: "cmScore",
-        label: t`CM score`,
-        renderCell: (artist) =>
-          artist.cmScore === null ? "—" : scoreFormatter.format(artist.cmScore),
-        sortKey: "cmScore",
-      },
-      {
-        align: "right",
-        key: "instagramFollowers",
-        label: t`Instagram followers`,
-        renderCell: (artist) =>
-          artist.instagramFollowers === null
-            ? "—"
-            : followersFormatter.format(artist.instagramFollowers),
-        sortKey: "instagramFollowers",
-      },
-      {
-        align: "right",
-        key: "tiktokFollowers",
-        label: t`TikTok followers`,
-        renderCell: (artist) =>
-          artist.tiktokFollowers === null
-            ? "—"
-            : followersFormatter.format(artist.tiktokFollowers),
-        sortKey: "tiktokFollowers",
-      },
-    ];
-  }, [countryFormatter, followersFormatter, scoreFormatter, t]);
+      metricColumn(
+        "cmScore",
+        t`CM score`,
+        displayMode,
+        (artist) => ({
+          change: artist.cmScoreChange,
+          percent: artist.cmScoreChangePercent,
+          total: artist.cmScore,
+        }),
+        formatters.score,
+        formatters.scoreChange,
+        formatters.percent,
+      ),
+      metricColumn(
+        "instagramFollowers",
+        t`Instagram followers`,
+        displayMode,
+        (artist) => ({
+          change: artist.instagramFollowersChange,
+          percent: artist.instagramFollowersChangePercent,
+          total: artist.instagramFollowers,
+        }),
+        formatters.followers,
+        formatters.followersChange,
+        formatters.percent,
+      ),
+      metricColumn(
+        "tiktokFollowers",
+        t`TikTok followers`,
+        displayMode,
+        (artist) => ({
+          change: artist.tiktokFollowersChange,
+          percent: artist.tiktokFollowersChangePercent,
+          total: artist.tiktokFollowers,
+        }),
+        formatters.followers,
+        formatters.followersChange,
+        formatters.percent,
+      ),
+    ],
+    [displayMode, formatCountry, formatters, t],
+  );
 };
 
 export const ArtistsTable: FC<ArtistsTableProps> = ({
   artists,
+  displayMode,
   isFetching,
   offset,
   onPageChange,
@@ -147,7 +238,7 @@ export const ArtistsTable: FC<ArtistsTableProps> = ({
   sortDirection,
 }) => {
   const { t } = useLingui();
-  const columns = useArtistTableColumns();
+  const columns = useArtistTableColumns(displayMode);
 
   const formatPageLabel = (page: number): string => {
     const currentPageText = String(page);

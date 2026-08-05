@@ -13,84 +13,116 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:95
+#: src/pages/music/artists/ArtistsPage.tsx:165
+msgid "% Change"
+msgstr "% de cambio"
+
+#: src/pages/music/artists/ArtistsPage.tsx:151
+msgid "1D"
+msgstr "1D"
+
+#: src/pages/music/artists/ArtistsPage.tsx:153
+msgid "28D"
+msgstr "28D"
+
+#: src/pages/music/artists/ArtistsPage.tsx:152
+msgid "7D"
+msgstr "7D"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:173
 msgid "Artist"
 msgstr "Artista"
 
-#: src/pages/music/artists/ArtistsPage.tsx:159
-#: src/pages/music/artists/components/ArtistsTable.tsx:171
+#: src/pages/music/artists/ArtistsPage.tsx:268
+#: src/pages/music/artists/components/ArtistsTable.tsx:262
 msgid "Artists"
 msgstr "Artistas"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:111
+#: src/pages/music/artists/ArtistsPage.tsx:164
+msgid "Change"
+msgstr "Cambio"
+
+#: src/pages/music/artists/ArtistsPage.tsx:149
+msgid "Change period"
+msgstr "Período de cambio"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:188
 msgid "CM score"
 msgstr "Puntuación CM"
 
-#: src/pages/music/artists/ArtistsPage.tsx:162
+#: src/pages/music/artists/ArtistsPage.tsx:271
 msgid "Explore artists across the music industry."
 msgstr "Explora artistas de toda la industria musical."
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:119
+#: src/pages/music/artists/components/ArtistsTable.tsx:201
 msgid "Instagram followers"
 msgstr "Seguidores de Instagram"
 
-#: src/pages/music/artists/ArtistsPage.tsx:57
+#: src/pages/music/artists/ArtistsPage.tsx:103
 msgid "Loading artists"
 msgstr "Cargando artistas"
 
-#: src/pages/music/artists/ArtistsPage.tsx:59
+#: src/pages/music/artists/ArtistsPage.tsx:105
 msgid "Loading artists…"
 msgstr "Cargando artistas…"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:190
+#: src/pages/music/artists/components/ArtistsTable.tsx:281
 msgid "Next"
 msgstr "Siguiente"
 
-#: src/pages/music/artists/ArtistsPage.tsx:71
+#: src/pages/music/artists/ArtistsPage.tsx:117
 msgid "No artists found"
 msgstr "No se encontraron artistas"
 
 #. Current page number in the artists list
-#: src/pages/music/artists/components/ArtistsTable.tsx:155
+#: src/pages/music/artists/components/ArtistsTable.tsx:246
 msgid "Page {currentPageText}"
 msgstr "Página {currentPageText}"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:195
+#: src/pages/music/artists/components/ArtistsTable.tsx:286
 msgid "Previous"
 msgstr "Anterior"
 
 #. Accessible label for a sortable artists table column
-#: src/pages/music/artists/components/ArtistsTable.tsx:179
+#: src/pages/music/artists/components/ArtistsTable.tsx:270
 msgid "Sort by {label}"
 msgstr "Ordenar por {label}"
 
-#: src/pages/music/artists/ArtistsPage.tsx:96
+#: src/pages/music/artists/ArtistsPage.tsx:186
 msgid "The artist list could not be loaded. Try again."
 msgstr "No se pudo cargar la lista de artistas. Inténtalo de nuevo."
 
-#: src/pages/music/artists/ArtistsPage.tsx:74
+#: src/pages/music/artists/ArtistsPage.tsx:120
 msgid "There are no artists to show on this page."
 msgstr "No hay artistas para mostrar en esta página."
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:129
+#: src/pages/music/artists/components/ArtistsTable.tsx:214
 msgid "TikTok followers"
 msgstr "Seguidores de TikTok"
 
+#: src/pages/music/artists/ArtistsPage.tsx:163
+msgid "Total"
+msgstr "Total"
+
 #. Button that retries loading the artists list
-#: src/pages/music/artists/ArtistsPage.tsx:99
+#: src/pages/music/artists/ArtistsPage.tsx:189
 msgid "Try again"
 msgstr "Reintentar"
 
 #. Error title on the artists list page
-#: src/pages/music/artists/ArtistsPage.tsx:89
+#: src/pages/music/artists/ArtistsPage.tsx:179
 msgid "Unable to load artists"
 msgstr "No se pudieron cargar los artistas"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:165
-#: src/pages/music/artists/components/ArtistsTable.tsx:189
+#: src/pages/music/artists/components/ArtistsTable.tsx:256
+#: src/pages/music/artists/components/ArtistsTable.tsx:280
 msgid "Updating artists"
 msgstr "Actualizando artistas"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:42
+#: src/pages/music/artists/ArtistsPage.tsx:161
+msgid "Value display"
+msgstr "Visualización de valores"
+
+#: src/pages/music/artists/components/ArtistIdentity.tsx:29
 msgid "Verified artist"
 msgstr "Artista verificado"
