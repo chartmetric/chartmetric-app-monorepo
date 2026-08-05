@@ -4,9 +4,10 @@
   "sideEffects": false,
   "exports": {
     "./checkbox-list-filter": "./components/filters/CheckboxListFilter.tsx",
-    "./column-picker": "./components/data-table/ColumnPicker.tsx",
+    "./column-picker": "./components/column-picker/ColumnPicker.tsx",
     "./counter": "./components/Counter/Counter.tsx",
     "./data-table": "./components/data-table/DataTable.tsx",
+    "./use-persistent-state": "./hooks/usePersistentState.ts",
     "./filter-bar": "./components/filters/FilterBar.tsx",
     "./header": "./components/Header.tsx",
     "./multi-select-filter": "./components/filters/MultiSelectFilter.tsx",
