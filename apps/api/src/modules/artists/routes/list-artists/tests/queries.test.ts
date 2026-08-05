@@ -146,6 +146,16 @@ describe("listArtists", () => {
     expect(sql).not.toContain("equals(artist_metrics.is_verified, 1)");
   });
 
+  it("matches artist names case-insensitively", () => {
+    const sql = queries
+      .listArtists({ limit: 1, name: "selena", offset: 0 })
+      .toSQL();
+
+    expect(sql).toContain(
+      "notEquals(positionCaseInsensitiveUTF8(name, 'selena'), 0)",
+    );
+  });
+
   it("pins unused genre CTEs to an empty tag type", () => {
     const sql = queries.listArtists({ limit: 1, offset: 0 }).toSQL();
 

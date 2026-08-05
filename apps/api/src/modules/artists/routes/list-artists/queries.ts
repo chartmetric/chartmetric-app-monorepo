@@ -78,6 +78,21 @@ const applyArtistFilters = (
 ): ArtistsBuilder => {
   let builder = base;
 
+  if (query.name !== undefined) {
+    const name = query.name;
+
+    builder = builder.where((predicate) =>
+      predicate.fn<boolean>(
+        "notEquals",
+        predicate.fn<number>(
+          "positionCaseInsensitiveUTF8",
+          predicate.col("name"),
+          predicate.value(name),
+        ),
+        predicate.value(0),
+      ),
+    );
+  }
   if (query.countries !== undefined) {
     builder = builder.where("code2", "in", query.countries);
   }

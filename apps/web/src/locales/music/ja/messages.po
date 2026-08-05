@@ -29,7 +29,7 @@ msgstr "28日"
 msgid "7D"
 msgstr "7日"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:218
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:258
 msgid "All filters"
 msgstr "すべてのフィルター"
 
@@ -54,12 +54,12 @@ msgstr "変化量"
 msgid "Change period"
 msgstr "変化の期間"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:195
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:227
 msgid "Clear filters"
 msgstr "フィルターをクリア"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:135
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:151
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:166
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:182
 msgid "Clear range"
 msgstr "範囲をクリア"
 
@@ -84,8 +84,8 @@ msgstr "除外"
 msgid "Explore artists across the music industry."
 msgstr "音楽業界のアーティストを探しましょう。"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:196
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:225
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:228
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:265
 msgid "Filters"
 msgstr "フィルター"
 
@@ -99,7 +99,7 @@ msgid "Include"
 msgstr "含める"
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:190
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:138
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:169
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:168
 msgid "Instagram followers"
 msgstr "Instagramフォロワー"
@@ -116,12 +116,12 @@ msgstr "アーティストを読み込み中…"
 msgid "Max"
 msgstr "最大"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:139
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:170
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:170
 msgid "Maximum Instagram followers"
 msgstr "Instagramフォロワーの最大数"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:155
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:186
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:184
 msgid "Maximum TikTok followers"
 msgstr "TikTokフォロワーの最大数"
@@ -130,12 +130,12 @@ msgstr "TikTokフォロワーの最大数"
 msgid "Min"
 msgstr "最小"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:140
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:171
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:171
 msgid "Minimum Instagram followers"
 msgstr "Instagramフォロワーの最小数"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:156
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:187
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:185
 msgid "Minimum TikTok followers"
 msgstr "TikTokフォロワーの最小数"
@@ -171,6 +171,14 @@ msgstr "前へ"
 msgid "Retry filter options"
 msgstr "フィルターオプションを再試行"
 
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:136
+msgid "Search artists…"
+msgstr "アーティストを検索…"
+
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:127
+msgid "Search by name"
+msgstr "名前で検索"
+
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:84
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:163
 msgid "Search countries…"
@@ -195,7 +203,7 @@ msgid "There are no artists to show on this page."
 msgstr "このページに表示するアーティストはいません。"
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:203
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:154
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:185
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:182
 msgid "TikTok followers"
 msgstr "TikTokフォロワー"

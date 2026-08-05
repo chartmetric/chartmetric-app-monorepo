@@ -1,5 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
-import { Button, Drawer } from "@mantine/core";
+import { Button, Drawer, TextInput } from "@mantine/core";
 import { useDebouncedCallback, useDisclosure } from "@mantine/hooks";
 import { FilterBar } from "@repo/ui/filter-bar";
 import {
@@ -109,6 +109,37 @@ const toBoundProps = (
   ...(typeof max === "number" && { max, min: 0 }),
 });
 
+interface ArtistSearchInputProps {
+  onChange: (name: string) => void;
+  value: string;
+}
+
+// Local state keeps keystroke echo instant (only this component re-renders
+// while typing); the shared draft hears the value once, debounced. Clear
+// filters resets by remounting, which also cancels any pending emit.
+const ArtistSearchInput: FC<ArtistSearchInputProps> = ({ onChange, value }) => {
+  const { t } = useLingui();
+  const [text, setText] = useState(value);
+  const emit = useDebouncedCallback(onChange, 350);
+
+  return (
+    <TextInput
+      aria-label={t`Search by name`}
+      autoComplete="off"
+      name="artist-search"
+      onChange={(event) => {
+        const name = event.currentTarget.value;
+
+        setText(name);
+        emit(name);
+      }}
+      placeholder={t`Search artists…`}
+      value={text}
+      w={{ base: "100%", sm: 240 }}
+    />
+  );
+};
+
 interface FollowerRangeFiltersProps {
   disabled: boolean;
   draft: ArtistFilterDraft;
@@ -173,6 +204,7 @@ export const ArtistFilters: FC<ArtistFiltersProps> = ({
 }) => {
   const { t } = useLingui();
   const [draft, setDraft] = useState(createFilterDraft);
+  const [clearCount, setClearCount] = useState(0);
   const [isDrawerOpen, drawer] = useDisclosure(false);
   const optionLists = useFilterOptionLists(options);
   const areOptionsDisabled = isLoading || options === undefined;
@@ -195,9 +227,17 @@ export const ArtistFilters: FC<ArtistFiltersProps> = ({
         clearLabel={t`Clear filters`}
         label={t`Filters`}
         onClear={() => {
+          setClearCount((count) => count + 1);
           commitDraft(createFilterDraft());
         }}
       >
+        <ArtistSearchInput
+          key={clearCount}
+          onChange={(name) => {
+            commitDraft({ ...draft, name });
+          }}
+          value={draft.name}
+        />
         <CategoricalFilters
           disabled={areOptionsDisabled}
           draft={draft}

@@ -115,6 +115,7 @@ export interface paths {
                     maxTiktokFollowers?: number;
                     minInstagramFollowers?: number;
                     minTiktokFollowers?: number;
+                    name?: string;
                     sortBy?: "name" | "countryCode" | "cmScore" | "cmScoreChange" | "cmScoreChangePercent" | "instagramFollowers" | "instagramFollowersChange" | "instagramFollowersChangePercent" | "tiktokFollowers" | "tiktokFollowersChange" | "tiktokFollowersChangePercent";
                     sortDirection?: "asc" | "desc";
                     verifiedOnly?: boolean;
@@ -398,6 +399,7 @@ export interface paths {
                     maxTiktokFollowers?: number;
                     minInstagramFollowers?: number;
                     minTiktokFollowers?: number;
+                    name?: string;
                     sortBy?: "name" | "countryCode" | "cmScore" | "cmScoreChange" | "cmScoreChangePercent" | "instagramFollowers" | "instagramFollowersChange" | "instagramFollowersChangePercent" | "tiktokFollowers" | "tiktokFollowersChange" | "tiktokFollowersChangePercent";
                     sortDirection?: "asc" | "desc";
                     verifiedOnly?: boolean;

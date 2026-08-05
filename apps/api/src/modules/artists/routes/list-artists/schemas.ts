@@ -41,6 +41,10 @@ const OptionalCategoricalFilter = Type.Optional(
 
 const OptionalFollowerBound = Type.Optional(Type.Integer({ minimum: 0 }));
 
+const OptionalTextFilter = Type.Optional(
+  Type.String({ maxLength: 100, minLength: 1 }),
+);
+
 export const ListArtistsQuerySchema = Type.Object({
   ...PaginationQuerySchema.properties,
   changePeriod: Type.Optional(
@@ -54,6 +58,7 @@ export const ListArtistsQuerySchema = Type.Object({
   maxTiktokFollowers: OptionalFollowerBound,
   minInstagramFollowers: OptionalFollowerBound,
   minTiktokFollowers: OptionalFollowerBound,
+  name: OptionalTextFilter,
   sortBy: Type.Optional(
     Type.Union(ArtistSortBySchema.anyOf, { default: "cmScore" }),
   ),

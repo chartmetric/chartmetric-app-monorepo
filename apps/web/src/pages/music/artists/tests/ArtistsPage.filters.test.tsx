@@ -213,6 +213,33 @@ describe("ArtistsPage filters", () => {
     });
   });
 
+  it("searches artists by name with debounced keystrokes", async () => {
+    mockRequests();
+
+    renderArtistsPage();
+    await screen.findByText("Selena Gomez");
+
+    const search = screen.getByRole<HTMLInputElement>("textbox", {
+      name: "Search by name",
+    });
+    fireEvent.change(search, { target: { value: "sel" } });
+    fireEvent.change(search, { target: { value: "  selena  " } });
+
+    expect(search.value).toBe("  selena  ");
+
+    await waitFor(
+      () => {
+        expect(apiGetMock).toHaveBeenCalledWith("/app/artists", {
+          params: { query: expectedQuery({ name: "selena" }) },
+        });
+      },
+      { timeout: 3000 },
+    );
+    expect(apiGetMock).not.toHaveBeenCalledWith("/app/artists", {
+      params: { query: expectedQuery({ name: "sel" }) },
+    });
+  });
+
   it("debounces rapid filter changes into a single query", async () => {
     mockRequests();
 
@@ -248,6 +275,10 @@ describe("ArtistsPage filters", () => {
     renderArtistsPage();
     await screen.findByText("Selena Gomez");
 
+    const search = screen.getByRole<HTMLInputElement>("textbox", {
+      name: "Search by name",
+    });
+    fireEvent.change(search, { target: { value: "selena" } });
     const genreControl = await findEnabledControl("combobox", "Genre");
     fireEvent.click(genreControl);
     fireEvent.click(getControlledOption(genreControl, /rock/));
@@ -257,6 +288,13 @@ describe("ArtistsPage filters", () => {
       expect(apiGetMock).toHaveBeenCalledWith("/app/artists", {
         params: { query: expectedQuery({}) },
       });
+    });
+    await waitFor(() => {
+      expect(
+        screen.getByRole<HTMLInputElement>("textbox", {
+          name: "Search by name",
+        }).value,
+      ).toBe("");
     });
   });
 });
