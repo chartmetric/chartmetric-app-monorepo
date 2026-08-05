@@ -2,7 +2,9 @@ import type {
   AthleteFilters,
   AthleteListQuery,
   AthleteSortBy,
-} from "./athlete-list-query";
+} from "../api/types";
+
+import { DEFAULT_ATHLETE_QUERY } from "../api/athlete-list";
 
 export const replaceFilters = (
   query: AthleteListQuery,
@@ -10,8 +12,8 @@ export const replaceFilters = (
 ): AthleteListQuery => ({
   limit: query.limit,
   offset: 0,
-  sortBy: query.sortBy ?? "rank",
-  sortDirection: query.sortDirection ?? "asc",
+  sortBy: query.sortBy ?? DEFAULT_ATHLETE_QUERY.sortBy,
+  sortDirection: query.sortDirection ?? DEFAULT_ATHLETE_QUERY.sortDirection,
   ...filters,
 });
 
@@ -43,8 +45,8 @@ export const changeQuerySort = (
   offset: 0,
   sortBy: nextSortBy,
   sortDirection: nextSortDirection(
-    (query.sortBy ?? "rank") === nextSortBy,
-    query.sortDirection ?? "asc",
+    (query.sortBy ?? DEFAULT_ATHLETE_QUERY.sortBy) === nextSortBy,
+    query.sortDirection ?? DEFAULT_ATHLETE_QUERY.sortDirection,
     nextSortBy,
   ),
 });

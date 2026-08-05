@@ -2,18 +2,14 @@ import { useLingui } from "@lingui/react/macro";
 import { ColumnPicker, type ColumnPickerPreset } from "@repo/ui/column-picker";
 import { type FC, useMemo } from "react";
 
+import type { AthleteColumnKey, AthleteColumnPreset } from "../columns/types";
+
 import {
   ATHLETE_COLUMN_PACKS,
   ATHLETE_COLUMNS,
-  type AthleteColumnKey,
   DEFAULT_ATHLETE_COLUMNS,
-  isAthleteColumnKey,
-} from "../athlete-columns";
-
-export interface AthleteColumnPreset {
-  keys: AthleteColumnKey[];
-  name: string;
-}
+} from "../columns/registry";
+import { isAthleteColumnKey } from "../columns/storage";
 
 interface AthleteColumnPickerProps {
   customPresets: readonly AthleteColumnPreset[];

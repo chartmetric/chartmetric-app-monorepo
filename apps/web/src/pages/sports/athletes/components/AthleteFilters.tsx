@@ -1,14 +1,16 @@
 import { useLingui } from "@lingui/react/macro";
-import { TextInput } from "@mantine/core";
 import { FilterBar } from "@repo/ui/filter-bar";
 import { emptyMultiSelectValue } from "@repo/ui/multi-select-filter";
+import { SearchInput } from "@repo/ui/search-input";
 import { type FC, useMemo } from "react";
 
-import type { AthleteFilterOptionsReply } from "../athlete-filter-options-query";
-import type { AthleteFilters as AthleteFilterQuery } from "../athlete-list-query";
+import type {
+  AthleteFilterOptionsReply,
+  AthleteFilters as AthleteFilterQuery,
+} from "../api/types";
 
-import { useAthleteFilterDraft } from "../use-athlete-filter-draft";
-import { useAthleteFilterFacets } from "../use-athlete-filter-facets";
+import { useAthleteFilterDraft } from "../filters/draft";
+import { useAthleteFilterFacets } from "../filters/facets";
 import { AthleteEntityFilters } from "./AthleteEntityFilters";
 import { AthleteQuickFilters } from "./AthleteQuickFilters";
 import { AthleteScoreFilter } from "./AthleteScoreFilter";
@@ -19,27 +21,16 @@ export interface AthleteFiltersProps {
   options: AthleteFilterOptionsReply | undefined;
 }
 
-interface SearchFieldProps {
-  onChange: (name: string) => void;
-  value: string;
-}
-
-const SearchField: FC<SearchFieldProps> = ({ onChange, value }) => {
+const useFilterBarLabel = (activeFilterCount: number): string => {
   const { t } = useLingui();
+  const activeCount = String(activeFilterCount);
 
-  return (
-    <TextInput
-      aria-label={t`Search by name`}
-      autoComplete="off"
-      name="athlete-search"
-      onChange={(event) => {
-        onChange(event.currentTarget.value);
-      }}
-      placeholder={t`Search athletes…`}
-      value={value}
-      w={{ base: "100%", sm: 220 }}
-    />
-  );
+  if (activeFilterCount === 0) return t`Filters`;
+
+  return t({
+    comment: "Filter bar heading with the number of active filters",
+    message: `Filters (${activeCount})`,
+  });
 };
 
 export const AthleteFilters: FC<AthleteFiltersProps> = ({
@@ -54,11 +45,7 @@ export const AthleteFilters: FC<AthleteFiltersProps> = ({
     () => new Intl.NumberFormat(i18n.locale, { notation: "compact" }),
     [i18n.locale],
   );
-  const activeCount = String(activeFilterCount);
-  const countedLabel = t({
-    comment: "Filter bar heading with the number of active filters",
-    message: `Filters (${activeCount})`,
-  });
+  const filterBarLabel = useFilterBarLabel(activeFilterCount);
   const facets = useAthleteFilterFacets(
     options,
     countFormatter,
@@ -69,13 +56,16 @@ export const AthleteFilters: FC<AthleteFiltersProps> = ({
   return (
     <FilterBar
       clearLabel={t`Clear filters`}
-      label={activeFilterCount === 0 ? t`Filters` : countedLabel}
+      label={filterBarLabel}
       onClear={reset}
     >
-      <SearchField
+      <SearchInput
+        label={t`Search by name`}
+        name="athlete-search"
         onChange={(name) => {
           commit({ ...draft, name });
         }}
+        placeholder={t`Search athletes…`}
         value={draft.name}
       />
       <AthleteEntityFilters
@@ -87,9 +77,9 @@ export const AthleteFilters: FC<AthleteFiltersProps> = ({
         onClubsChange={(values) => {
           commit({ ...draft, clubs: { excluded: [], included: values } });
         }}
+        // Narrowing the league set can orphan an already selected team, so the
+        // team selection resets whenever the leagues change.
         onLeaguesChange={(values) => {
-          // Narrowing the league set can orphan an already selected team, so the
-          // team selection resets whenever the leagues change.
           commit({
             ...draft,
             clubs: emptyMultiSelectValue(),
@@ -98,6 +88,18 @@ export const AthleteFilters: FC<AthleteFiltersProps> = ({
         }}
         options={facets}
       />
+      <AthleteScoreFilter
+        bounds={options?.cmScore}
+        isLoading={isLoading}
+        onChange={(cmScore) => {
+          preview({ cmScore });
+        }}
+        onChangeEnd={(cmScore) => {
+          commit({ ...draft, cmScore });
+        }}
+        value={draft.cmScore}
+      />
+
       <AthleteQuickFilters
         compactFormatter={countFormatter}
         draft={draft}
@@ -110,17 +112,6 @@ export const AthleteFilters: FC<AthleteFiltersProps> = ({
         onVerifiedChange={(isVerified) => {
           commit({ ...draft, isVerified });
         }}
-      />
-      <AthleteScoreFilter
-        bounds={options?.cmScore}
-        isLoading={isLoading}
-        onChange={(cmScore) => {
-          preview({ cmScore });
-        }}
-        onChangeEnd={(cmScore) => {
-          commit({ ...draft, cmScore });
-        }}
-        value={draft.cmScore}
       />
     </FilterBar>
   );
