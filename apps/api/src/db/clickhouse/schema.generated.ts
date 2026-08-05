@@ -6,6 +6,21 @@
  * The string literals represent ClickHouse data types for each column
  */
 export interface IntrospectedSchema {
+  athletes_basketball: {
+    id: "UInt32";
+    athlete_id: "UInt32";
+    profile_id: "UInt32";
+    team: "String";
+    league: "Nullable(String)";
+    position: "Nullable(String)";
+    jersey_number: "Nullable(UInt32)";
+    draft_year: "Nullable(UInt16)";
+    championships_won: "Nullable(UInt32)";
+    all_star_selections: "Nullable(UInt32)";
+    latest_social_stats: "Nullable(String)";
+    created_at: "DateTime";
+    updated_at: "DateTime";
+  };
   athletes_cache: {
     profile_id: "UInt32";
     name: "String";
@@ -50,6 +65,184 @@ export interface IntrospectedSchema {
     modified_at: "DateTime";
     image_url: "Nullable(String)";
     deleted_at: "Nullable(DateTime)";
+    football_team_id: "Nullable(UInt32)";
+  };
+  athletes_football_fixture_player_stats_apifootball: {
+    id: "UInt32";
+    profile_id: "UInt32";
+    athlete_id: "UInt32";
+    apifootball_player_id: "UInt32";
+    apifootball_fixture_id: "UInt32";
+    team_id: "UInt32";
+    competition_id: "UInt32";
+    season: "UInt16";
+    match_date: "Nullable(Date)";
+    minutes: "Nullable(UInt16)";
+    position: "Nullable(String)";
+    rating: "Nullable(Float32)";
+    is_starter: "UInt8";
+    is_captain: "UInt8";
+    jersey_number: "Nullable(UInt8)";
+    offsides: "Nullable(UInt8)";
+    goals: "Nullable(UInt8)";
+    assists: "Nullable(UInt8)";
+    conceded: "Nullable(UInt8)";
+    saves: "Nullable(UInt8)";
+    shots_total: "Nullable(UInt8)";
+    shots_on_target: "Nullable(UInt8)";
+    passes_total: "Nullable(UInt16)";
+    passes_key: "Nullable(UInt8)";
+    passes_accuracy: "Nullable(UInt8)";
+    tackles_total: "Nullable(UInt8)";
+    blocks: "Nullable(UInt8)";
+    interceptions: "Nullable(UInt8)";
+    duels_total: "Nullable(UInt16)";
+    duels_won: "Nullable(UInt16)";
+    dribbles_attempts: "Nullable(UInt8)";
+    dribbles_success: "Nullable(UInt8)";
+    dribbles_past: "Nullable(UInt8)";
+    fouls_drawn: "Nullable(UInt8)";
+    fouls_committed: "Nullable(UInt8)";
+    yellow_cards: "Nullable(UInt8)";
+    red_cards: "Nullable(UInt8)";
+    penalty_won: "Nullable(UInt8)";
+    penalty_committed: "Nullable(UInt8)";
+    penalty_scored: "Nullable(UInt8)";
+    penalty_missed: "Nullable(UInt8)";
+    penalty_saved: "Nullable(UInt8)";
+    source_loaded_at: "DateTime";
+    created_at: "DateTime";
+  };
+  athletes_football_gps_scores_football_cache: {
+    profile_id: "UInt32";
+    player_id: "UInt32";
+    athlete_id: "Nullable(UInt32)";
+    primary_team_id: "Nullable(UInt32)";
+    primary_competition_id: "Nullable(UInt32)";
+    role: "String";
+    display_position: "Nullable(String)";
+    gps: "Float32";
+    gps_atk: "Float32";
+    gps_def: "Float32";
+    raw_composite: "Float32";
+    adjusted_composite: "Float32";
+    match_count: "UInt16";
+    starts: "UInt16";
+    starter_ratio: "Float32";
+    total_minutes: "UInt32";
+    weighted_minutes: "Float32";
+    league_multiplier: "Float32";
+    position_multiplier: "Float32";
+    starter_penalty: "Float32";
+    last_match_date: "Nullable(Date)";
+    days_since_last: "Nullable(UInt16)";
+    is_stale: "UInt8";
+    decay_half_life_matches: "UInt16";
+    staleness_threshold_days: "UInt16";
+    goals_p90_raw: "Nullable(Float32)";
+    goals_p90_pctl: "Nullable(Float32)";
+    goals_p90_contrib: "Nullable(Float32)";
+    assists_p90_raw: "Nullable(Float32)";
+    assists_p90_pctl: "Nullable(Float32)";
+    assists_p90_contrib: "Nullable(Float32)";
+    shots_on_target_p90_raw: "Nullable(Float32)";
+    shots_on_target_p90_pctl: "Nullable(Float32)";
+    shots_on_target_p90_contrib: "Nullable(Float32)";
+    shot_accuracy_pct_raw: "Nullable(Float32)";
+    shot_accuracy_pct_pctl: "Nullable(Float32)";
+    shot_accuracy_pct_contrib: "Nullable(Float32)";
+    passes_key_p90_raw: "Nullable(Float32)";
+    passes_key_p90_pctl: "Nullable(Float32)";
+    passes_key_p90_contrib: "Nullable(Float32)";
+    passes_accuracy_wavg_raw: "Nullable(Float32)";
+    passes_accuracy_wavg_pctl: "Nullable(Float32)";
+    passes_accuracy_wavg_contrib: "Nullable(Float32)";
+    passes_total_p90_raw: "Nullable(Float32)";
+    passes_total_p90_pctl: "Nullable(Float32)";
+    passes_total_p90_contrib: "Nullable(Float32)";
+    dribbles_success_pct_raw: "Nullable(Float32)";
+    dribbles_success_pct_pctl: "Nullable(Float32)";
+    dribbles_success_pct_contrib: "Nullable(Float32)";
+    dribbles_attempts_p90_raw: "Nullable(Float32)";
+    dribbles_attempts_p90_pctl: "Nullable(Float32)";
+    dribbles_attempts_p90_contrib: "Nullable(Float32)";
+    duels_won_pct_raw: "Nullable(Float32)";
+    duels_won_pct_pctl: "Nullable(Float32)";
+    duels_won_pct_contrib: "Nullable(Float32)";
+    tackles_total_p90_raw: "Nullable(Float32)";
+    tackles_total_p90_pctl: "Nullable(Float32)";
+    tackles_total_p90_contrib: "Nullable(Float32)";
+    interceptions_p90_raw: "Nullable(Float32)";
+    interceptions_p90_pctl: "Nullable(Float32)";
+    interceptions_p90_contrib: "Nullable(Float32)";
+    blocks_p90_raw: "Nullable(Float32)";
+    blocks_p90_pctl: "Nullable(Float32)";
+    blocks_p90_contrib: "Nullable(Float32)";
+    save_pct_raw: "Nullable(Float32)";
+    save_pct_pctl: "Nullable(Float32)";
+    save_pct_contrib: "Nullable(Float32)";
+    saves_p90_raw: "Nullable(Float32)";
+    saves_p90_pctl: "Nullable(Float32)";
+    saves_p90_contrib: "Nullable(Float32)";
+    penalty_saved_p90_raw: "Nullable(Float32)";
+    penalty_saved_p90_pctl: "Nullable(Float32)";
+    penalty_saved_p90_contrib: "Nullable(Float32)";
+    clean_sheet_pct_raw: "Nullable(Float32)";
+    clean_sheet_pct_pctl: "Nullable(Float32)";
+    clean_sheet_pct_contrib: "Nullable(Float32)";
+    secondary_actions_p90_raw: "Nullable(Float32)";
+    secondary_actions_p90_pctl: "Nullable(Float32)";
+    secondary_actions_p90_contrib: "Nullable(Float32)";
+    appearances_weight_raw: "Nullable(Float32)";
+    appearances_weight_pctl: "Nullable(Float32)";
+    appearances_weight_contrib: "Nullable(Float32)";
+    source: "LowCardinality(String)";
+    provider: "LowCardinality(String)";
+    s3_path: "Nullable(String)";
+    job_id: "String";
+    created_at: "DateTime";
+  };
+  athletes_football_momentum_football_cache: {
+    profile_id: "UInt32";
+    player_id: "UInt32";
+    athlete_id: "Nullable(UInt32)";
+    name: "Nullable(String)";
+    nationality: "Nullable(String)";
+    role: "Nullable(String)";
+    primary_team_id: "Nullable(UInt32)";
+    team_name: "Nullable(String)";
+    primary_competition_id: "Nullable(UInt32)";
+    competition_name: "Nullable(String)";
+    gps: "Nullable(Float32)";
+    match_count: "UInt16";
+    last_match_date: "Nullable(Date)";
+    days_since_last: "Nullable(UInt16)";
+    is_stale: "UInt8";
+    wls_slope: "Float32";
+    wls_intercept: "Float32";
+    wls_r_squared: "Float32";
+    wls_slope_se: "Nullable(Float32)";
+    wls_predicted_current: "Float32";
+    ema_short: "Float32";
+    ema_long: "Float32";
+    ema_spread: "Float32";
+    rating_season_avg: "Float32";
+    rating_last_3_avg: "Float32";
+    slope_z: "Float32";
+    ema_z: "Float32";
+    confidence: "Float32";
+    raw_momentum: "Float32";
+    gated_momentum: "Float32";
+    momentum: "Float32";
+    momentum_label: "String";
+    regression_half_life: "UInt16";
+    ema_short_span: "UInt16";
+    ema_long_span: "UInt16";
+    source: "LowCardinality(String)";
+    provider: "LowCardinality(String)";
+    s3_path: "Nullable(String)";
+    job_id: "String";
+    created_at: "DateTime";
   };
   cm_artist: {
     id: "Int32";
@@ -68,81 +261,19 @@ export interface IntrospectedSchema {
     modified_at: "Nullable(DateTime)";
     synced_at: "DateTime";
   };
-  cm_scores: {
-    id: "UInt64";
-    profile_id: "UInt32";
-    profile_type: "String";
-    score_date: "Date";
-    cm_score: "Float64";
-    followers_score: "Float64";
-    likes_score: "Float64";
-    instagram_followers: "Nullable(Int64)";
-    instagram_likes: "Nullable(Int64)";
-    tiktok_followers: "Nullable(Int64)";
-    tiktok_likes: "Nullable(Int64)";
-    youtube_followers: "Nullable(Int64)";
-    twitter_followers: "Nullable(Int64)";
-    total_followers: "Int64";
-    total_likes: "Int64";
-    formula_version: "String";
-    created_at: "DateTime";
-    updated_at: "DateTime";
-    fanbase_score: "Nullable(Float64)";
-    engagement_score: "Nullable(Float64)";
-  };
-  instagram_cache: {
-    account_id: "UInt32";
-    snapshot_date: "Date";
-    followers: "Int64";
-    following: "Int64";
-    media_count: "Int64";
-    is_verified: "UInt8";
-    is_business: "UInt8";
-    category: "Nullable(String)";
-    bio: "Nullable(String)";
-    profile_pic_url: "Nullable(String)";
-    external_url: "Nullable(String)";
-    avg_likes_per_post: "Nullable(Float64)";
-    avg_comments_per_post: "Nullable(Float64)";
-    source: "String";
-    provider: "String";
-    s3_path: "String";
-    job_id: "String";
-    created_at: "DateTime";
-  };
-  l_cm_artist_tag: {
-    id: "UInt64";
-    cm_artist: "UInt32";
-    tag: "UInt32";
-    tag_type: "LowCardinality(String)";
-    tag_slug: "String";
-    source: "LowCardinality(String)";
-    created_at: "DateTime";
-  };
-  l_profile_account: {
-    id: "UInt32";
-    profile_id: "UInt32";
-    account_id: "UInt32";
-    is_primary: "UInt8";
-    connected_at: "DateTime";
-    disconnected_at: "Nullable(DateTime)";
-    created_at: "DateTime";
-    modified_at: "DateTime";
-  };
-  profile: {
-    id: "UInt32";
+  competitions_apifootball: {
+    competition_id: "UInt32";
     name: "String";
-    profile_type: "String";
-    vertical: "String";
-    image_url: "Nullable(String)";
-    active: "String";
-    created_at: "DateTime";
-    cm_source_id: "Nullable(UInt64)";
-    updated_at: "DateTime";
-    cm_source: "LowCardinality(String)";
-    cm_source_ref: "String";
-    deleted_at: "Nullable(DateTime)";
-    deleted_by: "Nullable(String)";
+    gender: "String";
+    country: "String";
+    season: "UInt16";
+    _loaded_at: "DateTime";
+  };
+  l_team_competition_apifootball: {
+    team_id: "UInt32";
+    competition_id: "UInt32";
+    season: "UInt16";
+    _loaded_at: "DateTime";
   };
   profile_snapshots: {
     id: "UInt64";
@@ -162,25 +293,60 @@ export interface IntrospectedSchema {
     created_at: "DateTime";
     updated_at: "DateTime";
   };
-  tiktok_cache: {
-    account_id: "UInt32";
-    snapshot_date: "Date";
-    follower_count: "Int64";
-    following_count: "Int64";
-    video_count: "Int64";
-    heart_count: "Int64";
-    is_verified: "UInt8";
-    bio: "Nullable(String)";
-    profile_pic_url: "Nullable(String)";
-    source: "String";
-    provider: "String";
-    s3_path: "String";
+  profile_sport_external_ids: {
+    profile_id: "UInt32";
+    sport: "LowCardinality(String)";
+    provider: "LowCardinality(String)";
+    external_id: "String";
+    metadata: "Nullable(String)";
+    updated_at: "DateTime";
+    source: "LowCardinality(String)";
     job_id: "String";
     created_at: "DateTime";
+  };
+  profiles: {
+    id: "UInt32";
+    name: "String";
+    profile_type: "String";
+    vertical: "String";
+    image_url: "Nullable(String)";
+    active: "String";
+    deleted_at: "Nullable(DateTime)";
+    deleted_by: "Nullable(String)";
+    created_at: "DateTime";
+    updated_at: "DateTime";
+    source_id: "Nullable(UInt64)";
+  };
+  teams_apifootball: {
+    team_id: "UInt32";
+    name: "Nullable(String)";
+    code: "Nullable(String)";
+    country: "Nullable(String)";
+    national: "UInt8";
+    founded: "Nullable(UInt16)";
+    logo_url: "Nullable(String)";
+    venue_id: "Nullable(UInt32)";
+    _loaded_at: "DateTime";
   };
 }
 
 // Type-safe record types for each table
+export interface Athletes_basketballRecord {
+  id: number;
+  athlete_id: number;
+  profile_id: number;
+  team: string;
+  league: string | null;
+  position: string | null;
+  jersey_number: number | null;
+  draft_year: number | null;
+  championships_won: number | null;
+  all_star_selections: number | null;
+  latest_social_stats: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Athletes_cacheRecord {
   profile_id: number;
   name: string;
@@ -225,6 +391,187 @@ export interface Athletes_cacheRecord {
   modified_at: string;
   image_url: string | null;
   deleted_at: string | null;
+  football_team_id: number | null;
+}
+
+export interface Athletes_football_fixture_player_stats_apifootballRecord {
+  id: number;
+  profile_id: number;
+  athlete_id: number;
+  apifootball_player_id: number;
+  apifootball_fixture_id: number;
+  team_id: number;
+  competition_id: number;
+  season: number;
+  match_date: string | null;
+  minutes: number | null;
+  position: string | null;
+  rating: number | null;
+  is_starter: number;
+  is_captain: number;
+  jersey_number: number | null;
+  offsides: number | null;
+  goals: number | null;
+  assists: number | null;
+  conceded: number | null;
+  saves: number | null;
+  shots_total: number | null;
+  shots_on_target: number | null;
+  passes_total: number | null;
+  passes_key: number | null;
+  passes_accuracy: number | null;
+  tackles_total: number | null;
+  blocks: number | null;
+  interceptions: number | null;
+  duels_total: number | null;
+  duels_won: number | null;
+  dribbles_attempts: number | null;
+  dribbles_success: number | null;
+  dribbles_past: number | null;
+  fouls_drawn: number | null;
+  fouls_committed: number | null;
+  yellow_cards: number | null;
+  red_cards: number | null;
+  penalty_won: number | null;
+  penalty_committed: number | null;
+  penalty_scored: number | null;
+  penalty_missed: number | null;
+  penalty_saved: number | null;
+  source_loaded_at: string;
+  created_at: string;
+}
+
+export interface Athletes_football_gps_scores_football_cacheRecord {
+  profile_id: number;
+  player_id: number;
+  athlete_id: number | null;
+  primary_team_id: number | null;
+  primary_competition_id: number | null;
+  role: string;
+  display_position: string | null;
+  gps: number;
+  gps_atk: number;
+  gps_def: number;
+  raw_composite: number;
+  adjusted_composite: number;
+  match_count: number;
+  starts: number;
+  starter_ratio: number;
+  total_minutes: number;
+  weighted_minutes: number;
+  league_multiplier: number;
+  position_multiplier: number;
+  starter_penalty: number;
+  last_match_date: string | null;
+  days_since_last: number | null;
+  is_stale: number;
+  decay_half_life_matches: number;
+  staleness_threshold_days: number;
+  goals_p90_raw: number | null;
+  goals_p90_pctl: number | null;
+  goals_p90_contrib: number | null;
+  assists_p90_raw: number | null;
+  assists_p90_pctl: number | null;
+  assists_p90_contrib: number | null;
+  shots_on_target_p90_raw: number | null;
+  shots_on_target_p90_pctl: number | null;
+  shots_on_target_p90_contrib: number | null;
+  shot_accuracy_pct_raw: number | null;
+  shot_accuracy_pct_pctl: number | null;
+  shot_accuracy_pct_contrib: number | null;
+  passes_key_p90_raw: number | null;
+  passes_key_p90_pctl: number | null;
+  passes_key_p90_contrib: number | null;
+  passes_accuracy_wavg_raw: number | null;
+  passes_accuracy_wavg_pctl: number | null;
+  passes_accuracy_wavg_contrib: number | null;
+  passes_total_p90_raw: number | null;
+  passes_total_p90_pctl: number | null;
+  passes_total_p90_contrib: number | null;
+  dribbles_success_pct_raw: number | null;
+  dribbles_success_pct_pctl: number | null;
+  dribbles_success_pct_contrib: number | null;
+  dribbles_attempts_p90_raw: number | null;
+  dribbles_attempts_p90_pctl: number | null;
+  dribbles_attempts_p90_contrib: number | null;
+  duels_won_pct_raw: number | null;
+  duels_won_pct_pctl: number | null;
+  duels_won_pct_contrib: number | null;
+  tackles_total_p90_raw: number | null;
+  tackles_total_p90_pctl: number | null;
+  tackles_total_p90_contrib: number | null;
+  interceptions_p90_raw: number | null;
+  interceptions_p90_pctl: number | null;
+  interceptions_p90_contrib: number | null;
+  blocks_p90_raw: number | null;
+  blocks_p90_pctl: number | null;
+  blocks_p90_contrib: number | null;
+  save_pct_raw: number | null;
+  save_pct_pctl: number | null;
+  save_pct_contrib: number | null;
+  saves_p90_raw: number | null;
+  saves_p90_pctl: number | null;
+  saves_p90_contrib: number | null;
+  penalty_saved_p90_raw: number | null;
+  penalty_saved_p90_pctl: number | null;
+  penalty_saved_p90_contrib: number | null;
+  clean_sheet_pct_raw: number | null;
+  clean_sheet_pct_pctl: number | null;
+  clean_sheet_pct_contrib: number | null;
+  secondary_actions_p90_raw: number | null;
+  secondary_actions_p90_pctl: number | null;
+  secondary_actions_p90_contrib: number | null;
+  appearances_weight_raw: number | null;
+  appearances_weight_pctl: number | null;
+  appearances_weight_contrib: number | null;
+  source: string;
+  provider: string;
+  s3_path: string | null;
+  job_id: string;
+  created_at: string;
+}
+
+export interface Athletes_football_momentum_football_cacheRecord {
+  profile_id: number;
+  player_id: number;
+  athlete_id: number | null;
+  name: string | null;
+  nationality: string | null;
+  role: string | null;
+  primary_team_id: number | null;
+  team_name: string | null;
+  primary_competition_id: number | null;
+  competition_name: string | null;
+  gps: number | null;
+  match_count: number;
+  last_match_date: string | null;
+  days_since_last: number | null;
+  is_stale: number;
+  wls_slope: number;
+  wls_intercept: number;
+  wls_r_squared: number;
+  wls_slope_se: number | null;
+  wls_predicted_current: number;
+  ema_short: number;
+  ema_long: number;
+  ema_spread: number;
+  rating_season_avg: number;
+  rating_last_3_avg: number;
+  slope_z: number;
+  ema_z: number;
+  confidence: number;
+  raw_momentum: number;
+  gated_momentum: number;
+  momentum: number;
+  momentum_label: string;
+  regression_half_life: number;
+  ema_short_span: number;
+  ema_long_span: number;
+  source: string;
+  provider: string;
+  s3_path: string | null;
+  job_id: string;
+  created_at: string;
 }
 
 export interface Cm_artistRecord {
@@ -245,85 +592,20 @@ export interface Cm_artistRecord {
   synced_at: string;
 }
 
-export interface Cm_scoresRecord {
-  id: string;
-  profile_id: number;
-  profile_type: string;
-  score_date: string;
-  cm_score: number;
-  followers_score: number;
-  likes_score: number;
-  instagram_followers: string | null;
-  instagram_likes: string | null;
-  tiktok_followers: string | null;
-  tiktok_likes: string | null;
-  youtube_followers: string | null;
-  twitter_followers: string | null;
-  total_followers: string;
-  total_likes: string;
-  formula_version: string;
-  created_at: string;
-  updated_at: string;
-  fanbase_score: number | null;
-  engagement_score: number | null;
-}
-
-export interface Instagram_cacheRecord {
-  account_id: number;
-  snapshot_date: string;
-  followers: string;
-  following: string;
-  media_count: string;
-  is_verified: number;
-  is_business: number;
-  category: string | null;
-  bio: string | null;
-  profile_pic_url: string | null;
-  external_url: string | null;
-  avg_likes_per_post: number | null;
-  avg_comments_per_post: number | null;
-  source: string;
-  provider: string;
-  s3_path: string;
-  job_id: string;
-  created_at: string;
-}
-
-export interface L_cm_artist_tagRecord {
-  id: string;
-  cm_artist: number;
-  tag: number;
-  tag_type: string;
-  tag_slug: string;
-  source: string;
-  created_at: string;
-}
-
-export interface L_profile_accountRecord {
-  id: number;
-  profile_id: number;
-  account_id: number;
-  is_primary: number;
-  connected_at: string;
-  disconnected_at: string | null;
-  created_at: string;
-  modified_at: string;
-}
-
-export interface ProfileRecord {
-  id: number;
+export interface Competitions_apifootballRecord {
+  competition_id: number;
   name: string;
-  profile_type: string;
-  vertical: string;
-  image_url: string | null;
-  active: string;
-  created_at: string;
-  cm_source_id: string | null;
-  updated_at: string;
-  cm_source: string;
-  cm_source_ref: string;
-  deleted_at: string | null;
-  deleted_by: string | null;
+  gender: string;
+  country: string;
+  season: number;
+  _loaded_at: string;
+}
+
+export interface L_team_competition_apifootballRecord {
+  team_id: number;
+  competition_id: number;
+  season: number;
+  _loaded_at: string;
 }
 
 export interface Profile_snapshotsRecord {
@@ -345,21 +627,42 @@ export interface Profile_snapshotsRecord {
   updated_at: string;
 }
 
-export interface Tiktok_cacheRecord {
-  account_id: number;
-  snapshot_date: string;
-  follower_count: string;
-  following_count: string;
-  video_count: string;
-  heart_count: string;
-  is_verified: number;
-  bio: string | null;
-  profile_pic_url: string | null;
-  source: string;
+export interface Profile_sport_external_idsRecord {
+  profile_id: number;
+  sport: string;
   provider: string;
-  s3_path: string;
+  external_id: string;
+  metadata: string | null;
+  updated_at: string;
+  source: string;
   job_id: string;
   created_at: string;
+}
+
+export interface ProfilesRecord {
+  id: number;
+  name: string;
+  profile_type: string;
+  vertical: string;
+  image_url: string | null;
+  active: string;
+  deleted_at: string | null;
+  deleted_by: string | null;
+  created_at: string;
+  updated_at: string;
+  source_id: string | null;
+}
+
+export interface Teams_apifootballRecord {
+  team_id: number;
+  name: string | null;
+  code: string | null;
+  country: string | null;
+  national: number;
+  founded: number | null;
+  logo_url: string | null;
+  venue_id: number | null;
+  _loaded_at: string;
 }
 
 /**
@@ -373,7 +676,7 @@ export interface Tiktok_cacheRecord {
  *
  * // Now you have full type safety and autocomplete
  * const results = await db
- *   .table('athletes_cache')
+ *   .table('athletes_basketball')
  *   .select(['column1', 'column2'])
  *   .where('column1', 'eq', 'value')
  *   .execute();
