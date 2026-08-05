@@ -634,12 +634,27 @@
                 "schema": {
                   "type": "object",
                   "required": [
+                    "clubsBySport",
                     "cmScore",
+                    "leaguesBySport",
                     "nationalities",
                     "sports",
+                    "sportsByLevel",
                     "types"
                   ],
                   "properties": {
+                    "clubsBySport": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
                     "cmScore": {
                       "type": "object",
                       "required": [
@@ -666,6 +681,15 @@
                               "type": "null"
                             }
                           ]
+                        }
+                      }
+                    },
+                    "leaguesBySport": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
                         }
                       }
                     },
@@ -700,6 +724,27 @@
                             "type": "integer"
                           },
                           "value": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "sportsByLevel": {
+                      "type": "object",
+                      "required": [
+                        "college",
+                        "professional"
+                      ],
+                      "properties": {
+                        "college": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "professional": {
+                          "type": "array",
+                          "items": {
                             "type": "string"
                           }
                         }
@@ -771,6 +816,22 @@
               }
             },
             "in": "query",
+            "name": "clubs",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
             "name": "excludeNationalities",
             "required": false
           },
@@ -808,6 +869,49 @@
           },
           {
             "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "leagues",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 2,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "college"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "professional"
+                    ]
+                  }
+                ]
+              }
+            },
+            "in": "query",
+            "name": "levels",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "number"
             },
             "in": "query",
@@ -816,10 +920,28 @@
           },
           {
             "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "maxFollowers",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "number"
             },
             "in": "query",
             "name": "minCmScore",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minFollowers",
             "required": false
           },
           {
@@ -850,18 +972,30 @@
           },
           {
             "schema": {
-              "default": "cmScore",
+              "default": "rank",
               "anyOf": [
                 {
                   "type": "string",
                   "enum": [
-                    "name"
+                    "cmScore"
                   ]
                 },
                 {
                   "type": "string",
                   "enum": [
-                    "sport"
+                    "igFollowers"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "igPosts"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "name"
                   ]
                 },
                 {
@@ -873,13 +1007,31 @@
                 {
                   "type": "string",
                   "enum": [
-                    "type"
+                    "rank"
                   ]
                 },
                 {
                   "type": "string",
                   "enum": [
-                    "cmScore"
+                    "sport"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokFollowers"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokLikes"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "type"
                   ]
                 }
               ]
@@ -890,7 +1042,7 @@
           },
           {
             "schema": {
-              "default": "desc",
+              "default": "asc",
               "anyOf": [
                 {
                   "type": "string",
@@ -941,6 +1093,14 @@
             "in": "query",
             "name": "types",
             "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "verified",
+            "required": false
           }
         ],
         "responses": {
@@ -960,16 +1120,91 @@
                       "items": {
                         "type": "object",
                         "required": [
+                          "age",
+                          "club",
                           "cmScore",
+                          "gpsAtk",
+                          "gpsDef",
+                          "gpsScore",
                           "id",
+                          "igEngagementRate",
+                          "igFollowers",
+                          "igPosts",
+                          "igVerified",
                           "imageUrl",
+                          "lastMatchDate",
+                          "leagues",
+                          "level",
+                          "momentumLabel",
+                          "momentumScore",
                           "name",
                           "nationality",
+                          "nationalTeam",
+                          "position",
+                          "rank",
+                          "socialLinks",
                           "sport",
+                          "teamLogoUrl",
+                          "tiktokFollowers",
+                          "tiktokHearts",
+                          "tiktokLikes",
+                          "tiktokPosts",
+                          "tiktokVideos",
+                          "turnedPro",
                           "type"
                         ],
                         "properties": {
+                          "age": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "club": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
                           "cmScore": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "gpsAtk": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "gpsDef": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "gpsScore": {
                             "anyOf": [
                               {
                                 "type": "number"
@@ -982,10 +1217,95 @@
                           "id": {
                             "type": "integer"
                           },
+                          "igEngagementRate": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "igFollowers": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "igPosts": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "igVerified": {
+                            "type": "boolean"
+                          },
                           "imageUrl": {
                             "anyOf": [
                               {
                                 "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "lastMatchDate": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "leagues": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "level": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "college"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "professional"
+                                ]
+                              }
+                            ]
+                          },
+                          "momentumLabel": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "momentumScore": {
+                            "anyOf": [
+                              {
+                                "type": "number"
                               },
                               {
                                 "type": "null"
@@ -1012,10 +1332,132 @@
                               }
                             ]
                           },
+                          "nationalTeam": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "position": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "rank": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "socialLinks": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": [
+                                "handle",
+                                "platform",
+                                "url"
+                              ],
+                              "properties": {
+                                "handle": {
+                                  "type": "string"
+                                },
+                                "platform": {
+                                  "type": "string"
+                                },
+                                "url": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
                           "sport": {
                             "anyOf": [
                               {
                                 "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "teamLogoUrl": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokFollowers": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokHearts": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokLikes": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokPosts": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokVideos": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "turnedPro": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
                               },
                               {
                                 "type": "null"
@@ -1039,13 +1481,17 @@
                       "type": "object",
                       "required": [
                         "limit",
-                        "offset"
+                        "offset",
+                        "total"
                       ],
                       "properties": {
                         "limit": {
                           "type": "integer"
                         },
                         "offset": {
+                          "type": "integer"
+                        },
+                        "total": {
                           "type": "integer"
                         }
                       }
@@ -1732,6 +2178,22 @@
               }
             },
             "in": "query",
+            "name": "clubs",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
             "name": "excludeNationalities",
             "required": false
           },
@@ -1769,6 +2231,49 @@
           },
           {
             "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "leagues",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 2,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "college"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "professional"
+                    ]
+                  }
+                ]
+              }
+            },
+            "in": "query",
+            "name": "levels",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "number"
             },
             "in": "query",
@@ -1777,10 +2282,28 @@
           },
           {
             "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "maxFollowers",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "number"
             },
             "in": "query",
             "name": "minCmScore",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minFollowers",
             "required": false
           },
           {
@@ -1811,18 +2334,30 @@
           },
           {
             "schema": {
-              "default": "cmScore",
+              "default": "rank",
               "anyOf": [
                 {
                   "type": "string",
                   "enum": [
-                    "name"
+                    "cmScore"
                   ]
                 },
                 {
                   "type": "string",
                   "enum": [
-                    "sport"
+                    "igFollowers"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "igPosts"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "name"
                   ]
                 },
                 {
@@ -1834,13 +2369,31 @@
                 {
                   "type": "string",
                   "enum": [
-                    "type"
+                    "rank"
                   ]
                 },
                 {
                   "type": "string",
                   "enum": [
-                    "cmScore"
+                    "sport"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokFollowers"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "tiktokLikes"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "type"
                   ]
                 }
               ]
@@ -1851,7 +2404,7 @@
           },
           {
             "schema": {
-              "default": "desc",
+              "default": "asc",
               "anyOf": [
                 {
                   "type": "string",
@@ -1902,6 +2455,14 @@
             "in": "query",
             "name": "types",
             "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "verified",
+            "required": false
           }
         ],
         "responses": {
@@ -1921,16 +2482,91 @@
                       "items": {
                         "type": "object",
                         "required": [
+                          "age",
+                          "club",
                           "cmScore",
+                          "gpsAtk",
+                          "gpsDef",
+                          "gpsScore",
                           "id",
+                          "igEngagementRate",
+                          "igFollowers",
+                          "igPosts",
+                          "igVerified",
                           "imageUrl",
+                          "lastMatchDate",
+                          "leagues",
+                          "level",
+                          "momentumLabel",
+                          "momentumScore",
                           "name",
                           "nationality",
+                          "nationalTeam",
+                          "position",
+                          "rank",
+                          "socialLinks",
                           "sport",
+                          "teamLogoUrl",
+                          "tiktokFollowers",
+                          "tiktokHearts",
+                          "tiktokLikes",
+                          "tiktokPosts",
+                          "tiktokVideos",
+                          "turnedPro",
                           "type"
                         ],
                         "properties": {
+                          "age": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "club": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
                           "cmScore": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "gpsAtk": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "gpsDef": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "gpsScore": {
                             "anyOf": [
                               {
                                 "type": "number"
@@ -1943,10 +2579,95 @@
                           "id": {
                             "type": "integer"
                           },
+                          "igEngagementRate": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "igFollowers": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "igPosts": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "igVerified": {
+                            "type": "boolean"
+                          },
                           "imageUrl": {
                             "anyOf": [
                               {
                                 "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "lastMatchDate": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "leagues": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "level": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "college"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "professional"
+                                ]
+                              }
+                            ]
+                          },
+                          "momentumLabel": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "momentumScore": {
+                            "anyOf": [
+                              {
+                                "type": "number"
                               },
                               {
                                 "type": "null"
@@ -1973,10 +2694,132 @@
                               }
                             ]
                           },
+                          "nationalTeam": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "position": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "rank": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "socialLinks": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": [
+                                "handle",
+                                "platform",
+                                "url"
+                              ],
+                              "properties": {
+                                "handle": {
+                                  "type": "string"
+                                },
+                                "platform": {
+                                  "type": "string"
+                                },
+                                "url": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
                           "sport": {
                             "anyOf": [
                               {
                                 "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "teamLogoUrl": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokFollowers": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokHearts": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokLikes": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokPosts": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "tiktokVideos": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "turnedPro": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
                               },
                               {
                                 "type": "null"
@@ -2000,13 +2843,17 @@
                       "type": "object",
                       "required": [
                         "limit",
-                        "offset"
+                        "offset",
+                        "total"
                       ],
                       "properties": {
                         "limit": {
                           "type": "integer"
                         },
                         "offset": {
+                          "type": "integer"
+                        },
+                        "total": {
                           "type": "integer"
                         }
                       }
