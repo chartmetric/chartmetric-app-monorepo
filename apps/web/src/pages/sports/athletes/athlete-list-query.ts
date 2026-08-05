@@ -12,17 +12,25 @@ export type AthleteListReply =
 
 export type Athlete = AthleteListReply["data"][number];
 
+export type AthleteLevel = NonNullable<AthleteListQuery["levels"]>[number];
+
 export type AthleteFilters = Pick<
   AthleteListQuery,
+  | "clubs"
   | "excludeNationalities"
   | "excludeSports"
   | "excludeTypes"
+  | "leagues"
+  | "levels"
   | "maxCmScore"
+  | "maxFollowers"
   | "minCmScore"
+  | "minFollowers"
   | "name"
   | "nationalities"
   | "sports"
   | "types"
+  | "verified"
 >;
 
 export type AthleteSortBy = NonNullable<AthleteListQuery["sortBy"]>;
@@ -33,8 +41,8 @@ export type AthleteSortDirection = NonNullable<
 export const DEFAULT_ATHLETE_QUERY = {
   limit: ATHLETE_PAGE_SIZE,
   offset: 0,
-  sortBy: "cmScore",
-  sortDirection: "desc",
+  sortBy: "rank",
+  sortDirection: "asc",
 } satisfies AthleteListQuery;
 
 export const loadAthletes = async (
