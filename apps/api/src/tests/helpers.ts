@@ -17,6 +17,8 @@ type StubRows = Partial<Record<keyof Database, unknown[]>>;
 
 interface StubChain {
   argMax: () => StubChain;
+  count: () => StubChain;
+  countDistinct: () => StubChain;
   execute: () => Promise<unknown[]>;
   final: () => StubChain;
   groupBy: () => StubChain;
@@ -38,6 +40,8 @@ export const stubClickhouse = (rowsByTable: StubRows = {}): ClickHouse => {
   const buildChain = (table: keyof Database): StubChain => {
     const chain: StubChain = {
       argMax: () => chain,
+      count: () => chain,
+      countDistinct: () => chain,
       execute: async () => {
         await Promise.resolve();
         return rowsByTable[table] ?? [];

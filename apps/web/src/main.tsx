@@ -5,13 +5,14 @@ import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { RequiredAuthProvider } from "@propelauth/react";
 import { baseTheme } from "@repo/ui/theme";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { createRoot } from "react-dom/client";
 
 import { App } from "./App";
 import cmLogo from "./assets/cm-logo.svg";
 import { env } from "./env";
 import { detectLocale, dynamicActivate } from "./i18n";
+import { createQueryClient } from "./query-client";
 
 import "@fontsource-variable/inter";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -27,7 +28,7 @@ if (container === null) {
   throw new Error("Root element #app not found");
 }
 
-const queryClient = new QueryClient();
+const queryClient = createQueryClient();
 
 await dynamicActivate(detectLocale());
 

@@ -4,6 +4,7 @@ import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
 import type { Database } from "../../../../db/clickhouse/schema.ts";
 import type { ListArtistsQuery } from "./schemas.ts";
 
+type ArtistTag = Database["new_vertical.l_cm_artist_tag"];
 type IgCache = Database["new_vertical.instagram_cache"];
 type Profile = Database["new_vertical.profile"];
 type ProfileAccount = Database["new_vertical.l_profile_account"];
@@ -36,6 +37,8 @@ export interface ArtistMetricCtes {
     tiktok_followers_change: "Nullable(Int64)";
     tiktok_followers_change_percent: "Nullable(Float64)";
   };
+  genre_exclude: { cm_artist: ArtistTag["cm_artist"] };
+  genre_match: { cm_artist: ArtistTag["cm_artist"] };
   latest_ig: {
     account_id: IgCache["account_id"];
     instagram_followers: IgCache["followers"];
@@ -81,6 +84,10 @@ export type MetricsQueryFactory = (database: MetricsDatabase) => unknown;
 export type PeriodQueryFactory = (
   database: MetricsDatabase,
   periodDays: number,
+) => unknown;
+export type GenreQueryFactory = (
+  database: MetricsDatabase,
+  slugs: string[],
 ) => unknown;
 export type ListArtistsQueryFactory = (
   database: MetricsDatabase,

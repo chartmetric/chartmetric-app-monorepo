@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { FilterBar } from "./FilterBar";
 import {
+  emptyMultiSelectValue,
   MultiSelectFilter,
   type MultiSelectFilterValue,
 } from "./MultiSelectFilter";
@@ -17,10 +18,9 @@ const renderWithProvider = (component: ReactNode): void => {
 const MultiSelectHarness: FC<{
   onChange: (value: MultiSelectFilterValue) => void;
 }> = ({ onChange }) => {
-  const [value, setValue] = useState<MultiSelectFilterValue>({
-    mode: "include",
-    values: [],
-  });
+  const [value, setValue] = useState<MultiSelectFilterValue>(
+    emptyMultiSelectValue,
+  );
 
   return (
     <MultiSelectFilter
@@ -65,7 +65,7 @@ const RangeHarness: FC<{
 };
 
 describe("filter controls", () => {
-  it("selects categorical options and changes inclusion mode", () => {
+  it("combines included and excluded selections", () => {
     const onChange = vi.fn();
     renderWithProvider(<MultiSelectHarness onChange={onChange} />);
 
@@ -73,15 +73,31 @@ describe("filter controls", () => {
     fireEvent.click(screen.getByRole("option", { name: /Football/ }));
 
     expect(onChange).toHaveBeenLastCalledWith({
-      mode: "include",
-      values: ["Football"],
+      excluded: [],
+      included: ["Football"],
     });
 
     fireEvent.click(screen.getByRole("radio", { name: "Exclude" }));
 
+    const footballOnExcludeTab = screen.getByRole("option", {
+      name: /Football/,
+    });
+    expect(Object.hasOwn(footballOnExcludeTab.dataset, "comboboxActive")).toBe(
+      false,
+    );
+
+    fireEvent.click(screen.getByRole("option", { name: /Tennis/ }));
+
     expect(onChange).toHaveBeenLastCalledWith({
-      mode: "exclude",
-      values: ["Football"],
+      excluded: ["Tennis"],
+      included: ["Football"],
+    });
+
+    fireEvent.click(screen.getByRole("option", { name: /Football/ }));
+
+    expect(onChange).toHaveBeenLastCalledWith({
+      excluded: ["Tennis", "Football"],
+      included: [],
     });
   });
 

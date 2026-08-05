@@ -118,16 +118,28 @@ describe("App", () => {
     apiGetMock.mockImplementation(async (path: string) => {
       await Promise.resolve();
 
-      return path === "/app/athletes/filter-options"
-        ? {
-            data: {
-              cmScore: { max: null, min: null },
-              nationalities: [],
-              sports: [],
-              types: [],
-            },
-          }
-        : { data: { data: [], meta: { limit: 25, offset: 0 } } };
+      if (path === "/app/athletes/filter-options") {
+        return {
+          data: {
+            cmScore: { max: null, min: null },
+            nationalities: [],
+            sports: [],
+            types: [],
+          },
+        };
+      }
+      if (path === "/app/artists/filter-options") {
+        return {
+          data: {
+            countries: [],
+            genres: [],
+            instagramFollowers: { max: null, min: 0 },
+            tiktokFollowers: { max: null, min: 0 },
+          },
+        };
+      }
+
+      return { data: { data: [], meta: { limit: 25, offset: 0 } } };
     });
     i18n.activate("en");
     auth.state = loggedInState;

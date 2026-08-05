@@ -39,6 +39,127 @@
         }
       }
     },
+    "/app/artists/filter-options": {
+      "get": {
+        "tags": [
+          "artists"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "countries",
+                    "genres",
+                    "instagramFollowers",
+                    "tiktokFollowers"
+                  ],
+                  "properties": {
+                    "countries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "count",
+                          "value"
+                        ],
+                        "properties": {
+                          "count": {
+                            "type": "integer"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "genres": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "count",
+                          "value"
+                        ],
+                        "properties": {
+                          "count": {
+                            "type": "integer"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "instagramFollowers": {
+                      "type": "object",
+                      "required": [
+                        "max",
+                        "min"
+                      ],
+                      "properties": {
+                        "max": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "min": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "tiktokFollowers": {
+                      "type": "object",
+                      "required": [
+                        "max",
+                        "min"
+                      ],
+                      "properties": {
+                        "max": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "min": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/app/artists": {
       "get": {
         "tags": [
@@ -92,6 +213,106 @@
             },
             "in": "query",
             "name": "changePeriod",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "countries",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "excludeCountries",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "excludeGenres",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "genres",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "maxInstagramFollowers",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "maxTiktokFollowers",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minInstagramFollowers",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minTiktokFollowers",
             "required": false
           },
           {
@@ -1045,6 +1266,106 @@
             },
             "in": "query",
             "name": "changePeriod",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "countries",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "excludeCountries",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "excludeGenres",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "genres",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "maxInstagramFollowers",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "maxTiktokFollowers",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minInstagramFollowers",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minTiktokFollowers",
             "required": false
           },
           {

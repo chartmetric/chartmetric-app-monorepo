@@ -31,11 +31,29 @@ const ChangePeriodSchema = Type.Union([
   Type.Literal("28d"),
 ]);
 
+const OptionalCategoricalFilter = Type.Optional(
+  Type.Array(Type.String({ maxLength: 100, minLength: 1 }), {
+    maxItems: 100,
+    minItems: 1,
+    uniqueItems: true,
+  }),
+);
+
+const OptionalFollowerBound = Type.Optional(Type.Integer({ minimum: 0 }));
+
 export const ListArtistsQuerySchema = Type.Object({
   ...PaginationQuerySchema.properties,
   changePeriod: Type.Optional(
     Type.Union(ChangePeriodSchema.anyOf, { default: "7d" }),
   ),
+  countries: OptionalCategoricalFilter,
+  excludeCountries: OptionalCategoricalFilter,
+  excludeGenres: OptionalCategoricalFilter,
+  genres: OptionalCategoricalFilter,
+  maxInstagramFollowers: OptionalFollowerBound,
+  maxTiktokFollowers: OptionalFollowerBound,
+  minInstagramFollowers: OptionalFollowerBound,
+  minTiktokFollowers: OptionalFollowerBound,
   sortBy: Type.Optional(
     Type.Union(ArtistSortBySchema.anyOf, { default: "cmScore" }),
   ),

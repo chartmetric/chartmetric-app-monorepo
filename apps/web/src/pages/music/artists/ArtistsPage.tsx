@@ -1,28 +1,32 @@
-import { Trans, useLingui } from "@lingui/react/macro";
+import { Trans } from "@lingui/react/macro";
+import { Stack, Text, Title } from "@mantine/core";
 import {
-  Alert,
-  Button,
-  Center,
-  Group,
-  Loader,
-  Paper,
-  SegmentedControl,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { type FC, type ReactNode, useState } from "react";
+  keepPreviousData,
+  useQuery,
+  type UseQueryResult,
+} from "@tanstack/react-query";
+import { type FC, useState } from "react";
 
 import type {
   ArtistChangePeriod,
+  ArtistFilters as ArtistFilterQuery,
   ArtistListQuery,
+  ArtistListReply,
   ArtistSortBy,
   MetricDisplayMode,
 } from "./types";
 
 import { loadArtists } from "./api/artist-list";
+import { loadArtistFilterOptions } from "./api/filter-options";
+import { ArtistFilters } from "./components/ArtistFilters";
+import {
+  EmptyState,
+  ErrorState,
+  FilterOptionsError,
+  LoadingState,
+} from "./components/ArtistsPageStates";
 import { ArtistsTable } from "./components/ArtistsTable";
+import { MetricDisplayControls } from "./components/MetricDisplayControls";
 import { DEFAULT_ARTIST_QUERY, METRIC_SORTS, sortFamilyOf } from "./constants";
 
 const ASCENDING_FIRST_SORTS: ReadonlySet<ArtistSortBy> = new Set([
@@ -57,6 +61,18 @@ const applyDisplayMode = (
   };
 };
 
+const replaceFilters = (
+  query: ArtistListQuery,
+  filters: ArtistFilterQuery,
+): ArtistListQuery => ({
+  changePeriod: query.changePeriod ?? "7d",
+  limit: query.limit,
+  offset: 0,
+  sortBy: query.sortBy ?? "cmScore",
+  sortDirection: query.sortDirection ?? "desc",
+  ...filters,
+});
+
 const changeQuerySort = (
   query: ArtistListQuery,
   nextSortBy: ArtistSortBy,
@@ -79,120 +95,77 @@ const changeQuerySort = (
   };
 };
 
-const LoadingState: FC = () => {
-  const { t } = useLingui();
-
-  return (
-    <Center mih={280}>
-      <Stack align="center" gap="sm" role="status">
-        <Loader aria-label={t`Loading artists`} />
-        <Text c="dimmed">
-          <Trans>Loading artists…</Trans>
-        </Text>
-      </Stack>
-    </Center>
-  );
-};
-
-const EmptyState: FC = () => (
-  <Paper p="xl" radius="md" withBorder>
-    <Center mih={180}>
-      <Stack align="center" gap="xs">
-        <Title order={2} size="h3">
-          <Trans>No artists found</Trans>
-        </Title>
-        <Text c="dimmed">
-          <Trans>There are no artists to show on this page.</Trans>
-        </Text>
-      </Stack>
-    </Center>
-  </Paper>
-);
-
-interface ErrorStateProps {
-  retry: () => void;
-}
-
-interface MetricDisplayControlsProps {
-  changePeriod: ArtistChangePeriod;
+interface ArtistsContentProps {
+  artistsQuery: UseQueryResult<ArtistListReply>;
   displayMode: MetricDisplayMode;
-  onChangePeriod: (value: string) => void;
-  onDisplayModeChange: (value: string) => void;
+  offset: number;
+  onPageChange: (offset: number) => void;
+  onSort: (sortBy: ArtistSortBy) => void;
+  sortBy: ArtistSortBy;
+  sortDirection: "asc" | "desc";
 }
 
-const MetricDisplayControls: FC<MetricDisplayControlsProps> = ({
-  changePeriod,
+const ArtistsContent: FC<ArtistsContentProps> = ({
+  artistsQuery,
   displayMode,
-  onChangePeriod,
-  onDisplayModeChange,
+  offset,
+  onPageChange,
+  onSort,
+  sortBy,
+  sortDirection,
 }) => {
-  const { t } = useLingui();
+  if (artistsQuery.isPending) return <LoadingState />;
+  if (artistsQuery.isError) {
+    return (
+      <ErrorState
+        retry={() => {
+          void artistsQuery.refetch();
+        }}
+      />
+    );
+  }
+
+  const artists = artistsQuery.data.data;
+  if (offset === 0 && artists.length === 0) return <EmptyState />;
 
   return (
-    <Group gap="sm" justify="flex-end">
-      <SegmentedControl
-        aria-label={t`Change period`}
-        data={[
-          { label: t`1D`, value: "1d" },
-          { label: t`7D`, value: "7d" },
-          { label: t`28D`, value: "28d" },
-        ]}
-        disabled={displayMode === "total"}
-        onChange={onChangePeriod}
-        size="xs"
-        value={changePeriod}
-      />
-      <SegmentedControl
-        aria-label={t`Value display`}
-        data={[
-          { label: t`Total`, value: "total" },
-          { label: t`Change`, value: "change" },
-          { label: t`% Change`, value: "percentChange" },
-        ]}
-        onChange={onDisplayModeChange}
-        size="xs"
-        value={displayMode}
-      />
-    </Group>
+    <ArtistsTable
+      artists={artists}
+      displayMode={displayMode}
+      isFetching={artistsQuery.isFetching}
+      offset={offset}
+      onPageChange={onPageChange}
+      onSort={onSort}
+      sortBy={sortBy}
+      sortDirection={sortDirection}
+    />
   );
 };
 
-const ErrorState: FC<ErrorStateProps> = ({ retry }) => (
-  <Alert
-    color="red"
-    title={
-      <Trans comment="Error title on the artists list page">
-        Unable to load artists
-      </Trans>
-    }
-  >
-    <Stack align="flex-start" gap="sm">
-      <Text>
-        <Trans>The artist list could not be loaded. Try again.</Trans>
-      </Text>
-      <Button color="red" onClick={retry} variant="light">
-        <Trans comment="Button that retries loading the artists list">
-          Try again
-        </Trans>
-      </Button>
-    </Stack>
-  </Alert>
+const ArtistsHeader: FC = () => (
+  <div>
+    <Title order={1}>
+      <Trans>Artists</Trans>
+    </Title>
+    <Text c="dimmed" mt={4}>
+      <Trans>Explore artists across the music industry.</Trans>
+    </Text>
+  </div>
 );
 
 export const ArtistsPage: FC = () => {
   const [query, setQuery] = useState<ArtistListQuery>(DEFAULT_ARTIST_QUERY);
   const [displayMode, setDisplayMode] = useState<MetricDisplayMode>("total");
+  const filterOptionsQuery = useQuery({
+    queryFn: loadArtistFilterOptions,
+    queryKey: ["artist-filter-options"],
+    staleTime: 5 * 60 * 1000,
+  });
   const artistsQuery = useQuery({
     placeholderData: keepPreviousData,
     queryFn: async () => await loadArtists(query),
     queryKey: ["artists", query],
   });
-  const artists = artistsQuery.data?.data ?? [];
-  const offset = query.offset;
-  const sortBy = query.sortBy ?? "cmScore";
-  const sortDirection = query.sortDirection ?? "desc";
-  const changePeriod = query.changePeriod ?? "7d";
-  let content: ReactNode;
 
   const changeSort = (nextSortBy: ArtistSortBy): void => {
     setQuery((currentQuery) => changeQuerySort(currentQuery, nextSortBy));
@@ -219,50 +192,40 @@ export const ArtistsPage: FC = () => {
     }));
   };
 
-  if (artistsQuery.isPending) {
-    content = <LoadingState />;
-  } else if (artistsQuery.isError) {
-    content = (
-      <ErrorState
-        retry={() => {
-          void artistsQuery.refetch();
-        }}
-      />
-    );
-  } else if (offset === 0 && artists.length === 0) {
-    content = <EmptyState />;
-  } else {
-    content = (
-      <ArtistsTable
-        artists={artists}
-        displayMode={displayMode}
-        isFetching={artistsQuery.isFetching}
-        offset={offset}
-        onPageChange={changeOffset}
-        onSort={changeSort}
-        sortBy={sortBy}
-        sortDirection={sortDirection}
-      />
-    );
-  }
+  const applyFilters = (filters: ArtistFilterQuery): void => {
+    setQuery((currentQuery) => replaceFilters(currentQuery, filters));
+  };
 
   return (
     <Stack gap="lg">
-      <div>
-        <Title order={1}>
-          <Trans>Artists</Trans>
-        </Title>
-        <Text c="dimmed" mt={4}>
-          <Trans>Explore artists across the music industry.</Trans>
-        </Text>
-      </div>
+      <ArtistsHeader />
+      {filterOptionsQuery.isError ? (
+        <FilterOptionsError
+          retry={() => {
+            void filterOptionsQuery.refetch();
+          }}
+        />
+      ) : null}
+      <ArtistFilters
+        isLoading={filterOptionsQuery.isPending}
+        onChange={applyFilters}
+        options={filterOptionsQuery.data}
+      />
       <MetricDisplayControls
-        changePeriod={changePeriod}
+        changePeriod={query.changePeriod ?? "7d"}
         displayMode={displayMode}
         onChangePeriod={changeChangePeriod}
         onDisplayModeChange={changeDisplayMode}
       />
-      {content}
+      <ArtistsContent
+        artistsQuery={artistsQuery}
+        displayMode={displayMode}
+        offset={query.offset}
+        onPageChange={changeOffset}
+        onSort={changeSort}
+        sortBy={query.sortBy ?? "cmScore"}
+        sortDirection={query.sortDirection ?? "desc"}
+      />
     </Stack>
   );
 };

@@ -35,11 +35,26 @@ const artistListReply = {
   data: { data: [artist], meta: { limit: 25, offset: 0 } },
 };
 
+const filterOptions = {
+  countries: [
+    { count: 12, value: "US" },
+    { count: 5, value: "KR" },
+  ],
+  genres: [
+    { count: 9, value: "pop" },
+    { count: 3, value: "rock" },
+  ],
+  instagramFollowers: { max: 500_000_000, min: 0 },
+  tiktokFollowers: { max: 150_000_000, min: 0 },
+};
+
 const mockArtistRequests = (listReply = artistListReply): void => {
-  apiGetMock.mockImplementation(async () => {
+  apiGetMock.mockImplementation(async (path: string) => {
     await Promise.resolve();
 
-    return listReply;
+    return path === "/app/artists/filter-options"
+      ? { data: filterOptions }
+      : listReply;
   });
 };
 
@@ -140,8 +155,12 @@ describe("ArtistsPage", () => {
 
   it("renders an error state and retries", async () => {
     let artistRequestCount = 0;
-    apiGetMock.mockImplementation(async () => {
+    apiGetMock.mockImplementation(async (path: string) => {
       await Promise.resolve();
+
+      if (path === "/app/artists/filter-options") {
+        return { data: filterOptions };
+      }
 
       artistRequestCount += 1;
 
@@ -193,7 +212,12 @@ describe("ArtistsPage", () => {
   it("marks the table busy while a sort refetch is in flight", async () => {
     let canResolveSecondRequest = false;
     let artistRequestCount = 0;
-    apiGetMock.mockImplementation(async () => {
+    apiGetMock.mockImplementation(async (path: string) => {
+      if (path === "/app/artists/filter-options") {
+        await Promise.resolve();
+        return { data: filterOptions };
+      }
+
       artistRequestCount += 1;
 
       if (artistRequestCount === 1) {

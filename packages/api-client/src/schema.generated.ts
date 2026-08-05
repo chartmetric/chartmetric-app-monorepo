@@ -42,6 +42,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/app/artists/filter-options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            countries: {
+                                count: number;
+                                value: string;
+                            }[];
+                            genres: {
+                                count: number;
+                                value: string;
+                            }[];
+                            instagramFollowers: {
+                                max: number | null;
+                                min: number | null;
+                            };
+                            tiktokFollowers: {
+                                max: number | null;
+                                min: number | null;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/app/artists": {
         parameters: {
             query?: never;
@@ -55,6 +107,14 @@ export interface paths {
                     limit: number;
                     offset: number;
                     changePeriod?: "1d" | "7d" | "28d";
+                    countries?: string[];
+                    excludeCountries?: string[];
+                    excludeGenres?: string[];
+                    genres?: string[];
+                    maxInstagramFollowers?: number;
+                    maxTiktokFollowers?: number;
+                    minInstagramFollowers?: number;
+                    minTiktokFollowers?: number;
                     sortBy?: "name" | "countryCode" | "cmScore" | "cmScoreChange" | "cmScoreChangePercent" | "instagramFollowers" | "instagramFollowersChange" | "instagramFollowersChangePercent" | "tiktokFollowers" | "tiktokFollowersChange" | "tiktokFollowersChangePercent";
                     sortDirection?: "asc" | "desc";
                 };
@@ -329,6 +389,14 @@ export interface paths {
                     limit: number;
                     offset: number;
                     changePeriod?: "1d" | "7d" | "28d";
+                    countries?: string[];
+                    excludeCountries?: string[];
+                    excludeGenres?: string[];
+                    genres?: string[];
+                    maxInstagramFollowers?: number;
+                    maxTiktokFollowers?: number;
+                    minInstagramFollowers?: number;
+                    minTiktokFollowers?: number;
                     sortBy?: "name" | "countryCode" | "cmScore" | "cmScoreChange" | "cmScoreChangePercent" | "instagramFollowers" | "instagramFollowersChange" | "instagramFollowersChangePercent" | "tiktokFollowers" | "tiktokFollowersChange" | "tiktokFollowersChangePercent";
                     sortDirection?: "asc" | "desc";
                 };

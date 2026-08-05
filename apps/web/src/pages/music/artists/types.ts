@@ -12,6 +12,21 @@ export type ArtistSortBy = NonNullable<ArtistListQuery["sortBy"]>;
 export type ArtistSortDirection = NonNullable<ArtistListQuery["sortDirection"]>;
 export type ArtistChangePeriod = NonNullable<ArtistListQuery["changePeriod"]>;
 
+export type ArtistFilters = Pick<
+  ArtistListQuery,
+  | "countries"
+  | "excludeCountries"
+  | "excludeGenres"
+  | "genres"
+  | "maxInstagramFollowers"
+  | "maxTiktokFollowers"
+  | "minInstagramFollowers"
+  | "minTiktokFollowers"
+>;
+
+export type ArtistFilterOptionsReply =
+  paths["/app/artists/filter-options"]["get"]["responses"][200]["content"]["application/json"];
+
 export type MetricDisplayMode = "total" | "change" | "percentChange";
 
 export type MetricSortFamily =

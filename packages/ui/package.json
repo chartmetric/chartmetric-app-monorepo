@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "sideEffects": false,
   "exports": {
+    "./checkbox-list-filter": "./components/filters/CheckboxListFilter.tsx",
     "./counter": "./components/Counter/Counter.tsx",
     "./data-table": "./components/data-table/DataTable.tsx",
     "./filter-bar": "./components/filters/FilterBar.tsx",

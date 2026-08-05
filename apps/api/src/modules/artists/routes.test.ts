@@ -105,6 +105,11 @@ describe("GET /artists", () => {
     ["a limit above the maximum", "/v1/artists?limit=9999"],
     ["an unknown change period", "/app/artists?changePeriod=90d"],
     ["an unknown sort column", "/app/artists?sortBy=followers"],
+    [
+      "an inverted follower range",
+      "/app/artists?minInstagramFollowers=100&maxInstagramFollowers=1",
+    ],
+    ["a negative follower bound", "/app/artists?minTiktokFollowers=-5"],
   ])("rejects %s", async (_case, url) => {
     const app = await buildApp({
       clickhouse: stubClickhouse(rows),
@@ -133,6 +138,63 @@ describe("GET /artists", () => {
       data: [],
       meta: { limit: 5, offset: 10 },
     });
+    await app.close();
+  });
+});
+
+describe("GET /artists/filter-options", () => {
+  const optionRows = {
+    "new_vertical.cm_artist": [
+      { code2: "US", count: "12" },
+      { code2: "KR", count: "5" },
+    ],
+    "new_vertical.l_cm_artist_tag": [
+      { count: "9", tag_slug: "pop" },
+      { count: "3", tag_slug: "rock" },
+    ],
+    "new_vertical.instagram_cache": [{ max_followers: "404690279" }],
+    "new_vertical.tiktok_cache": [{ max_followers: "129100000" }],
+  };
+
+  it("returns sorted options on the app surface", async () => {
+    const app = await buildApp({
+      clickhouse: stubClickhouse(optionRows),
+      config: testConfig,
+    });
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/app/artists/filter-options",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual({
+      countries: [
+        { count: 12, value: "US" },
+        { count: 5, value: "KR" },
+      ],
+      genres: [
+        { count: 9, value: "pop" },
+        { count: 3, value: "rock" },
+      ],
+      instagramFollowers: { max: 404_690_279, min: 0 },
+      tiktokFollowers: { max: 129_100_000, min: 0 },
+    });
+    await app.close();
+  });
+
+  it("is absent from the developer surface", async () => {
+    const app = await buildApp({
+      clickhouse: stubClickhouse(optionRows),
+      config: testConfig,
+    });
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/v1/artists/filter-options",
+    });
+
+    expect(response.statusCode).toBe(404);
     await app.close();
   });
 });

@@ -2,6 +2,7 @@ import { useLingui } from "@lingui/react/macro";
 import { TextInput } from "@mantine/core";
 import { FilterBar } from "@repo/ui/filter-bar";
 import {
+  emptyMultiSelectValue,
   MultiSelectFilter,
   type MultiSelectFilterOption,
   type MultiSelectFilterValue,
@@ -29,9 +30,9 @@ interface AthleteFiltersProps {
 const createFilterDraft = (): AthleteFilterDraft => ({
   cmScore: [null, null],
   name: "",
-  nationalities: { mode: "include", values: [] },
-  sports: { mode: "include", values: [] },
-  types: { mode: "include", values: [] },
+  nationalities: emptyMultiSelectValue(),
+  sports: emptyMultiSelectValue(),
+  types: emptyMultiSelectValue(),
 });
 
 const addCategoricalFilter = (
@@ -40,12 +41,11 @@ const addCategoricalFilter = (
   excludeKey: "excludeNationalities" | "excludeSports" | "excludeTypes",
   selection: MultiSelectFilterValue,
 ): void => {
-  if (selection.values.length === 0) return;
-
-  if (selection.mode === "include") {
-    filters[includeKey] = selection.values;
-  } else {
-    filters[excludeKey] = selection.values;
+  if (selection.included.length > 0) {
+    filters[includeKey] = selection.included;
+  }
+  if (selection.excluded.length > 0) {
+    filters[excludeKey] = selection.excluded;
   }
 };
 
