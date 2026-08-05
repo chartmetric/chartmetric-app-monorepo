@@ -1,4 +1,4 @@
-import type { DatabaseQueryFactory } from "../../../../db/clickhouse/client.ts";
+import type { DatabaseQueryFactory } from "../../../../lib/database.ts";
 
 const optionSettings = {
   max_execution_time: 30,

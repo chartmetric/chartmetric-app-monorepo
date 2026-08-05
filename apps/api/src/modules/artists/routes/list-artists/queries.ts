@@ -1,4 +1,4 @@
-import type { DatabaseQueryFactory } from "../../../../db/clickhouse/client.ts";
+import type { DatabaseQueryFactory } from "../../../../lib/database.ts";
 import type { ListArtistsQuery } from "./schemas.ts";
 import type { ListArtistsQueryFactory, MetricsDatabase } from "./types.ts";
 
