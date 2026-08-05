@@ -1,105 +1,152 @@
-import type {
-  ClickHouseDatabase,
-  DatabaseQueryFactory,
-} from "../../../../db/clickhouse/client.ts";
-import type { ListAthletesQuery } from "./schemas.ts";
+import { rawAs } from "@hypequery/clickhouse";
 
-const sortColumns = {
-  cmScore: "cm_score",
-  name: "name",
-  nationality: "nationality",
-  sport: "sport",
-  type: "type",
+import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
+import type { ExecutableQuery } from "../../../../lib/database.ts";
+import type { ListAthletesQuery } from "./schemas.ts";
+import type {
+  AthleteCountRow,
+  AthleteListRow,
+  ListAthletesOptions,
+  RosterBuilder,
+} from "./types.ts";
+
+import { withEnrichment } from "./enrichment.ts";
+import { applyFilters, selectRoster } from "./filters.ts";
+
+const CACHE = "new_vertical.athletes_cache";
+const BASKETBALL = "new_vertical.athletes_basketball";
+const GPS = "new_vertical.athletes_football_gps_scores_football_cache";
+const MOMENTUM = "new_vertical.athletes_football_momentum_football_cache";
+
+const CACHE_COLUMNS = [
+  `${CACHE}.profile_id AS profile_id`,
+  `${CACHE}.name AS name`,
+  `${CACHE}.sport AS sport`,
+  `${CACHE}.type AS type`,
+  `${CACHE}.nationality AS nationality`,
+  `${CACHE}.image_url AS image_url`,
+  `${CACHE}.cm_score AS cm_score`,
+  `${CACHE}.date_of_birth AS date_of_birth`,
+  `${CACHE}.turned_pro_year AS turned_pro_year`,
+  `${CACHE}.football_club AS football_club`,
+  `${CACHE}.football_position AS football_position`,
+  `${CACHE}.football_national_team AS football_national_team`,
+  `${CACHE}.tennis_tour AS tennis_tour`,
+  `${CACHE}.tennis_ranking AS tennis_ranking`,
+  `${CACHE}.ig_followers AS ig_followers`,
+  `${CACHE}.ig_posts AS ig_posts`,
+  `${CACHE}.ig_verified AS ig_verified`,
+  `${CACHE}.ig_engagement_rate AS ig_engagement_rate`,
+  `${CACHE}.ig_handle AS ig_handle`,
+  `${CACHE}.tiktok_followers AS tiktok_followers`,
+  `${CACHE}.tiktok_hearts AS tiktok_hearts`,
+  `${CACHE}.tiktok_videos AS tiktok_videos`,
+  `${CACHE}.tiktok_handle AS tiktok_handle`,
+  `${CACHE}.youtube_handle AS youtube_handle`,
+  `${CACHE}.twitter_handle AS twitter_handle`,
+  `${CACHE}.facebook_handle AS facebook_handle`,
+] as const;
+
+// Columns that arrive from an enrichment source, as `[expression, alias]`. The
+// generated schema does not describe CTE output, and the enrichment joins are
+// wired outside the builder's type state (see `enrichment.ts`), so these are
+// selected as aliased expressions instead of checked column names.
+const JOINED_COLUMNS = [
+  ["roster_rank.athlete_rank", "athlete_rank"],
+  ["tiktok_latest.tiktok_posts", "snapshot_tiktok_posts"],
+  ["tiktok_latest.tiktok_likes", "snapshot_tiktok_likes"],
+  ["tiktok_latest.tiktok_snapshot_followers", "snapshot_tiktok_followers"],
+  ["last_match.last_match_date", "last_match_date"],
+  ["on3_school.school", "on3_school"],
+  ["espn_basketball.espn_league", "espn_league"],
+  ["espn_basketball.espn_team_abbr", "espn_team_abbr"],
+  [`${BASKETBALL}.team`, "basketball_team"],
+  [`${BASKETBALL}.league`, "basketball_league"],
+  [`${BASKETBALL}.position`, "basketball_position"],
+  [`${GPS}.gps`, "gps"],
+  [`${GPS}.gps_atk`, "gps_atk"],
+  [`${GPS}.gps_def`, "gps_def"],
+  [`${MOMENTUM}.momentum`, "momentum"],
+  [`${MOMENTUM}.momentum_label`, "momentum_label"],
+] as const satisfies readonly (readonly [string, keyof AthleteListRow])[];
+
+const joinedSelections = JOINED_COLUMNS.map(([expression, alias]) =>
+  rawAs(expression, alias),
+);
+
+const SORT_COLUMNS = {
+  cmScore: `${CACHE}.cm_score`,
+  igFollowers: `${CACHE}.ig_followers`,
+  igPosts: `${CACHE}.ig_posts`,
+  name: `${CACHE}.name`,
+  nationality: `${CACHE}.nationality`,
+  rank: "athlete_rank",
+  sport: `${CACHE}.sport`,
+  tiktokFollowers: `${CACHE}.tiktok_followers`,
+  tiktokLikes: "snapshot_tiktok_likes",
+  type: `${CACHE}.type`,
 } as const;
 
-type ListAthletesQueryFactory = (
+// join_use_nulls keeps an absent enrichment row as NULL instead of ClickHouse's
+// default zero, which the contract relies on to distinguish "no GPS score" from
+// a genuine score of 0.
+const QUERY_SETTINGS = {
+  join_use_nulls: 1,
+  max_execution_time: 60,
+  max_rows_to_read: 50_000_000,
+  timeout_before_checking_execution_speed: 0,
+} as const;
+
+const selectEnrichedRoster = (
   database: ClickHouseDatabase,
   query: ListAthletesQuery,
-) => unknown;
+  options: ListAthletesOptions,
+): RosterBuilder =>
+  withEnrichment(
+    applyFilters(selectRoster(database), query, options),
+    database,
+  );
 
-const selectAthletes = ((database) =>
-  database
-    .table("new_vertical.athletes_cache")
-    .select([
-      "profile_id",
-      "name",
-      "image_url",
-      "sport",
-      "nationality",
-      "type",
-      "cm_score",
-    ])
-    .final()
-    .where("is_active", "eq", 1)
-    .where((predicate) =>
-      predicate.fn<boolean>("isNull", "deleted_at"),
-    )) satisfies DatabaseQueryFactory;
-
-const listAthletes = ((database, query) => {
-  let builder = selectAthletes(database);
-
-  if (query.name !== undefined) {
-    const name = query.name;
-
-    builder = builder.where((predicate) =>
-      predicate.fn<boolean>(
-        "notEquals",
-        predicate.fn<number>(
-          "positionCaseInsensitiveUTF8",
-          predicate.col("name"),
-          predicate.value(name),
-        ),
-        predicate.value(0),
-      ),
-    );
-  }
-
-  if (query.sports !== undefined) {
-    builder = builder.where("sport", "in", query.sports);
-  }
-  if (query.nationalities !== undefined) {
-    builder = builder.where("nationality", "in", query.nationalities);
-  }
-  if (query.types !== undefined) {
-    builder = builder.where("type", "in", query.types);
-  }
-  if (query.excludeSports !== undefined) {
-    builder = builder.where("sport", "notIn", query.excludeSports);
-  }
-  if (query.excludeNationalities !== undefined) {
-    builder = builder.where("nationality", "notIn", query.excludeNationalities);
-  }
-  if (query.excludeTypes !== undefined) {
-    builder = builder.where("type", "notIn", query.excludeTypes);
-  }
-  if (query.minCmScore !== undefined) {
-    builder = builder.where("cm_score", "gte", query.minCmScore);
-  }
-  if (query.maxCmScore !== undefined) {
-    builder = builder.where("cm_score", "lte", query.maxCmScore);
-  }
-
-  const sortBy = query.sortBy ?? "cmScore";
-  const sortDirection = query.sortDirection ?? "desc";
-
-  return builder
-    .orderBy(sortColumns[sortBy], sortDirection.toUpperCase() as "ASC" | "DESC")
-    .orderBy("profile_id", "ASC")
+const listAthletes = (
+  database: ClickHouseDatabase,
+  query: ListAthletesQuery,
+  options: ListAthletesOptions,
+): ExecutableQuery<AthleteListRow> =>
+  selectEnrichedRoster(database, query, options)
+    .select([...CACHE_COLUMNS, ...joinedSelections])
+    .orderBy(
+      SORT_COLUMNS[query.sortBy ?? "rank"],
+      (query.sortDirection ?? "asc") === "asc" ? "ASC" : "DESC",
+    )
+    .orderBy(`${CACHE}.profile_id`, "ASC")
     .limit(query.limit)
     .offset(query.offset)
-    .settings({
-      max_execution_time: 30,
-      max_rows_to_read: 10_000_000,
-      timeout_before_checking_execution_speed: 0,
-    });
-}) satisfies ListAthletesQueryFactory;
+    .settings(QUERY_SETTINGS) as unknown as ExecutableQuery<AthleteListRow>;
 
-export const createListAthletesQueries = ((database) => ({
-  listAthletes: (query: ListAthletesQuery) => listAthletes(database, query),
-})) satisfies DatabaseQueryFactory;
+const countAthletes = (
+  database: ClickHouseDatabase,
+  query: ListAthletesQuery,
+  options: ListAthletesOptions,
+): ExecutableQuery<AthleteCountRow> =>
+  selectEnrichedRoster(database, query, options)
+    .select([rawAs<number, "total">("count()", "total")])
+    .settings(QUERY_SETTINGS) as unknown as ExecutableQuery<AthleteCountRow>;
 
-type ListAthletesQueries = ReturnType<typeof createListAthletesQueries>;
+export const createListAthletesQueries = (
+  database: ClickHouseDatabase,
+): {
+  countAthletes: (
+    query: ListAthletesQuery,
+    options?: ListAthletesOptions,
+  ) => ExecutableQuery<AthleteCountRow>;
+  listAthletes: (
+    query: ListAthletesQuery,
+    options?: ListAthletesOptions,
+  ) => ExecutableQuery<AthleteListRow>;
+} => ({
+  countAthletes: (query, options = {}) =>
+    countAthletes(database, query, options),
+  listAthletes: (query, options = {}) => listAthletes(database, query, options),
+});
 
-export type AthleteRow = Awaited<
-  ReturnType<ReturnType<ListAthletesQueries["listAthletes"]>["execute"]>
->[number];
+export type { AthleteListRow, ListAthletesOptions } from "./types.ts";

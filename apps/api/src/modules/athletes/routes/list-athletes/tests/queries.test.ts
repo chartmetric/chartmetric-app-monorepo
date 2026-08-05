@@ -9,61 +9,233 @@ const queries = createListAthletesQueries(
   createQueryBuilder<Database>({ url: "http://localhost:8123" }),
 );
 
+const PAGE = { limit: 25, offset: 50 };
+
 describe("listAthletes", () => {
-  it("selects, filters, and paginates the approved athlete fields", () => {
-    const sql = queries.listAthletes({ limit: 25, offset: 50 }).toSQL();
+  it("reads the roster with FINAL and excludes inactive or deleted rows", () => {
+    const sql = queries.listAthletes(PAGE).toSQL();
 
     expect(sql).toContain("FROM new_vertical.athletes_cache FINAL");
-    expect(sql).toMatch(
-      /SELECT\s+profile_id,\s*name,\s*image_url,\s*sport,\s*nationality,\s*type,\s*cm_score\s+FROM/i,
-    );
-    expect(sql).toContain("is_active = 1");
-    expect(sql).toContain("isNull(deleted_at)");
-    expect(sql).toContain("ORDER BY cm_score DESC, profile_id ASC");
+    expect(sql).toContain("equals(new_vertical.athletes_cache.is_active, 1)");
+    expect(sql).toContain("isNull(new_vertical.athletes_cache.deleted_at)");
+  });
+
+  it("computes rank over the unfiltered roster so filters do not renumber it", () => {
+    const sql = queries.listAthletes({ ...PAGE, verified: true }).toSQL();
+    const rankCte = /WITH\s+roster_rank AS \((.*?)\)\s*,/s.exec(sql)?.[1] ?? "";
+
+    expect(rankCte).toContain("row_number() OVER (ORDER BY ig_followers DESC");
+    expect(rankCte).toContain("is_active = 1");
+    expect(rankCte).not.toContain("ig_verified");
+  });
+
+  it("joins every enrichment source without fanning out rows", () => {
+    const sql = queries.listAthletes(PAGE).toSQL();
+
+    for (const source of [
+      "roster_rank",
+      "tiktok_latest",
+      "last_match",
+      "on3_school",
+      "espn_basketball",
+      "new_vertical.athletes_basketball",
+      "new_vertical.athletes_football_gps_scores_football_cache",
+      "new_vertical.athletes_football_momentum_football_cache",
+    ]) {
+      expect(sql).toContain(`LEFT ANY JOIN ${source} ON`);
+    }
+  });
+
+  it("keeps absent enrichment rows null instead of zero", () => {
+    expect(queries.listAthletes(PAGE).getQueryNode().settings).toMatchObject({
+      join_use_nulls: 1,
+    });
+  });
+
+  it("paginates and applies a stable tiebreaker", () => {
+    const sql = queries.listAthletes(PAGE).toSQL();
+
+    expect(sql).toContain("ORDER BY athlete_rank ASC");
+    expect(sql).toContain("new_vertical.athletes_cache.profile_id ASC");
     expect(sql).toContain("LIMIT 25");
     expect(sql).toContain("OFFSET 50");
   });
 
-  it("applies every supported filter and requested sort", () => {
+  it("sorts by the snapshot column for TikTok likes", () => {
+    expect(
+      queries
+        .listAthletes({ ...PAGE, sortBy: "tiktokLikes", sortDirection: "desc" })
+        .toSQL(),
+    ).toContain("ORDER BY snapshot_tiktok_likes DESC");
+  });
+
+  it("matches sports case-insensitively across ingestion sources", () => {
     const { parameters, sql } = queries
+      .listAthletes({ ...PAGE, sports: ["Football", "Tennis"] })
+      .toSQLWithParams();
+
+    expect(sql).toContain(
+      "has([?, ?], lowerUTF8(new_vertical.athletes_cache.sport))",
+    );
+    expect(parameters).toContain("football");
+    expect(parameters).toContain("tennis");
+  });
+
+  it("excludes sports case-insensitively", () => {
+    const { sql } = queries
+      .listAthletes({ ...PAGE, excludeSports: ["Football"] })
+      .toSQLWithParams();
+
+    expect(sql).toContain(
+      "not(has([?], lowerUTF8(new_vertical.athletes_cache.sport)))",
+    );
+  });
+
+  it("treats a missing follower count as zero in range filters", () => {
+    const { sql } = queries
+      .listAthletes({ ...PAGE, maxFollowers: 1_000_000, minFollowers: 1000 })
+      .toSQLWithParams();
+
+    expect(sql).toContain(
+      "greaterOrEquals(ifNull(new_vertical.athletes_cache.ig_followers, ?), ?)",
+    );
+    expect(sql).toContain(
+      "lessOrEquals(ifNull(new_vertical.athletes_cache.ig_followers, ?), ?)",
+    );
+  });
+
+  it("selects a single level by college sport membership", () => {
+    const college = queries
+      .listAthletes({ ...PAGE, levels: ["college"] })
+      .toSQLWithParams().sql;
+    const professional = queries
+      .listAthletes({ ...PAGE, levels: ["professional"] })
+      .toSQLWithParams().sql;
+
+    expect(college).toContain(
+      "has([?, ?, ?, ?, ?], new_vertical.athletes_cache.sport)",
+    );
+    expect(professional).toContain(
+      "not(has([?, ?, ?, ?, ?], new_vertical.athletes_cache.sport))",
+    );
+  });
+
+  it("does not constrain level when both levels are requested", () => {
+    const { sql } = queries
+      .listAthletes({ ...PAGE, levels: ["college", "professional"] })
+      .toSQLWithParams();
+
+    expect(sql).not.toContain(
+      "has([?, ?, ?, ?, ?], new_vertical.athletes_cache.sport)",
+    );
+  });
+
+  it("resolves a league filter across football clubs, basketball, and tennis", () => {
+    const { parameters, sql } = queries
+      .listAthletes(
+        { ...PAGE, leagues: ["Serie A"] },
+        { leagueClubNames: ["Roma", "Inter Milan"] },
+      )
+      .toSQLWithParams();
+
+    expect(sql).toContain(
+      "has([?, ?], new_vertical.athletes_cache.football_club)",
+    );
+    expect(sql).toContain("has([?], new_vertical.athletes_basketball.league)");
+    expect(sql).toContain("has([?], new_vertical.athletes_cache.tennis_tour)");
+    expect(parameters).toContain("Roma");
+    expect(parameters).toContain("Inter Milan");
+    expect(parameters).toContain("Serie A");
+  });
+
+  it("adds the college branch only when NCAA is requested", () => {
+    const withNcaa = queries
+      .listAthletes({ ...PAGE, leagues: ["NCAA"] }, { leagueClubNames: [] })
+      .toSQLWithParams().sql;
+    const withoutNcaa = queries
+      .listAthletes({ ...PAGE, leagues: ["Serie A"] }, { leagueClubNames: [] })
+      .toSQLWithParams().sql;
+
+    expect(withNcaa).toContain(
+      "has([?, ?, ?, ?, ?], new_vertical.athletes_cache.sport)",
+    );
+    expect(withoutNcaa).not.toContain(
+      "has([?, ?, ?, ?, ?], new_vertical.athletes_cache.sport)",
+    );
+  });
+
+  it("matches a club filter against all three club sources", () => {
+    const { sql } = queries
+      .listAthletes({ ...PAGE, clubs: ["Roma"] })
+      .toSQLWithParams();
+
+    expect(sql).toContain(
+      "has([?], new_vertical.athletes_cache.football_club)",
+    );
+    expect(sql).toContain("has([?], new_vertical.athletes_basketball.team)");
+    expect(sql).toContain("has([?], on3_school.school)");
+  });
+
+  it("applies the retained categorical and score filters", () => {
+    const { sql } = queries
       .listAthletes({
-        excludeNationalities: ["Canada", "Mexico"],
+        ...PAGE,
+        excludeNationalities: ["Canada"],
         excludeTypes: ["team"],
-        limit: 25,
         maxCmScore: 90,
         minCmScore: 10,
         name: "alex",
         nationalities: ["United States"],
-        offset: 0,
-        sortBy: "name",
-        sortDirection: "asc",
-        sports: ["Football", "Tennis"],
         types: ["athlete"],
+        verified: true,
       })
       .toSQLWithParams();
 
-    expect(sql).toContain("positionCaseInsensitiveUTF8(name, ?)");
-    expect(sql).toContain("sport IN (?, ?)");
-    expect(sql).toContain("nationality IN (?)");
-    expect(sql).toContain("type IN (?)");
-    expect(sql).toContain("nationality NOT IN (?, ?)");
-    expect(sql).toContain("type NOT IN (?)");
-    expect(sql).toContain("cm_score >= ?");
-    expect(sql).toContain("cm_score <= ?");
-    expect(sql).toContain("ORDER BY name ASC, profile_id ASC");
-    expect(parameters).toEqual([
-      1,
-      "alex",
-      0,
-      "Football",
-      "Tennis",
-      "United States",
-      "athlete",
-      "Canada",
-      "Mexico",
-      "team",
-      10,
-      90,
-    ]);
+    expect(sql).toContain(
+      "positionCaseInsensitiveUTF8(new_vertical.athletes_cache.name, ?)",
+    );
+    expect(sql).toContain("new_vertical.athletes_cache.nationality IN (?)");
+    expect(sql).toContain("new_vertical.athletes_cache.nationality NOT IN (?)");
+    expect(sql).toContain("new_vertical.athletes_cache.type IN (?)");
+    expect(sql).toContain("new_vertical.athletes_cache.type NOT IN (?)");
+    expect(sql).toContain(
+      "greaterOrEquals(new_vertical.athletes_cache.cm_score, ?)",
+    );
+    expect(sql).toContain(
+      "lessOrEquals(new_vertical.athletes_cache.cm_score, ?)",
+    );
+    expect(sql).toContain("equals(new_vertical.athletes_cache.ig_verified, ?)");
+  });
+});
+
+describe("countAthletes", () => {
+  /**
+   * An unqualified column in the outer query is ambiguous as soon as an
+   * enrichment source shares the name — `name` and `nationality` both exist on
+   * the momentum cache — and ClickHouse rejects the whole query with
+   * AMBIGUOUS_IDENTIFIER instead of choosing a side. The list query happens to
+   * survive because its `... AS nationality` select alias shadows the column, so
+   * the count query is where the mistake actually surfaces.
+   */
+  it("qualifies roster filters that share a name with an enrichment source", () => {
+    const { sql } = queries
+      .countAthletes({ ...PAGE, name: "alex", nationalities: ["Brazil"] })
+      .toSQLWithParams();
+
+    expect(sql).toContain(
+      "positionCaseInsensitiveUTF8(new_vertical.athletes_cache.name, ?)",
+    );
+    expect(sql).toContain("new_vertical.athletes_cache.nationality IN (?)");
+    expect(sql).not.toMatch(/[^.]nationality IN/);
+    expect(sql).not.toMatch(/positionCaseInsensitiveUTF8\(name/);
+  });
+
+  it("counts the filtered set without pagination", () => {
+    const sql = queries.countAthletes({ ...PAGE, verified: true }).toSQL();
+
+    expect(sql).toContain("count() AS total");
+    expect(sql).toContain("equals(new_vertical.athletes_cache.ig_verified, 1)");
+    expect(sql).not.toContain("LIMIT 25");
+    expect(sql).not.toContain("OFFSET 50");
   });
 });
