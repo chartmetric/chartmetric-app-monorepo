@@ -10,8 +10,6 @@ export type ClickHouseDatabase = ReturnType<
   typeof createQueryBuilder<Database>
 >;
 
-export type DatabaseQueryFactory = (database: ClickHouseDatabase) => unknown;
-
 export interface ClickHouse {
   client: ClickHouseClient;
   db: ClickHouseDatabase;

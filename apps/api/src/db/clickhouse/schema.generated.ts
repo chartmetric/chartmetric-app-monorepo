@@ -261,6 +261,28 @@ export interface IntrospectedSchema {
     modified_at: "Nullable(DateTime)";
     synced_at: "DateTime";
   };
+  cm_scores: {
+    id: "UInt64";
+    profile_id: "UInt32";
+    profile_type: "String";
+    score_date: "Date";
+    cm_score: "Float64";
+    followers_score: "Float64";
+    likes_score: "Float64";
+    instagram_followers: "Nullable(Int64)";
+    instagram_likes: "Nullable(Int64)";
+    tiktok_followers: "Nullable(Int64)";
+    tiktok_likes: "Nullable(Int64)";
+    youtube_followers: "Nullable(Int64)";
+    twitter_followers: "Nullable(Int64)";
+    total_followers: "Int64";
+    total_likes: "Int64";
+    formula_version: "String";
+    created_at: "DateTime";
+    updated_at: "DateTime";
+    fanbase_score: "Nullable(Float64)";
+    engagement_score: "Nullable(Float64)";
+  };
   competitions_apifootball: {
     competition_id: "UInt32";
     name: "String";
@@ -269,11 +291,65 @@ export interface IntrospectedSchema {
     season: "UInt16";
     _loaded_at: "DateTime";
   };
+  instagram_cache: {
+    account_id: "UInt32";
+    snapshot_date: "Date";
+    followers: "Int64";
+    following: "Int64";
+    media_count: "Int64";
+    is_verified: "UInt8";
+    is_business: "UInt8";
+    category: "Nullable(String)";
+    bio: "Nullable(String)";
+    profile_pic_url: "Nullable(String)";
+    external_url: "Nullable(String)";
+    avg_likes_per_post: "Nullable(Float64)";
+    avg_comments_per_post: "Nullable(Float64)";
+    source: "String";
+    provider: "String";
+    s3_path: "String";
+    job_id: "String";
+    created_at: "DateTime";
+  };
+  l_cm_artist_tag: {
+    id: "UInt64";
+    cm_artist: "UInt32";
+    tag: "UInt32";
+    tag_type: "LowCardinality(String)";
+    tag_slug: "String";
+    source: "LowCardinality(String)";
+    created_at: "DateTime";
+  };
+  l_profile_account: {
+    id: "UInt32";
+    profile_id: "UInt32";
+    account_id: "UInt32";
+    is_primary: "UInt8";
+    connected_at: "DateTime";
+    disconnected_at: "Nullable(DateTime)";
+    created_at: "DateTime";
+    modified_at: "DateTime";
+  };
   l_team_competition_apifootball: {
     team_id: "UInt32";
     competition_id: "UInt32";
     season: "UInt16";
     _loaded_at: "DateTime";
+  };
+  profile: {
+    id: "UInt32";
+    name: "String";
+    profile_type: "String";
+    vertical: "String";
+    image_url: "Nullable(String)";
+    active: "String";
+    created_at: "DateTime";
+    cm_source_id: "Nullable(UInt64)";
+    updated_at: "DateTime";
+    cm_source: "LowCardinality(String)";
+    cm_source_ref: "String";
+    deleted_at: "Nullable(DateTime)";
+    deleted_by: "Nullable(String)";
   };
   profile_snapshots: {
     id: "UInt64";
@@ -304,19 +380,6 @@ export interface IntrospectedSchema {
     job_id: "String";
     created_at: "DateTime";
   };
-  profiles: {
-    id: "UInt32";
-    name: "String";
-    profile_type: "String";
-    vertical: "String";
-    image_url: "Nullable(String)";
-    active: "String";
-    deleted_at: "Nullable(DateTime)";
-    deleted_by: "Nullable(String)";
-    created_at: "DateTime";
-    updated_at: "DateTime";
-    source_id: "Nullable(UInt64)";
-  };
   teams_apifootball: {
     team_id: "UInt32";
     name: "Nullable(String)";
@@ -327,6 +390,22 @@ export interface IntrospectedSchema {
     logo_url: "Nullable(String)";
     venue_id: "Nullable(UInt32)";
     _loaded_at: "DateTime";
+  };
+  tiktok_cache: {
+    account_id: "UInt32";
+    snapshot_date: "Date";
+    follower_count: "Int64";
+    following_count: "Int64";
+    video_count: "Int64";
+    heart_count: "Int64";
+    is_verified: "UInt8";
+    bio: "Nullable(String)";
+    profile_pic_url: "Nullable(String)";
+    source: "String";
+    provider: "String";
+    s3_path: "String";
+    job_id: "String";
+    created_at: "DateTime";
   };
 }
 
@@ -592,6 +671,29 @@ export interface Cm_artistRecord {
   synced_at: string;
 }
 
+export interface Cm_scoresRecord {
+  id: string;
+  profile_id: number;
+  profile_type: string;
+  score_date: string;
+  cm_score: number;
+  followers_score: number;
+  likes_score: number;
+  instagram_followers: string | null;
+  instagram_likes: string | null;
+  tiktok_followers: string | null;
+  tiktok_likes: string | null;
+  youtube_followers: string | null;
+  twitter_followers: string | null;
+  total_followers: string;
+  total_likes: string;
+  formula_version: string;
+  created_at: string;
+  updated_at: string;
+  fanbase_score: number | null;
+  engagement_score: number | null;
+}
+
 export interface Competitions_apifootballRecord {
   competition_id: number;
   name: string;
@@ -601,11 +703,69 @@ export interface Competitions_apifootballRecord {
   _loaded_at: string;
 }
 
+export interface Instagram_cacheRecord {
+  account_id: number;
+  snapshot_date: string;
+  followers: string;
+  following: string;
+  media_count: string;
+  is_verified: number;
+  is_business: number;
+  category: string | null;
+  bio: string | null;
+  profile_pic_url: string | null;
+  external_url: string | null;
+  avg_likes_per_post: number | null;
+  avg_comments_per_post: number | null;
+  source: string;
+  provider: string;
+  s3_path: string;
+  job_id: string;
+  created_at: string;
+}
+
+export interface L_cm_artist_tagRecord {
+  id: string;
+  cm_artist: number;
+  tag: number;
+  tag_type: string;
+  tag_slug: string;
+  source: string;
+  created_at: string;
+}
+
+export interface L_profile_accountRecord {
+  id: number;
+  profile_id: number;
+  account_id: number;
+  is_primary: number;
+  connected_at: string;
+  disconnected_at: string | null;
+  created_at: string;
+  modified_at: string;
+}
+
 export interface L_team_competition_apifootballRecord {
   team_id: number;
   competition_id: number;
   season: number;
   _loaded_at: string;
+}
+
+export interface ProfileRecord {
+  id: number;
+  name: string;
+  profile_type: string;
+  vertical: string;
+  image_url: string | null;
+  active: string;
+  created_at: string;
+  cm_source_id: string | null;
+  updated_at: string;
+  cm_source: string;
+  cm_source_ref: string;
+  deleted_at: string | null;
+  deleted_by: string | null;
 }
 
 export interface Profile_snapshotsRecord {
@@ -639,20 +799,6 @@ export interface Profile_sport_external_idsRecord {
   created_at: string;
 }
 
-export interface ProfilesRecord {
-  id: number;
-  name: string;
-  profile_type: string;
-  vertical: string;
-  image_url: string | null;
-  active: string;
-  deleted_at: string | null;
-  deleted_by: string | null;
-  created_at: string;
-  updated_at: string;
-  source_id: string | null;
-}
-
 export interface Teams_apifootballRecord {
   team_id: number;
   name: string | null;
@@ -663,6 +809,23 @@ export interface Teams_apifootballRecord {
   logo_url: string | null;
   venue_id: number | null;
   _loaded_at: string;
+}
+
+export interface Tiktok_cacheRecord {
+  account_id: number;
+  snapshot_date: string;
+  follower_count: string;
+  following_count: string;
+  video_count: string;
+  heart_count: string;
+  is_verified: number;
+  bio: string | null;
+  profile_pic_url: string | null;
+  source: string;
+  provider: string;
+  s3_path: string;
+  job_id: string;
+  created_at: string;
 }
 
 /**
