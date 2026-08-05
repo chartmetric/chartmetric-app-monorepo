@@ -190,9 +190,17 @@ export interface paths {
                     };
                     content: {
                         "application/json": {
+                            clubsBySport: {
+                                [key: string]: {
+                                    [key: string]: string[];
+                                };
+                            };
                             cmScore: {
                                 max: number | null;
                                 min: number | null;
+                            };
+                            leaguesBySport: {
+                                [key: string]: string[];
                             };
                             nationalities: {
                                 count: number;
@@ -202,6 +210,10 @@ export interface paths {
                                 count: number;
                                 value: string;
                             }[];
+                            sportsByLevel: {
+                                college: string[];
+                                professional: string[];
+                            };
                             types: {
                                 count: number;
                                 value: string;
@@ -231,17 +243,23 @@ export interface paths {
                 query: {
                     limit: number;
                     offset: number;
+                    clubs?: string[];
                     excludeNationalities?: string[];
                     excludeSports?: string[];
                     excludeTypes?: string[];
+                    leagues?: string[];
+                    levels?: ("college" | "professional")[];
                     maxCmScore?: number;
+                    maxFollowers?: number;
                     minCmScore?: number;
+                    minFollowers?: number;
                     name?: string;
                     nationalities?: string[];
-                    sortBy?: "name" | "sport" | "nationality" | "type" | "cmScore";
+                    sortBy?: "cmScore" | "igFollowers" | "igPosts" | "name" | "nationality" | "rank" | "sport" | "tiktokFollowers" | "tiktokLikes" | "type";
                     sortDirection?: "asc" | "desc";
                     sports?: string[];
                     types?: string[];
+                    verified?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -257,17 +275,47 @@ export interface paths {
                     content: {
                         "application/json": {
                             data: {
+                                age: number | null;
+                                club: string | null;
                                 cmScore: number | null;
+                                gpsAtk: number | null;
+                                gpsDef: number | null;
+                                gpsScore: number | null;
                                 id: number;
+                                igEngagementRate: number | null;
+                                igFollowers: number | null;
+                                igPosts: number | null;
+                                igVerified: boolean;
                                 imageUrl: string | null;
+                                lastMatchDate: string | null;
+                                leagues: string[];
+                                level: "college" | "professional";
+                                momentumLabel: string | null;
+                                momentumScore: number | null;
                                 name: string | null;
                                 nationality: string | null;
+                                nationalTeam: string | null;
+                                position: string | null;
+                                rank: number | null;
+                                socialLinks: {
+                                    handle: string;
+                                    platform: string;
+                                    url: string;
+                                }[];
                                 sport: string | null;
+                                teamLogoUrl: string | null;
+                                tiktokFollowers: number | null;
+                                tiktokHearts: number | null;
+                                tiktokLikes: number | null;
+                                tiktokPosts: number | null;
+                                tiktokVideos: number | null;
+                                turnedPro: number | null;
                                 type: string | null;
                             }[];
                             meta: {
                                 limit: number;
                                 offset: number;
+                                total: number;
                             };
                         };
                     };
@@ -463,17 +511,23 @@ export interface paths {
                 query: {
                     limit: number;
                     offset: number;
+                    clubs?: string[];
                     excludeNationalities?: string[];
                     excludeSports?: string[];
                     excludeTypes?: string[];
+                    leagues?: string[];
+                    levels?: ("college" | "professional")[];
                     maxCmScore?: number;
+                    maxFollowers?: number;
                     minCmScore?: number;
+                    minFollowers?: number;
                     name?: string;
                     nationalities?: string[];
-                    sortBy?: "name" | "sport" | "nationality" | "type" | "cmScore";
+                    sortBy?: "cmScore" | "igFollowers" | "igPosts" | "name" | "nationality" | "rank" | "sport" | "tiktokFollowers" | "tiktokLikes" | "type";
                     sortDirection?: "asc" | "desc";
                     sports?: string[];
                     types?: string[];
+                    verified?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -489,17 +543,47 @@ export interface paths {
                     content: {
                         "application/json": {
                             data: {
+                                age: number | null;
+                                club: string | null;
                                 cmScore: number | null;
+                                gpsAtk: number | null;
+                                gpsDef: number | null;
+                                gpsScore: number | null;
                                 id: number;
+                                igEngagementRate: number | null;
+                                igFollowers: number | null;
+                                igPosts: number | null;
+                                igVerified: boolean;
                                 imageUrl: string | null;
+                                lastMatchDate: string | null;
+                                leagues: string[];
+                                level: "college" | "professional";
+                                momentumLabel: string | null;
+                                momentumScore: number | null;
                                 name: string | null;
                                 nationality: string | null;
+                                nationalTeam: string | null;
+                                position: string | null;
+                                rank: number | null;
+                                socialLinks: {
+                                    handle: string;
+                                    platform: string;
+                                    url: string;
+                                }[];
                                 sport: string | null;
+                                teamLogoUrl: string | null;
+                                tiktokFollowers: number | null;
+                                tiktokHearts: number | null;
+                                tiktokLikes: number | null;
+                                tiktokPosts: number | null;
+                                tiktokVideos: number | null;
+                                turnedPro: number | null;
                                 type: string | null;
                             }[];
                             meta: {
                                 limit: number;
                                 offset: number;
+                                total: number;
                             };
                         };
                     };
