@@ -1,5 +1,6 @@
 import type { FastifyPluginCallbackTypebox } from "@fastify/type-provider-typebox";
 
+import { createClubCatalog } from "../../club/catalog.ts";
 import { toAthleteFilterOptions } from "./mapper.ts";
 import { createAthleteFilterOptionsQueries } from "./queries.ts";
 import { AthleteFilterOptionsReplySchema } from "./schemas.ts";
@@ -10,6 +11,7 @@ export const athleteFilterOptionsRoute: FastifyPluginCallbackTypebox = (
   done,
 ) => {
   const queries = createAthleteFilterOptionsQueries(fastify.clickhouse.db);
+  const clubCatalog = createClubCatalog(fastify.clickhouse.db);
 
   fastify.get(
     "/athletes/filter-options",
@@ -22,9 +24,12 @@ export const athleteFilterOptionsRoute: FastifyPluginCallbackTypebox = (
       },
     },
     async () => {
-      const rows = await queries.listAthleteFilterOptions().execute();
+      const [rows, clubIndex] = await Promise.all([
+        queries.listAthleteFilterOptions().execute(),
+        clubCatalog.load(),
+      ]);
 
-      return toAthleteFilterOptions(rows);
+      return toAthleteFilterOptions(rows, clubIndex);
     },
   );
 

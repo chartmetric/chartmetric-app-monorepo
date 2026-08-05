@@ -15,15 +15,38 @@ describe("listAthleteFilterOptions", () => {
     const sql = query.toSQL();
 
     expect(sql).toContain("FROM new_vertical.athletes_cache FINAL");
-    expect(sql).toMatch(
-      /SELECT\s+sport,\s*nationality,\s*type,\s*cm_score\s+FROM/i,
-    );
     expect(sql).toContain("is_active = 1");
     expect(sql).toContain("isNull(deleted_at)");
     expect(sql).toContain("LIMIT 100000");
     expect(query.getQueryNode().settings).toMatchObject({
       max_execution_time: 30,
-      max_rows_to_read: 1_000_000,
+      max_rows_to_read: 10_000_000,
     });
+  });
+
+  it("reads the facet columns needed to group leagues and clubs", () => {
+    const sql = queries.listAthleteFilterOptions().toSQL();
+
+    for (const column of [
+      "sport",
+      "nationality",
+      "type",
+      "cm_score",
+      "football_club",
+      "tennis_tour",
+      "new_vertical.athletes_basketball.team AS basketball_team",
+      "new_vertical.athletes_basketball.league AS basketball_league",
+    ]) {
+      expect(sql).toContain(column);
+    }
+  });
+
+  it("joins the basketball roster without fanning out rows", () => {
+    const sql = queries.listAthleteFilterOptions().toSQL();
+
+    expect(sql).toContain("LEFT ANY JOIN new_vertical.athletes_basketball ON");
+    expect(
+      queries.listAthleteFilterOptions().getQueryNode().settings,
+    ).toMatchObject({ join_use_nulls: 1 });
   });
 });
