@@ -1,8 +1,12 @@
 import type { FastifyPluginCallbackTypebox } from "@fastify/type-provider-typebox";
 
+import { toNumber } from "../../../../lib/numbers.ts";
+import { createClubCatalog } from "../../club/catalog.ts";
+import { clubsForLeagues } from "../../club/resolution.ts";
 import { toAthleteList } from "./mapper.ts";
 import { createListAthletesQueries } from "./queries.ts";
 import { ListAthletesQuerySchema, ListAthletesReplySchema } from "./schemas.ts";
+import { findInvertedRange } from "./validation.ts";
 
 export const listAthletesRoute: FastifyPluginCallbackTypebox = (
   fastify,
@@ -10,6 +14,7 @@ export const listAthletesRoute: FastifyPluginCallbackTypebox = (
   done,
 ) => {
   const queries = createListAthletesQueries(fastify.clickhouse.db);
+  const clubCatalog = createClubCatalog(fastify.clickhouse.db);
 
   fastify.get(
     "/athletes",
@@ -23,19 +28,27 @@ export const listAthletesRoute: FastifyPluginCallbackTypebox = (
       },
     },
     async (request) => {
-      if (
-        request.query.minCmScore !== undefined &&
-        request.query.maxCmScore !== undefined &&
-        request.query.minCmScore > request.query.maxCmScore
-      ) {
-        throw fastify.httpErrors.badRequest(
-          "minCmScore must be less than or equal to maxCmScore",
-        );
+      const { query } = request;
+      const invertedRange = findInvertedRange(query);
+
+      if (invertedRange !== undefined) {
+        throw fastify.httpErrors.badRequest(invertedRange);
       }
 
-      const athletes = await queries.listAthletes(request.query).execute();
+      const clubIndex = await clubCatalog.load();
+      const options =
+        query.leagues === undefined
+          ? {}
+          : { leagueClubNames: clubsForLeagues(clubIndex, query.leagues) };
+      const [rows, totals] = await Promise.all([
+        queries.listAthletes(query, options).execute(),
+        queries.countAthletes(query, options).execute(),
+      ]);
 
-      return toAthleteList(athletes, request.query);
+      return toAthleteList(rows, query, toNumber(totals[0]?.total ?? 0) ?? 0, {
+        clubIndex,
+        today: new Date(),
+      });
     },
   );
 
