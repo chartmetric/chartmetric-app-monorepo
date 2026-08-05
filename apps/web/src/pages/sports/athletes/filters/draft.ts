@@ -5,31 +5,18 @@ import {
   type MultiSelectFilterValue,
 } from "@repo/ui/multi-select-filter";
 
-import type { AthleteFilters, AthleteLevel } from "./athlete-list-query";
+import { useMemo, useState } from "react";
 
-export interface FollowerRange {
-  max: number | null;
-  min: number | null;
-}
-
-export interface AthleteFilterDraft {
-  clubs: MultiSelectFilterValue;
-  cmScore: NumericRangeValue;
-  followers: FollowerRange;
-  isVerified: boolean;
-  leagues: MultiSelectFilterValue;
-  levels: readonly AthleteLevel[];
-  name: string;
-  nationalities: MultiSelectFilterValue;
-  sports: MultiSelectFilterValue;
-  types: MultiSelectFilterValue;
-}
-
-export type CategoricalFilterKey = "nationalities" | "sports" | "types";
+import type { AthleteFilters } from "../api/types";
+import type {
+  AthleteFilterDraft,
+  AthleteFilterDraftState,
+  CategoricalFilterKey,
+} from "./types";
 
 
 
-export const createFilterDraft = (): AthleteFilterDraft => ({
+const createFilterDraft = (): AthleteFilterDraft => ({
   clubs: emptyMultiSelectValue(),
   cmScore: [null, null],
   followers: { max: null, min: null },
@@ -76,7 +63,7 @@ const addCategoricalFilter = (
   }
 };
 
-export const toFilterQuery = (draft: AthleteFilterDraft): AthleteFilters => {
+const toFilterQuery = (draft: AthleteFilterDraft): AthleteFilters => {
   const filters: AthleteFilters = {};
   const name = draft.name.trim();
   const [minCmScore, maxCmScore] = draft.cmScore;
@@ -102,4 +89,31 @@ export const toFilterQuery = (draft: AthleteFilterDraft): AthleteFilters => {
   }
 
   return filters;
+};
+
+export const useAthleteFilterDraft = (
+  onChange: (filters: AthleteFilters) => void,
+): AthleteFilterDraftState => {
+  const [draft, setDraft] = useState(createFilterDraft);
+
+  return useMemo(
+    () => ({
+      activeFilterCount: countActiveFilters(draft),
+      commit: (next) => {
+        setDraft(next);
+        onChange(toFilterQuery(next));
+      },
+      draft,
+      preview: (next) => {
+        setDraft((current) => ({ ...current, ...next }));
+      },
+      reset: () => {
+        const empty = createFilterDraft();
+
+        setDraft(empty);
+        onChange(toFilterQuery(empty));
+      },
+    }),
+    [draft, onChange],
+  );
 };

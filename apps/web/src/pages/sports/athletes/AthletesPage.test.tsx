@@ -11,7 +11,7 @@ import {
 } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { Athlete } from "./athlete-list-query";
+import type { Athlete } from "./api/types";
 
 import { messages as enSports } from "../../../locales/sports/en/messages.po";
 import { AthletesPage } from "./AthletesPage";

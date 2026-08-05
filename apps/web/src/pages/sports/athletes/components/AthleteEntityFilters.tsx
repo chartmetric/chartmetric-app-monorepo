@@ -3,22 +3,14 @@ import type { FC } from "react";
 import { useLingui } from "@lingui/react/macro";
 import {
   MultiSelectFilter,
-  type MultiSelectFilterOption,
   type MultiSelectFilterValue,
 } from "@repo/ui/multi-select-filter";
 
 import type {
+  AthleteEntityFilterOptions,
   AthleteFilterDraft,
   CategoricalFilterKey,
-} from "../athlete-filter-draft";
-
-export interface AthleteEntityFilterOptions {
-  clubs: MultiSelectFilterOption[];
-  leagues: MultiSelectFilterOption[];
-  nationalities: MultiSelectFilterOption[];
-  sports: MultiSelectFilterOption[];
-  types: MultiSelectFilterOption[];
-}
+} from "../filters/types";
 
 export interface AthleteEntityFiltersProps {
   draft: AthleteFilterDraft;

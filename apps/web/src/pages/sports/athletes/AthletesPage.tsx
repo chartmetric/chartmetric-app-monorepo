@@ -4,28 +4,23 @@ import { usePersistentState } from "@repo/ui/use-persistent-state";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { type FC, useState } from "react";
 
+import type { AthleteListQuery } from "./api/types";
+import type { AthleteColumnKey, AthleteColumnPreset } from "./columns/types";
+
+import { DEFAULT_ATHLETE_QUERY, loadAthletes } from "./api/athlete-list";
+import { loadAthleteFilterOptions } from "./api/filter-options";
+import { DEFAULT_ATHLETE_COLUMNS } from "./columns/registry";
 import {
   ATHLETE_COLUMN_GROUPS_STORAGE_KEY,
   ATHLETE_COLUMNS_STORAGE_KEY,
-  type AthleteColumnKey,
-  DEFAULT_ATHLETE_COLUMNS,
   isAthleteColumnKeyList,
   isAthleteColumnPresetList,
-} from "./athlete-columns";
-import { loadAthleteFilterOptions } from "./athlete-filter-options-query";
-import {
-  type AthleteListQuery,
-  DEFAULT_ATHLETE_QUERY,
-  loadAthletes,
-} from "./athlete-list-query";
-import { changeQuerySort, replaceFilters } from "./athlete-query-state";
-import {
-  AthleteColumnPicker,
-  type AthleteColumnPreset,
-} from "./components/AthleteColumnPicker";
+} from "./columns/storage";
+import { AthleteColumnPicker } from "./components/AthleteColumnPicker";
 import { AthleteFilters } from "./components/AthleteFilters";
 import { AthleteListContent } from "./components/AthleteListContent";
 import { AthleteFilterOptionsError } from "./components/AthleteListStates";
+import { changeQuerySort, replaceFilters } from "./filters/sort-state";
 
 const FILTER_OPTIONS_STALE_TIME_MS = 5 * 60 * 1000;
 

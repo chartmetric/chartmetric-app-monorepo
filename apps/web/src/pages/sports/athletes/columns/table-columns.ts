@@ -1,25 +1,15 @@
-import type { DataTableColumn } from "@repo/ui/data-table";
-
 import { useLingui } from "@lingui/react/macro";
 import { createElement, useMemo } from "react";
 
-import type { Athlete, AthleteSortBy } from "./athlete-list-query";
+import type { AthleteColumnKey, AthleteTableColumn } from "./types";
 
-import { ATHLETE_COLUMNS, type AthleteColumnKey } from "./athlete-columns";
-import {
-  AthleteIdentity,
-  EMPTY_CELL,
-  useAthleteFormatters,
-} from "./components/AthleteCells";
-import {
-  useAthleteCellRenderers,
-  useAthleteColumnHeadings,
-} from "./use-athlete-column-cells";
+import { AthleteIdentity } from "../components/AthleteCells";
+import { useAthleteCellRenderers, useAthleteColumnHeadings } from "./cells";
+import { EMPTY_CELL, useAthleteFormatters } from "./formatters";
+import { ATHLETE_COLUMNS } from "./registry";
 
 export const RANK_COLUMN_WIDTH = 64;
 export const ATHLETE_COLUMN_WIDTH = 240;
-
-export type AthleteTableColumn = DataTableColumn<Athlete, AthleteSortBy>;
 
 export const useAthleteTableColumns = (
   visibleColumns: readonly AthleteColumnKey[],
