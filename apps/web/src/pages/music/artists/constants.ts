@@ -1,4 +1,6 @@
 import type {
+  ArtistColumnConfig,
+  ArtistColumnKey,
   ArtistListQuery,
   ArtistSortBy,
   MetricDisplayMode,
@@ -46,3 +48,13 @@ export const DEFAULT_ARTIST_QUERY = {
   sortBy: "cmScore",
   sortDirection: "desc",
 } satisfies ArtistListQuery;
+
+export const ARTIST_COLUMN_KEYS: ArtistColumnKey[] = [
+  "artist",
+  "cmScore",
+  "instagramFollowers",
+  "tiktokFollowers",
+];
+
+export const DEFAULT_ARTIST_COLUMNS: ArtistColumnConfig[] =
+  ARTIST_COLUMN_KEYS.map((key) => ({ key, visible: true }));

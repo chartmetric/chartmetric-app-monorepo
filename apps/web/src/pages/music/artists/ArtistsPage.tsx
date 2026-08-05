@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/react/macro";
-import { Stack, Text, Title } from "@mantine/core";
+import { Group, Stack, Text, Title } from "@mantine/core";
 import {
   keepPreviousData,
   useQuery,
@@ -9,6 +9,7 @@ import { type FC, useState } from "react";
 
 import type {
   ArtistChangePeriod,
+  ArtistColumnConfig,
   ArtistFilters as ArtistFilterQuery,
   ArtistListQuery,
   ArtistListReply,
@@ -18,6 +19,7 @@ import type {
 
 import { loadArtists } from "./api/artist-list";
 import { loadArtistFilterOptions } from "./api/filter-options";
+import { ArtistColumnPicker } from "./components/ArtistColumnPicker";
 import {
   EmptyState,
   ErrorState,
@@ -27,7 +29,12 @@ import {
 import { ArtistsTable } from "./components/ArtistsTable";
 import { ArtistFilters } from "./components/filters/ArtistFilters";
 import { MetricDisplayControls } from "./components/MetricDisplayControls";
-import { DEFAULT_ARTIST_QUERY, METRIC_SORTS, sortFamilyOf } from "./constants";
+import {
+  DEFAULT_ARTIST_COLUMNS,
+  DEFAULT_ARTIST_QUERY,
+  METRIC_SORTS,
+  sortFamilyOf,
+} from "./constants";
 
 const ASCENDING_FIRST_SORTS: ReadonlySet<ArtistSortBy> = new Set([
   "name",
@@ -97,6 +104,7 @@ const changeQuerySort = (
 
 interface ArtistsContentProps {
   artistsQuery: UseQueryResult<ArtistListReply>;
+  columnConfig: ArtistColumnConfig[];
   displayMode: MetricDisplayMode;
   offset: number;
   onPageChange: (offset: number) => void;
@@ -107,6 +115,7 @@ interface ArtistsContentProps {
 
 const ArtistsContent: FC<ArtistsContentProps> = ({
   artistsQuery,
+  columnConfig,
   displayMode,
   offset,
   onPageChange,
@@ -131,6 +140,7 @@ const ArtistsContent: FC<ArtistsContentProps> = ({
   return (
     <ArtistsTable
       artists={artists}
+      columnConfig={columnConfig}
       displayMode={displayMode}
       isFetching={artistsQuery.isFetching}
       offset={offset}
@@ -156,6 +166,7 @@ const ArtistsHeader: FC = () => (
 export const ArtistsPage: FC = () => {
   const [query, setQuery] = useState<ArtistListQuery>(DEFAULT_ARTIST_QUERY);
   const [displayMode, setDisplayMode] = useState<MetricDisplayMode>("total");
+  const [columnConfig, setColumnConfig] = useState(DEFAULT_ARTIST_COLUMNS);
   const filterOptionsQuery = useQuery({
     queryFn: loadArtistFilterOptions,
     queryKey: ["artist-filter-options"],
@@ -211,14 +222,18 @@ export const ArtistsPage: FC = () => {
         onChange={applyFilters}
         options={filterOptionsQuery.data}
       />
-      <MetricDisplayControls
-        changePeriod={query.changePeriod ?? "7d"}
-        displayMode={displayMode}
-        onChangePeriod={changeChangePeriod}
-        onDisplayModeChange={changeDisplayMode}
-      />
+      <Group gap="sm" justify="flex-end">
+        <ArtistColumnPicker columns={columnConfig} onChange={setColumnConfig} />
+        <MetricDisplayControls
+          changePeriod={query.changePeriod ?? "7d"}
+          displayMode={displayMode}
+          onChangePeriod={changeChangePeriod}
+          onDisplayModeChange={changeDisplayMode}
+        />
+      </Group>
       <ArtistsContent
         artistsQuery={artistsQuery}
+        columnConfig={columnConfig}
         displayMode={displayMode}
         offset={query.offset}
         onPageChange={changeOffset}

@@ -33,12 +33,13 @@ msgstr "7D"
 msgid "All filters"
 msgstr "Alle Filter"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:162
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:24
+#: src/pages/music/artists/components/ArtistsTable.tsx:224
 msgid "Artist"
 msgstr "Künstler"
 
-#: src/pages/music/artists/ArtistsPage.tsx:148
-#: src/pages/music/artists/components/ArtistsTable.tsx:251
+#: src/pages/music/artists/ArtistsPage.tsx:158
+#: src/pages/music/artists/components/ArtistsTable.tsx:279
 msgid "Artists"
 msgstr "Künstler"
 
@@ -63,9 +64,14 @@ msgstr "Filter zurücksetzen"
 msgid "Clear range"
 msgstr "Bereich zurücksetzen"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:177
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:25
+#: src/pages/music/artists/components/ArtistsTable.tsx:225
 msgid "CM score"
 msgstr "CM-Score"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:38
+msgid "Columns"
+msgstr "Spalten"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:84
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:158
@@ -80,7 +86,7 @@ msgstr "Länder- und Genre-Filter sind vorübergehend nicht verfügbar."
 msgid "Exclude"
 msgstr "Ausschließen"
 
-#: src/pages/music/artists/ArtistsPage.tsx:151
+#: src/pages/music/artists/ArtistsPage.tsx:161
 msgid "Explore artists across the music industry."
 msgstr "Entdecke Künstler aus der gesamten Musikbranche."
 
@@ -98,7 +104,8 @@ msgstr "Genre"
 msgid "Include"
 msgstr "Einschließen"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:190
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:26
+#: src/pages/music/artists/components/ArtistsTable.tsx:226
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:169
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:168
 msgid "Instagram followers"
@@ -140,7 +147,12 @@ msgstr "Minimale Instagram-Follower"
 msgid "Minimum TikTok followers"
 msgstr "Minimale TikTok-Follower"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:270
+#. Accessible label of the drag handle for a table column
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:40
+msgid "Move {columnLabel}"
+msgstr "{columnLabel} verschieben"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:298
 msgid "Next"
 msgstr "Weiter"
 
@@ -155,7 +167,7 @@ msgid "No matching options"
 msgstr "Keine passenden Optionen"
 
 #. Current page number in the artists list
-#: src/pages/music/artists/components/ArtistsTable.tsx:235
+#: src/pages/music/artists/components/ArtistsTable.tsx:263
 msgid "Page {currentPageText}"
 msgstr "Seite {currentPageText}"
 
@@ -163,7 +175,7 @@ msgstr "Seite {currentPageText}"
 msgid "Platform-verified accounts"
 msgstr "Von der Plattform verifizierte Konten"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:275
+#: src/pages/music/artists/components/ArtistsTable.tsx:303
 msgid "Previous"
 msgstr "Zurück"
 
@@ -190,7 +202,7 @@ msgid "Search genres…"
 msgstr "Genres suchen…"
 
 #. Accessible label for a sortable artists table column
-#: src/pages/music/artists/components/ArtistsTable.tsx:259
+#: src/pages/music/artists/components/ArtistsTable.tsx:287
 msgid "Sort by {label}"
 msgstr "Nach {label} sortieren"
 
@@ -202,7 +214,8 @@ msgstr "Die Künstlerliste konnte nicht geladen werden. Versuche es erneut."
 msgid "There are no artists to show on this page."
 msgstr "Auf dieser Seite sind keine Künstler verfügbar."
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:203
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:27
+#: src/pages/music/artists/components/ArtistsTable.tsx:227
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:185
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:182
 msgid "TikTok followers"
@@ -226,8 +239,8 @@ msgstr "Künstler konnten nicht geladen werden"
 msgid "Unable to load filter options"
 msgstr "Filteroptionen konnten nicht geladen werden"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:245
-#: src/pages/music/artists/components/ArtistsTable.tsx:269
+#: src/pages/music/artists/components/ArtistsTable.tsx:273
+#: src/pages/music/artists/components/ArtistsTable.tsx:297
 msgid "Updating artists"
 msgstr "Künstler werden aktualisiert"
 
