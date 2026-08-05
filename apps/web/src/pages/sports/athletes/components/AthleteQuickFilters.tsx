@@ -3,11 +3,8 @@ import type { FC, ReactNode } from "react";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { Button, Divider, Group, Text } from "@mantine/core";
 
-import type {
-  AthleteFilterDraft,
-  FollowerRange,
-} from "../athlete-filter-draft";
-import type { AthleteLevel } from "../athlete-list-query";
+import type { AthleteLevel } from "../api/types";
+import type { AthleteFilterDraft, FollowerRange } from "../filters/types";
 
 // Buckets mirror the upstream dashboard's audience-size pills.
 const FOLLOWER_PRESETS: readonly FollowerRange[] = [
