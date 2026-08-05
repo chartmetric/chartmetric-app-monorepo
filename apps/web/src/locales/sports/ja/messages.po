@@ -13,161 +13,392 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:75
+#. Link to an athlete's social profile
+#: src/pages/sports/athletes/components/AthleteCells.tsx:125
+msgid "{platform} profile {handle}"
+msgstr "{platform}プロフィール {handle}"
+
+#. Audience-size filter for accounts above a threshold
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:111
+msgid "{threshold}+"
+msgstr "{threshold}+"
+
+#. Count of additional leagues an athlete competes in
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:62
+msgid "+{extra} more"
+msgstr "他 {extra} 件"
+
+#. Audience-size filter for accounts below a threshold
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:103
+msgid "<{threshold}"
+msgstr "<{threshold}"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:87
+msgid "Add, remove or reorder columns"
+msgstr "列の追加、削除、並べ替え"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:41
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:32
+msgid "Age"
+msgstr "年齢"
+
+#: src/pages/sports/athletes/use-athlete-table-columns.ts:49
 msgid "Athlete"
 msgstr "選手"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:189
-#: src/pages/sports/athletes/components/AthletesTable.tsx:136
+#: src/pages/sports/athletes/AthletesPage.tsx:66
+#: src/pages/sports/athletes/components/AthletesTable.tsx:61
 msgid "Athletes"
 msgstr "選手"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:119
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:75
 msgid "Category filters are temporarily unavailable."
 msgstr "カテゴリーフィルターは一時的に利用できません。"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:165
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:71
 msgid "Clear filters"
 msgstr "フィルターをクリア"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:193
+#: src/pages/sports/athletes/components/AthleteScoreFilter.tsx:31
 msgid "Clear range"
 msgstr "範囲をクリア"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:195
-#: src/pages/sports/athletes/components/AthletesTable.tsx:100
+#: src/pages/sports/athletes/components/AthleteScoreFilter.tsx:33
 msgid "CM score"
 msgstr "CMスコア"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:115
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:59
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:88
+msgid "College"
+msgstr "大学"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:107
+msgid "Column groups"
+msgstr "列グループ"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:112
+msgid "Columns"
+msgstr "列"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:88
+msgid "Configure columns"
+msgstr "列を設定"
+
+#. Accessible label for deleting a saved column group
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:90
+msgid "Delete group {name}"
+msgstr "グループ {name} を削除"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:86
+msgid "Done"
+msgstr "完了"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:44
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:35
+msgid "Engagement"
+msgstr "エンゲージメント"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:47
 msgid "Exclude"
 msgstr "除外"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:192
+#: src/pages/sports/athletes/AthletesPage.tsx:69
 msgid "Explore active athletes across sports."
 msgstr "さまざまなスポーツの現役選手を探しましょう。"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:166
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:72
 msgid "Filters"
 msgstr "フィルター"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:124
+#. Filter bar heading with the number of active filters
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:58
+msgid "Filters ({activeCount})"
+msgstr "フィルター（{activeCount}）"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:78
+msgid "Find a league…"
+msgstr "リーグを検索…"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:52
 msgid "Find a nationality…"
 msgstr "国籍を検索…"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:123
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:51
 msgid "Find a sport…"
 msgstr "スポーツを検索…"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:125
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:88
+msgid "Find a team…"
+msgstr "チームを検索…"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:53
 msgid "Find a type…"
 msgstr "タイプを検索…"
 
-#. Numeric Chartmetric profile identifier shown below an athlete name
-#: src/pages/sports/athletes/components/AthletesTable.tsx:44
-msgid "ID {athleteIdText}"
-msgstr "ID {athleteIdText}"
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:36
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:44
+msgid "Followers"
+msgstr "フォロワー"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:116
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:43
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:34
+msgid "GPS"
+msgstr "GPS"
+
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:45
+msgid "Hearts"
+msgstr "ハート"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:96
+msgid "Hidden"
+msgstr "非表示"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:48
 msgid "Include"
 msgstr "含める"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:65
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:118
+msgid "Instagram"
+msgstr "Instagram"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:45
+msgid "Instagram followers"
+msgstr "Instagramフォロワー"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:46
+msgid "Instagram posts"
+msgstr "Instagram投稿"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:47
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:38
+msgid "Last game"
+msgstr "最終試合"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:48
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:73
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:39
+msgid "League"
+msgstr "リーグ"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:49
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:64
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:40
+msgid "Level"
+msgstr "レベル"
+
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:46
+msgid "Likes"
+msgstr "いいね"
+
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:21
 msgid "Loading athletes"
 msgstr "選手を読み込み中"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:67
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:23
 msgid "Loading athletes…"
 msgstr "選手を読み込み中…"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:197
+#: src/pages/sports/athletes/components/AthleteScoreFilter.tsx:35
 msgid "Maximum CM score"
 msgstr "最大CMスコア"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:199
+#: src/pages/sports/athletes/components/AthleteScoreFilter.tsx:37
 msgid "Minimum CM score"
 msgstr "最小CMスコア"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:124
-#: src/pages/sports/athletes/components/AthletesTable.tsx:87
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:50
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:41
+msgid "Momentum"
+msgstr "モメンタム"
+
+#. Accessible label for moving a column earlier
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:103
+msgid "Move {label} earlier"
+msgstr "{label} を前に移動"
+
+#. Accessible label for moving a column later
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:98
+msgid "Move {label} later"
+msgstr "{label} を後ろに移動"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:51
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:52
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:42
 msgid "Nationality"
 msgstr "国籍"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:154
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:95
+msgid "New group name…"
+msgstr "新しいグループ名…"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:91
 msgid "Next"
 msgstr "次へ"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:79
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:35
 msgid "No athletes found"
 msgstr "選手が見つかりません"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:114
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:94
+msgid "No matching columns"
+msgstr "一致する列がありません"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:46
 msgid "No matching options"
 msgstr "一致する選択肢がありません"
 
 #. Current page number in the athletes list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:127
-msgid "Page {currentPageText}"
-msgstr "{currentPageText}ページ"
+#: src/pages/sports/athletes/components/AthletesTable.tsx:97
+msgid "Page {current} of {pageCount}"
+msgstr "{pageCount} ページ中 {current} ページ"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:159
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:43
+msgid "Pos"
+msgstr "ポジション"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:52
+msgid "Position"
+msgstr "ポジション"
+
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:37
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:47
+msgid "Posts"
+msgstr "投稿"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:103
 msgid "Previous"
 msgstr "前へ"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:122
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:60
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:90
+msgid "Pro"
+msgstr "プロ"
+
+#: src/pages/sports/athletes/use-athlete-table-columns.ts:37
+msgid "Rank"
+msgstr "順位"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:108
+msgid "Reset to default"
+msgstr "デフォルトに戻す"
+
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:78
 msgid "Retry filter options"
 msgstr "フィルターオプションを再試行"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:180
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
+msgid "Save"
+msgstr "保存"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:110
+msgid "Save as group"
+msgstr "グループとして保存"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:38
 msgid "Search athletes…"
 msgstr "アスリートを検索…"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:172
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:32
 msgid "Search by name"
 msgstr "名前で検索"
 
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:111
+msgid "Search columns…"
+msgstr "列を検索…"
+
+#. Range of athletes shown out of the filtered total
+#: src/pages/sports/athletes/components/AthletesTable.tsx:81
+msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
+msgstr "{totalRows} 人中 {firstRow}–{lastRow} 人を表示"
+
 #. Accessible label for a sortable athletes table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:144
+#: src/pages/sports/athletes/components/AthletesTable.tsx:72
 msgid "Sort by {label}"
 msgstr "{label}で並べ替え"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:123
-#: src/pages/sports/athletes/components/AthletesTable.tsx:81
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:51
 msgid "Sport"
 msgstr "競技"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:104
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:96
+msgid "Steady"
+msgstr "安定"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:42
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:83
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:33
+msgid "Team"
+msgstr "チーム"
+
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:60
 msgid "The athlete list could not be loaded. Try again."
 msgstr "選手一覧を読み込めませんでした。もう一度お試しください。"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:82
-msgid "There are no athletes to show on this page."
-msgstr "このページに表示する選手はいません。"
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:53
+msgid "TikTok followers"
+msgstr "TikTokフォロワー"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:54
+msgid "TikTok hearts"
+msgstr "TikTokハート"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:55
+msgid "TikTok likes"
+msgstr "TikTokいいね"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:56
+msgid "TikTok posts"
+msgstr "TikTok投稿"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:57
+msgid "TikTok videos"
+msgstr "TikTok動画"
 
 #. Button that retries loading the athletes list
-#: src/pages/sports/athletes/AthletesPage.tsx:107
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:63
 msgid "Try again"
 msgstr "再試行"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:125
-#: src/pages/sports/athletes/components/AthletesTable.tsx:93
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:38
+msgid "Try widening your filters or clearing the search."
+msgstr "フィルターを広げるか、検索をクリアしてください。"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:53
 msgid "Type"
 msgstr "タイプ"
 
 #. Error title on the athletes list page
-#: src/pages/sports/athletes/AthletesPage.tsx:97
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:53
 msgid "Unable to load athletes"
 msgstr "選手を読み込めません"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:116
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:72
 msgid "Unable to load filter options"
 msgstr "フィルターオプションを読み込めません"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthletesTable.tsx:32
+#: src/pages/sports/athletes/components/AthleteCells.tsx:71
 msgid "Unnamed athlete"
 msgstr "名前未設定の選手"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:153
+#: src/pages/sports/athletes/components/AthletesTable.tsx:90
 msgid "Updating athletes"
 msgstr "選手情報を更新中"
+
+#. Filter limiting the list to verified accounts
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:169
+msgid "Verified"
+msgstr "認証済み"
+
+#: src/pages/sports/athletes/components/AthleteCells.tsx:85
+#: src/pages/sports/athletes/components/AthleteCells.tsx:86
+msgid "Verified on Instagram"
+msgstr "Instagramで認証済み"
+
+#: src/pages/sports/athletes/use-athlete-column-cells.ts:48
+msgid "Videos"
+msgstr "動画"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:113
+msgid "Visible"
+msgstr "表示中"
