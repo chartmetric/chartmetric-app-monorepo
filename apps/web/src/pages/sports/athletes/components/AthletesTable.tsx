@@ -1,8 +1,11 @@
+import type { FC } from "react";
+
 import { useLingui } from "@lingui/react/macro";
-import { Avatar, Badge, Group, Paper, Text } from "@mantine/core";
-import { DataTable, type DataTableColumn } from "@repo/ui/data-table";
+import { Group, Paper, Text } from "@mantine/core";
+import { DataTable } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
-import { type FC, useMemo } from "react";
+
+import type { AthleteColumnKey } from "../athlete-columns";
 
 import {
   type Athlete,
@@ -10,104 +13,26 @@ import {
   type AthleteSortBy,
   type AthleteSortDirection,
 } from "../athlete-list-query";
+import {
+  ATHLETE_COLUMN_WIDTH,
+  RANK_COLUMN_WIDTH,
+  useAthleteTableColumns,
+} from "../use-athlete-table-columns";
+import { useAthleteFormatters } from "./AthleteCells";
 
 interface AthletesTableProps {
   athletes: Athlete[];
   isFetching: boolean;
+  offset: number;
   onPageChange: (offset: number) => void;
   onSort: (sortBy: AthleteSortBy) => void;
-  offset: number;
   sortBy: AthleteSortBy;
   sortDirection: AthleteSortDirection;
+  total: number;
+  visibleColumns: readonly AthleteColumnKey[];
 }
 
-interface AthleteIdentityProps {
-  athlete: Athlete;
-}
-
-const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
-  const { t } = useLingui();
-  const athleteName =
-    athlete.name ??
-    t({
-      comment: "Fallback name when an athlete profile has no name",
-      message: "Unnamed athlete",
-    });
-  const athleteIdText = String(athlete.id);
-
-  return (
-    <Group gap="sm" wrap="nowrap">
-      <Avatar alt={athleteName} name={athleteName} src={athlete.imageUrl} />
-      <div>
-        <Text fw={600}>{athleteName}</Text>
-        <Text c="dimmed" size="xs">
-          {t({
-            comment:
-              "Numeric Chartmetric profile identifier shown below an athlete name",
-            message: `ID ${athleteIdText}`,
-          })}
-        </Text>
-      </div>
-    </Group>
-  );
-};
-
-const AthleteType: FC<{ type: string | null }> = ({ type }) =>
-  type === null ? "—" : <Badge variant="light">{type}</Badge>;
-
-const useAthleteTableColumns = (): DataTableColumn<
-  Athlete,
-  AthleteSortBy
->[] => {
-  const { i18n, t } = useLingui();
-  const scoreFormatter = useMemo(
-    () =>
-      new Intl.NumberFormat(i18n.locale, {
-        maximumFractionDigits: 1,
-        minimumFractionDigits: 1,
-      }),
-    [i18n.locale],
-  );
-  return useMemo<DataTableColumn<Athlete, AthleteSortBy>[]>(
-    () => [
-      {
-        key: "athlete",
-        label: t`Athlete`,
-        renderCell: (athlete) => <AthleteIdentity athlete={athlete} />,
-        sortKey: "name",
-      },
-      {
-        key: "sport",
-        label: t`Sport`,
-        renderCell: (athlete) => athlete.sport ?? "—",
-        sortKey: "sport",
-      },
-      {
-        key: "nationality",
-        label: t`Nationality`,
-        renderCell: (athlete) => athlete.nationality ?? "—",
-        sortKey: "nationality",
-      },
-      {
-        key: "type",
-        label: t`Type`,
-        renderCell: (athlete) => <AthleteType type={athlete.type} />,
-        sortKey: "type",
-      },
-      {
-        align: "right",
-        key: "cmScore",
-        label: t`CM score`,
-        renderCell: (athlete) =>
-          athlete.cmScore === null
-            ? "—"
-            : scoreFormatter.format(athlete.cmScore),
-        sortKey: "cmScore",
-      },
-    ],
-    [scoreFormatter, t],
-  );
-};
+const SCROLLING_COLUMNS_MIN_WIDTH = 640;
 
 export const AthletesTable: FC<AthletesTableProps> = ({
   athletes,
@@ -117,18 +42,18 @@ export const AthletesTable: FC<AthletesTableProps> = ({
   onSort,
   sortBy,
   sortDirection,
+  total,
+  visibleColumns,
 }) => {
   const { t } = useLingui();
-  const columns = useAthleteTableColumns();
-
-  const formatPageLabel = (page: number): string => {
-    const currentPageText = String(page);
-
-    return t({
-      comment: "Current page number in the athletes list",
-      message: `Page ${currentPageText}`,
-    });
-  };
+  const columns = useAthleteTableColumns(visibleColumns);
+  const formatters = useAthleteFormatters();
+  const firstRow = formatters.plain.format(total === 0 ? 0 : offset + 1);
+  const lastRow = formatters.plain.format(
+    Math.min(offset + athletes.length, total),
+  );
+  const totalRows = formatters.plain.format(total);
+  const pageCount = String(Math.max(1, Math.ceil(total / ATHLETE_PAGE_SIZE)));
 
   return (
     <Paper radius="md" withBorder>
@@ -136,6 +61,9 @@ export const AthletesTable: FC<AthletesTableProps> = ({
         ariaLabel={t`Athletes`}
         columns={columns}
         getRowKey={(athlete) => athlete.id}
+        minWidth={
+          RANK_COLUMN_WIDTH + ATHLETE_COLUMN_WIDTH + SCROLLING_COLUMNS_MIN_WIDTH
+        }
         onSort={onSort}
         rows={athletes}
         sortBy={sortBy}
@@ -146,15 +74,31 @@ export const AthletesTable: FC<AthletesTableProps> = ({
             message: `Sort by ${label}`,
           })
         }
+        stickyHeader
       />
+      <Group justify="flex-start" pt="sm" px="md">
+        <Text c="dimmed" size="sm">
+          {t({
+            comment: "Range of athletes shown out of the filtered total",
+            message: `Showing ${firstRow}–${lastRow} of ${totalRows} athletes`,
+          })}
+        </Text>
+      </Group>
       <TablePagination
-        hasNextPage={athletes.length === ATHLETE_PAGE_SIZE}
+        hasNextPage={offset + ATHLETE_PAGE_SIZE < total}
         isLoading={isFetching}
         loadingLabel={t`Updating athletes`}
         nextLabel={t`Next`}
         offset={offset}
         onPageChange={onPageChange}
-        pageLabel={formatPageLabel}
+        pageLabel={(page) => {
+          const current = String(page);
+
+          return t({
+            comment: "Current page number in the athletes list",
+            message: `Page ${current} of ${pageCount}`,
+          });
+        }}
         pageSize={ATHLETE_PAGE_SIZE}
         previousLabel={t`Previous`}
       />
