@@ -28,6 +28,25 @@ export interface MultiSelectFilterOption {
   value: string;
 }
 
+export const toFilterOptions = (
+  values: readonly string[],
+): MultiSelectFilterOption[] =>
+  values.map((value) => ({ label: value, value }));
+
+/**
+ * Options that show how many records carry each value. The caller formats the
+ * count, so this package stays free of locale knowledge.
+ */
+export const toCountedFilterOptions = (
+  options: readonly { count: number; value: string }[],
+  formatCount: (count: number) => string,
+): MultiSelectFilterOption[] =>
+  options.map(({ count, value }) => ({
+    description: formatCount(count),
+    label: value,
+    value,
+  }));
+
 export interface MultiSelectFilterProps {
   /**
    * Whether the reader can exclude as well as include. Some filters resolve
