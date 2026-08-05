@@ -22,6 +22,7 @@ export type ArtistFilters = Pick<
   | "maxTiktokFollowers"
   | "minInstagramFollowers"
   | "minTiktokFollowers"
+  | "name"
   | "verifiedOnly"
 >;
 

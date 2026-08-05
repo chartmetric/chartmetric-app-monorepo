@@ -11,6 +11,7 @@ export interface ArtistFilterDraft {
   countries: MultiSelectFilterValue;
   genres: MultiSelectFilterValue;
   instagramFollowers: NumericRangeValue;
+  name: string;
   tiktokFollowers: NumericRangeValue;
   verifiedOnly: boolean;
 }
@@ -19,6 +20,7 @@ export const createFilterDraft = (): ArtistFilterDraft => ({
   countries: emptyMultiSelectValue(),
   genres: emptyMultiSelectValue(),
   instagramFollowers: [null, null],
+  name: "",
   tiktokFollowers: [null, null],
   verifiedOnly: false,
 });
@@ -39,7 +41,9 @@ const addCategoricalFilter = (
 
 export const toFilterQuery = (draft: ArtistFilterDraft): ArtistFilters => {
   const filters: ArtistFilters = {};
+  const name = draft.name.trim();
 
+  if (name !== "") filters.name = name;
   addCategoricalFilter(
     filters,
     "countries",

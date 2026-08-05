@@ -317,6 +317,16 @@
           },
           {
             "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "in": "query",
+            "name": "name",
+            "required": false
+          },
+          {
+            "schema": {
               "default": "cmScore",
               "anyOf": [
                 {
@@ -1374,6 +1384,16 @@
             },
             "in": "query",
             "name": "minTiktokFollowers",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "in": "query",
+            "name": "name",
             "required": false
           },
           {
