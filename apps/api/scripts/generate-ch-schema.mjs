@@ -18,11 +18,11 @@ const repositoryRoot = path.resolve(root, "../..");
 const sourceDir = path.join(root, "src");
 const outputPath = path.join(sourceDir, "db/clickhouse/schema.generated.ts");
 
+// Any qualified reference counts, not just `.table()`: queries also reach
+// tables through join calls and through the CTE subquery strings that the
+// builder cannot type, and all of them belong in the snapshot.
 const tables = new Set();
-const tablePattern = new RegExp(
-  String.raw`\.table\(\s*["'\`]${DATABASE}\.(\w+)["'\`]`,
-  "g",
-);
+const tablePattern = new RegExp(String.raw`\b${DATABASE}\.(\w+)`, "g");
 
 for (const entry of readdirSync(sourceDir, { recursive: true })) {
   if (!entry.endsWith(".ts") || entry.endsWith(".generated.ts")) continue;
@@ -31,7 +31,7 @@ for (const entry of readdirSync(sourceDir, { recursive: true })) {
 }
 
 if (tables.size === 0) {
-  console.error(`No .table("${DATABASE}.<name>") usages found under src/`);
+  console.error(`No ${DATABASE}.<name> references found under src/`);
   process.exit(1);
 }
 
