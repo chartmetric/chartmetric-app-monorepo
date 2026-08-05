@@ -13,161 +13,392 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:75
+#. Link to an athlete's social profile
+#: src/pages/sports/athletes/components/AthleteCells.tsx:81
+msgid "{platform} profile {handle}"
+msgstr "{platform} 프로필 {handle}"
+
+#. Audience-size filter for accounts above a threshold
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:108
+msgid "{threshold}+"
+msgstr "{threshold}+"
+
+#. Count of additional leagues an athlete competes in
+#: src/pages/sports/athletes/columns/cells.ts:58
+msgid "+{extra} more"
+msgstr "{extra}개 더"
+
+#. Audience-size filter for accounts below a threshold
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:100
+msgid "<{threshold}"
+msgstr "<{threshold}"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:83
+msgid "Add, remove or reorder columns"
+msgstr "열 추가, 제거 또는 순서 변경"
+
+#: src/pages/sports/athletes/columns/cells.ts:28
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:37
+msgid "Age"
+msgstr "나이"
+
+#: src/pages/sports/athletes/columns/table-columns.ts:39
 msgid "Athlete"
 msgstr "선수"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:189
-#: src/pages/sports/athletes/components/AthletesTable.tsx:136
+#: src/pages/sports/athletes/AthletesPage.tsx:61
+#: src/pages/sports/athletes/components/AthletesTable.tsx:61
 msgid "Athletes"
 msgstr "선수"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:119
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:75
 msgid "Category filters are temporarily unavailable."
 msgstr "카테고리 필터를 일시적으로 사용할 수 없습니다."
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:165
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:57
 msgid "Clear filters"
 msgstr "필터 지우기"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:193
+#: src/pages/sports/athletes/components/AthleteScoreFilter.tsx:31
 msgid "Clear range"
 msgstr "범위 지우기"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:195
-#: src/pages/sports/athletes/components/AthletesTable.tsx:100
+#: src/pages/sports/athletes/components/AthleteScoreFilter.tsx:33
 msgid "CM score"
 msgstr "CM 점수"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:115
+#: src/pages/sports/athletes/columns/cells.ts:84
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:56
+msgid "College"
+msgstr "대학"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:103
+msgid "Column groups"
+msgstr "열 그룹"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:108
+msgid "Columns"
+msgstr "열"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:84
+msgid "Configure columns"
+msgstr "열 구성"
+
+#. Accessible label for deleting a saved column group
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:86
+msgid "Delete group {name}"
+msgstr "{name} 그룹 삭제"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:82
+msgid "Done"
+msgstr "완료"
+
+#: src/pages/sports/athletes/columns/cells.ts:31
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:40
+msgid "Engagement"
+msgstr "참여율"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:39
 msgid "Exclude"
 msgstr "제외"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:192
+#: src/pages/sports/athletes/AthletesPage.tsx:64
 msgid "Explore active athletes across sports."
 msgstr "다양한 스포츠의 현역 선수를 살펴보세요."
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:166
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:27
 msgid "Filters"
 msgstr "필터"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:124
+#. Filter bar heading with the number of active filters
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:29
+msgid "Filters ({activeCount})"
+msgstr "필터 ({activeCount})"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:70
+msgid "Find a league…"
+msgstr "리그 검색…"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:44
 msgid "Find a nationality…"
 msgstr "국적 찾기…"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:123
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:43
 msgid "Find a sport…"
 msgstr "스포츠 찾기…"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:125
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:80
+msgid "Find a team…"
+msgstr "팀 검색…"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:45
 msgid "Find a type…"
 msgstr "유형 찾기…"
 
-#. Numeric Chartmetric profile identifier shown below an athlete name
-#: src/pages/sports/athletes/components/AthletesTable.tsx:44
-msgid "ID {athleteIdText}"
-msgstr "ID {athleteIdText}"
+#: src/pages/sports/athletes/columns/cells.ts:32
+#: src/pages/sports/athletes/columns/cells.ts:40
+msgid "Followers"
+msgstr "팔로워"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:116
+#: src/pages/sports/athletes/columns/cells.ts:30
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:39
+msgid "GPS"
+msgstr "GPS"
+
+#: src/pages/sports/athletes/columns/cells.ts:41
+msgid "Hearts"
+msgstr "하트"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:92
+msgid "Hidden"
+msgstr "숨김"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:40
 msgid "Include"
 msgstr "포함"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:65
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:115
+msgid "Instagram"
+msgstr "Instagram"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:41
+msgid "Instagram followers"
+msgstr "Instagram 팔로워"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:42
+msgid "Instagram posts"
+msgstr "Instagram 게시물"
+
+#: src/pages/sports/athletes/columns/cells.ts:34
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:43
+msgid "Last game"
+msgstr "최근 경기"
+
+#: src/pages/sports/athletes/columns/cells.ts:35
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:44
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:65
+msgid "League"
+msgstr "리그"
+
+#: src/pages/sports/athletes/columns/cells.ts:36
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:45
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:61
+msgid "Level"
+msgstr "레벨"
+
+#: src/pages/sports/athletes/columns/cells.ts:42
+msgid "Likes"
+msgstr "좋아요"
+
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:21
 msgid "Loading athletes"
 msgstr "선수 불러오는 중"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:67
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:23
 msgid "Loading athletes…"
 msgstr "선수 불러오는 중…"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:197
+#: src/pages/sports/athletes/components/AthleteScoreFilter.tsx:35
 msgid "Maximum CM score"
 msgstr "최대 CM 점수"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:199
+#: src/pages/sports/athletes/components/AthleteScoreFilter.tsx:37
 msgid "Minimum CM score"
 msgstr "최소 CM 점수"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:124
-#: src/pages/sports/athletes/components/AthletesTable.tsx:87
+#: src/pages/sports/athletes/columns/cells.ts:37
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:46
+msgid "Momentum"
+msgstr "모멘텀"
+
+#. Accessible label for moving a column earlier
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:99
+msgid "Move {label} earlier"
+msgstr "{label}을(를) 앞으로 이동"
+
+#. Accessible label for moving a column later
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:94
+msgid "Move {label} later"
+msgstr "{label}을(를) 뒤로 이동"
+
+#: src/pages/sports/athletes/columns/cells.ts:38
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:47
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:44
 msgid "Nationality"
 msgstr "국적"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:154
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:91
+msgid "New group name…"
+msgstr "새 그룹 이름…"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:91
 msgid "Next"
 msgstr "다음"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:79
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:35
 msgid "No athletes found"
 msgstr "선수를 찾을 수 없습니다"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:114
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:90
+msgid "No matching columns"
+msgstr "일치하는 열이 없습니다"
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:38
 msgid "No matching options"
 msgstr "일치하는 옵션이 없습니다"
 
 #. Current page number in the athletes list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:127
-msgid "Page {currentPageText}"
-msgstr "{currentPageText} 페이지"
+#: src/pages/sports/athletes/components/AthletesTable.tsx:97
+msgid "Page {current} of {pageCount}"
+msgstr "{pageCount}페이지 중 {current}페이지"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:159
+#: src/pages/sports/athletes/columns/cells.ts:39
+msgid "Pos"
+msgstr "포지션"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:48
+msgid "Position"
+msgstr "포지션"
+
+#: src/pages/sports/athletes/columns/cells.ts:33
+#: src/pages/sports/athletes/columns/cells.ts:43
+msgid "Posts"
+msgstr "게시물"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:103
 msgid "Previous"
 msgstr "이전"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:122
+#: src/pages/sports/athletes/columns/cells.ts:86
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:57
+msgid "Pro"
+msgstr "프로"
+
+#: src/pages/sports/athletes/columns/table-columns.ts:27
+msgid "Rank"
+msgstr "순위"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:104
+msgid "Reset to default"
+msgstr "기본값으로 초기화"
+
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:78
 msgid "Retry filter options"
 msgstr "필터 옵션 다시 시도"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:180
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:105
+msgid "Save"
+msgstr "저장"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:106
+msgid "Save as group"
+msgstr "그룹으로 저장"
+
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:67
 msgid "Search athletes…"
 msgstr "선수 검색…"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:172
+#: src/pages/sports/athletes/components/AthleteFilters.tsx:62
 msgid "Search by name"
 msgstr "이름으로 검색"
 
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:107
+msgid "Search columns…"
+msgstr "열 검색…"
+
+#. Range of athletes shown out of the filtered total
+#: src/pages/sports/athletes/components/AthletesTable.tsx:81
+msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
+msgstr "총 {totalRows}명 중 {firstRow}–{lastRow}명 표시"
+
 #. Accessible label for a sortable athletes table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:144
+#: src/pages/sports/athletes/components/AthletesTable.tsx:72
 msgid "Sort by {label}"
 msgstr "{label} 기준 정렬"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:123
-#: src/pages/sports/athletes/components/AthletesTable.tsx:81
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:43
 msgid "Sport"
 msgstr "종목"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:104
+#: src/pages/sports/athletes/columns/cells.ts:92
+msgid "Steady"
+msgstr "안정"
+
+#: src/pages/sports/athletes/columns/cells.ts:29
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:38
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:75
+msgid "Team"
+msgstr "팀"
+
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:60
 msgid "The athlete list could not be loaded. Try again."
 msgstr "선수 목록을 불러오지 못했습니다. 다시 시도하세요."
 
-#: src/pages/sports/athletes/AthletesPage.tsx:82
-msgid "There are no athletes to show on this page."
-msgstr "이 페이지에 표시할 선수가 없습니다."
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:49
+msgid "TikTok followers"
+msgstr "TikTok 팔로워"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:50
+msgid "TikTok hearts"
+msgstr "TikTok 하트"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:51
+msgid "TikTok likes"
+msgstr "TikTok 좋아요"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:52
+msgid "TikTok posts"
+msgstr "TikTok 게시물"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:53
+msgid "TikTok videos"
+msgstr "TikTok 동영상"
 
 #. Button that retries loading the athletes list
-#: src/pages/sports/athletes/AthletesPage.tsx:107
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:63
 msgid "Try again"
 msgstr "다시 시도"
 
-#: src/pages/sports/athletes/components/AthleteFilters.tsx:125
-#: src/pages/sports/athletes/components/AthletesTable.tsx:93
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:38
+msgid "Try widening your filters or clearing the search."
+msgstr "필터를 넓히거나 검색을 지워 보세요."
+
+#: src/pages/sports/athletes/components/AthleteEntityFilters.tsx:45
 msgid "Type"
 msgstr "유형"
 
 #. Error title on the athletes list page
-#: src/pages/sports/athletes/AthletesPage.tsx:97
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:53
 msgid "Unable to load athletes"
 msgstr "선수를 불러올 수 없습니다"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:116
+#: src/pages/sports/athletes/components/AthleteListStates.tsx:72
 msgid "Unable to load filter options"
 msgstr "필터 옵션을 불러올 수 없습니다"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthletesTable.tsx:32
+#: src/pages/sports/athletes/components/AthleteCells.tsx:27
 msgid "Unnamed athlete"
 msgstr "이름 없는 선수"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:153
+#: src/pages/sports/athletes/components/AthletesTable.tsx:90
 msgid "Updating athletes"
 msgstr "선수 정보 업데이트 중"
+
+#. Filter limiting the list to verified accounts
+#: src/pages/sports/athletes/components/AthleteQuickFilters.tsx:166
+msgid "Verified"
+msgstr "인증됨"
+
+#: src/pages/sports/athletes/components/AthleteCells.tsx:41
+#: src/pages/sports/athletes/components/AthleteCells.tsx:42
+msgid "Verified on Instagram"
+msgstr "Instagram에서 인증됨"
+
+#: src/pages/sports/athletes/columns/cells.ts:44
+msgid "Videos"
+msgstr "동영상"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
+msgid "Visible"
+msgstr "표시"
