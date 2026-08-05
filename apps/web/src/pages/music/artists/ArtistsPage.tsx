@@ -3,8 +3,10 @@ import {
   Alert,
   Button,
   Center,
+  Group,
   Loader,
   Paper,
+  SegmentedControl,
   Stack,
   Text,
   Title,
@@ -12,19 +14,63 @@ import {
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { type FC, type ReactNode, useState } from "react";
 
-import {
-  type ArtistListQuery,
-  type ArtistSortBy,
-  DEFAULT_ARTIST_QUERY,
-  loadArtists,
-} from "./artist-list-query";
-import { ArtistsTable } from "./components/ArtistsTable";
+import type {
+  ArtistChangePeriod,
+  ArtistListQuery,
+  ArtistListReply,
+  ArtistSortBy,
+  MetricDisplayMode,
+} from "./types";
 
-const DESCENDING_FIRST_SORTS: ReadonlySet<ArtistSortBy> = new Set([
-  "cmScore",
-  "instagramFollowers",
-  "tiktokFollowers",
+import { apiClient } from "../../../api/client";
+import { ArtistsTable } from "./components/ArtistsTable";
+import { DEFAULT_ARTIST_QUERY, METRIC_SORTS, sortFamilyOf } from "./constants";
+
+const loadArtists = async (
+  query: ArtistListQuery,
+): Promise<ArtistListReply> => {
+  const result = await apiClient.GET("/app/artists", {
+    params: { query },
+  });
+
+  if (result.data === undefined) {
+    throw new Error("Artist request failed");
+  }
+
+  return result.data;
+};
+
+const ASCENDING_FIRST_SORTS: ReadonlySet<ArtistSortBy> = new Set([
+  "name",
+  "countryCode",
 ]);
+
+const CHANGE_PERIODS: readonly ArtistChangePeriod[] = ["1d", "7d", "28d"];
+const METRIC_DISPLAY_MODES: readonly MetricDisplayMode[] = [
+  "total",
+  "change",
+  "percentChange",
+];
+
+const isChangePeriod = (value: string): value is ArtistChangePeriod =>
+  (CHANGE_PERIODS as readonly string[]).includes(value);
+
+const isMetricDisplayMode = (value: string): value is MetricDisplayMode =>
+  (METRIC_DISPLAY_MODES as readonly string[]).includes(value);
+
+const applyDisplayMode = (
+  query: ArtistListQuery,
+  mode: MetricDisplayMode,
+): ArtistListQuery => {
+  const family = sortFamilyOf(query.sortBy ?? "cmScore");
+  if (family === null) return query;
+
+  return {
+    ...query,
+    offset: 0,
+    sortBy: METRIC_SORTS[family][mode],
+  };
+};
 
 const changeQuerySort = (
   query: ArtistListQuery,
@@ -37,7 +83,7 @@ const changeQuerySort = (
   if (currentSortBy === nextSortBy) {
     nextDirection = currentDirection === "asc" ? "desc" : "asc";
   } else {
-    nextDirection = DESCENDING_FIRST_SORTS.has(nextSortBy) ? "desc" : "asc";
+    nextDirection = ASCENDING_FIRST_SORTS.has(nextSortBy) ? "asc" : "desc";
   }
 
   return {
@@ -82,6 +128,50 @@ interface ErrorStateProps {
   retry: () => void;
 }
 
+interface MetricDisplayControlsProps {
+  changePeriod: ArtistChangePeriod;
+  displayMode: MetricDisplayMode;
+  onChangePeriod: (value: string) => void;
+  onDisplayModeChange: (value: string) => void;
+}
+
+const MetricDisplayControls: FC<MetricDisplayControlsProps> = ({
+  changePeriod,
+  displayMode,
+  onChangePeriod,
+  onDisplayModeChange,
+}) => {
+  const { t } = useLingui();
+
+  return (
+    <Group gap="sm" justify="flex-end">
+      <SegmentedControl
+        aria-label={t`Change period`}
+        data={[
+          { label: t`1D`, value: "1d" },
+          { label: t`7D`, value: "7d" },
+          { label: t`28D`, value: "28d" },
+        ]}
+        disabled={displayMode === "total"}
+        onChange={onChangePeriod}
+        size="xs"
+        value={changePeriod}
+      />
+      <SegmentedControl
+        aria-label={t`Value display`}
+        data={[
+          { label: t`Total`, value: "total" },
+          { label: t`Change`, value: "change" },
+          { label: t`% Change`, value: "percentChange" },
+        ]}
+        onChange={onDisplayModeChange}
+        size="xs"
+        value={displayMode}
+      />
+    </Group>
+  );
+};
+
 const ErrorState: FC<ErrorStateProps> = ({ retry }) => (
   <Alert
     color="red"
@@ -106,6 +196,7 @@ const ErrorState: FC<ErrorStateProps> = ({ retry }) => (
 
 export const ArtistsPage: FC = () => {
   const [query, setQuery] = useState<ArtistListQuery>(DEFAULT_ARTIST_QUERY);
+  const [displayMode, setDisplayMode] = useState<MetricDisplayMode>("total");
   const artistsQuery = useQuery({
     placeholderData: keepPreviousData,
     queryFn: async () => await loadArtists(query),
@@ -115,10 +206,32 @@ export const ArtistsPage: FC = () => {
   const offset = query.offset;
   const sortBy = query.sortBy ?? "cmScore";
   const sortDirection = query.sortDirection ?? "desc";
+  const changePeriod = query.changePeriod ?? "7d";
   let content: ReactNode;
 
   const changeSort = (nextSortBy: ArtistSortBy): void => {
     setQuery((currentQuery) => changeQuerySort(currentQuery, nextSortBy));
+  };
+
+  const changeOffset = (nextOffset: number): void => {
+    setQuery((currentQuery) => ({ ...currentQuery, offset: nextOffset }));
+  };
+
+  const changeDisplayMode = (value: string): void => {
+    if (!isMetricDisplayMode(value)) return;
+
+    setDisplayMode(value);
+    setQuery((currentQuery) => applyDisplayMode(currentQuery, value));
+  };
+
+  const changeChangePeriod = (value: string): void => {
+    if (!isChangePeriod(value)) return;
+
+    setQuery((currentQuery) => ({
+      ...currentQuery,
+      changePeriod: value,
+      offset: 0,
+    }));
   };
 
   if (artistsQuery.isPending) {
@@ -137,14 +250,10 @@ export const ArtistsPage: FC = () => {
     content = (
       <ArtistsTable
         artists={artists}
+        displayMode={displayMode}
         isFetching={artistsQuery.isFetching}
         offset={offset}
-        onPageChange={(nextOffset) => {
-          setQuery((currentQuery) => ({
-            ...currentQuery,
-            offset: nextOffset,
-          }));
-        }}
+        onPageChange={changeOffset}
         onSort={changeSort}
         sortBy={sortBy}
         sortDirection={sortDirection}
@@ -162,6 +271,12 @@ export const ArtistsPage: FC = () => {
           <Trans>Explore artists across the music industry.</Trans>
         </Text>
       </div>
+      <MetricDisplayControls
+        changePeriod={changePeriod}
+        displayMode={displayMode}
+        onChangePeriod={changeChangePeriod}
+        onDisplayModeChange={changeDisplayMode}
+      />
       {content}
     </Stack>
   );

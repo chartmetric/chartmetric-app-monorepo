@@ -1,37 +1,34 @@
 import { i18n } from "@lingui/core";
-import { I18nProvider } from "@lingui/react";
-import { MantineProvider } from "@mantine/core";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { Artist } from "./artist-list-query";
+import type { Artist } from "../types";
 
-import { messages as enMusic } from "../../../locales/music/en/messages.po";
-import { ArtistsPage } from "./ArtistsPage";
+import { messages as enMusic } from "../../../../locales/music/en/messages.po";
+import { renderArtistsPage as renderPage } from "./artists-page.test.helpers";
 
 const apiGetMock = vi.hoisted(() => vi.fn());
 
-vi.mock("../../../api/client", () => ({
+vi.mock("../../../../api/client", () => ({
   apiClient: { GET: apiGetMock },
 }));
 
 const artist: Artist = {
   cmScore: 88.3,
+  cmScoreChange: 1.2,
+  cmScoreChangePercent: 1.377,
   countryCode: "US",
   id: 3168,
   imageUrl: "https://img/artist-3168.jpg",
   instagramFollowers: 404_690_279,
+  instagramFollowersChange: 3_777_694,
+  instagramFollowersChangePercent: 3.815,
   isVerified: true,
   name: "Selena Gomez",
   recordLabel: "Interscope",
   tiktokFollowers: 58_708_640,
+  tiktokFollowersChange: -1_234_567,
+  tiktokFollowersChangePercent: -2.5,
 };
 
 const artistListReply = {
@@ -44,22 +41,6 @@ const mockArtistRequests = (listReply = artistListReply): void => {
 
     return listReply;
   });
-};
-
-const renderPage = (): void => {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-  });
-
-  render(
-    <I18nProvider i18n={i18n}>
-      <QueryClientProvider client={queryClient}>
-        <MantineProvider>
-          <ArtistsPage />
-        </MantineProvider>
-      </QueryClientProvider>
-    </I18nProvider>,
-  );
 };
 
 describe("ArtistsPage", () => {
@@ -197,6 +178,7 @@ describe("ArtistsPage", () => {
       expect(apiGetMock).toHaveBeenCalledWith("/app/artists", {
         params: {
           query: {
+            changePeriod: "7d",
             limit: 25,
             offset: 25,
             sortBy: "cmScore",
@@ -262,6 +244,7 @@ describe("ArtistsPage", () => {
       expect(apiGetMock).toHaveBeenCalledWith("/app/artists", {
         params: {
           query: {
+            changePeriod: "7d",
             limit: 25,
             offset: 0,
             sortBy: "instagramFollowers",
@@ -277,6 +260,7 @@ describe("ArtistsPage", () => {
       expect(apiGetMock).toHaveBeenCalledWith("/app/artists", {
         params: {
           query: {
+            changePeriod: "7d",
             limit: 25,
             offset: 0,
             sortBy: "instagramFollowers",

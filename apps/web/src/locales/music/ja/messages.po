@@ -13,84 +13,116 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:95
+#: src/pages/music/artists/ArtistsPage.tsx:165
+msgid "% Change"
+msgstr "変化率"
+
+#: src/pages/music/artists/ArtistsPage.tsx:151
+msgid "1D"
+msgstr "1日"
+
+#: src/pages/music/artists/ArtistsPage.tsx:153
+msgid "28D"
+msgstr "28日"
+
+#: src/pages/music/artists/ArtistsPage.tsx:152
+msgid "7D"
+msgstr "7日"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:173
 msgid "Artist"
 msgstr "アーティスト"
 
-#: src/pages/music/artists/ArtistsPage.tsx:159
-#: src/pages/music/artists/components/ArtistsTable.tsx:171
+#: src/pages/music/artists/ArtistsPage.tsx:268
+#: src/pages/music/artists/components/ArtistsTable.tsx:262
 msgid "Artists"
 msgstr "アーティスト"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:111
+#: src/pages/music/artists/ArtistsPage.tsx:164
+msgid "Change"
+msgstr "変化量"
+
+#: src/pages/music/artists/ArtistsPage.tsx:149
+msgid "Change period"
+msgstr "変化の期間"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:188
 msgid "CM score"
 msgstr "CMスコア"
 
-#: src/pages/music/artists/ArtistsPage.tsx:162
+#: src/pages/music/artists/ArtistsPage.tsx:271
 msgid "Explore artists across the music industry."
 msgstr "音楽業界のアーティストを探しましょう。"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:119
+#: src/pages/music/artists/components/ArtistsTable.tsx:201
 msgid "Instagram followers"
 msgstr "Instagramフォロワー"
 
-#: src/pages/music/artists/ArtistsPage.tsx:57
+#: src/pages/music/artists/ArtistsPage.tsx:103
 msgid "Loading artists"
 msgstr "アーティストを読み込み中"
 
-#: src/pages/music/artists/ArtistsPage.tsx:59
+#: src/pages/music/artists/ArtistsPage.tsx:105
 msgid "Loading artists…"
 msgstr "アーティストを読み込み中…"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:190
+#: src/pages/music/artists/components/ArtistsTable.tsx:281
 msgid "Next"
 msgstr "次へ"
 
-#: src/pages/music/artists/ArtistsPage.tsx:71
+#: src/pages/music/artists/ArtistsPage.tsx:117
 msgid "No artists found"
 msgstr "アーティストが見つかりません"
 
 #. Current page number in the artists list
-#: src/pages/music/artists/components/ArtistsTable.tsx:155
+#: src/pages/music/artists/components/ArtistsTable.tsx:246
 msgid "Page {currentPageText}"
 msgstr "{currentPageText}ページ"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:195
+#: src/pages/music/artists/components/ArtistsTable.tsx:286
 msgid "Previous"
 msgstr "前へ"
 
 #. Accessible label for a sortable artists table column
-#: src/pages/music/artists/components/ArtistsTable.tsx:179
+#: src/pages/music/artists/components/ArtistsTable.tsx:270
 msgid "Sort by {label}"
 msgstr "{label}で並べ替え"
 
-#: src/pages/music/artists/ArtistsPage.tsx:96
+#: src/pages/music/artists/ArtistsPage.tsx:186
 msgid "The artist list could not be loaded. Try again."
 msgstr "アーティスト一覧を読み込めませんでした。もう一度お試しください。"
 
-#: src/pages/music/artists/ArtistsPage.tsx:74
+#: src/pages/music/artists/ArtistsPage.tsx:120
 msgid "There are no artists to show on this page."
 msgstr "このページに表示するアーティストはいません。"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:129
+#: src/pages/music/artists/components/ArtistsTable.tsx:214
 msgid "TikTok followers"
 msgstr "TikTokフォロワー"
 
+#: src/pages/music/artists/ArtistsPage.tsx:163
+msgid "Total"
+msgstr "合計"
+
 #. Button that retries loading the artists list
-#: src/pages/music/artists/ArtistsPage.tsx:99
+#: src/pages/music/artists/ArtistsPage.tsx:189
 msgid "Try again"
 msgstr "再試行"
 
 #. Error title on the artists list page
-#: src/pages/music/artists/ArtistsPage.tsx:89
+#: src/pages/music/artists/ArtistsPage.tsx:179
 msgid "Unable to load artists"
 msgstr "アーティストを読み込めません"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:165
-#: src/pages/music/artists/components/ArtistsTable.tsx:189
+#: src/pages/music/artists/components/ArtistsTable.tsx:256
+#: src/pages/music/artists/components/ArtistsTable.tsx:280
 msgid "Updating artists"
 msgstr "アーティスト情報を更新中"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:42
+#: src/pages/music/artists/ArtistsPage.tsx:161
+msgid "Value display"
+msgstr "値の表示"
+
+#: src/pages/music/artists/components/ArtistIdentity.tsx:29
 msgid "Verified artist"
 msgstr "認証済みアーティスト"
