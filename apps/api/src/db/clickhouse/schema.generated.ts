@@ -110,6 +110,15 @@ export interface IntrospectedSchema {
     job_id: "String";
     created_at: "DateTime";
   };
+  l_cm_artist_tag: {
+    id: "UInt64";
+    cm_artist: "UInt32";
+    tag: "UInt32";
+    tag_type: "LowCardinality(String)";
+    tag_slug: "String";
+    source: "LowCardinality(String)";
+    created_at: "DateTime";
+  };
   l_profile_account: {
     id: "UInt32";
     profile_id: "UInt32";
@@ -277,6 +286,16 @@ export interface Instagram_cacheRecord {
   provider: string;
   s3_path: string;
   job_id: string;
+  created_at: string;
+}
+
+export interface L_cm_artist_tagRecord {
+  id: string;
+  cm_artist: number;
+  tag: number;
+  tag_type: string;
+  tag_slug: string;
+  source: string;
   created_at: string;
 }
 

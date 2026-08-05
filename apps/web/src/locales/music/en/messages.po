@@ -13,66 +13,142 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/music/artists/ArtistsPage.tsx:150
+#: src/pages/music/artists/components/MetricDisplayControls.tsx:42
 msgid "% Change"
 msgstr "% Change"
 
-#: src/pages/music/artists/ArtistsPage.tsx:136
+#: src/pages/music/artists/components/MetricDisplayControls.tsx:28
 msgid "1D"
 msgstr "1D"
 
-#: src/pages/music/artists/ArtistsPage.tsx:138
+#: src/pages/music/artists/components/MetricDisplayControls.tsx:30
 msgid "28D"
 msgstr "28D"
 
-#: src/pages/music/artists/ArtistsPage.tsx:137
+#: src/pages/music/artists/components/MetricDisplayControls.tsx:29
 msgid "7D"
 msgstr "7D"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:228
+msgid "All filters"
+msgstr "All filters"
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:162
 msgid "Artist"
 msgstr "Artist"
 
-#: src/pages/music/artists/ArtistsPage.tsx:253
+#: src/pages/music/artists/ArtistsPage.tsx:148
 #: src/pages/music/artists/components/ArtistsTable.tsx:251
 msgid "Artists"
 msgstr "Artists"
 
-#: src/pages/music/artists/ArtistsPage.tsx:149
+#: src/pages/music/artists/components/MetricDisplayControls.tsx:41
 msgid "Change"
 msgstr "Change"
 
-#: src/pages/music/artists/ArtistsPage.tsx:134
+#: src/pages/music/artists/components/MetricDisplayControls.tsx:26
 msgid "Change period"
 msgstr "Change period"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:205
+msgid "Clear filters"
+msgstr "Clear filters"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:137
+#: src/pages/music/artists/components/ArtistFilters.tsx:153
+msgid "Clear range"
+msgstr "Clear range"
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:177
 msgid "CM score"
 msgstr "CM score"
 
-#: src/pages/music/artists/ArtistsPage.tsx:256
+#: src/pages/music/artists/components/ArtistFilters.tsx:86
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:122
+msgid "Country"
+msgstr "Country"
+
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:75
+msgid "Country and genre filters are temporarily unavailable."
+msgstr "Country and genre filters are temporarily unavailable."
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:92
+msgid "Exclude"
+msgstr "Exclude"
+
+#: src/pages/music/artists/ArtistsPage.tsx:151
 msgid "Explore artists across the music industry."
 msgstr "Explore artists across the music industry."
 
+#: src/pages/music/artists/components/ArtistFilters.tsx:206
+#: src/pages/music/artists/components/ArtistFilters.tsx:235
+msgid "Filters"
+msgstr "Filters"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:85
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:111
+msgid "Genre"
+msgstr "Genre"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:93
+msgid "Include"
+msgstr "Include"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:140
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:132
 #: src/pages/music/artists/components/ArtistsTable.tsx:190
 msgid "Instagram followers"
 msgstr "Instagram followers"
 
-#: src/pages/music/artists/ArtistsPage.tsx:88
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:21
 msgid "Loading artists"
 msgstr "Loading artists"
 
-#: src/pages/music/artists/ArtistsPage.tsx:90
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:23
 msgid "Loading artists…"
 msgstr "Loading artists…"
+
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:71
+msgid "Max"
+msgstr "Max"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:141
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:134
+msgid "Maximum Instagram followers"
+msgstr "Maximum Instagram followers"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:157
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:148
+msgid "Maximum TikTok followers"
+msgstr "Maximum TikTok followers"
+
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:62
+msgid "Min"
+msgstr "Min"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:142
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:135
+msgid "Minimum Instagram followers"
+msgstr "Minimum Instagram followers"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:158
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:149
+msgid "Minimum TikTok followers"
+msgstr "Minimum TikTok followers"
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:270
 msgid "Next"
 msgstr "Next"
 
-#: src/pages/music/artists/ArtistsPage.tsx:102
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:35
 msgid "No artists found"
 msgstr "No artists found"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:91
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:110
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:121
+msgid "No matching options"
+msgstr "No matching options"
 
 #. Current page number in the artists list
 #: src/pages/music/artists/components/ArtistsTable.tsx:235
@@ -83,43 +159,63 @@ msgstr "Page {currentPageText}"
 msgid "Previous"
 msgstr "Previous"
 
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:78
+msgid "Retry filter options"
+msgstr "Retry filter options"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:86
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:127
+msgid "Search countries…"
+msgstr "Search countries…"
+
+#: src/pages/music/artists/components/ArtistFilters.tsx:85
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:116
+msgid "Search genres…"
+msgstr "Search genres…"
+
 #. Accessible label for a sortable artists table column
 #: src/pages/music/artists/components/ArtistsTable.tsx:259
 msgid "Sort by {label}"
 msgstr "Sort by {label}"
 
-#: src/pages/music/artists/ArtistsPage.tsx:171
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:60
 msgid "The artist list could not be loaded. Try again."
 msgstr "The artist list could not be loaded. Try again."
 
-#: src/pages/music/artists/ArtistsPage.tsx:105
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:38
 msgid "There are no artists to show on this page."
 msgstr "There are no artists to show on this page."
 
+#: src/pages/music/artists/components/ArtistFilters.tsx:156
+#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:146
 #: src/pages/music/artists/components/ArtistsTable.tsx:203
 msgid "TikTok followers"
 msgstr "TikTok followers"
 
-#: src/pages/music/artists/ArtistsPage.tsx:148
+#: src/pages/music/artists/components/MetricDisplayControls.tsx:40
 msgid "Total"
 msgstr "Total"
 
 #. Button that retries loading the artists list
-#: src/pages/music/artists/ArtistsPage.tsx:174
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:63
 msgid "Try again"
 msgstr "Try again"
 
 #. Error title on the artists list page
-#: src/pages/music/artists/ArtistsPage.tsx:164
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:53
 msgid "Unable to load artists"
 msgstr "Unable to load artists"
+
+#: src/pages/music/artists/components/ArtistsPageStates.tsx:72
+msgid "Unable to load filter options"
+msgstr "Unable to load filter options"
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:245
 #: src/pages/music/artists/components/ArtistsTable.tsx:269
 msgid "Updating artists"
 msgstr "Updating artists"
 
-#: src/pages/music/artists/ArtistsPage.tsx:146
+#: src/pages/music/artists/components/MetricDisplayControls.tsx:38
 msgid "Value display"
 msgstr "Value display"
 

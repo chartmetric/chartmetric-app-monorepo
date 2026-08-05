@@ -35,11 +35,26 @@ const artistListReply = {
   data: { data: [artist], meta: { limit: 25, offset: 0 } },
 };
 
+const filterOptions = {
+  countries: [
+    { count: 12, value: "US" },
+    { count: 5, value: "KR" },
+  ],
+  genres: [
+    { count: 9, value: "pop" },
+    { count: 3, value: "rock" },
+  ],
+  instagramFollowers: { max: 500_000_000, min: 0 },
+  tiktokFollowers: { max: 150_000_000, min: 0 },
+};
+
 const mockArtistRequests = (): void => {
-  apiGetMock.mockImplementation(async () => {
+  apiGetMock.mockImplementation(async (path: string) => {
     await Promise.resolve();
 
-    return artistListReply;
+    return path === "/app/artists/filter-options"
+      ? { data: filterOptions }
+      : artistListReply;
   });
 };
 

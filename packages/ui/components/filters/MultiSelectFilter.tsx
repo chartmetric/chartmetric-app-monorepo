@@ -13,9 +13,14 @@ import { type FC, type ReactNode, useState } from "react";
 export type FilterSelectionMode = "exclude" | "include";
 
 export interface MultiSelectFilterValue {
-  mode: FilterSelectionMode;
-  values: string[];
+  excluded: string[];
+  included: string[];
 }
+
+export const emptyMultiSelectValue = (): MultiSelectFilterValue => ({
+  excluded: [],
+  included: [],
+});
 
 export interface MultiSelectFilterOption {
   description?: ReactNode;
@@ -37,46 +42,58 @@ export interface MultiSelectFilterProps {
 
 interface FilterOptionsProps {
   emptyMessage: string;
+  excludedValues: ReadonlySet<string>;
+  includedValues: ReadonlySet<string>;
+  mode: FilterSelectionMode;
   options: readonly MultiSelectFilterOption[];
-  selectedValues: ReadonlySet<string>;
 }
 
+// Each tab is a view of its own list: the include tab only marks included
+// options and the exclude tab only marks excluded ones, so a value never
+// looks selected on the tab that did not select it.
 const FilterOptions: FC<FilterOptionsProps> = ({
   emptyMessage,
+  excludedValues,
+  includedValues,
+  mode,
   options,
-  selectedValues,
-}) => (
-  <Combobox.Options mah={280} style={{ overflowY: "auto" }}>
-    {options.length === 0 ? (
-      <Combobox.Empty>{emptyMessage}</Combobox.Empty>
-    ) : (
-      options.map((option) => (
-        <Combobox.Option
-          active={selectedValues.has(option.value)}
-          key={option.value}
-          value={option.value}
-        >
-          <Group gap="sm" justify="space-between" wrap="nowrap">
-            <Group gap="sm" wrap="nowrap">
-              <Checkbox
-                aria-hidden="true"
-                checked={selectedValues.has(option.value)}
-                readOnly
-                tabIndex={-1}
-              />
-              <Text size="sm">{option.label}</Text>
+}) => {
+  const selectedValues = mode === "include" ? includedValues : excludedValues;
+
+  return (
+    <Combobox.Options mah={280} style={{ overflowY: "auto" }}>
+      {options.length === 0 ? (
+        <Combobox.Empty>{emptyMessage}</Combobox.Empty>
+      ) : (
+        options.map((option) => (
+          <Combobox.Option
+            active={selectedValues.has(option.value)}
+            key={option.value}
+            value={option.value}
+          >
+            <Group gap="sm" justify="space-between" wrap="nowrap">
+              <Group gap="sm" wrap="nowrap">
+                <Checkbox
+                  {...(mode === "exclude" && { color: "red" })}
+                  aria-hidden="true"
+                  checked={selectedValues.has(option.value)}
+                  readOnly
+                  tabIndex={-1}
+                />
+                <Text size="sm">{option.label}</Text>
+              </Group>
+              {option.description === undefined ? null : (
+                <Text c="dimmed" size="xs">
+                  {option.description}
+                </Text>
+              )}
             </Group>
-            {option.description === undefined ? null : (
-              <Text c="dimmed" size="xs">
-                {option.description}
-              </Text>
-            )}
-          </Group>
-        </Combobox.Option>
-      ))
-    )}
-  </Combobox.Options>
-);
+          </Combobox.Option>
+        ))
+      )}
+    </Combobox.Options>
+  );
+};
 
 interface FilterDropdownProps extends FilterOptionsProps {
   excludeLabel: string;
@@ -90,7 +107,9 @@ interface FilterDropdownProps extends FilterOptionsProps {
 
 const FilterDropdown: FC<FilterDropdownProps> = ({
   emptyMessage,
+  excludedValues,
   excludeLabel,
+  includedValues,
   includeLabel,
   mode,
   onModeChange,
@@ -98,7 +117,6 @@ const FilterDropdown: FC<FilterDropdownProps> = ({
   options,
   search,
   searchPlaceholder,
-  selectedValues,
 }) => (
   <Combobox.Dropdown maw="calc(100vw - var(--mantine-spacing-md) * 2)">
     <Stack gap="xs" p="xs">
@@ -124,8 +142,10 @@ const FilterDropdown: FC<FilterDropdownProps> = ({
     </Stack>
     <FilterOptions
       emptyMessage={emptyMessage}
+      excludedValues={excludedValues}
+      includedValues={includedValues}
+      mode={mode}
       options={options}
-      selectedValues={selectedValues}
     />
   </Combobox.Dropdown>
 );
@@ -143,6 +163,31 @@ const filterOptionsBySearch = (
       );
 };
 
+const without = (values: string[], value: string): string[] =>
+  values.filter((currentValue) => currentValue !== value);
+
+const toggleMultiSelectValue = (
+  value: MultiSelectFilterValue,
+  mode: FilterSelectionMode,
+  selectedValue: string,
+): MultiSelectFilterValue => {
+  if (mode === "include") {
+    return {
+      excluded: without(value.excluded, selectedValue),
+      included: value.included.includes(selectedValue)
+        ? without(value.included, selectedValue)
+        : [...value.included, selectedValue],
+    };
+  }
+
+  return {
+    excluded: value.excluded.includes(selectedValue)
+      ? without(value.excluded, selectedValue)
+      : [...value.excluded, selectedValue],
+    included: without(value.included, selectedValue),
+  };
+};
+
 export const MultiSelectFilter: FC<MultiSelectFilterProps> = ({
   disabled = false,
   emptyMessage,
@@ -155,6 +200,7 @@ export const MultiSelectFilter: FC<MultiSelectFilterProps> = ({
   value,
 }) => {
   const [search, setSearch] = useState("");
+  const [mode, setMode] = useState<FilterSelectionMode>("include");
   const combobox = useCombobox({
     onDropdownClose: () => {
       combobox.resetSelectedOption();
@@ -164,21 +210,16 @@ export const MultiSelectFilter: FC<MultiSelectFilterProps> = ({
       combobox.selectFirstOption();
     },
   });
-  const selectedValues = new Set(value.values);
+  const includedValues = new Set(value.included);
+  const excludedValues = new Set(value.excluded);
+  const selectionCount = value.included.length + value.excluded.length;
   const filteredOptions = filterOptionsBySearch(options, search);
-
-  const selectValue = (selectedValue: string): void => {
-    onChange({
-      mode: value.mode,
-      values: selectedValues.has(selectedValue)
-        ? value.values.filter((currentValue) => currentValue !== selectedValue)
-        : [...value.values, selectedValue],
-    });
-  };
 
   return (
     <Combobox
-      onOptionSubmit={selectValue}
+      onOptionSubmit={(selectedValue) => {
+        onChange(toggleMultiSelectValue(value, mode, selectedValue));
+      }}
       position="bottom-start"
       shadow="md"
       store={combobox}
@@ -194,22 +235,20 @@ export const MultiSelectFilter: FC<MultiSelectFilterProps> = ({
           }}
           rightSection={<Combobox.Chevron />}
           type="button"
-          variant={value.values.length === 0 ? "default" : "light"}
+          variant={selectionCount === 0 ? "default" : "light"}
         >
           {label}
-          {value.values.length === 0
-            ? null
-            : ` (${String(value.values.length)})`}
+          {selectionCount === 0 ? null : ` (${String(selectionCount)})`}
         </Button>
       </Combobox.Target>
       <FilterDropdown
         emptyMessage={emptyMessage}
+        excludedValues={excludedValues}
         excludeLabel={excludeLabel}
+        includedValues={includedValues}
         includeLabel={includeLabel}
-        mode={value.mode}
-        onModeChange={(mode) => {
-          onChange({ mode, values: value.values });
-        }}
+        mode={mode}
+        onModeChange={setMode}
         onSearchChange={(nextSearch) => {
           setSearch(nextSearch);
           combobox.updateSelectedOptionIndex();
@@ -217,7 +256,6 @@ export const MultiSelectFilter: FC<MultiSelectFilterProps> = ({
         options={filteredOptions}
         search={search}
         searchPlaceholder={searchPlaceholder}
-        selectedValues={selectedValues}
       />
     </Combobox>
   );

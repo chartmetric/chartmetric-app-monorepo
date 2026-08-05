@@ -269,16 +269,18 @@ describe("AthletesPage", () => {
     });
 
     fireEvent.click(getControlledRadio(sportFilter, "Exclude"));
+    fireEvent.click(getControlledOption(sportFilter, /Tennis/u));
 
     await waitFor(() => {
       expect(apiGetMock).toHaveBeenCalledWith("/app/athletes", {
         params: {
           query: {
-            excludeSports: ["Football"],
+            excludeSports: ["Tennis"],
             limit: 25,
             offset: 0,
             sortBy: "cmScore",
             sortDirection: "desc",
+            sports: ["Football"],
           },
         },
       });
@@ -287,12 +289,14 @@ describe("AthletesPage", () => {
     sportFilter = screen.getByRole<HTMLButtonElement>("combobox", {
       name: "Sport",
     });
+    fireEvent.click(getControlledRadio(sportFilter, "Include"));
     fireEvent.click(getControlledOption(sportFilter, /Football/u));
 
     await waitFor(() => {
       expect(apiGetMock).toHaveBeenCalledWith("/app/athletes", {
         params: {
           query: {
+            excludeSports: ["Tennis"],
             limit: 25,
             offset: 0,
             sortBy: "cmScore",

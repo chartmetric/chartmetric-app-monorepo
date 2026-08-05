@@ -92,6 +92,56 @@ describe("listArtists", () => {
     expect(sql).toContain(`score_date <= today() - ${String(days)}`);
   });
 
+  it("applies country, genre, and follower-range filters", () => {
+    const sql = queries
+      .listArtists({
+        countries: ["US", "KR"],
+        excludeCountries: ["GB"],
+        excludeGenres: ["pop"],
+        genres: ["k-pop", "rock"],
+        limit: 5,
+        maxInstagramFollowers: 1000,
+        maxTiktokFollowers: 4000,
+        minInstagramFollowers: 10,
+        minTiktokFollowers: 20,
+        offset: 0,
+      })
+      .toSQL();
+
+    expect(sql).toContain(
+      "genre_match AS (SELECT cm_artist FROM new_vertical.l_cm_artist_tag WHERE tag_type = 'genre' AND tag_slug IN ('k-pop', 'rock') GROUP BY cm_artist)",
+    );
+    expect(sql).toContain(
+      "genre_exclude AS (SELECT cm_artist FROM new_vertical.l_cm_artist_tag WHERE tag_type = 'genre' AND tag_slug IN ('pop') GROUP BY cm_artist)",
+    );
+    expect(sql).toContain("code2 IN ('US', 'KR')");
+    expect(sql).toContain("code2 NOT IN ('GB')");
+    expect(sql).toContain("genre_match.cm_artist IS NOT NULL");
+    expect(sql).toContain("genre_exclude.cm_artist IS NULL");
+    expect(sql).toContain(
+      "greaterOrEquals(artist_metrics.instagram_followers, 10)",
+    );
+    expect(sql).toContain(
+      "lessOrEquals(artist_metrics.instagram_followers, 1000)",
+    );
+    expect(sql).toContain(
+      "greaterOrEquals(artist_metrics.tiktok_followers, 20)",
+    );
+    expect(sql).toContain(
+      "lessOrEquals(artist_metrics.tiktok_followers, 4000)",
+    );
+  });
+
+  it("pins unused genre CTEs to an empty tag type", () => {
+    const sql = queries.listArtists({ limit: 1, offset: 0 }).toSQL();
+
+    expect(sql).toContain(
+      "genre_match AS (SELECT cm_artist FROM new_vertical.l_cm_artist_tag WHERE tag_type = 'none' GROUP BY cm_artist)",
+    );
+    expect(sql).not.toContain("genre_match.cm_artist IS NOT NULL");
+    expect(sql).not.toContain("genre_exclude.cm_artist IS NULL");
+  });
+
   it.each([
     ["name", "name"],
     ["countryCode", "code2"],
