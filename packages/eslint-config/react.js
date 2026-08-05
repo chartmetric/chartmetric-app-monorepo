@@ -45,6 +45,7 @@ export default defineConfig(
           ignoreNames: [
             "className",
             "styleName",
+            "rel",
             "src",
             "srcSet",
             "type",
