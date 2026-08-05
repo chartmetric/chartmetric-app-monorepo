@@ -5,15 +5,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { Athlete } from "./athlete-list-query";
+import type { Athlete } from "./api/types";
 
 import { messages as enSports } from "../../../locales/sports/en/messages.po";
+import { AthletesPage } from "./AthletesPage";
 import {
   findEnabledControl,
   getControlledOption,
   getControlledRadio,
-} from "./athlete-filter.test.helpers";
-import { AthletesPage } from "./AthletesPage";
+} from "./AthletesPage.test.helpers";
 
 const buildAthlete = (overrides: Partial<Athlete> = {}): Athlete => ({
   age: 36,
