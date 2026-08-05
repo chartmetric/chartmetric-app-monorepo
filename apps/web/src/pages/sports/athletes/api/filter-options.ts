@@ -1,9 +1,6 @@
-import type { paths } from "@repo/api-client";
+import type { AthleteFilterOptionsReply } from "./types";
 
-import { apiClient } from "../../../api/client";
-
-export type AthleteFilterOptionsReply =
-  paths["/app/athletes/filter-options"]["get"]["responses"][200]["content"]["application/json"];
+import { apiClient } from "../../../../api/client";
 
 export const loadAthleteFilterOptions =
   async (): Promise<AthleteFilterOptionsReply> => {

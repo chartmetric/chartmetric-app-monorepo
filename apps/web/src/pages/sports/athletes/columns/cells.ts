@@ -1,25 +1,21 @@
 import { useLingui } from "@lingui/react/macro";
-import { createElement, type ReactNode, useMemo } from "react";
+import { createElement, useMemo } from "react";
 
-import type { AthleteColumnKey } from "./athlete-columns";
-import type { Athlete } from "./athlete-list-query";
+import type { AthleteCellRenderers, AthleteColumnKey } from "./types";
 
 import {
   ClubCell,
-  EMPTY_CELL,
-  formatCount,
-  formatDate,
   GpsCell,
   LeagueCell,
   LevelCell,
   MomentumCell,
+} from "../components/AthleteCells";
+import {
+  EMPTY_CELL,
+  formatCount,
+  formatDate,
   useAthleteFormatters,
-} from "./components/AthleteCells";
-
-export type AthleteCellRenderers = Record<
-  AthleteColumnKey,
-  (athlete: Athlete) => ReactNode
->;
+} from "./formatters";
 
 export const useAthleteColumnHeadings = (): Record<
   AthleteColumnKey,

@@ -1,3 +1,5 @@
+import type { FC, ReactNode } from "react";
+
 import { useLingui } from "@lingui/react/macro";
 import {
   Anchor,
@@ -9,56 +11,10 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
-import { type FC, type ReactNode, useMemo } from "react";
 
-import type { Athlete } from "../athlete-list-query";
+import type { Athlete } from "../api/types";
 
-export const EMPTY_CELL = "—";
-
-export const useAthleteFormatters = (): {
-  compact: Intl.NumberFormat;
-  date: Intl.DateTimeFormat;
-  percent: Intl.NumberFormat;
-  plain: Intl.NumberFormat;
-} => {
-  const { i18n } = useLingui();
-
-  return useMemo(
-    () => ({
-      compact: new Intl.NumberFormat(i18n.locale, {
-        maximumFractionDigits: 1,
-        notation: "compact",
-      }),
-      date: new Intl.DateTimeFormat(i18n.locale, {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }),
-      percent: new Intl.NumberFormat(i18n.locale, {
-        maximumFractionDigits: 1,
-        style: "percent",
-      }),
-      plain: new Intl.NumberFormat(i18n.locale),
-    }),
-    [i18n.locale],
-  );
-};
-
-export const formatCount = (
-  value: number | null,
-  formatter: Intl.NumberFormat,
-): string => (value === null ? EMPTY_CELL : formatter.format(value));
-
-export const formatDate = (
-  value: string | null,
-  formatter: Intl.DateTimeFormat,
-): string | null => {
-  if (value === null) return null;
-
-  const parsed = new Date(value);
-
-  return Number.isNaN(parsed.getTime()) ? null : formatter.format(parsed);
-};
+import { EMPTY_CELL } from "../columns/formatters";
 
 interface AthleteIdentityProps {
   athlete: Athlete;
@@ -235,28 +191,20 @@ const MOMENTUM_INDICATORS: Readonly<Record<MomentumTrend, string>> = {
   steady: "—",
 };
 
-// Whole words, not substrings: "cup", "showdown" and "shot" would otherwise
-// decide the trend. Deriving it from a display label belongs in the contract.
-const hasTerm = (label: string, terms: readonly string[]): boolean => {
-  const words = new Set(label.toLocaleLowerCase().split(/[^a-z]+/u));
-
-  return terms.some((term) => words.has(term));
-};
-
 const momentumTrend = (
   label: string | null,
   score: number | null,
 ): MomentumTrend => {
-  const normalized = label ?? "";
+  const normalized = (label ?? "").toLocaleLowerCase();
 
   if (
-    hasTerm(normalized, HOT_TERMS) ||
+    HOT_TERMS.some((term) => normalized.includes(term)) ||
     (score !== null && score > MOMENTUM_HOT_THRESHOLD)
   ) {
     return "hot";
   }
   if (
-    hasTerm(normalized, COLD_TERMS) ||
+    COLD_TERMS.some((term) => normalized.includes(term)) ||
     (score !== null && score < -MOMENTUM_HOT_THRESHOLD)
   ) {
     return "cold";

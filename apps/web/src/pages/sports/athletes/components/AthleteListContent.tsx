@@ -1,12 +1,12 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import type { FC } from "react";
 
-import type { AthleteColumnKey } from "../athlete-columns";
 import type {
   AthleteListReply,
   AthleteSortBy,
   AthleteSortDirection,
-} from "../athlete-list-query";
+} from "../api/types";
+import type { AthleteColumnKey } from "../columns/types";
 
 import {
   AthleteListEmpty,
