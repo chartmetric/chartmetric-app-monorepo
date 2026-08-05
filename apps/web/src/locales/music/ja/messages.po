@@ -33,12 +33,13 @@ msgstr "7日"
 msgid "All filters"
 msgstr "すべてのフィルター"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:162
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:24
+#: src/pages/music/artists/components/ArtistsTable.tsx:224
 msgid "Artist"
 msgstr "アーティスト"
 
-#: src/pages/music/artists/ArtistsPage.tsx:148
-#: src/pages/music/artists/components/ArtistsTable.tsx:251
+#: src/pages/music/artists/ArtistsPage.tsx:158
+#: src/pages/music/artists/components/ArtistsTable.tsx:279
 msgid "Artists"
 msgstr "アーティスト"
 
@@ -63,9 +64,14 @@ msgstr "フィルターをクリア"
 msgid "Clear range"
 msgstr "範囲をクリア"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:177
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:25
+#: src/pages/music/artists/components/ArtistsTable.tsx:225
 msgid "CM score"
 msgstr "CMスコア"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:38
+msgid "Columns"
+msgstr "列"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:84
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:158
@@ -80,7 +86,7 @@ msgstr "国とジャンルのフィルターは一時的に利用できません
 msgid "Exclude"
 msgstr "除外"
 
-#: src/pages/music/artists/ArtistsPage.tsx:151
+#: src/pages/music/artists/ArtistsPage.tsx:161
 msgid "Explore artists across the music industry."
 msgstr "音楽業界のアーティストを探しましょう。"
 
@@ -98,7 +104,8 @@ msgstr "ジャンル"
 msgid "Include"
 msgstr "含める"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:190
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:26
+#: src/pages/music/artists/components/ArtistsTable.tsx:226
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:169
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:168
 msgid "Instagram followers"
@@ -140,7 +147,12 @@ msgstr "Instagramフォロワーの最小数"
 msgid "Minimum TikTok followers"
 msgstr "TikTokフォロワーの最小数"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:270
+#. Accessible label of the drag handle for a table column
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:40
+msgid "Move {columnLabel}"
+msgstr "{columnLabel}を移動"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:298
 msgid "Next"
 msgstr "次へ"
 
@@ -155,7 +167,7 @@ msgid "No matching options"
 msgstr "一致するオプションがありません"
 
 #. Current page number in the artists list
-#: src/pages/music/artists/components/ArtistsTable.tsx:235
+#: src/pages/music/artists/components/ArtistsTable.tsx:263
 msgid "Page {currentPageText}"
 msgstr "{currentPageText}ページ"
 
@@ -163,7 +175,7 @@ msgstr "{currentPageText}ページ"
 msgid "Platform-verified accounts"
 msgstr "プラットフォーム認証済みアカウント"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:275
+#: src/pages/music/artists/components/ArtistsTable.tsx:303
 msgid "Previous"
 msgstr "前へ"
 
@@ -190,7 +202,7 @@ msgid "Search genres…"
 msgstr "ジャンルを検索…"
 
 #. Accessible label for a sortable artists table column
-#: src/pages/music/artists/components/ArtistsTable.tsx:259
+#: src/pages/music/artists/components/ArtistsTable.tsx:287
 msgid "Sort by {label}"
 msgstr "{label}で並べ替え"
 
@@ -202,7 +214,8 @@ msgstr "アーティスト一覧を読み込めませんでした。もう一度
 msgid "There are no artists to show on this page."
 msgstr "このページに表示するアーティストはいません。"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:203
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:27
+#: src/pages/music/artists/components/ArtistsTable.tsx:227
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:185
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:182
 msgid "TikTok followers"
@@ -226,8 +239,8 @@ msgstr "アーティストを読み込めません"
 msgid "Unable to load filter options"
 msgstr "フィルターオプションを読み込めません"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:245
-#: src/pages/music/artists/components/ArtistsTable.tsx:269
+#: src/pages/music/artists/components/ArtistsTable.tsx:273
+#: src/pages/music/artists/components/ArtistsTable.tsx:297
 msgid "Updating artists"
 msgstr "アーティスト情報を更新中"
 

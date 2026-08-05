@@ -6,6 +6,8 @@ import { type FC, type ReactElement, useMemo } from "react";
 
 import type {
   Artist,
+  ArtistColumnConfig,
+  ArtistColumnKey,
   ArtistSortBy,
   ArtistSortDirection,
   MetricDisplayMode,
@@ -23,6 +25,7 @@ import { ArtistIdentity } from "./ArtistIdentity";
 
 interface ArtistsTableProps {
   artists: Artist[];
+  columnConfig: ArtistColumnConfig[];
   displayMode: MetricDisplayMode;
   isFetching: boolean;
   offset: number;
@@ -148,76 +151,101 @@ const metricColumn = (
   sortKey: METRIC_SORTS[family][displayMode],
 });
 
+const buildColumnRecord = (
+  displayMode: MetricDisplayMode,
+  formatters: MetricFormatters,
+  formatCountry: (countryCode: string) => string,
+  labels: Record<ArtistColumnKey, string>,
+): Record<ArtistColumnKey, DataTableColumn<Artist, ArtistSortBy>> => ({
+  artist: {
+    key: "artist",
+    label: labels.artist,
+    renderCell: (artist) => (
+      <ArtistIdentity
+        artist={artist}
+        countryName={
+          artist.countryCode === null ? null : formatCountry(artist.countryCode)
+        }
+      />
+    ),
+    sortKey: "name",
+  },
+  cmScore: metricColumn(
+    "cmScore",
+    labels.cmScore,
+    displayMode,
+    (artist) => ({
+      change: artist.cmScoreChange,
+      percent: artist.cmScoreChangePercent,
+      total: artist.cmScore,
+    }),
+    formatters.score,
+    formatters.scoreChange,
+    formatters.percent,
+  ),
+  instagramFollowers: metricColumn(
+    "instagramFollowers",
+    labels.instagramFollowers,
+    displayMode,
+    (artist) => ({
+      change: artist.instagramFollowersChange,
+      percent: artist.instagramFollowersChangePercent,
+      total: artist.instagramFollowers,
+    }),
+    formatters.followers,
+    formatters.followersChange,
+    formatters.percent,
+  ),
+  tiktokFollowers: metricColumn(
+    "tiktokFollowers",
+    labels.tiktokFollowers,
+    displayMode,
+    (artist) => ({
+      change: artist.tiktokFollowersChange,
+      percent: artist.tiktokFollowersChangePercent,
+      total: artist.tiktokFollowers,
+    }),
+    formatters.followers,
+    formatters.followersChange,
+    formatters.percent,
+  ),
+});
+
 const useArtistTableColumns = (
   displayMode: MetricDisplayMode,
+  columnConfig: ArtistColumnConfig[],
 ): DataTableColumn<Artist, ArtistSortBy>[] => {
   const { t } = useLingui();
   const formatters = useMetricFormatters();
   const formatCountry = useCountryName();
 
-  return useMemo<DataTableColumn<Artist, ArtistSortBy>[]>(
-    () => [
-      {
-        key: "artist",
-        label: t`Artist`,
-        renderCell: (artist) => (
-          <ArtistIdentity
-            artist={artist}
-            countryName={
-              artist.countryCode === null
-                ? null
-                : formatCountry(artist.countryCode)
-            }
-          />
-        ),
-        sortKey: "name",
-      },
-      metricColumn(
-        "cmScore",
-        t`CM score`,
-        displayMode,
-        (artist) => ({
-          change: artist.cmScoreChange,
-          percent: artist.cmScoreChangePercent,
-          total: artist.cmScore,
-        }),
-        formatters.score,
-        formatters.scoreChange,
-        formatters.percent,
-      ),
-      metricColumn(
-        "instagramFollowers",
-        t`Instagram followers`,
-        displayMode,
-        (artist) => ({
-          change: artist.instagramFollowersChange,
-          percent: artist.instagramFollowersChangePercent,
-          total: artist.instagramFollowers,
-        }),
-        formatters.followers,
-        formatters.followersChange,
-        formatters.percent,
-      ),
-      metricColumn(
-        "tiktokFollowers",
-        t`TikTok followers`,
-        displayMode,
-        (artist) => ({
-          change: artist.tiktokFollowersChange,
-          percent: artist.tiktokFollowersChangePercent,
-          total: artist.tiktokFollowers,
-        }),
-        formatters.followers,
-        formatters.followersChange,
-        formatters.percent,
-      ),
-    ],
-    [displayMode, formatCountry, formatters, t],
+  const labels: Record<ArtistColumnKey, string> = useMemo(
+    () => ({
+      artist: t`Artist`,
+      cmScore: t`CM score`,
+      instagramFollowers: t`Instagram followers`,
+      tiktokFollowers: t`TikTok followers`,
+    }),
+    [t],
   );
+
+  return useMemo<DataTableColumn<Artist, ArtistSortBy>[]>(() => {
+    const byKey = buildColumnRecord(
+      displayMode,
+      formatters,
+      formatCountry,
+      labels,
+    );
+
+    return columnConfig
+      .filter((column) => column.visible)
+      .map((column) => byKey[column.key]);
+  }, [columnConfig, displayMode, formatCountry, formatters, labels]);
 };
 
 export const ArtistsTable: FC<ArtistsTableProps> = ({
   artists,
+  columnConfig,
   displayMode,
   isFetching,
   offset,
@@ -227,7 +255,7 @@ export const ArtistsTable: FC<ArtistsTableProps> = ({
   sortDirection,
 }) => {
   const { t } = useLingui();
-  const columns = useArtistTableColumns(displayMode);
+  const columns = useArtistTableColumns(displayMode, columnConfig);
 
   const formatPageLabel = (page: number): string => {
     const currentPageText = String(page);

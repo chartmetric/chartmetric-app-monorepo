@@ -4,6 +4,7 @@
   "sideEffects": false,
   "exports": {
     "./checkbox-list-filter": "./components/filters/CheckboxListFilter.tsx",
+    "./column-picker": "./components/data-table/ColumnPicker.tsx",
     "./counter": "./components/Counter/Counter.tsx",
     "./data-table": "./components/data-table/DataTable.tsx",
     "./filter-bar": "./components/filters/FilterBar.tsx",

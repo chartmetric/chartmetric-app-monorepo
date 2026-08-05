@@ -33,3 +33,11 @@ export type MetricDisplayMode = "total" | "change" | "percentChange";
 
 export type MetricSortFamily =
   "cmScore" | "instagramFollowers" | "tiktokFollowers";
+
+export type ArtistColumnKey =
+  "artist" | "cmScore" | "instagramFollowers" | "tiktokFollowers";
+
+export interface ArtistColumnConfig {
+  key: ArtistColumnKey;
+  visible: boolean;
+}

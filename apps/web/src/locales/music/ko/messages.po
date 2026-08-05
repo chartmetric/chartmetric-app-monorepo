@@ -33,12 +33,13 @@ msgstr "7일"
 msgid "All filters"
 msgstr "모든 필터"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:162
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:24
+#: src/pages/music/artists/components/ArtistsTable.tsx:224
 msgid "Artist"
 msgstr "아티스트"
 
-#: src/pages/music/artists/ArtistsPage.tsx:148
-#: src/pages/music/artists/components/ArtistsTable.tsx:251
+#: src/pages/music/artists/ArtistsPage.tsx:158
+#: src/pages/music/artists/components/ArtistsTable.tsx:279
 msgid "Artists"
 msgstr "아티스트"
 
@@ -63,9 +64,14 @@ msgstr "필터 지우기"
 msgid "Clear range"
 msgstr "범위 지우기"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:177
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:25
+#: src/pages/music/artists/components/ArtistsTable.tsx:225
 msgid "CM score"
 msgstr "CM 점수"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:38
+msgid "Columns"
+msgstr "열"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:84
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:158
@@ -80,7 +86,7 @@ msgstr "국가 및 장르 필터를 일시적으로 사용할 수 없습니다."
 msgid "Exclude"
 msgstr "제외"
 
-#: src/pages/music/artists/ArtistsPage.tsx:151
+#: src/pages/music/artists/ArtistsPage.tsx:161
 msgid "Explore artists across the music industry."
 msgstr "음악 업계의 아티스트를 살펴보세요."
 
@@ -98,7 +104,8 @@ msgstr "장르"
 msgid "Include"
 msgstr "포함"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:190
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:26
+#: src/pages/music/artists/components/ArtistsTable.tsx:226
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:169
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:168
 msgid "Instagram followers"
@@ -140,7 +147,12 @@ msgstr "인스타그램 팔로워 최소값"
 msgid "Minimum TikTok followers"
 msgstr "틱톡 팔로워 최소값"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:270
+#. Accessible label of the drag handle for a table column
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:40
+msgid "Move {columnLabel}"
+msgstr "{columnLabel} 이동"
+
+#: src/pages/music/artists/components/ArtistsTable.tsx:298
 msgid "Next"
 msgstr "다음"
 
@@ -155,7 +167,7 @@ msgid "No matching options"
 msgstr "일치하는 옵션이 없습니다"
 
 #. Current page number in the artists list
-#: src/pages/music/artists/components/ArtistsTable.tsx:235
+#: src/pages/music/artists/components/ArtistsTable.tsx:263
 msgid "Page {currentPageText}"
 msgstr "{currentPageText}페이지"
 
@@ -163,7 +175,7 @@ msgstr "{currentPageText}페이지"
 msgid "Platform-verified accounts"
 msgstr "플랫폼 인증 계정"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:275
+#: src/pages/music/artists/components/ArtistsTable.tsx:303
 msgid "Previous"
 msgstr "이전"
 
@@ -190,7 +202,7 @@ msgid "Search genres…"
 msgstr "장르 검색…"
 
 #. Accessible label for a sortable artists table column
-#: src/pages/music/artists/components/ArtistsTable.tsx:259
+#: src/pages/music/artists/components/ArtistsTable.tsx:287
 msgid "Sort by {label}"
 msgstr "{label} 기준 정렬"
 
@@ -202,7 +214,8 @@ msgstr "아티스트 목록을 불러오지 못했습니다. 다시 시도하세
 msgid "There are no artists to show on this page."
 msgstr "이 페이지에 표시할 아티스트가 없습니다."
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:203
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:27
+#: src/pages/music/artists/components/ArtistsTable.tsx:227
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:185
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:182
 msgid "TikTok followers"
@@ -226,8 +239,8 @@ msgstr "아티스트를 불러올 수 없습니다"
 msgid "Unable to load filter options"
 msgstr "필터 옵션을 불러올 수 없습니다"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:245
-#: src/pages/music/artists/components/ArtistsTable.tsx:269
+#: src/pages/music/artists/components/ArtistsTable.tsx:273
+#: src/pages/music/artists/components/ArtistsTable.tsx:297
 msgid "Updating artists"
 msgstr "아티스트 정보 업데이트 중"
 
