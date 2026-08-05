@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { useLingui } from "@lingui/react/macro";
 import { type NumericRangeValue, RangeFilter } from "@repo/ui/range-filter";
 
-export const CM_SCORE_STEP = 0.1;
+const CM_SCORE_STEP = 0.1;
 
 const DEFAULT_SCORE_MAX = 100;
 

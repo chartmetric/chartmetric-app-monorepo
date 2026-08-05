@@ -5,20 +5,20 @@ import { Group, Paper, Text } from "@mantine/core";
 import { DataTable } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
 
-import type { AthleteColumnKey } from "../athlete-columns";
+import type {
+  Athlete,
+  AthleteSortBy,
+  AthleteSortDirection,
+} from "../api/types";
+import type { AthleteColumnKey } from "../columns/types";
 
-import {
-  type Athlete,
-  ATHLETE_PAGE_SIZE,
-  type AthleteSortBy,
-  type AthleteSortDirection,
-} from "../athlete-list-query";
+import { ATHLETE_PAGE_SIZE } from "../api/athlete-list";
+import { useAthleteFormatters } from "../columns/formatters";
 import {
   ATHLETE_COLUMN_WIDTH,
   RANK_COLUMN_WIDTH,
   useAthleteTableColumns,
-} from "../use-athlete-table-columns";
-import { useAthleteFormatters } from "./AthleteCells";
+} from "../columns/table-columns";
 
 interface AthletesTableProps {
   athletes: Athlete[];
