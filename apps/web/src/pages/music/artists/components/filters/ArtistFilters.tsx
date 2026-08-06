@@ -15,6 +15,7 @@ import type {
   ArtistFilters as ArtistFilterQuery,
 } from "../../types";
 
+import { useAbbreviatedNumber } from "../../../../../hooks/use-abbreviated-number";
 import { useCountryName } from "../../../../../lib/country-names";
 import {
   type ArtistFilterDraft,
@@ -37,27 +38,24 @@ interface FilterOptionLists {
 const useFilterOptionLists = (
   options: ArtistFilterOptionsReply | undefined,
 ): FilterOptionLists => {
-  const { i18n } = useLingui();
+  const formatCount = useAbbreviatedNumber();
   const formatCountry = useCountryName();
 
-  return useMemo(() => {
-    const countFormatter = new Intl.NumberFormat(i18n.locale, {
-      notation: "compact",
-    });
-
-    return {
+  return useMemo(
+    () => ({
       countries: (options?.countries ?? []).map(({ count, value }) => ({
-        description: countFormatter.format(count),
+        description: formatCount(count),
         label: formatCountry(value),
         value,
       })),
       genres: (options?.genres ?? []).map(({ count, value }) => ({
-        description: countFormatter.format(count),
+        description: formatCount(count),
         label: value,
         value,
       })),
-    };
-  }, [formatCountry, i18n.locale, options]);
+    }),
+    [formatCount, formatCountry, options],
+  );
 };
 
 interface CategoricalFiltersProps {
@@ -173,20 +171,12 @@ export const ArtistFilters: FC<ArtistFiltersProps> = ({
   onChange,
   options,
 }) => {
-  const { i18n, t } = useLingui();
+  const { t } = useLingui();
   const [draft, setDraft] = useState(createFilterDraft);
   const [isDrawerOpen, drawer] = useDisclosure(false);
   const optionLists = useFilterOptionLists(options);
   const areOptionsDisabled = isLoading || options === undefined;
-  const formatFollowers = useMemo(() => {
-    const formatter = new Intl.NumberFormat(i18n.locale, {
-      compactDisplay: "short",
-      maximumFractionDigits: 1,
-      notation: "compact",
-    });
-
-    return (followers: number): string => formatter.format(followers);
-  }, [i18n.locale]);
+  const formatFollowers = useAbbreviatedNumber();
 
   // The draft updates immediately so controls stay responsive; the query
   // commit is debounced so bursts of clicks or keystrokes fetch once.
