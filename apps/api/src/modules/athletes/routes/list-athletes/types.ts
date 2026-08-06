@@ -32,7 +32,6 @@ export interface AthleteListRow {
   athlete_rank: WarehouseNumber;
   snapshot_tiktok_posts: WarehouseNumber;
   snapshot_tiktok_likes: WarehouseNumber;
-  snapshot_tiktok_followers: WarehouseNumber;
   last_match_date: string | null;
   on3_school: string | null;
   espn_league: string | null;

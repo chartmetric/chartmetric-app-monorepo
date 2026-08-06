@@ -61,6 +61,26 @@ describe("listAthletes", () => {
     expect(sql).toContain("OFFSET 50");
   });
 
+  /**
+   * The cache column is backfilled on a delay, so the displayed count falls back
+   * to snapshot history. Computing it once means the column a reader sees and
+   * the column the sort uses are the same expression.
+   */
+  it("selects one TikTok follower count and sorts on it", () => {
+    const sql = queries
+      .listAthletes({
+        ...PAGE,
+        sortBy: "tiktokFollowers",
+        sortDirection: "desc",
+      })
+      .toSQL();
+
+    expect(sql).toContain(
+      "nullIf(ifNull(nullIf(new_vertical.athletes_cache.tiktok_followers, 0), tiktok_latest.tiktok_snapshot_followers), 0) AS tiktok_followers",
+    );
+    expect(sql).toContain("ORDER BY tiktok_followers DESC");
+  });
+
   it("sorts by the snapshot column for TikTok likes", () => {
     expect(
       queries
