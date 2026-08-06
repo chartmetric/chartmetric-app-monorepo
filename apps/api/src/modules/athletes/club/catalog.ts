@@ -67,6 +67,28 @@ export const createClubCatalogQueries = (
 // themselves are never cached.
 const CATALOG_TTL_MS = 5 * 60 * 1000;
 
+/**
+ * One catalog per database handle.
+ *
+ * Both athlete routes need the same index, and the list route is registered on
+ * two surfaces, so a catalog per plugin means three caches and three cold runs
+ * of the four catalog queries. The surfaces are separate Fastify encapsulation
+ * contexts, so sharing has to key off the database rather than a decoration.
+ */
+const shared = new WeakMap<ClickHouseDatabase, ClubCatalog>();
+
+export const clubCatalogFor = (database: ClickHouseDatabase): ClubCatalog => {
+  const existing = shared.get(database);
+
+  if (existing !== undefined) return existing;
+
+  const catalog = createClubCatalog(database);
+
+  shared.set(database, catalog);
+
+  return catalog;
+};
+
 export const createClubCatalog = (
   database: ClickHouseDatabase,
   now: () => number = Date.now,
