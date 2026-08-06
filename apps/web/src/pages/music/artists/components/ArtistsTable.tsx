@@ -2,7 +2,7 @@ import { useLingui } from "@lingui/react/macro";
 import { Box, LoadingOverlay, Paper, Text } from "@mantine/core";
 import { DataTable, type DataTableColumn } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
-import { type FC, type ReactElement, useCallback, useMemo } from "react";
+import { type FC, type ReactElement, useMemo } from "react";
 
 import type {
   Artist,
@@ -16,6 +16,8 @@ import {
   type NumberFormatter,
   useAbbreviatedNumber,
 } from "../../../../hooks/use-abbreviated-number";
+import { useCountryName } from "../../../../lib/country-names";
+import { EMPTY_CELL } from "../../../../lib/formatting";
 import { ARTIST_PAGE_SIZE, METRIC_SORTS } from "../constants";
 import { ArtistIdentity } from "./ArtistIdentity";
 
@@ -99,11 +101,13 @@ const renderMetricValue = (
   percentFormatter: NumberFormatter,
 ): ReactElement => {
   if (displayMode === "total") {
-    return <>{values.total === null ? "—" : totalFormatter(values.total)}</>;
+    return (
+      <>{values.total === null ? EMPTY_CELL : totalFormatter(values.total)}</>
+    );
   }
   if (displayMode === "change") {
     return values.change === null ? (
-      <>—</>
+      <>{EMPTY_CELL}</>
     ) : (
       <ChangeValue
         formatted={changeFormatter(values.change)}
@@ -112,7 +116,7 @@ const renderMetricValue = (
     );
   }
   return values.percent === null ? (
-    <>—</>
+    <>{EMPTY_CELL}</>
   ) : (
     <ChangeValue
       formatted={percentFormatter(values.percent / 100)}
@@ -147,22 +151,9 @@ const metricColumn = (
 const useArtistTableColumns = (
   displayMode: MetricDisplayMode,
 ): DataTableColumn<Artist, ArtistSortBy>[] => {
-  const { i18n, t } = useLingui();
+  const { t } = useLingui();
   const formatters = useMetricFormatters();
-  const countryFormatter = useMemo(
-    () => new Intl.DisplayNames([i18n.locale], { type: "region" }),
-    [i18n.locale],
-  );
-  const formatCountry = useCallback(
-    (countryCode: string): string => {
-      try {
-        return countryFormatter.of(countryCode) ?? countryCode;
-      } catch {
-        return countryCode;
-      }
-    },
-    [countryFormatter],
-  );
+  const formatCountry = useCountryName();
 
   return useMemo<DataTableColumn<Artist, ArtistSortBy>[]>(
     () => [
