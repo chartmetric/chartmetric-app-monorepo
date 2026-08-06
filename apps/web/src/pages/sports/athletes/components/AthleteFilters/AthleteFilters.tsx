@@ -50,7 +50,7 @@ export const AthleteFilters: FC<AthleteFiltersProps> = (props) => {
       onClear={() => {
         updateFilters(createEmptyFilterValues());
       }}
-      rowBelow={
+      quickFilters={
         <AthleteQuickFilters
           compactFormatter={countFormatter}
           onFollowersChange={(followers) => {
