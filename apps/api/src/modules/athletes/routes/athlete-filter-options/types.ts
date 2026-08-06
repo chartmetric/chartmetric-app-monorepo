@@ -13,7 +13,6 @@ export interface AthleteFilterOptionRow {
   nationality: string | null;
   sport: string | null;
   tennis_tour: string | null;
-  type: string | null;
 }
 
 export interface AthleteFacets {
