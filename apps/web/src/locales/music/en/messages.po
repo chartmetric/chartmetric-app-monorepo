@@ -29,7 +29,7 @@ msgstr "28D"
 msgid "7D"
 msgstr "7D"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:228
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:228
 msgid "All filters"
 msgstr "All filters"
 
@@ -42,7 +42,7 @@ msgstr "Artist"
 msgid "Artists"
 msgstr "Artists"
 
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:100
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:100
 msgid "Audience"
 msgstr "Audience"
 
@@ -54,12 +54,12 @@ msgstr "Change"
 msgid "Change period"
 msgstr "Change period"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:205
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:205
 msgid "Clear filters"
 msgstr "Clear filters"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:137
-#: src/pages/music/artists/components/ArtistFilters.tsx:153
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:137
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:153
 msgid "Clear range"
 msgstr "Clear range"
 
@@ -67,8 +67,8 @@ msgstr "Clear range"
 msgid "CM score"
 msgstr "CM score"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:86
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:158
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:86
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:158
 msgid "Country"
 msgstr "Country"
 
@@ -76,7 +76,7 @@ msgstr "Country"
 msgid "Country and genre filters are temporarily unavailable."
 msgstr "Country and genre filters are temporarily unavailable."
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:92
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:92
 msgid "Exclude"
 msgstr "Exclude"
 
@@ -84,23 +84,23 @@ msgstr "Exclude"
 msgid "Explore artists across the music industry."
 msgstr "Explore artists across the music industry."
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:206
-#: src/pages/music/artists/components/ArtistFilters.tsx:235
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:206
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:235
 msgid "Filters"
 msgstr "Filters"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:85
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:147
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:85
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:147
 msgid "Genre"
 msgstr "Genre"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:93
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:93
 msgid "Include"
 msgstr "Include"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:140
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:168
 #: src/pages/music/artists/components/ArtistsTable.tsx:190
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:140
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:168
 msgid "Instagram followers"
 msgstr "Instagram followers"
 
@@ -112,31 +112,31 @@ msgstr "Loading artists"
 msgid "Loading artists…"
 msgstr "Loading artists…"
 
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:78
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:78
 msgid "Max"
 msgstr "Max"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:141
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:170
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:141
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:170
 msgid "Maximum Instagram followers"
 msgstr "Maximum Instagram followers"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:157
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:184
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:157
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:184
 msgid "Maximum TikTok followers"
 msgstr "Maximum TikTok followers"
 
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:69
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:69
 msgid "Min"
 msgstr "Min"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:142
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:171
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:142
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:171
 msgid "Minimum Instagram followers"
 msgstr "Minimum Instagram followers"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:158
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:185
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:158
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:185
 msgid "Minimum TikTok followers"
 msgstr "Minimum TikTok followers"
 
@@ -148,9 +148,9 @@ msgstr "Next"
 msgid "No artists found"
 msgstr "No artists found"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:91
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:146
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:157
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:91
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:146
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:157
 msgid "No matching options"
 msgstr "No matching options"
 
@@ -159,7 +159,7 @@ msgstr "No matching options"
 msgid "Page {currentPageText}"
 msgstr "Page {currentPageText}"
 
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:104
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:104
 msgid "Platform-verified accounts"
 msgstr "Platform-verified accounts"
 
@@ -171,13 +171,13 @@ msgstr "Previous"
 msgid "Retry filter options"
 msgstr "Retry filter options"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:86
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:163
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:86
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:163
 msgid "Search countries…"
 msgstr "Search countries…"
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:85
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:152
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:85
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:152
 msgid "Search genres…"
 msgstr "Search genres…"
 
@@ -194,9 +194,9 @@ msgstr "The artist list could not be loaded. Try again."
 msgid "There are no artists to show on this page."
 msgstr "There are no artists to show on this page."
 
-#: src/pages/music/artists/components/ArtistFilters.tsx:156
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:182
 #: src/pages/music/artists/components/ArtistsTable.tsx:203
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:156
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:182
 msgid "TikTok followers"
 msgstr "TikTok followers"
 
@@ -231,6 +231,6 @@ msgstr "Value display"
 msgid "Verified artist"
 msgstr "Verified artist"
 
-#: src/pages/music/artists/components/ArtistFiltersDrawer.tsx:105
+#: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:105
 msgid "Verified artists only"
 msgstr "Verified artists only"

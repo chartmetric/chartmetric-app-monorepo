@@ -1,4 +1,7 @@
-import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
+import type {
+  ClickHouseDatabase,
+  DatabaseQueryFactory,
+} from "../../../../db/clickhouse/client.ts";
 import type { ListAthletesQuery } from "./schemas.ts";
 
 const sortColumns = {
@@ -9,7 +12,6 @@ const sortColumns = {
   type: "type",
 } as const;
 
-type DatabaseQueryFactory = (database: ClickHouseDatabase) => unknown;
 type ListAthletesQueryFactory = (
   database: ClickHouseDatabase,
   query: ListAthletesQuery,
