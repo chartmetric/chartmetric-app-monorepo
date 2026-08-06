@@ -118,6 +118,33 @@ describe("listAthletes", () => {
     expect(sql).not.toContain("on3_school");
   });
 
+  /**
+   * Asking for a metric without a direction should show the best values, not the
+   * worst; rank and the text columns read the other way.
+   */
+  it("defaults a metric sort to descending and a name sort to ascending", () => {
+    expect(
+      queries.listAthletes({ ...PAGE, sortBy: "cmScore" }).toSQL(),
+    ).toContain("ORDER BY new_vertical.athletes_cache.cm_score DESC");
+    expect(
+      queries.listAthletes({ ...PAGE, sortBy: "igFollowers" }).toSQL(),
+    ).toContain("ORDER BY new_vertical.athletes_cache.ig_followers DESC");
+    expect(queries.listAthletes({ ...PAGE, sortBy: "name" }).toSQL()).toContain(
+      "ORDER BY new_vertical.athletes_cache.name ASC",
+    );
+    expect(queries.listAthletes(PAGE).toSQL()).toContain(
+      "ORDER BY athlete_rank ASC",
+    );
+  });
+
+  it("keeps an explicit direction over the column's default", () => {
+    expect(
+      queries
+        .listAthletes({ ...PAGE, sortBy: "cmScore", sortDirection: "asc" })
+        .toSQL(),
+    ).toContain("ORDER BY new_vertical.athletes_cache.cm_score ASC");
+  });
+
   it("sorts by the snapshot column for TikTok likes", () => {
     expect(
       queries
