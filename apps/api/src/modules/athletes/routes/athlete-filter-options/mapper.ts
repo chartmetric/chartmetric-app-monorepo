@@ -1,11 +1,14 @@
 import type { ClubIndex } from "../../club/types.ts";
 import type { AthleteFilterOptionsReply } from "./schemas.ts";
-import type {
-  AthleteFacets,
-  AthleteFilterOptionRow,
-  FilterOption,
-} from "./types.ts";
+import type { AthleteFacets, AthleteFilterOptionRow } from "./types.ts";
 
+import {
+  addToGroup,
+  compareNames,
+  countValues,
+  sortedKeys,
+  toSortedRecord,
+} from "../../../../lib/filter-options.ts";
 import { toNumber } from "../../../../lib/numbers.ts";
 import { emptyToNull } from "../../../../lib/strings.ts";
 import { leaguesForClub } from "../../club/club-utilities.ts";
@@ -13,32 +16,6 @@ import { toAthleteLevel, toSportLabel } from "../../sport/classification.ts";
 
 const NCAA_LEAGUE = "NCAA";
 const UNKNOWN_LEAGUE = "Other";
-
-const byName = (left: string, right: string): number =>
-  left.localeCompare(right);
-
-const countOptions = (
-  values: (string | null | undefined)[],
-): FilterOption[] => {
-  const counts = new Map<string, number>();
-
-  for (const value of values) {
-    const option = emptyToNull(value);
-
-    if (option === null) continue;
-    counts.set(option, (counts.get(option) ?? 0) + 1);
-  }
-
-  return [...counts]
-    .map(([value, count]) => ({ count, value }))
-    .toSorted((left, right) => {
-      const countDifference = right.count - left.count;
-
-      return countDifference === 0
-        ? byName(left.value, right.value)
-        : countDifference;
-    });
-};
 
 const scoreBounds = (
   rows: AthleteFilterOptionRow[],
@@ -99,35 +76,6 @@ const toFacets = (
   };
 };
 
-const sortedKeys = (source: ReadonlyMap<string, unknown>): string[] =>
-  [...source].map(([key]) => key).toSorted(byName);
-
-const sortedRecord = (
-  source: ReadonlyMap<string, Set<string>>,
-): Record<string, string[]> => {
-  const result: Record<string, string[]> = {};
-
-  for (const key of sortedKeys(source)) {
-    result[key] = [...(source.get(key) ?? [])].toSorted(byName);
-  }
-
-  return result;
-};
-
-const addTo = <Key>(
-  target: Map<Key, Set<string>>,
-  key: Key,
-  value: string,
-): void => {
-  const existing = target.get(key);
-
-  if (existing === undefined) {
-    target.set(key, new Set([value]));
-  } else {
-    existing.add(value);
-  }
-};
-
 export const toAthleteFilterOptions = (
   rows: AthleteFilterOptionRow[],
   clubIndex: ClubIndex,
@@ -144,10 +92,10 @@ export const toAthleteFilterOptions = (
 
     if (facets === undefined) continue;
 
-    addTo(sportsByLevel, facets.level, facets.sport);
+    addToGroup(sportsByLevel, facets.level, facets.sport);
 
     for (const league of facets.leagues) {
-      addTo(leaguesBySport, facets.sport, league);
+      addToGroup(leaguesBySport, facets.sport, league);
     }
 
     if (facets.club === null) continue;
@@ -163,14 +111,14 @@ export const toAthleteFilterOptions = (
       facets.leagues.length === 0 ? [UNKNOWN_LEAGUE] : facets.leagues;
 
     for (const league of leagueKeys) {
-      addTo(byLeague, league, facets.club);
+      addToGroup(byLeague, league, facets.club);
     }
   }
 
   const clubsBySport: Record<string, Record<string, string[]>> = {};
 
   for (const sport of sortedKeys(clubsBySportLeague)) {
-    clubsBySport[sport] = sortedRecord(
+    clubsBySport[sport] = toSortedRecord(
       clubsBySportLeague.get(sport) ?? new Map(),
     );
   }
@@ -178,19 +126,19 @@ export const toAthleteFilterOptions = (
   return {
     clubsBySport,
     cmScore: scoreBounds(rows),
-    leaguesBySport: sortedRecord(leaguesBySport),
-    nationalities: countOptions(rows.map(({ nationality }) => nationality)),
-    sports: countOptions(
+    leaguesBySport: toSortedRecord(leaguesBySport),
+    nationalities: countValues(rows.map(({ nationality }) => nationality)),
+    sports: countValues(
       rows.map(({ sport }) =>
         sport === null || sport === "" ? null : toSportLabel(sport),
       ),
     ),
     sportsByLevel: {
-      college: [...(sportsByLevel.get("college") ?? [])].toSorted(byName),
+      college: [...(sportsByLevel.get("college") ?? [])].toSorted(compareNames),
       professional: [...(sportsByLevel.get("professional") ?? [])].toSorted(
-        byName,
+        compareNames,
       ),
     },
-    types: countOptions(rows.map(({ type }) => type)),
+    types: countValues(rows.map(({ type }) => type)),
   };
 };
