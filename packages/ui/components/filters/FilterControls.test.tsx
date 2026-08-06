@@ -208,4 +208,42 @@ describe("filter controls", () => {
 
     expect(onClear).toHaveBeenCalledTimes(1);
   });
+
+  /**
+   * The main row wraps only as it fills, which splits a group of compact
+   * controls at whatever point it runs out of space. The row below keeps them
+   * together, beneath everything else.
+   */
+  it("keeps the row below separate from the main filters", () => {
+    renderWithProvider(
+      <FilterBar
+        clearLabel="Clear filters"
+        label="Filters"
+        onClear={vi.fn()}
+        rowBelow={<button type="button">Verified</button>}
+      >
+        <span>Filter content</span>
+      </FilterBar>,
+    );
+
+    const main = screen.getByText("Filter content");
+    const secondary = screen.getByRole("button", { name: "Verified" });
+
+    expect(main.parentElement).not.toBe(secondary.parentElement);
+    expect(
+      main.compareDocumentPosition(secondary) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("composes without a row below", () => {
+    renderWithProvider(
+      <FilterBar clearLabel="Clear filters" label="Filters" onClear={vi.fn()}>
+        <span>Filter content</span>
+      </FilterBar>,
+    );
+
+    expect(screen.getByText("Filter content")).toBeDefined();
+    expect(screen.getByRole("button", { name: "Clear filters" })).toBeDefined();
+  });
 });
