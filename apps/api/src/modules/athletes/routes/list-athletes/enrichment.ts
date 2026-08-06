@@ -4,9 +4,15 @@ import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
 import type {
   DatabaseQueryFactory,
   JoinableChain,
-  TablesWithColumn,
 } from "../../../../lib/database.ts";
 import type { CteAlias } from "./types.ts";
+
+import { selectBasketballRoster } from "../../basketball/roster.ts";
+
+// Each subquery is a governed builder, so `generate:ch-schema` discovers its
+// table. Two expressions have no builder form and stay raw — the ranking window
+// function, and `argMax` over a JSON extraction, which takes a column rather than
+// an expression. Both are constant SQL that no request value reaches.
 
 // `rank` mirrors the athlete's standing across the whole active roster, so it is
 // computed before any request filter narrows the set — a filtered page shows
@@ -27,9 +33,13 @@ const selectRosterRank = ((database) =>
 
 // TikTok post and like counts exist only as snapshot history; the cache carries
 // followers, hearts, and videos but never these two.
+// `.final()` first because `snapshot_date` is part of this table's sorting key:
+// two versions of one snapshot tie on the `argMax` argument, so without it the
+// stale row can win.
 const selectTiktokLatest = ((database) =>
   database
     .table("new_vertical.profile_snapshots")
+    .final()
     .where("platform", "eq", "tiktok")
     .groupBy("profile_id")
     .select(["profile_id"])
@@ -61,6 +71,9 @@ const selectLastMatch = ((database) =>
     .select(["profile_id"])
     .max("match_date", "last_match_date")) satisfies DatabaseQueryFactory;
 
+// `updated_at` is outside this table's sorting key, so `argMax` over it already
+// returns the newest version of a row. That is what `.final()` would do here, at
+// less cost, and it applies to the ESPN subquery below too.
 const selectOn3School = ((database) =>
   database
     .table("new_vertical.profile_sport_external_ids")
@@ -97,24 +110,52 @@ const selectEspnBasketball = ((database) =>
       ),
     ])) satisfies DatabaseQueryFactory;
 
+// Both caches are sorted by `profile_id`, so `.final()` is enough to leave one
+// row per athlete. They are read through a CTE because a joined table cannot
+// carry `FINAL` of its own.
+const selectGpsScores = ((database) =>
+  database
+    .table("new_vertical.athletes_football_gps_scores_football_cache")
+    .final()
+    .select([
+      "profile_id",
+      "gps",
+      "gps_atk",
+      "gps_def",
+    ])) satisfies DatabaseQueryFactory;
+
+const selectMomentum = ((database) =>
+  database
+    .table("new_vertical.athletes_football_momentum_football_cache")
+    .final()
+    .select([
+      "profile_id",
+      "momentum",
+      "momentum_label",
+    ])) satisfies DatabaseQueryFactory;
+
 const ENRICHMENT_CTES = [
   ["roster_rank", selectRosterRank],
   ["tiktok_latest", selectTiktokLatest],
   ["last_match", selectLastMatch],
   ["on3_school", selectOn3School],
   ["espn_basketball", selectEspnBasketball],
+  ["basketball_roster", selectBasketballRoster],
+  ["gps_scores", selectGpsScores],
+  ["momentum_scores", selectMomentum],
 ] as const satisfies readonly (readonly [CteAlias, DatabaseQueryFactory])[];
 
+// A joined table cannot carry `FINAL`, so every source is read through a CTE.
 export const ENRICHMENT_JOINS = [
   "roster_rank",
   "tiktok_latest",
   "last_match",
   "on3_school",
   "espn_basketball",
-  "new_vertical.athletes_basketball",
-  "new_vertical.athletes_football_gps_scores_football_cache",
-  "new_vertical.athletes_football_momentum_football_cache",
-] as const satisfies readonly (CteAlias | TablesWithColumn<"profile_id">)[];
+  "basketball_roster",
+  "gps_scores",
+  "momentum_scores",
+] as const satisfies readonly CteAlias[];
 
 const CACHE_PROFILE_ID = "new_vertical.athletes_cache.profile_id";
 
