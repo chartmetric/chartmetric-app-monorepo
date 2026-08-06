@@ -29,12 +29,12 @@ msgstr "28D"
 msgid "7D"
 msgstr "7D"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:173
+#: src/pages/music/artists/components/ArtistsTable.tsx:171
 msgid "Artist"
 msgstr "Artista"
 
 #: src/pages/music/artists/ArtistsPage.tsx:268
-#: src/pages/music/artists/components/ArtistsTable.tsx:262
+#: src/pages/music/artists/components/ArtistsTable.tsx:260
 msgid "Artists"
 msgstr "Artistas"
 
@@ -46,7 +46,7 @@ msgstr "Cambio"
 msgid "Change period"
 msgstr "Período de cambio"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:188
+#: src/pages/music/artists/components/ArtistsTable.tsx:186
 msgid "CM score"
 msgstr "Puntuación CM"
 
@@ -54,7 +54,7 @@ msgstr "Puntuación CM"
 msgid "Explore artists across the music industry."
 msgstr "Explora artistas de toda la industria musical."
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:201
+#: src/pages/music/artists/components/ArtistsTable.tsx:199
 msgid "Instagram followers"
 msgstr "Seguidores de Instagram"
 
@@ -66,7 +66,7 @@ msgstr "Cargando artistas"
 msgid "Loading artists…"
 msgstr "Cargando artistas…"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:281
+#: src/pages/music/artists/components/ArtistsTable.tsx:279
 msgid "Next"
 msgstr "Siguiente"
 
@@ -75,16 +75,16 @@ msgid "No artists found"
 msgstr "No se encontraron artistas"
 
 #. Current page number in the artists list
-#: src/pages/music/artists/components/ArtistsTable.tsx:246
+#: src/pages/music/artists/components/ArtistsTable.tsx:244
 msgid "Page {currentPageText}"
 msgstr "Página {currentPageText}"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:286
+#: src/pages/music/artists/components/ArtistsTable.tsx:284
 msgid "Previous"
 msgstr "Anterior"
 
 #. Accessible label for a sortable artists table column
-#: src/pages/music/artists/components/ArtistsTable.tsx:270
+#: src/pages/music/artists/components/ArtistsTable.tsx:268
 msgid "Sort by {label}"
 msgstr "Ordenar por {label}"
 
@@ -96,7 +96,7 @@ msgstr "No se pudo cargar la lista de artistas. Inténtalo de nuevo."
 msgid "There are no artists to show on this page."
 msgstr "No hay artistas para mostrar en esta página."
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:214
+#: src/pages/music/artists/components/ArtistsTable.tsx:212
 msgid "TikTok followers"
 msgstr "Seguidores de TikTok"
 
@@ -114,8 +114,8 @@ msgstr "Reintentar"
 msgid "Unable to load artists"
 msgstr "No se pudieron cargar los artistas"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:256
-#: src/pages/music/artists/components/ArtistsTable.tsx:280
+#: src/pages/music/artists/components/ArtistsTable.tsx:254
+#: src/pages/music/artists/components/ArtistsTable.tsx:278
 msgid "Updating artists"
 msgstr "Actualizando artistas"
 
