@@ -15,7 +15,9 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     server: {
-      allowedHosts: ["0.0.0.0", "new-app.chartmetric.com"],
+      // A leading dot allows every subdomain, covering generated Railway
+      // preview and PR-environment hostnames.
+      allowedHosts: ["0.0.0.0", "new-app.chartmetric.com", ".up.railway.app"],
       proxy: {
         "/app": {
           changeOrigin: true,
