@@ -50,6 +50,21 @@ export const AthleteFilters: FC<AthleteFiltersProps> = (props) => {
       onClear={() => {
         updateFilters(createEmptyFilterValues());
       }}
+      rowBelow={
+        <AthleteQuickFilters
+          compactFormatter={countFormatter}
+          onFollowersChange={(followers) => {
+            updateFilters({ ...filterValues, followers });
+          }}
+          onLevelsChange={(levels) => {
+            updateFilters({ ...filterValues, levels });
+          }}
+          onVerifiedChange={(isVerified) => {
+            updateFilters({ ...filterValues, isVerified });
+          }}
+          values={filterValues}
+        />
+      }
     >
       <SearchInput
         label={t`Search by name`}
@@ -93,19 +108,6 @@ export const AthleteFilters: FC<AthleteFiltersProps> = (props) => {
           updateFilters({ ...filterValues, cmScore });
         }}
         value={filterValues.cmScore}
-      />
-      <AthleteQuickFilters
-        compactFormatter={countFormatter}
-        onFollowersChange={(followers) => {
-          updateFilters({ ...filterValues, followers });
-        }}
-        onLevelsChange={(levels) => {
-          updateFilters({ ...filterValues, levels });
-        }}
-        onVerifiedChange={(isVerified) => {
-          updateFilters({ ...filterValues, isVerified });
-        }}
-        values={filterValues}
       />
     </FilterBar>
   );
