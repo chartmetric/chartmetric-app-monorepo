@@ -3,9 +3,9 @@ import { createElement, useMemo } from "react";
 
 import type { AthleteColumnKey, AthleteTableColumn } from "./types";
 
+import { EMPTY_CELL, useListFormatters } from "../../../../lib/formatting";
 import { AthleteIdentity } from "../components/AthleteCells";
 import { useAthleteCellRenderers, useAthleteColumnHeadings } from "./cells";
-import { EMPTY_CELL, useAthleteFormatters } from "./formatters";
 import { ATHLETE_COLUMNS } from "./registry";
 
 export const RANK_COLUMN_WIDTH = 64;
@@ -17,7 +17,7 @@ export const useAthleteTableColumns = (
   const { t } = useLingui();
   const headings = useAthleteColumnHeadings();
   const renderers = useAthleteCellRenderers();
-  const formatters = useAthleteFormatters();
+  const formatters = useListFormatters();
 
   return useMemo(() => {
     const pinned: AthleteTableColumn[] = [
