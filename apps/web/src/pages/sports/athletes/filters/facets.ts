@@ -88,7 +88,6 @@ export const useAthleteFilterFacets = (
         formatCount,
       ),
       sports: toCountedFilterOptions(options?.sports ?? [], formatCount),
-      types: toCountedFilterOptions(options?.types ?? [], formatCount),
     };
   }, [compare, countFormatter, options, selectedLeagues, selectedSports]);
 };

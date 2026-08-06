@@ -16,7 +16,6 @@ const AthleteSortBySchema = Type.Union([
   Type.Literal("sport"),
   Type.Literal("tiktokFollowers"),
   Type.Literal("tiktokLikes"),
-  Type.Literal("type"),
 ]);
 
 export type AthleteSortBy = Static<typeof AthleteSortBySchema>;
@@ -50,7 +49,6 @@ export const ListAthletesQuerySchema = Type.Object({
   clubs: OptionalCategoricalFilter,
   excludeNationalities: OptionalCategoricalFilter,
   excludeSports: OptionalCategoricalFilter,
-  excludeTypes: OptionalCategoricalFilter,
   leagues: OptionalCategoricalFilter,
   levels: Type.Optional(
     Type.Array(AthleteLevelSchema, {
@@ -78,7 +76,6 @@ export const ListAthletesQuerySchema = Type.Object({
     }),
   ),
   sports: OptionalCategoricalFilter,
-  types: OptionalCategoricalFilter,
   verified: Type.Optional(Type.Boolean()),
 });
 
@@ -122,7 +119,6 @@ const AthleteSchema = Type.Object({
   tiktokPosts: Nullable(Type.Integer()),
   tiktokVideos: Nullable(Type.Integer()),
   turnedPro: Nullable(Type.Integer()),
-  type: Nullable(Type.String()),
 });
 
 export type Athlete = Static<typeof AthleteSchema>;

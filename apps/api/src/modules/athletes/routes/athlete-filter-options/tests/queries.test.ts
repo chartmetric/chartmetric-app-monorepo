@@ -30,7 +30,6 @@ describe("listAthleteFilterOptions", () => {
     for (const column of [
       "sport",
       "nationality",
-      "type",
       "cm_score",
       "football_club",
       "tennis_tour",

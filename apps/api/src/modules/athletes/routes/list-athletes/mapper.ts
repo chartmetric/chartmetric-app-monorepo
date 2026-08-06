@@ -171,7 +171,6 @@ export const toAthlete = (
     tiktokPosts: toPositiveCount(row.snapshot_tiktok_posts),
     tiktokVideos: toPositiveCount(row.tiktok_videos),
     turnedPro: toPositiveCount(row.turned_pro_year),
-    type: emptyToNull(row.type),
   };
 };
 

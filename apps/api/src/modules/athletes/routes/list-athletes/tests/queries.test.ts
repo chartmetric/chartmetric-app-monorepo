@@ -301,12 +301,10 @@ describe("listAthletes", () => {
       .listAthletes({
         ...PAGE,
         excludeNationalities: ["Canada"],
-        excludeTypes: ["team"],
         maxCmScore: 90,
         minCmScore: 10,
         name: "alex",
         nationalities: ["United States"],
-        types: ["athlete"],
         verified: true,
       })
       .toSQLWithParams();
@@ -316,8 +314,6 @@ describe("listAthletes", () => {
     );
     expect(sql).toContain("new_vertical.athletes_cache.nationality IN (?)");
     expect(sql).toContain("new_vertical.athletes_cache.nationality NOT IN (?)");
-    expect(sql).toContain("new_vertical.athletes_cache.type IN (?)");
-    expect(sql).toContain("new_vertical.athletes_cache.type NOT IN (?)");
     expect(sql).toContain(
       "greaterOrEquals(new_vertical.athletes_cache.cm_score, ?)",
     );

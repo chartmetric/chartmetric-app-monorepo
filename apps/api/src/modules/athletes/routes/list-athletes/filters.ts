@@ -20,7 +20,6 @@ const COLUMN = {
   name: "new_vertical.athletes_cache.name",
   nationality: "new_vertical.athletes_cache.nationality",
   sport: "new_vertical.athletes_cache.sport",
-  type: "new_vertical.athletes_cache.type",
 } as const;
 
 // Columns that arrive from a join or a CTE are not in the builder's type state,
@@ -204,12 +203,6 @@ const applyCategoricalFilters = (
   }
   if (query.excludeNationalities !== undefined) {
     next = next.where(COLUMN.nationality, "notIn", query.excludeNationalities);
-  }
-  if (query.types !== undefined) {
-    next = next.where(COLUMN.type, "in", query.types);
-  }
-  if (query.excludeTypes !== undefined) {
-    next = next.where(COLUMN.type, "notIn", query.excludeTypes);
   }
 
   return next;
