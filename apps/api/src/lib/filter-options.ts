@@ -44,21 +44,6 @@ export const countValues = (
     });
 };
 
-/** Adds `value` to the set at `key`, creating the set on first use. */
-export const addToGroup = <Key>(
-  target: Map<Key, Set<string>>,
-  key: Key,
-  value: string,
-): void => {
-  const existing = target.get(key);
-
-  if (existing === undefined) {
-    target.set(key, new Set([value]));
-  } else {
-    existing.add(value);
-  }
-};
-
 // Spreads entries rather than `source.keys()`: the iterator-helper form the
 // lint rule prefers is not in this project's TypeScript lib.
 export const sortedKeys = (source: ReadonlyMap<string, unknown>): string[] =>
