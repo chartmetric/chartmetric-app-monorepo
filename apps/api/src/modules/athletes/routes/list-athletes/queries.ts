@@ -10,7 +10,7 @@ import type {
   RosterBuilder,
 } from "./types.ts";
 
-import { withEnrichment } from "./enrichment.ts";
+import { type EnrichmentSource, withEnrichment } from "./enrichment.ts";
 import { applyFilters, selectRoster } from "./filters.ts";
 
 const CACHE = "new_vertical.athletes_cache";
@@ -102,6 +102,23 @@ const QUERY_SETTINGS = {
   timeout_before_checking_execution_speed: 0,
 } as const;
 
+/**
+ * The enrichment sources a filter reads, so the count can skip the rest: a
+ * `LEFT ANY JOIN` cannot change how many roster rows match, and no other filter
+ * looks outside `athletes_cache`.
+ */
+const filteredSources = (query: ListAthletesQuery): EnrichmentSource[] => {
+  const sources = new Set<EnrichmentSource>();
+
+  if (query.leagues !== undefined) sources.add(BASKETBALL);
+  if (query.clubs !== undefined) {
+    sources.add("on3_school");
+    sources.add(BASKETBALL);
+  }
+
+  return [...sources];
+};
+
 const selectEnrichedRoster = (
   database: ClickHouseDatabase,
   query: ListAthletesQuery,
@@ -133,7 +150,11 @@ const countAthletes = (
   query: ListAthletesQuery,
   options: ListAthletesOptions,
 ): ExecutableQuery<AthleteCountRow> =>
-  selectEnrichedRoster(database, query, options)
+  withEnrichment(
+    applyFilters(selectRoster(database), query, options),
+    database,
+    filteredSources(query),
+  )
     .select([rawAs<number, "total">("count()", "total")])
     .settings(QUERY_SETTINGS) as unknown as ExecutableQuery<AthleteCountRow>;
 
