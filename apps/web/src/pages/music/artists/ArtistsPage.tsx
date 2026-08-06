@@ -17,28 +17,13 @@ import { type FC, type ReactNode, useState } from "react";
 import type {
   ArtistChangePeriod,
   ArtistListQuery,
-  ArtistListReply,
   ArtistSortBy,
   MetricDisplayMode,
 } from "./types";
 
-import { apiClient } from "../../../api/client";
+import { loadArtists } from "./api/artist-list";
 import { ArtistsTable } from "./components/ArtistsTable";
 import { DEFAULT_ARTIST_QUERY, METRIC_SORTS, sortFamilyOf } from "./constants";
-
-const loadArtists = async (
-  query: ArtistListQuery,
-): Promise<ArtistListReply> => {
-  const result = await apiClient.GET("/app/artists", {
-    params: { query },
-  });
-
-  if (result.data === undefined) {
-    throw new Error("Artist request failed");
-  }
-
-  return result.data;
-};
 
 const ASCENDING_FIRST_SORTS: ReadonlySet<ArtistSortBy> = new Set([
   "name",
