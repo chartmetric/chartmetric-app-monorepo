@@ -60,7 +60,7 @@ const flattenClubs = (
   return [...new Set(clubs)].toSorted(compare);
 };
 
-export const useAthleteFilterFacets = (
+export const useAthleteFilterOptions = (
   options: AthleteFilterOptionsReply | undefined,
   countFormatter: Intl.NumberFormat,
   selectedSports: readonly string[],

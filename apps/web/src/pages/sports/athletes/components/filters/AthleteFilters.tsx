@@ -10,7 +10,7 @@ import type {
   AthleteFilters as AthleteFilterQuery,
 } from "../../api/types";
 
-import { useAthleteFilterFacets } from "../../filters/facets";
+import { useAthleteFilterOptions } from "../../filters/filter-options";
 import {
   countActiveFilters,
   createEmptyFilterValues,
@@ -37,7 +37,7 @@ export const AthleteFilters: FC<AthleteFiltersProps> = (props) => {
     useAthleteFilterValues(onChange);
   const countFormatter = useCompactNumberFormatter();
   const filterBarLabel = useFilterBarLabel(countActiveFilters(filterValues));
-  const facets = useAthleteFilterFacets(
+  const filterOptions = useAthleteFilterOptions(
     options,
     countFormatter,
     filterValues.sports.included,
@@ -80,7 +80,7 @@ export const AthleteFilters: FC<AthleteFiltersProps> = (props) => {
             leagues: { excluded: [], included: values },
           });
         }}
-        options={facets}
+        options={filterOptions}
         values={filterValues}
       />
       <AthleteScoreFilter

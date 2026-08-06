@@ -15,7 +15,8 @@ export interface AthleteFilterOptionRow {
   tennis_tour: string | null;
 }
 
-export interface AthleteFacets {
+/** One athlete's values for each dimension the filter options are grouped by. */
+export interface AthleteFilterValues {
   club: string | null;
   leagues: readonly string[];
   level: AthleteLevel;
