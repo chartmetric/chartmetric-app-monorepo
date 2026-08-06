@@ -14,7 +14,7 @@ import {
 
 import type { Athlete } from "../api/types";
 
-import { EMPTY_CELL } from "../columns/formatters";
+import { EMPTY_CELL } from "../../../../lib/formatting";
 
 interface AthleteIdentityProps {
   athlete: Athlete;
