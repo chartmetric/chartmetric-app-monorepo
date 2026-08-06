@@ -4,18 +4,18 @@ import { createElement, useMemo } from "react";
 import type { AthleteCellRenderers, AthleteColumnKey } from "./types";
 
 import {
+  EMPTY_CELL,
+  formatCount,
+  formatDate,
+  useListFormatters,
+} from "../../../../lib/formatting";
+import {
   ClubCell,
   GpsCell,
   LeagueCell,
   LevelCell,
   MomentumCell,
 } from "../components/AthleteCells";
-import {
-  EMPTY_CELL,
-  formatCount,
-  formatDate,
-  useAthleteFormatters,
-} from "./formatters";
 
 export const useAthleteColumnHeadings = (): Record<
   AthleteColumnKey,
@@ -49,7 +49,7 @@ export const useAthleteColumnHeadings = (): Record<
 
 export const useAthleteCellRenderers = (): AthleteCellRenderers => {
   const { t } = useLingui();
-  const formatters = useAthleteFormatters();
+  const formatters = useListFormatters();
 
   return useMemo(() => {
     const moreLabel = (count: number): string => {
