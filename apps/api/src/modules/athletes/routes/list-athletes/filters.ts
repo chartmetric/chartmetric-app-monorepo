@@ -26,8 +26,8 @@ const COLUMN = {
 // Columns that arrive from a join or a CTE are not in the builder's type state,
 // so they are referenced as raw SQL. All three are constant column names —
 // request values still go through `predicate.value`.
-const BASKETBALL_LEAGUE = "new_vertical.athletes_basketball.league";
-const BASKETBALL_TEAM = "new_vertical.athletes_basketball.team";
+const BASKETBALL_LEAGUE = "basketball_roster.basketball_league";
+const BASKETBALL_TEAM = "basketball_roster.basketball_team";
 const ON3_SCHOOL = "on3_school.school";
 const TENNIS_TOUR = "new_vertical.athletes_cache.tennis_tour";
 

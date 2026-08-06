@@ -64,8 +64,11 @@ export interface ListAthletesOptions {
 export type RosterBuilder = ReturnType<typeof selectRoster>;
 
 export type CteAlias =
+  | "basketball_roster"
   | "espn_basketball"
+  | "gps_scores"
   | "last_match"
+  | "momentum_scores"
   | "on3_school"
   | "roster_rank"
   | "tiktok_latest";
