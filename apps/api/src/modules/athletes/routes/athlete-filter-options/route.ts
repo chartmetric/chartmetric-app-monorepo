@@ -1,6 +1,6 @@
 import type { FastifyPluginCallbackTypebox } from "@fastify/type-provider-typebox";
 
-import { createClubCatalog } from "../../club/catalog.ts";
+import { clubCatalogFor } from "../../club/catalog.ts";
 import { toAthleteFilterOptions } from "./mapper.ts";
 import { createAthleteFilterOptionsQueries } from "./queries.ts";
 import { AthleteFilterOptionsReplySchema } from "./schemas.ts";
@@ -11,7 +11,7 @@ export const athleteFilterOptionsRoute: FastifyPluginCallbackTypebox = (
   done,
 ) => {
   const queries = createAthleteFilterOptionsQueries(fastify.clickhouse.db);
-  const clubCatalog = createClubCatalog(fastify.clickhouse.db);
+  const clubCatalog = clubCatalogFor(fastify.clickhouse.db);
 
   fastify.get(
     "/athletes/filter-options",

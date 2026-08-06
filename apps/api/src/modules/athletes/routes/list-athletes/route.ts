@@ -1,7 +1,7 @@
 import type { FastifyPluginCallbackTypebox } from "@fastify/type-provider-typebox";
 
 import { toNumber } from "../../../../lib/numbers.ts";
-import { createClubCatalog } from "../../club/catalog.ts";
+import { clubCatalogFor } from "../../club/catalog.ts";
 import { clubsForLeagues } from "../../club/club-utilities.ts";
 import { toAthleteList } from "./mapper.ts";
 import { createListAthletesQueries } from "./queries.ts";
@@ -14,7 +14,7 @@ export const listAthletesRoute: FastifyPluginCallbackTypebox = (
   done,
 ) => {
   const queries = createListAthletesQueries(fastify.clickhouse.db);
-  const clubCatalog = createClubCatalog(fastify.clickhouse.db);
+  const clubCatalog = clubCatalogFor(fastify.clickhouse.db);
 
   fastify.get(
     "/athletes",
