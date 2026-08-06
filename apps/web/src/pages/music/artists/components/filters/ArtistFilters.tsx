@@ -126,6 +126,7 @@ const ArtistSearchInput: FC<ArtistSearchInputProps> = ({ onChange, value }) => {
     <TextInput
       aria-label={t`Search by name`}
       autoComplete="off"
+      maxLength={100}
       name="artist-search"
       onChange={(event) => {
         const name = event.currentTarget.value;
