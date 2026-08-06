@@ -16,11 +16,6 @@ export interface AthleteFilterOptionRow {
   type: string | null;
 }
 
-export interface FilterOption {
-  count: number;
-  value: string;
-}
-
 export interface AthleteFacets {
   club: string | null;
   leagues: readonly string[];
