@@ -1,6 +1,9 @@
 import type { ClubIndex } from "../../club/types.ts";
 import type { AthleteFilterOptionsReply } from "./schemas.ts";
-import type { AthleteFacets, AthleteFilterOptionRow } from "./types.ts";
+import type {
+  AthleteFilterOptionRow,
+  AthleteFilterValues,
+} from "./types.ts";
 
 import { addToGroup } from "../../../../lib/collections.ts";
 import {
@@ -34,10 +37,10 @@ const scoreBounds = (
   return { max, min };
 };
 
-const toFacets = (
+const toFilterValues = (
   row: AthleteFilterOptionRow,
   clubIndex: ClubIndex,
-): AthleteFacets | undefined => {
+): AthleteFilterValues | undefined => {
   const rawSport = emptyToNull(row.sport);
 
   if (rawSport === null) return undefined;
@@ -88,30 +91,30 @@ export const toAthleteFilterOptions = (
   const clubsBySportLeague = new Map<string, Map<string, Set<string>>>();
 
   for (const row of rows) {
-    const facets = toFacets(row, clubIndex);
+    const values = toFilterValues(row, clubIndex);
 
-    if (facets === undefined) continue;
+    if (values === undefined) continue;
 
-    addToGroup(sportsByLevel, facets.level, facets.sport);
+    addToGroup(sportsByLevel, values.level, values.sport);
 
-    for (const league of facets.leagues) {
-      addToGroup(leaguesBySport, facets.sport, league);
+    for (const league of values.leagues) {
+      addToGroup(leaguesBySport, values.sport, league);
     }
 
-    if (facets.club === null) continue;
+    if (values.club === null) continue;
 
-    let byLeague = clubsBySportLeague.get(facets.sport);
+    let byLeague = clubsBySportLeague.get(values.sport);
 
     if (byLeague === undefined) {
       byLeague = new Map();
-      clubsBySportLeague.set(facets.sport, byLeague);
+      clubsBySportLeague.set(values.sport, byLeague);
     }
 
     const leagueKeys =
-      facets.leagues.length === 0 ? [UNKNOWN_LEAGUE] : facets.leagues;
+      values.leagues.length === 0 ? [UNKNOWN_LEAGUE] : values.leagues;
 
     for (const league of leagueKeys) {
-      addToGroup(byLeague, league, facets.club);
+      addToGroup(byLeague, league, values.club);
     }
   }
 
