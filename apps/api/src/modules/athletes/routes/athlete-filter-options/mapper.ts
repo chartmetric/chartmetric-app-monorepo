@@ -2,8 +2,8 @@ import type { ClubIndex } from "../../club/types.ts";
 import type { AthleteFilterOptionsReply } from "./schemas.ts";
 import type { AthleteFacets, AthleteFilterOptionRow } from "./types.ts";
 
+import { addToGroup } from "../../../../lib/collections.ts";
 import {
-  addToGroup,
   compareNames,
   countValues,
   sortedKeys,

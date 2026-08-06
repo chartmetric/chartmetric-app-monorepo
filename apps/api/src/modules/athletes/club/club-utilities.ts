@@ -7,6 +7,8 @@ import type {
   FootballTeamRow,
 } from "./types.ts";
 
+import { addToGroup } from "../../../lib/collections.ts";
+
 // `athletes_cache.football_club` stores short/common club names ("Roma", "PSG",
 // "Inter Milan") while `teams_apifootball.name` stores official ones ("AS Roma",
 // "Paris Saint Germain", "Inter"). These generic club-name tokens are stripped
@@ -121,20 +123,6 @@ export const findFuzzyClubMatch = <Candidate extends ClubCandidate>(
 
 const EMPTY: readonly string[] = [];
 
-const addToSet = <Key>(
-  target: Map<Key, Set<string>>,
-  key: Key,
-  value: string,
-): void => {
-  const existing = target.get(key);
-
-  if (existing === undefined) {
-    target.set(key, new Set([value]));
-  } else {
-    existing.add(value);
-  }
-};
-
 const groupLeaguesByTeam = (
   competitions: readonly FootballCompetitionRow[],
   teamCompetitions: readonly FootballTeamCompetitionRow[],
@@ -149,7 +137,7 @@ const groupLeaguesByTeam = (
 
     if (league === undefined || league === "") continue;
 
-    addToSet(leaguesByTeam, row.team_id, league);
+    addToGroup(leaguesByTeam, row.team_id, league);
   }
 
   return leaguesByTeam;
