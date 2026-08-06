@@ -18,14 +18,27 @@ const repositoryRoot = path.resolve(root, "../..");
 const sourceDir = path.join(root, "src");
 const outputPath = path.join(sourceDir, "db/clickhouse/schema.generated.ts");
 
-// Any qualified reference counts, not just `.table()`: queries also reach
-// tables through join calls and through the CTE subquery strings that the
-// builder cannot type, and all of them belong in the snapshot.
+/**
+ * Any qualified reference counts, not just `.table()`: queries also reach tables
+ * through join calls and through the CTE subquery strings the builder cannot
+ * type, and all of them belong in the snapshot.
+ *
+ * The name must open a string literal, so a table is only picked up where it
+ * could actually be sent to ClickHouse. Prose naming a table — a comment about a
+ * renamed or dropped one — would otherwise be introspected as if it were a
+ * dependency.
+ */
 const tables = new Set();
-const tablePattern = new RegExp(String.raw`\b${DATABASE}\.(\w+)`, "g");
+const tablePattern = new RegExp(String.raw`["'\`]${DATABASE}\.(\w+)`, "g");
+
+// Tests name tables in assertions about generated SQL. Those tables are already
+// referenced by the code under test, so reading tests can only add one that no
+// query uses.
+const isTest = (entry) => /(^|[/\\])tests?[/\\]|\.test\.ts$/.test(entry);
 
 for (const entry of readdirSync(sourceDir, { recursive: true })) {
   if (!entry.endsWith(".ts") || entry.endsWith(".generated.ts")) continue;
+  if (isTest(entry)) continue;
   const content = readFileSync(path.join(sourceDir, entry), "utf8");
   for (const match of content.matchAll(tablePattern)) tables.add(match[1]);
 }
@@ -67,6 +80,23 @@ execFileSync(
 );
 
 const generated = readFileSync(outputPath, "utf8");
+
+// hypequery drops a table it cannot find and still reports success, so a name
+// that never reaches the snapshot has to be caught here or not at all.
+const absent = [...tables]
+  .sort()
+  .filter(
+    (table) => !new RegExp(String.raw`^\s+${table}:`, "m").test(generated),
+  );
+
+if (absent.length > 0) {
+  console.error(
+    `Referenced but not found in ${DATABASE}: ${absent.join(", ")}\n` +
+      "Check the spelling, or drop the reference if the table is gone.",
+  );
+  process.exit(1);
+}
+
 const fixed = generated.replaceAll(
   /: '((?:\\.|[^'\\])*)'/gs,
   (match, literal) =>
