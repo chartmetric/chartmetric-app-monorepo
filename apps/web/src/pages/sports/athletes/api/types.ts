@@ -13,7 +13,6 @@ export type AthleteFilters = Pick<
   | "clubs"
   | "excludeNationalities"
   | "excludeSports"
-  | "excludeTypes"
   | "leagues"
   | "levels"
   | "maxCmScore"
@@ -23,7 +22,6 @@ export type AthleteFilters = Pick<
   | "name"
   | "nationalities"
   | "sports"
-  | "types"
   | "verified"
 >;
 

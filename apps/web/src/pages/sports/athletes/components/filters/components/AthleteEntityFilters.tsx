@@ -42,7 +42,6 @@ export const AthleteEntityFilters: FC<AthleteEntityFiltersProps> = ({
   const categorical: readonly [CategoricalFilterKey, string, string][] = [
     ["sports", t`Sport`, t`Find a sport…`],
     ["nationalities", t`Nationality`, t`Find a nationality…`],
-    ["types", t`Type`, t`Find a type…`],
   ];
 
   return (

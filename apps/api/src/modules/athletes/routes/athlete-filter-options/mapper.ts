@@ -139,6 +139,5 @@ export const toAthleteFilterOptions = (
         compareNames,
       ),
     },
-    types: countValues(rows.map(({ type }) => type)),
   };
 };
