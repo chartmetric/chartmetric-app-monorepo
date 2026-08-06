@@ -8,11 +8,9 @@ import type {
 } from "../api/types";
 import type { AthleteColumnKey } from "../columns/types";
 
-import {
-  AthleteListEmpty,
-  AthleteListError,
-  AthleteListLoading,
-} from "./AthleteListStates";
+import { AthleteListEmpty } from "./AthleteListStates/AthleteListEmpty";
+import { AthleteListError } from "./AthleteListStates/AthleteListError";
+import { AthleteListLoading } from "./AthleteListStates/AthleteListLoading";
 import { AthletesTable } from "./AthletesTable";
 
 export interface AthleteListContentProps {
