@@ -211,16 +211,16 @@ describe("filter controls", () => {
 
   /**
    * The main row wraps only as it fills, which splits a group of compact
-   * controls at whatever point it runs out of space. The row below keeps them
-   * together, beneath everything else.
+   * controls at whatever point it runs out of space. Quick filters keep a row of
+   * their own, beneath everything else.
    */
-  it("keeps the row below separate from the main filters", () => {
+  it("keeps quick filters on a row of their own", () => {
     renderWithProvider(
       <FilterBar
         clearLabel="Clear filters"
         label="Filters"
         onClear={vi.fn()}
-        rowBelow={<button type="button">Verified</button>}
+        quickFilters={<button type="button">Verified</button>}
       >
         <span>Filter content</span>
       </FilterBar>,
@@ -236,7 +236,7 @@ describe("filter controls", () => {
     ).toBeTruthy();
   });
 
-  it("composes without a row below", () => {
+  it("composes without quick filters", () => {
     renderWithProvider(
       <FilterBar clearLabel="Clear filters" label="Filters" onClear={vi.fn()}>
         <span>Filter content</span>
