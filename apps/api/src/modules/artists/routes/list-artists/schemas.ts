@@ -60,6 +60,7 @@ export const ListArtistsQuerySchema = Type.Object({
   sortDirection: Type.Optional(
     Type.Union(SortDirectionSchema.anyOf, { default: "desc" }),
   ),
+  verifiedOnly: Type.Optional(Type.Boolean()),
 });
 
 export type ListArtistsQuery = Static<typeof ListArtistsQuerySchema>;

@@ -93,6 +93,15 @@ const applyArtistFilters = (
   if (query.excludeGenres !== undefined) {
     builder = builder.whereNull("genre_exclude.cm_artist");
   }
+  if (query.verifiedOnly === true) {
+    builder = builder.where((predicate) =>
+      predicate.fn<boolean>(
+        "equals",
+        predicate.col("artist_metrics.is_verified"),
+        predicate.value(1),
+      ),
+    );
+  }
 
   const followerBounds = [
     [

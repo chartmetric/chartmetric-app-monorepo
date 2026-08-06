@@ -117,6 +117,7 @@ export interface paths {
                     minTiktokFollowers?: number;
                     sortBy?: "name" | "countryCode" | "cmScore" | "cmScoreChange" | "cmScoreChangePercent" | "instagramFollowers" | "instagramFollowersChange" | "instagramFollowersChangePercent" | "tiktokFollowers" | "tiktokFollowersChange" | "tiktokFollowersChangePercent";
                     sortDirection?: "asc" | "desc";
+                    verifiedOnly?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -399,6 +400,7 @@ export interface paths {
                     minTiktokFollowers?: number;
                     sortBy?: "name" | "countryCode" | "cmScore" | "cmScoreChange" | "cmScoreChangePercent" | "instagramFollowers" | "instagramFollowersChange" | "instagramFollowersChangePercent" | "tiktokFollowers" | "tiktokFollowersChange" | "tiktokFollowersChangePercent";
                     sortDirection?: "asc" | "desc";
+                    verifiedOnly?: boolean;
                 };
                 header?: never;
                 path?: never;

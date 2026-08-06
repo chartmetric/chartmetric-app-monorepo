@@ -159,6 +159,30 @@ describe("ArtistsPage filters", () => {
     });
   });
 
+  it("filters to verified artists from the drawer", async () => {
+    mockRequests();
+
+    renderArtistsPage();
+    await screen.findByText("Selena Gomez");
+
+    fireEvent.click(screen.getByRole("button", { name: "All filters" }));
+    const drawer = await screen.findByRole("dialog");
+    const verifiedSwitch = within(drawer).getByRole<HTMLInputElement>(
+      "switch",
+      { name: /Verified artists only/ },
+    );
+
+    expect(verifiedSwitch.checked).toBe(false);
+    fireEvent.click(verifiedSwitch);
+
+    expect(verifiedSwitch.checked).toBe(true);
+    await waitFor(() => {
+      expect(apiGetMock).toHaveBeenCalledWith("/app/artists", {
+        params: { query: expectedQuery({ verifiedOnly: true }) },
+      });
+    });
+  });
+
   it("combines included and excluded countries", async () => {
     mockRequests();
 
