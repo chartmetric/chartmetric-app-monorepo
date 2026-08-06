@@ -38,7 +38,6 @@ const CACHE_COLUMNS = [
   `${CACHE}.ig_verified AS ig_verified`,
   `${CACHE}.ig_engagement_rate AS ig_engagement_rate`,
   `${CACHE}.ig_handle AS ig_handle`,
-  `${CACHE}.tiktok_followers AS tiktok_followers`,
   `${CACHE}.tiktok_hearts AS tiktok_hearts`,
   `${CACHE}.tiktok_videos AS tiktok_videos`,
   `${CACHE}.tiktok_handle AS tiktok_handle`,
@@ -55,7 +54,13 @@ const JOINED_COLUMNS = [
   ["roster_rank.athlete_rank", "athlete_rank"],
   ["tiktok_latest.tiktok_posts", "snapshot_tiktok_posts"],
   ["tiktok_latest.tiktok_likes", "snapshot_tiktok_likes"],
-  ["tiktok_latest.tiktok_snapshot_followers", "snapshot_tiktok_followers"],
+  // The cache is authoritative but backfilled on a delay, so snapshot history
+  // stands in while it is still unset or zero. Computed here rather than in the
+  // mapper so the sort and the displayed value cannot disagree.
+  [
+    `nullIf(ifNull(nullIf(${CACHE}.tiktok_followers, 0), tiktok_latest.tiktok_snapshot_followers), 0)`,
+    "tiktok_followers",
+  ],
   ["last_match.last_match_date", "last_match_date"],
   ["on3_school.school", "on3_school"],
   ["espn_basketball.espn_league", "espn_league"],
@@ -82,7 +87,7 @@ const SORT_COLUMNS = {
   nationality: `${CACHE}.nationality`,
   rank: "athlete_rank",
   sport: `${CACHE}.sport`,
-  tiktokFollowers: `${CACHE}.tiktok_followers`,
+  tiktokFollowers: "tiktok_followers",
   tiktokLikes: "snapshot_tiktok_likes",
   type: `${CACHE}.type`,
 } as const;

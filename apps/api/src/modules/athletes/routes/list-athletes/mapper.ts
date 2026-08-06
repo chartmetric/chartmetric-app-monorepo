@@ -165,11 +165,7 @@ export const toAthlete = (
     }),
     sport: rawSport === "" ? null : toSportLabel(rawSport),
     teamLogoUrl: toTeamLogoUrl(row, clubIndex),
-    // The cache is authoritative for TikTok followers but is backfilled on a
-    // delay, so snapshot history stands in while it is still zero or unset.
-    tiktokFollowers:
-      toPositiveCount(row.tiktok_followers) ??
-      toPositiveCount(row.snapshot_tiktok_followers),
+    tiktokFollowers: toPositiveCount(row.tiktok_followers),
     tiktokHearts: toPositiveCount(row.tiktok_hearts),
     tiktokLikes: toPositiveCount(row.snapshot_tiktok_likes),
     tiktokPosts: toPositiveCount(row.snapshot_tiktok_posts),

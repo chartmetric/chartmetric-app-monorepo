@@ -49,7 +49,6 @@ const baseRow: AthleteListRow = {
   nationality: "United States",
   on3_school: null,
   profile_id: 42,
-  snapshot_tiktok_followers: null,
   snapshot_tiktok_likes: null,
   snapshot_tiktok_posts: null,
   sport: "football",
@@ -158,17 +157,6 @@ describe("toAthlete", () => {
     expect(athlete.igFollowers).toBeNull();
     expect(athlete.tiktokHearts).toBeNull();
     expect(athlete.tiktokVideos).toBeNull();
-  });
-
-  it("falls back to snapshot TikTok followers while the cache is unfilled", () => {
-    expect(
-      map({ snapshot_tiktok_followers: 6928, tiktok_followers: 0 })
-        .tiktokFollowers,
-    ).toBe(6928);
-    expect(
-      map({ snapshot_tiktok_followers: 6928, tiktok_followers: 7100 })
-        .tiktokFollowers,
-    ).toBe(7100);
   });
 
   it("coerces 64-bit counts delivered as strings", () => {
