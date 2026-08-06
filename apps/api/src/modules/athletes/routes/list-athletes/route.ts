@@ -2,7 +2,7 @@ import type { FastifyPluginCallbackTypebox } from "@fastify/type-provider-typebo
 
 import { toNumber } from "../../../../lib/numbers.ts";
 import { createClubCatalog } from "../../club/catalog.ts";
-import { clubsForLeagues } from "../../club/resolution.ts";
+import { clubsForLeagues } from "../../club/club-utilities.ts";
 import { toAthleteList } from "./mapper.ts";
 import { createListAthletesQueries } from "./queries.ts";
 import { ListAthletesQuerySchema, ListAthletesReplySchema } from "./schemas.ts";

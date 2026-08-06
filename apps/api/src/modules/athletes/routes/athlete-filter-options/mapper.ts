@@ -8,7 +8,7 @@ import type {
 
 import { toNumber } from "../../../../lib/numbers.ts";
 import { emptyToNull } from "../../../../lib/strings.ts";
-import { leaguesForClub } from "../../club/resolution.ts";
+import { leaguesForClub } from "../../club/club-utilities.ts";
 import { toAthleteLevel, toSportLabel } from "../../sport/classification.ts";
 
 const NCAA_LEAGUE = "NCAA";

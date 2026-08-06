@@ -14,7 +14,7 @@ import type {
 import { toAge, toDateString } from "../../../../lib/dates.ts";
 import { toNumber, toPositiveCount } from "../../../../lib/numbers.ts";
 import { emptyToNull } from "../../../../lib/strings.ts";
-import { leaguesForClub, logoForClub } from "../../club/resolution.ts";
+import { leaguesForClub, logoForClub } from "../../club/club-utilities.ts";
 import { toAthleteLevel, toSportLabel } from "../../sport/classification.ts";
 
 const PLATFORM_ORDER = [
