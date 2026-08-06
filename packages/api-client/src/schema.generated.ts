@@ -214,10 +214,6 @@ export interface paths {
                                 college: string[];
                                 professional: string[];
                             };
-                            types: {
-                                count: number;
-                                value: string;
-                            }[];
                         };
                     };
                 };
@@ -246,7 +242,6 @@ export interface paths {
                     clubs?: string[];
                     excludeNationalities?: string[];
                     excludeSports?: string[];
-                    excludeTypes?: string[];
                     leagues?: string[];
                     levels?: ("college" | "professional")[];
                     maxCmScore?: number;
@@ -255,11 +250,10 @@ export interface paths {
                     minFollowers?: number;
                     name?: string;
                     nationalities?: string[];
-                    sortBy?: "cmScore" | "igFollowers" | "igPosts" | "name" | "nationality" | "rank" | "sport" | "tiktokFollowers" | "tiktokLikes" | "type";
+                    sortBy?: "cmScore" | "igFollowers" | "igPosts" | "name" | "nationality" | "rank" | "sport" | "tiktokFollowers" | "tiktokLikes";
                     /** @description Defaults to descending for metric columns and ascending for rank, name, nationality, sport and type. */
                     sortDirection?: "asc" | "desc";
                     sports?: string[];
-                    types?: string[];
                     verified?: boolean;
                 };
                 header?: never;
@@ -311,7 +305,6 @@ export interface paths {
                                 tiktokPosts: number | null;
                                 tiktokVideos: number | null;
                                 turnedPro: number | null;
-                                type: string | null;
                             }[];
                             meta: {
                                 limit: number;
@@ -515,7 +508,6 @@ export interface paths {
                     clubs?: string[];
                     excludeNationalities?: string[];
                     excludeSports?: string[];
-                    excludeTypes?: string[];
                     leagues?: string[];
                     levels?: ("college" | "professional")[];
                     maxCmScore?: number;
@@ -524,11 +516,10 @@ export interface paths {
                     minFollowers?: number;
                     name?: string;
                     nationalities?: string[];
-                    sortBy?: "cmScore" | "igFollowers" | "igPosts" | "name" | "nationality" | "rank" | "sport" | "tiktokFollowers" | "tiktokLikes" | "type";
+                    sortBy?: "cmScore" | "igFollowers" | "igPosts" | "name" | "nationality" | "rank" | "sport" | "tiktokFollowers" | "tiktokLikes";
                     /** @description Defaults to descending for metric columns and ascending for rank, name, nationality, sport and type. */
                     sortDirection?: "asc" | "desc";
                     sports?: string[];
-                    types?: string[];
                     verified?: boolean;
                 };
                 header?: never;
@@ -580,7 +571,6 @@ export interface paths {
                                 tiktokPosts: number | null;
                                 tiktokVideos: number | null;
                                 turnedPro: number | null;
-                                type: string | null;
                             }[];
                             meta: {
                                 limit: number;

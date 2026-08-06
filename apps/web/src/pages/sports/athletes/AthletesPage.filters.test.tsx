@@ -53,7 +53,6 @@ const buildAthlete = (overrides: Partial<Athlete> = {}): Athlete => ({
   tiktokPosts: null,
   tiktokVideos: null,
   turnedPro: null,
-  type: "athlete",
   ...overrides,
 });
 
@@ -67,7 +66,6 @@ const FILTER_OPTIONS = {
     { count: 1, value: "Tennis" },
   ],
   sportsByLevel: { college: ["Volleyball"], professional: ["Football"] },
-  types: [{ count: 3, value: "athlete" }],
 };
 
 const DEFAULT_QUERY = {

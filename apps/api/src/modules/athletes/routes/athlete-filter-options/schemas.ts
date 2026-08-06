@@ -32,7 +32,6 @@ export const AthleteFilterOptionsReplySchema = Type.Object({
   nationalities: Type.Array(FilterOptionSchema),
   sports: Type.Array(FilterOptionSchema),
   sportsByLevel: SportsByLevelSchema,
-  types: Type.Array(FilterOptionSchema),
 });
 
 export type AthleteFilterOptionsReply = Static<

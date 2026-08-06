@@ -639,8 +639,7 @@
                     "leaguesBySport",
                     "nationalities",
                     "sports",
-                    "sportsByLevel",
-                    "types"
+                    "sportsByLevel"
                   ],
                   "properties": {
                     "clubsBySport": {
@@ -749,24 +748,6 @@
                           }
                         }
                       }
-                    },
-                    "types": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "required": [
-                          "count",
-                          "value"
-                        ],
-                        "properties": {
-                          "count": {
-                            "type": "integer"
-                          },
-                          "value": {
-                            "type": "string"
-                          }
-                        }
-                      }
                     }
                   }
                 }
@@ -849,22 +830,6 @@
             },
             "in": "query",
             "name": "excludeSports",
-            "required": false
-          },
-          {
-            "schema": {
-              "maxItems": 100,
-              "minItems": 1,
-              "uniqueItems": true,
-              "type": "array",
-              "items": {
-                "maxLength": 100,
-                "minLength": 1,
-                "type": "string"
-              }
-            },
-            "in": "query",
-            "name": "excludeTypes",
             "required": false
           },
           {
@@ -1027,12 +992,6 @@
                   "enum": [
                     "tiktokLikes"
                   ]
-                },
-                {
-                  "type": "string",
-                  "enum": [
-                    "type"
-                  ]
                 }
               ]
             },
@@ -1076,22 +1035,6 @@
             },
             "in": "query",
             "name": "sports",
-            "required": false
-          },
-          {
-            "schema": {
-              "maxItems": 100,
-              "minItems": 1,
-              "uniqueItems": true,
-              "type": "array",
-              "items": {
-                "maxLength": 100,
-                "minLength": 1,
-                "type": "string"
-              }
-            },
-            "in": "query",
-            "name": "types",
             "required": false
           },
           {
@@ -1150,8 +1093,7 @@
                           "tiktokLikes",
                           "tiktokPosts",
                           "tiktokVideos",
-                          "turnedPro",
-                          "type"
+                          "turnedPro"
                         ],
                         "properties": {
                           "age": {
@@ -1458,16 +1400,6 @@
                             "anyOf": [
                               {
                                 "type": "integer"
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
-                          },
-                          "type": {
-                            "anyOf": [
-                              {
-                                "type": "string"
                               },
                               {
                                 "type": "null"
@@ -2226,22 +2158,6 @@
               }
             },
             "in": "query",
-            "name": "excludeTypes",
-            "required": false
-          },
-          {
-            "schema": {
-              "maxItems": 100,
-              "minItems": 1,
-              "uniqueItems": true,
-              "type": "array",
-              "items": {
-                "maxLength": 100,
-                "minLength": 1,
-                "type": "string"
-              }
-            },
-            "in": "query",
             "name": "leagues",
             "required": false
           },
@@ -2389,12 +2305,6 @@
                   "enum": [
                     "tiktokLikes"
                   ]
-                },
-                {
-                  "type": "string",
-                  "enum": [
-                    "type"
-                  ]
                 }
               ]
             },
@@ -2438,22 +2348,6 @@
             },
             "in": "query",
             "name": "sports",
-            "required": false
-          },
-          {
-            "schema": {
-              "maxItems": 100,
-              "minItems": 1,
-              "uniqueItems": true,
-              "type": "array",
-              "items": {
-                "maxLength": 100,
-                "minLength": 1,
-                "type": "string"
-              }
-            },
-            "in": "query",
-            "name": "types",
             "required": false
           },
           {
@@ -2512,8 +2406,7 @@
                           "tiktokLikes",
                           "tiktokPosts",
                           "tiktokVideos",
-                          "turnedPro",
-                          "type"
+                          "turnedPro"
                         ],
                         "properties": {
                           "age": {
@@ -2820,16 +2713,6 @@
                             "anyOf": [
                               {
                                 "type": "integer"
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
-                          },
-                          "type": {
-                            "anyOf": [
-                              {
-                                "type": "string"
                               },
                               {
                                 "type": "null"
