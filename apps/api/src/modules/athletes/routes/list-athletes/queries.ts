@@ -14,9 +14,6 @@ import { type EnrichmentSource, withEnrichment } from "./enrichment.ts";
 import { applyFilters, selectRoster } from "./filters.ts";
 
 const CACHE = "new_vertical.athletes_cache";
-const BASKETBALL = "new_vertical.athletes_basketball";
-const GPS = "new_vertical.athletes_football_gps_scores_football_cache";
-const MOMENTUM = "new_vertical.athletes_football_momentum_football_cache";
 
 const CACHE_COLUMNS = [
   `${CACHE}.profile_id AS profile_id`,
@@ -61,14 +58,14 @@ const JOINED_COLUMNS = [
   ["on3_school.school", "on3_school"],
   ["espn_basketball.espn_league", "espn_league"],
   ["espn_basketball.espn_team_abbr", "espn_team_abbr"],
-  [`${BASKETBALL}.team`, "basketball_team"],
-  [`${BASKETBALL}.league`, "basketball_league"],
-  [`${BASKETBALL}.position`, "basketball_position"],
-  [`${GPS}.gps`, "gps"],
-  [`${GPS}.gps_atk`, "gps_atk"],
-  [`${GPS}.gps_def`, "gps_def"],
-  [`${MOMENTUM}.momentum`, "momentum"],
-  [`${MOMENTUM}.momentum_label`, "momentum_label"],
+  ["basketball_roster.basketball_team", "basketball_team"],
+  ["basketball_roster.basketball_league", "basketball_league"],
+  ["basketball_roster.basketball_position", "basketball_position"],
+  ["gps_scores.gps", "gps"],
+  ["gps_scores.gps_atk", "gps_atk"],
+  ["gps_scores.gps_def", "gps_def"],
+  ["momentum_scores.momentum", "momentum"],
+  ["momentum_scores.momentum_label", "momentum_label"],
 ] as const satisfies readonly (readonly [string, keyof AthleteListRow])[];
 
 const joinedSelections = JOINED_COLUMNS.map(([expression, alias]) =>
@@ -116,10 +113,10 @@ const QUERY_SETTINGS = {
 const filteredSources = (query: ListAthletesQuery): EnrichmentSource[] => {
   const sources = new Set<EnrichmentSource>();
 
-  if (query.leagues !== undefined) sources.add(BASKETBALL);
+  if (query.leagues !== undefined) sources.add("basketball_roster");
   if (query.clubs !== undefined) {
     sources.add("on3_school");
-    sources.add(BASKETBALL);
+    sources.add("basketball_roster");
   }
 
   return [...sources];
