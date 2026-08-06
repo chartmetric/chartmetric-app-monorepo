@@ -2,7 +2,14 @@ import type { NumericRangeValue } from "@repo/ui/range-filter";
 import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
-import { Group, NumberInput, RangeSlider, Stack, Text } from "@mantine/core";
+import {
+  Group,
+  NumberInput,
+  RangeSlider,
+  Stack,
+  Switch,
+  Text,
+} from "@mantine/core";
 import {
   CheckboxListFilter,
   type CheckboxListFilterOption,
@@ -72,6 +79,35 @@ const FollowerRangeInputs: FC<FollowerRangeInputsProps> = ({
           value={value[1] ?? ""}
         />
       </Group>
+    </Stack>
+  );
+};
+
+interface VerifiedArtistsFilterProps {
+  isChecked: boolean;
+  onChange: (isChecked: boolean) => void;
+}
+
+const VerifiedArtistsFilter: FC<VerifiedArtistsFilterProps> = ({
+  isChecked,
+  onChange,
+}) => {
+  const { t } = useLingui();
+
+  return (
+    <Stack component="fieldset" gap="sm" p={0} style={{ border: 0 }}>
+      <Text component="legend" fw={600} size="sm" tt="uppercase">
+        {t`Audience`}
+      </Text>
+      <Switch
+        checked={isChecked}
+        description={t`Platform-verified accounts`}
+        label={t`Verified artists only`}
+        labelPosition="left"
+        onChange={(event) => {
+          onChange(event.currentTarget.checked);
+        }}
+      />
     </Stack>
   );
 };
@@ -154,6 +190,12 @@ export const ArtistFiltersDrawerContent: FC<
           onDraftPreview({ ...draft, tiktokFollowers });
         }}
         value={draft.tiktokFollowers}
+      />
+      <VerifiedArtistsFilter
+        isChecked={draft.verifiedOnly}
+        onChange={(verifiedOnly) => {
+          onDraftChange({ ...draft, verifiedOnly });
+        }}
       />
     </Stack>
   );

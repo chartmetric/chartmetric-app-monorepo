@@ -132,6 +132,20 @@ describe("listArtists", () => {
     );
   });
 
+  it("keeps only verified artists when verifiedOnly is set", () => {
+    const sql = queries
+      .listArtists({ limit: 1, offset: 0, verifiedOnly: true })
+      .toSQL();
+
+    expect(sql).toContain("equals(artist_metrics.is_verified, 1)");
+  });
+
+  it("skips the verified filter when verifiedOnly is absent", () => {
+    const sql = queries.listArtists({ limit: 1, offset: 0 }).toSQL();
+
+    expect(sql).not.toContain("equals(artist_metrics.is_verified, 1)");
+  });
+
   it("pins unused genre CTEs to an empty tag type", () => {
     const sql = queries.listArtists({ limit: 1, offset: 0 }).toSQL();
 

@@ -412,6 +412,14 @@
             "in": "query",
             "name": "sortDirection",
             "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "verifiedOnly",
+            "required": false
           }
         ],
         "responses": {
@@ -1464,6 +1472,14 @@
             },
             "in": "query",
             "name": "sortDirection",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "verifiedOnly",
             "required": false
           }
         ],

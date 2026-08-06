@@ -12,6 +12,7 @@ export interface ArtistFilterDraft {
   genres: MultiSelectFilterValue;
   instagramFollowers: NumericRangeValue;
   tiktokFollowers: NumericRangeValue;
+  verifiedOnly: boolean;
 }
 
 export const createFilterDraft = (): ArtistFilterDraft => ({
@@ -19,6 +20,7 @@ export const createFilterDraft = (): ArtistFilterDraft => ({
   genres: emptyMultiSelectValue(),
   instagramFollowers: [null, null],
   tiktokFollowers: [null, null],
+  verifiedOnly: false,
 });
 
 const addCategoricalFilter = (
@@ -57,6 +59,7 @@ export const toFilterQuery = (draft: ArtistFilterDraft): ArtistFilters => {
   if (draft.tiktokFollowers[1] !== null) {
     filters.maxTiktokFollowers = draft.tiktokFollowers[1];
   }
+  if (draft.verifiedOnly) filters.verifiedOnly = true;
 
   return filters;
 };
