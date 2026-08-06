@@ -38,12 +38,46 @@ describe("listAthletes", () => {
       "last_match",
       "on3_school",
       "espn_basketball",
-      "new_vertical.athletes_basketball",
-      "new_vertical.athletes_football_gps_scores_football_cache",
-      "new_vertical.athletes_football_momentum_football_cache",
+      "basketball_roster",
+      "gps_scores",
+      "momentum_scores",
     ]) {
       expect(sql).toContain(`LEFT ANY JOIN ${source} ON`);
     }
+  });
+
+  /**
+   * Every enrichment source is a `ReplacingMergeTree`, and a joined table cannot
+   * carry `FINAL`, so each is read through a CTE that does. Without this the join
+   * can pick a row that is still awaiting a merge.
+   */
+  it("reads every enrichment source with FINAL", () => {
+    const sql = queries.listAthletes(PAGE).toSQL();
+    const ctes = sql.slice(0, sql.lastIndexOf(") SELECT "));
+
+    for (const table of [
+      "new_vertical.profile_snapshots",
+      "new_vertical.athletes_basketball",
+      "new_vertical.athletes_football_gps_scores_football_cache",
+      "new_vertical.athletes_football_momentum_football_cache",
+      "new_vertical.athletes_football_fixture_player_stats_apifootball",
+    ]) {
+      expect(ctes).toContain(`FROM ${table} FINAL`);
+    }
+  });
+
+  /**
+   * `athletes_basketball` is sorted by `id`, not `profile_id`, so `FINAL` cannot
+   * reduce it to one row per athlete and the join key would otherwise match an
+   * arbitrary row.
+   */
+  it("reduces the basketball roster to the newest row per athlete", () => {
+    const sql = queries.listAthletes(PAGE).toSQL();
+
+    expect(sql).toContain("argMax(team, updated_at) AS basketball_team");
+    expect(sql).toMatch(
+      /basketball_roster AS \(SELECT profile_id,.*GROUP BY profile_id\)/,
+    );
   });
 
   it("keeps absent enrichment rows null instead of zero", () => {
@@ -93,7 +127,9 @@ describe("listAthletes", () => {
       "tiktok_latest",
       "last_match",
       "espn_basketball",
-      "new_vertical.athletes_basketball",
+      "basketball_roster",
+      "gps_scores",
+      "momentum_scores",
     ]) {
       expect(sql).not.toContain(source);
     }
@@ -104,7 +140,7 @@ describe("listAthletes", () => {
     const sql = queries.countAthletes({ ...PAGE, clubs: ["Roma"] }).toSQL();
 
     expect(sql).toContain("LEFT ANY JOIN on3_school ON");
-    expect(sql).toContain("LEFT ANY JOIN new_vertical.athletes_basketball ON");
+    expect(sql).toContain("LEFT ANY JOIN basketball_roster ON");
     expect(sql).not.toContain("roster_rank");
     expect(sql).not.toContain("tiktok_latest");
   });
@@ -114,7 +150,7 @@ describe("listAthletes", () => {
       .countAthletes({ ...PAGE, leagues: ["NBA"] }, { leagueClubNames: [] })
       .toSQL();
 
-    expect(sql).toContain("LEFT ANY JOIN new_vertical.athletes_basketball ON");
+    expect(sql).toContain("LEFT ANY JOIN basketball_roster ON");
     expect(sql).not.toContain("on3_school");
   });
 
@@ -225,7 +261,7 @@ describe("listAthletes", () => {
     expect(sql).toContain(
       "has([?, ?], new_vertical.athletes_cache.football_club)",
     );
-    expect(sql).toContain("has([?], new_vertical.athletes_basketball.league)");
+    expect(sql).toContain("has([?], basketball_roster.basketball_league)");
     expect(sql).toContain("has([?], new_vertical.athletes_cache.tennis_tour)");
     expect(parameters).toContain("Roma");
     expect(parameters).toContain("Inter Milan");
@@ -256,7 +292,7 @@ describe("listAthletes", () => {
     expect(sql).toContain(
       "has([?], new_vertical.athletes_cache.football_club)",
     );
-    expect(sql).toContain("has([?], new_vertical.athletes_basketball.team)");
+    expect(sql).toContain("has([?], basketball_roster.basketball_team)");
     expect(sql).toContain("has([?], on3_school.school)");
   });
 
