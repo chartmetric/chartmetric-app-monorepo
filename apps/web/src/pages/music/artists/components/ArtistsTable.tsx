@@ -12,6 +12,10 @@ import type {
   MetricSortFamily,
 } from "../types";
 
+import {
+  type NumberFormatter,
+  useAbbreviatedNumber,
+} from "../../../../hooks/use-abbreviated-number";
 import { ARTIST_PAGE_SIZE, METRIC_SORTS } from "../constants";
 import { ArtistIdentity } from "./ArtistIdentity";
 
@@ -49,66 +53,60 @@ interface MetricCellValues {
 }
 
 interface MetricFormatters {
-  followers: Intl.NumberFormat;
-  followersChange: Intl.NumberFormat;
-  percent: Intl.NumberFormat;
-  score: Intl.NumberFormat;
-  scoreChange: Intl.NumberFormat;
+  followers: NumberFormatter;
+  followersChange: NumberFormatter;
+  percent: NumberFormatter;
+  score: NumberFormatter;
+  scoreChange: NumberFormatter;
 }
 
 const useMetricFormatters = (): MetricFormatters => {
   const { i18n } = useLingui();
+  const followers = useAbbreviatedNumber();
+  const followersChange = useAbbreviatedNumber({ signed: true });
 
-  return useMemo(
-    () => ({
-      followers: new Intl.NumberFormat(i18n.locale, {
-        compactDisplay: "short",
-        maximumFractionDigits: 1,
-        notation: "compact",
-      }),
-      followersChange: new Intl.NumberFormat(i18n.locale, {
-        compactDisplay: "short",
-        maximumFractionDigits: 1,
-        notation: "compact",
-        signDisplay: "exceptZero",
-      }),
-      percent: new Intl.NumberFormat(i18n.locale, {
-        maximumFractionDigits: 1,
-        signDisplay: "exceptZero",
-        style: "percent",
-      }),
-      score: new Intl.NumberFormat(i18n.locale, {
-        maximumFractionDigits: 1,
-        minimumFractionDigits: 1,
-      }),
-      scoreChange: new Intl.NumberFormat(i18n.locale, {
-        maximumFractionDigits: 1,
-        minimumFractionDigits: 1,
-        signDisplay: "exceptZero",
-      }),
-    }),
-    [i18n.locale],
-  );
+  return useMemo(() => {
+    const percent = new Intl.NumberFormat(i18n.locale, {
+      maximumFractionDigits: 1,
+      signDisplay: "exceptZero",
+      style: "percent",
+    });
+    const score = new Intl.NumberFormat(i18n.locale, {
+      maximumFractionDigits: 1,
+      minimumFractionDigits: 1,
+    });
+    const scoreChange = new Intl.NumberFormat(i18n.locale, {
+      maximumFractionDigits: 1,
+      minimumFractionDigits: 1,
+      signDisplay: "exceptZero",
+    });
+
+    return {
+      followers,
+      followersChange,
+      percent: (value) => percent.format(value),
+      score: (value) => score.format(value),
+      scoreChange: (value) => scoreChange.format(value),
+    };
+  }, [followers, followersChange, i18n.locale]);
 };
 
 const renderMetricValue = (
   displayMode: MetricDisplayMode,
   values: MetricCellValues,
-  totalFormatter: Intl.NumberFormat,
-  changeFormatter: Intl.NumberFormat,
-  percentFormatter: Intl.NumberFormat,
+  totalFormatter: NumberFormatter,
+  changeFormatter: NumberFormatter,
+  percentFormatter: NumberFormatter,
 ): ReactElement => {
   if (displayMode === "total") {
-    return (
-      <>{values.total === null ? "—" : totalFormatter.format(values.total)}</>
-    );
+    return <>{values.total === null ? "—" : totalFormatter(values.total)}</>;
   }
   if (displayMode === "change") {
     return values.change === null ? (
       <>—</>
     ) : (
       <ChangeValue
-        formatted={changeFormatter.format(values.change)}
+        formatted={changeFormatter(values.change)}
         value={values.change}
       />
     );
@@ -117,7 +115,7 @@ const renderMetricValue = (
     <>—</>
   ) : (
     <ChangeValue
-      formatted={percentFormatter.format(values.percent / 100)}
+      formatted={percentFormatter(values.percent / 100)}
       value={values.percent}
     />
   );
@@ -128,9 +126,9 @@ const metricColumn = (
   label: string,
   displayMode: MetricDisplayMode,
   values: (artist: Artist) => MetricCellValues,
-  totalFormatter: Intl.NumberFormat,
-  changeFormatter: Intl.NumberFormat,
-  percentFormatter: Intl.NumberFormat,
+  totalFormatter: NumberFormatter,
+  changeFormatter: NumberFormatter,
+  percentFormatter: NumberFormatter,
 ): DataTableColumn<Artist, ArtistSortBy> => ({
   align: "right",
   key: family,
