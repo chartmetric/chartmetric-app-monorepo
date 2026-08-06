@@ -8,11 +8,11 @@ export interface FilterBarProps {
   label: string;
   onClear: () => void;
   /**
-   * Rendered as its own row beneath `children`, however much space the row above
-   * has left. Without it, controls placed in `children` wrap only once the row
-   * fills, which splits a group at whatever point it happens to run out.
+   * Compact always-visible controls, kept together on their own row beneath
+   * `children`. They need the separate row because `children` wraps only once it
+   * fills, which would split the group at whatever point it ran out of space.
    */
-  rowBelow?: ReactNode;
+  quickFilters?: ReactNode;
 }
 
 export const FilterBar: FC<FilterBarProps> = ({
@@ -20,7 +20,7 @@ export const FilterBar: FC<FilterBarProps> = ({
   clearLabel,
   label,
   onClear,
-  rowBelow,
+  quickFilters,
 }) => (
   <Paper aria-label={label} component="section" p="md" radius="md" withBorder>
     <Stack gap="sm">
@@ -32,9 +32,9 @@ export const FilterBar: FC<FilterBarProps> = ({
           {clearLabel}
         </Button>
       </Group>
-      {rowBelow === undefined ? null : (
+      {quickFilters === undefined ? null : (
         <Group align="center" gap="sm">
-          {rowBelow}
+          {quickFilters}
         </Group>
       )}
     </Stack>
