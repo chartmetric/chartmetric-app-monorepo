@@ -8,12 +8,11 @@ import {
 
 import type {
   AthleteEntityFilterOptions,
-  AthleteFilterDraft,
+  AthleteFilterValues,
   CategoricalFilterKey,
-} from "../filters/types";
+} from "../../../filters/types";
 
 export interface AthleteEntityFiltersProps {
-  draft: AthleteFilterDraft;
   isDisabled: boolean;
   onCategoricalChange: (
     key: CategoricalFilterKey,
@@ -22,15 +21,16 @@ export interface AthleteEntityFiltersProps {
   onClubsChange: (values: string[]) => void;
   onLeaguesChange: (values: string[]) => void;
   options: AthleteEntityFilterOptions;
+  values: AthleteFilterValues;
 }
 
 export const AthleteEntityFilters: FC<AthleteEntityFiltersProps> = ({
-  draft,
   isDisabled,
   onCategoricalChange,
   onClubsChange,
   onLeaguesChange,
   options,
+  values,
 }) => {
   const { t } = useLingui();
   const shared = {
@@ -57,7 +57,7 @@ export const AthleteEntityFilters: FC<AthleteEntityFiltersProps> = ({
           }}
           options={options[key]}
           searchPlaceholder={searchPlaceholder}
-          value={draft[key]}
+          value={values[key]}
         />
       ))}
       {/* League and team resolve through the football club catalog, which only
@@ -72,7 +72,7 @@ export const AthleteEntityFilters: FC<AthleteEntityFiltersProps> = ({
         }}
         options={options.leagues}
         searchPlaceholder={t`Find a league…`}
-        value={draft.leagues}
+        value={values.leagues}
       />
       <MultiSelectFilter
         {...shared}
@@ -83,7 +83,7 @@ export const AthleteEntityFilters: FC<AthleteEntityFiltersProps> = ({
         }}
         options={options.clubs}
         searchPlaceholder={t`Find a team…`}
-        value={draft.clubs}
+        value={values.clubs}
       />
     </>
   );

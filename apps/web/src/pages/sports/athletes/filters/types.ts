@@ -11,7 +11,7 @@ export interface FollowerRange {
   min: number | null;
 }
 
-export interface AthleteFilterDraft {
+export interface AthleteFilterValues {
   clubs: MultiSelectFilterValue;
   cmScore: NumericRangeValue;
   followers: FollowerRange;
@@ -25,15 +25,6 @@ export interface AthleteFilterDraft {
 }
 
 export type CategoricalFilterKey = "nationalities" | "sports" | "types";
-
-export interface AthleteFilterDraftState {
-  activeFilterCount: number;
-  commit: (next: AthleteFilterDraft) => void;
-  draft: AthleteFilterDraft;
-  /** Updates the draft without querying, for controls that stream while dragging. */
-  preview: (next: Partial<AthleteFilterDraft>) => void;
-  reset: () => void;
-}
 
 export interface AthleteEntityFilterOptions {
   clubs: MultiSelectFilterOption[];
