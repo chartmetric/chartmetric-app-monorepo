@@ -79,6 +79,21 @@ const joinedSelections = JOINED_COLUMNS.map(([expression, alias]) =>
   rawAs(expression, alias),
 );
 
+const DEFAULT_SORT_BY = "rank";
+
+/**
+ * Columns whose useful first look is ascending. Everything else is a metric,
+ * where the reader wants the largest values first, so asking for `cmScore`
+ * without a direction should not return the worst scores.
+ */
+const ASCENDING_FIRST: ReadonlySet<string> = new Set([
+  "name",
+  "nationality",
+  "rank",
+  "sport",
+  "type",
+]);
+
 const SORT_COLUMNS = {
   cmScore: `${CACHE}.cm_score`,
   igFollowers: `${CACHE}.ig_followers`,
@@ -119,6 +134,17 @@ const filteredSources = (query: ListAthletesQuery): EnrichmentSource[] => {
   return [...sources];
 };
 
+const sortBy = (query: ListAthletesQuery): keyof typeof SORT_COLUMNS =>
+  query.sortBy ?? DEFAULT_SORT_BY;
+
+const sortDirection = (query: ListAthletesQuery): "ASC" | "DESC" => {
+  const requested =
+    query.sortDirection ??
+    (ASCENDING_FIRST.has(sortBy(query)) ? "asc" : "desc");
+
+  return requested === "asc" ? "ASC" : "DESC";
+};
+
 const selectEnrichedRoster = (
   database: ClickHouseDatabase,
   query: ListAthletesQuery,
@@ -136,10 +162,7 @@ const listAthletes = (
 ): ExecutableQuery<AthleteListRow> =>
   selectEnrichedRoster(database, query, options)
     .select([...CACHE_COLUMNS, ...joinedSelections])
-    .orderBy(
-      SORT_COLUMNS[query.sortBy ?? "rank"],
-      (query.sortDirection ?? "asc") === "asc" ? "ASC" : "DESC",
-    )
+    .orderBy(SORT_COLUMNS[sortBy(query)], sortDirection(query))
     .orderBy(`${CACHE}.profile_id`, "ASC")
     .limit(query.limit)
     .offset(query.offset)

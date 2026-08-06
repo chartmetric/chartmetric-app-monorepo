@@ -1042,7 +1042,6 @@
           },
           {
             "schema": {
-              "default": "asc",
               "anyOf": [
                 {
                   "type": "string",
@@ -1060,7 +1059,8 @@
             },
             "in": "query",
             "name": "sortDirection",
-            "required": false
+            "required": false,
+            "description": "Defaults to descending for metric columns and ascending for rank, name, nationality, sport and type."
           },
           {
             "schema": {
@@ -2404,7 +2404,6 @@
           },
           {
             "schema": {
-              "default": "asc",
               "anyOf": [
                 {
                   "type": "string",
@@ -2422,7 +2421,8 @@
             },
             "in": "query",
             "name": "sortDirection",
-            "required": false
+            "required": false,
+            "description": "Defaults to descending for metric columns and ascending for rank, name, nationality, sport and type."
           },
           {
             "schema": {
