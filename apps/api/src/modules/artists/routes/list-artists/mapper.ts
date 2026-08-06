@@ -2,6 +2,9 @@ import type { PaginationQuery } from "../../../../lib/pagination.ts";
 import type { ArtistRow } from "./queries.ts";
 import type { ListArtistsReply } from "./schemas.ts";
 
+import { toNumber, type WarehouseNumber } from "../../../../lib/numbers.ts";
+import { emptyToNull } from "../../../../lib/strings.ts";
+
 // hypequery types Int64 as string, but the wire value is numeric whenever the
 // server runs with output_format_json_quote_64bit_integers = 0.
 type ArtistRowInput = Omit<
@@ -11,17 +14,11 @@ type ArtistRowInput = Omit<
   | "tiktok_followers"
   | "tiktok_followers_change"
 > & {
-  instagram_followers: number | string | null;
-  instagram_followers_change: number | string | null;
-  tiktok_followers: number | string | null;
-  tiktok_followers_change: number | string | null;
+  instagram_followers: WarehouseNumber;
+  instagram_followers_change: WarehouseNumber;
+  tiktok_followers: WarehouseNumber;
+  tiktok_followers_change: WarehouseNumber;
 };
-
-const emptyToNull = (value: string | null): string | null =>
-  value === null || value === "" ? null : value;
-
-const toCount = (value: number | string | null): number | null =>
-  value === null ? null : Number(value);
 
 export const toArtistList = (
   artists: ArtistRowInput[],
@@ -35,14 +32,14 @@ export const toArtistList = (
     id: artist.id,
     imageUrl:
       emptyToNull(artist.profile_image_url) ?? emptyToNull(artist.image_url),
-    instagramFollowers: toCount(artist.instagram_followers),
-    instagramFollowersChange: toCount(artist.instagram_followers_change),
+    instagramFollowers: toNumber(artist.instagram_followers),
+    instagramFollowersChange: toNumber(artist.instagram_followers_change),
     instagramFollowersChangePercent: artist.instagram_followers_change_percent,
     isVerified: artist.is_verified === 1,
     name: emptyToNull(artist.profile_name) ?? artist.name,
     recordLabel: emptyToNull(artist.record_label),
-    tiktokFollowers: toCount(artist.tiktok_followers),
-    tiktokFollowersChange: toCount(artist.tiktok_followers_change),
+    tiktokFollowers: toNumber(artist.tiktok_followers),
+    tiktokFollowersChange: toNumber(artist.tiktok_followers_change),
     tiktokFollowersChangePercent: artist.tiktok_followers_change_percent,
   })),
   meta: {
