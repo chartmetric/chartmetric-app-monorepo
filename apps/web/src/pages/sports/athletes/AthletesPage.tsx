@@ -17,9 +17,9 @@ import {
   isAthleteColumnPresetList,
 } from "./columns/storage";
 import { AthleteColumnPicker } from "./components/AthleteColumnPicker";
-import { AthleteFilters } from "./components/AthleteFilters";
 import { AthleteListContent } from "./components/AthleteListContent";
-import { AthleteFilterOptionsError } from "./components/AthleteListStates";
+import { AthleteFilterOptionsError } from "./components/AthleteListStates/AthleteFilterOptionsError";
+import { AthleteFilters } from "./components/filters/AthleteFilters";
 import { changeQuerySort, replaceFilters } from "./filters/sort-state";
 
 const FILTER_OPTIONS_STALE_TIME_MS = 5 * 60 * 1000;
