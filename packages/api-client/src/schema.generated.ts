@@ -256,6 +256,7 @@ export interface paths {
                     name?: string;
                     nationalities?: string[];
                     sortBy?: "cmScore" | "igFollowers" | "igPosts" | "name" | "nationality" | "rank" | "sport" | "tiktokFollowers" | "tiktokLikes" | "type";
+                    /** @description Defaults to descending for metric columns and ascending for rank, name, nationality, sport and type. */
                     sortDirection?: "asc" | "desc";
                     sports?: string[];
                     types?: string[];
@@ -524,6 +525,7 @@ export interface paths {
                     name?: string;
                     nationalities?: string[];
                     sortBy?: "cmScore" | "igFollowers" | "igPosts" | "name" | "nationality" | "rank" | "sport" | "tiktokFollowers" | "tiktokLikes" | "type";
+                    /** @description Defaults to descending for metric columns and ascending for rank, name, nationality, sport and type. */
                     sortDirection?: "asc" | "desc";
                     sports?: string[];
                     types?: string[];

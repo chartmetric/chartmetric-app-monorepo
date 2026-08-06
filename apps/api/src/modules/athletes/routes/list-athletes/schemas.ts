@@ -68,8 +68,14 @@ export const ListAthletesQuerySchema = Type.Object({
   sortBy: Type.Optional(
     Type.Union(AthleteSortBySchema.anyOf, { default: "rank" }),
   ),
+  // No default: the useful first look depends on the column. Metrics start
+  // descending, names and rank ascending, so `sortBy=cmScore` alone returns the
+  // best scores rather than the worst.
   sortDirection: Type.Optional(
-    Type.Union(SortDirectionSchema.anyOf, { default: "asc" }),
+    Type.Union(SortDirectionSchema.anyOf, {
+      description:
+        "Defaults to descending for metric columns and ascending for rank, name, nationality, sport and type.",
+    }),
   ),
   sports: OptionalCategoricalFilter,
   types: OptionalCategoricalFilter,
