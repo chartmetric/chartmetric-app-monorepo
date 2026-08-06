@@ -44,7 +44,7 @@ const reply = (
   },
 });
 
-describe("repro with real query client defaults", () => {
+describe("filter changes with production query-client defaults", () => {
   beforeEach(() => {
     apiGetMock.mockReset();
     i18n.load("en", enMusic);
