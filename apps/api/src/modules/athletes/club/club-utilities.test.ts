@@ -13,7 +13,7 @@ import {
   leaguesForClub,
   logoForClub,
   normalizeClubTokens,
-} from "./resolution.ts";
+} from "./club-utilities.ts";
 
 const tokens = (name: string): string[] => [...normalizeClubTokens(name)];
 
