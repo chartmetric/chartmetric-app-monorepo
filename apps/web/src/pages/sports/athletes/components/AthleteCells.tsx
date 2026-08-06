@@ -1,5 +1,13 @@
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { FC, ReactNode } from "react";
 
+import { faFacebookF } from "@fortawesome/free-brands-svg-icons/faFacebookF";
+import { faInstagram } from "@fortawesome/free-brands-svg-icons/faInstagram";
+import { faTiktok } from "@fortawesome/free-brands-svg-icons/faTiktok";
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons/faXTwitter";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons/faYoutube";
+import { faBadgeCheck } from "@fortawesome/pro-solid-svg-icons/faBadgeCheck";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import {
   Anchor,
@@ -14,6 +22,7 @@ import {
 
 import type { Athlete } from "../api/types";
 
+import { toCountryFlag } from "../../../../lib/country-flags";
 import { EMPTY_CELL } from "../../../../lib/formatting";
 
 interface AthleteIdentityProps {
@@ -33,14 +42,20 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
     <Group gap="sm" wrap="nowrap">
       <Avatar alt={athleteName} name={athleteName} src={athlete.imageUrl} />
       <Stack gap={0} miw={0}>
-        <Group gap={4} wrap="nowrap">
+        <Group gap={6} wrap="nowrap">
+          <CountryFlag nationality={athlete.nationality} />
           <Text fw={600} truncate>
             {athleteName}
           </Text>
           {athlete.igVerified ? (
             <Tooltip label={t`Verified on Instagram`}>
-              <Text aria-label={t`Verified on Instagram`} c="blue" role="img">
-                ✓
+              <Text
+                aria-label={t`Verified on Instagram`}
+                c="blue"
+                component="span"
+                role="img"
+              >
+                <FontAwesomeIcon icon={faBadgeCheck} />
               </Text>
             </Tooltip>
           ) : null}
@@ -51,6 +66,24 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
         <SocialLinks athlete={athlete} />
       </Stack>
     </Group>
+  );
+};
+
+interface CountryFlagProps {
+  nationality: string | null;
+}
+
+const CountryFlag: FC<CountryFlagProps> = ({ nationality }) => {
+  const flag = toCountryFlag(nationality);
+
+  if (flag === null || nationality === null) return null;
+
+  return (
+    <Tooltip label={nationality}>
+      <Text aria-label={nationality} component="span" role="img" size="sm">
+        {flag}
+      </Text>
+    </Tooltip>
   );
 };
 
@@ -65,6 +98,14 @@ const SOCIAL_LABELS: Readonly<Record<string, SocialPlatformName>> = {
   youtube: "YouTube",
 };
 
+const SOCIAL_ICONS: Readonly<Record<string, IconDefinition>> = {
+  facebook: faFacebookF,
+  instagram: faInstagram,
+  tiktok: faTiktok,
+  twitter: faXTwitter,
+  youtube: faYoutube,
+};
+
 const SocialLinks: FC<AthleteIdentityProps> = ({ athlete }) => {
   const { t } = useLingui();
 
@@ -75,6 +116,7 @@ const SocialLinks: FC<AthleteIdentityProps> = ({ athlete }) => {
       {athlete.socialLinks.map((link) => {
         const platform = SOCIAL_LABELS[link.platform] ?? link.platform;
         const handle = link.handle;
+        const icon = SOCIAL_ICONS[link.platform];
 
         return (
           <Anchor
@@ -89,7 +131,7 @@ const SocialLinks: FC<AthleteIdentityProps> = ({ athlete }) => {
             size="xs"
             target="_blank"
           >
-            {platform}
+            {icon === undefined ? platform : <FontAwesomeIcon icon={icon} />}
           </Anchor>
         );
       })}
