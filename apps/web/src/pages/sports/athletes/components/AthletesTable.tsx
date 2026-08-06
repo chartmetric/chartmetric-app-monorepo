@@ -12,8 +12,8 @@ import type {
 } from "../api/types";
 import type { AthleteColumnKey } from "../columns/types";
 
+import { useListFormatters } from "../../../../lib/formatting";
 import { ATHLETE_PAGE_SIZE } from "../api/athlete-list";
-import { useAthleteFormatters } from "../columns/formatters";
 import {
   ATHLETE_COLUMN_WIDTH,
   RANK_COLUMN_WIDTH,
@@ -47,7 +47,7 @@ export const AthletesTable: FC<AthletesTableProps> = ({
 }) => {
   const { t } = useLingui();
   const columns = useAthleteTableColumns(visibleColumns);
-  const formatters = useAthleteFormatters();
+  const formatters = useListFormatters();
   const firstRow = formatters.plain.format(total === 0 ? 0 : offset + 1);
   const lastRow = formatters.plain.format(
     Math.min(offset + athletes.length, total),
