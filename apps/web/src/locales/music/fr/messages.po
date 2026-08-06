@@ -29,7 +29,7 @@ msgstr "28J"
 msgid "7D"
 msgstr "7J"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:228
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:218
 msgid "All filters"
 msgstr "Tous les filtres"
 
@@ -54,12 +54,12 @@ msgstr "Variation"
 msgid "Change period"
 msgstr "Période de variation"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:205
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:195
 msgid "Clear filters"
 msgstr "Effacer les filtres"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:137
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:153
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:135
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:151
 msgid "Clear range"
 msgstr "Effacer la plage"
 
@@ -67,7 +67,7 @@ msgstr "Effacer la plage"
 msgid "CM score"
 msgstr "Score CM"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:86
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:84
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:158
 msgid "Country"
 msgstr "Pays"
@@ -76,7 +76,7 @@ msgstr "Pays"
 msgid "Country and genre filters are temporarily unavailable."
 msgstr "Les filtres par pays et par genre sont temporairement indisponibles."
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:92
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:90
 msgid "Exclude"
 msgstr "Exclure"
 
@@ -84,22 +84,22 @@ msgstr "Exclure"
 msgid "Explore artists across the music industry."
 msgstr "Découvrez des artistes de toute l’industrie musicale."
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:206
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:235
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:196
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:225
 msgid "Filters"
 msgstr "Filtres"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:85
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:83
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:147
 msgid "Genre"
 msgstr "Genre"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:93
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:91
 msgid "Include"
 msgstr "Inclure"
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:190
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:140
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:138
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:168
 msgid "Instagram followers"
 msgstr "Abonnés Instagram"
@@ -116,12 +116,12 @@ msgstr "Chargement des artistes…"
 msgid "Max"
 msgstr "Max"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:141
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:139
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:170
 msgid "Maximum Instagram followers"
 msgstr "Nombre maximal d’abonnés Instagram"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:157
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:155
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:184
 msgid "Maximum TikTok followers"
 msgstr "Nombre maximal d’abonnés TikTok"
@@ -130,12 +130,12 @@ msgstr "Nombre maximal d’abonnés TikTok"
 msgid "Min"
 msgstr "Min"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:142
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:140
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:171
 msgid "Minimum Instagram followers"
 msgstr "Nombre minimal d’abonnés Instagram"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:158
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:156
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:185
 msgid "Minimum TikTok followers"
 msgstr "Nombre minimal d’abonnés TikTok"
@@ -148,7 +148,7 @@ msgstr "Suivant"
 msgid "No artists found"
 msgstr "Aucun artiste trouvé"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:91
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:89
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:146
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:157
 msgid "No matching options"
@@ -171,12 +171,12 @@ msgstr "Précédent"
 msgid "Retry filter options"
 msgstr "Réessayer les options de filtre"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:86
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:84
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:163
 msgid "Search countries…"
 msgstr "Rechercher des pays…"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:85
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:83
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:152
 msgid "Search genres…"
 msgstr "Rechercher des genres…"
@@ -195,7 +195,7 @@ msgid "There are no artists to show on this page."
 msgstr "Aucun artiste à afficher sur cette page."
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:203
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:156
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:154
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:182
 msgid "TikTok followers"
 msgstr "Abonnés TikTok"
