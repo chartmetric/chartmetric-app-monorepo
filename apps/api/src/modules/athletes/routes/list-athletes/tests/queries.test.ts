@@ -81,6 +81,43 @@ describe("listAthletes", () => {
     expect(sql).toContain("ORDER BY tiktok_followers DESC");
   });
 
+  /**
+   * A `LEFT ANY JOIN` cannot change how many roster rows match, so the count
+   * only needs the sources its filters read.
+   */
+  it("counts without joining enrichment no filter reads", () => {
+    const sql = queries.countAthletes(PAGE).toSQL();
+
+    for (const source of [
+      "roster_rank",
+      "tiktok_latest",
+      "last_match",
+      "espn_basketball",
+      "new_vertical.athletes_basketball",
+    ]) {
+      expect(sql).not.toContain(source);
+    }
+    expect(sql).toContain("count() AS total");
+  });
+
+  it("counts with the sources a club filter reads", () => {
+    const sql = queries.countAthletes({ ...PAGE, clubs: ["Roma"] }).toSQL();
+
+    expect(sql).toContain("LEFT ANY JOIN on3_school ON");
+    expect(sql).toContain("LEFT ANY JOIN new_vertical.athletes_basketball ON");
+    expect(sql).not.toContain("roster_rank");
+    expect(sql).not.toContain("tiktok_latest");
+  });
+
+  it("counts with the basketball roster a league filter reads", () => {
+    const sql = queries
+      .countAthletes({ ...PAGE, leagues: ["NBA"] }, { leagueClubNames: [] })
+      .toSQL();
+
+    expect(sql).toContain("LEFT ANY JOIN new_vertical.athletes_basketball ON");
+    expect(sql).not.toContain("on3_school");
+  });
+
   it("sorts by the snapshot column for TikTok likes", () => {
     expect(
       queries

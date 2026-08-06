@@ -8,11 +8,6 @@ import type {
 } from "../../../../lib/database.ts";
 import type { CteAlias } from "./types.ts";
 
-// Each subquery is a governed builder, so `generate:ch-schema` discovers its
-// table. Two expressions have no builder form and stay raw — the ranking window
-// function, and `argMax` over a JSON extraction, which takes a column rather than
-// an expression. Both are constant SQL that no request value reaches.
-
 // `rank` mirrors the athlete's standing across the whole active roster, so it is
 // computed before any request filter narrows the set — a filtered page shows
 // non-contiguous global ranks rather than renumbering from 1.
@@ -115,7 +110,7 @@ const ENRICHMENT_CTES = [
  * row per profile. `satisfies` checks each warehouse name against the generated
  * schema and rejects a table with no `profile_id` to join on.
  */
-const ENRICHMENT_JOINS = [
+export const ENRICHMENT_JOINS = [
   "roster_rank",
   "tiktok_latest",
   "last_match",
@@ -128,19 +123,33 @@ const ENRICHMENT_JOINS = [
 
 const CACHE_PROFILE_ID = "new_vertical.athletes_cache.profile_id";
 
-// `LEFT ANY JOIN` keeps one row per athlete even where a source has duplicates,
-// and `join_use_nulls` (set on the outer query) keeps an absent row null rather
-// than zero.
+const CTE_FACTORIES = new Map<string, DatabaseQueryFactory>(ENRICHMENT_CTES);
+
+export type EnrichmentSource = (typeof ENRICHMENT_JOINS)[number];
+
+/**
+ * Joins the requested enrichment sources onto the roster, CTEs registered first
+ * so a join can name one.
+ *
+ * `LEFT ANY JOIN` keeps one row per athlete even where a source has duplicates,
+ * and `join_use_nulls` (set on the outer query) keeps an absent row null rather
+ * than zero. Because the join cannot add or remove a roster row, a query that
+ * only counts needs the sources its filters read and nothing else — passing
+ * fewer here is a cost decision, never a correctness one.
+ */
 export const withEnrichment = <Builder>(
   builder: Builder,
   database: ClickHouseDatabase,
+  sources: readonly EnrichmentSource[] = ENRICHMENT_JOINS,
 ): Builder => {
   let next = builder as unknown as JoinableChain;
 
-  for (const [alias, buildCte] of ENRICHMENT_CTES) {
-    next = next.withCTE(alias, buildCte(database));
+  for (const source of sources) {
+    const buildCte = CTE_FACTORIES.get(source);
+
+    if (buildCte !== undefined) next = next.withCTE(source, buildCte(database));
   }
-  for (const source of ENRICHMENT_JOINS) {
+  for (const source of sources) {
     next = next.leftAnyJoin(source, CACHE_PROFILE_ID, `${source}.profile_id`);
   }
 
