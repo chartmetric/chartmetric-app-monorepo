@@ -21,7 +21,6 @@ const listAthleteFilterOptions = ((database) =>
     .select([
       "sport",
       "nationality",
-      "type",
       "cm_score",
       "football_club",
       "tennis_tour",

@@ -21,17 +21,15 @@ export interface AthleteFilterValues {
   name: string;
   nationalities: MultiSelectFilterValue;
   sports: MultiSelectFilterValue;
-  types: MultiSelectFilterValue;
 }
 
-export type CategoricalFilterKey = "nationalities" | "sports" | "types";
+export type CategoricalFilterKey = "nationalities" | "sports";
 
 export interface AthleteEntityFilterOptions {
   clubs: MultiSelectFilterOption[];
   leagues: MultiSelectFilterOption[];
   nationalities: MultiSelectFilterOption[];
   sports: MultiSelectFilterOption[];
-  types: MultiSelectFilterOption[];
 }
 
 export type LeaguesBySport = Readonly<Record<string, readonly string[]>>;

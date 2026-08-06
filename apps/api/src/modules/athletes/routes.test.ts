@@ -24,7 +24,6 @@ const rows = {
       nationality: "United States",
       profile_id: 42,
       sport: "football",
-      type: "athlete",
     },
     {
       athlete_rank: 2,
@@ -34,7 +33,6 @@ const rows = {
       nationality: "Canada",
       profile_id: 43,
       sport: "football",
-      type: "athlete",
     },
     {
       athlete_rank: 3,
@@ -46,7 +44,6 @@ const rows = {
       sport: "tennis",
       tennis_ranking: 5,
       tennis_tour: "WTA",
-      type: "",
     },
   ],
 };
@@ -84,7 +81,6 @@ describe("GET /athletes", () => {
       position: "FW",
       rank: 1,
       sport: "Football",
-      type: "athlete",
     });
     expect(body.data[0]?.socialLinks).toEqual([
       {
@@ -110,7 +106,6 @@ describe("GET /athletes", () => {
       name: null,
       position: "#5",
       sport: "Tennis",
-      type: null,
     });
     await app.close();
   });
@@ -166,7 +161,6 @@ describe("GET /athletes", () => {
         { count: 1, value: "Tennis" },
       ],
       sportsByLevel: { college: [], professional: ["Football", "Tennis"] },
-      types: [{ count: 2, value: "athlete" }],
     });
     await app.close();
   });

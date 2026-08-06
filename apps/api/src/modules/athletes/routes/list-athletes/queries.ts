@@ -19,7 +19,6 @@ const CACHE_COLUMNS = [
   `${CACHE}.profile_id AS profile_id`,
   `${CACHE}.name AS name`,
   `${CACHE}.sport AS sport`,
-  `${CACHE}.type AS type`,
   `${CACHE}.nationality AS nationality`,
   `${CACHE}.image_url AS image_url`,
   `${CACHE}.cm_score AS cm_score`,
@@ -92,7 +91,6 @@ const SORT_COLUMNS = {
   sport: `${CACHE}.sport`,
   tiktokFollowers: "tiktok_followers",
   tiktokLikes: "snapshot_tiktok_likes",
-  type: `${CACHE}.type`,
 } as const;
 
 // join_use_nulls keeps an absent enrichment row as NULL instead of ClickHouse's
