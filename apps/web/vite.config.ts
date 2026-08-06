@@ -5,6 +5,7 @@ import { defineConfig, loadEnv } from "vite";
 
 export default defineConfig(({ mode }) => {
   const environment = loadEnv(mode, process.cwd(), "");
+  const railwayPublicDomain = environment["RAILWAY_PUBLIC_DOMAIN"] ?? "";
 
   return {
     plugins: [
@@ -15,9 +16,13 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     server: {
-      // A leading dot allows every subdomain, covering generated Railway
-      // preview and PR-environment hostnames.
-      allowedHosts: ["0.0.0.0", "new-app.chartmetric.com", ".up.railway.app"],
+      // Railway injects each environment's own public hostname, so preview and
+      // PR environments are allowed without wildcarding all of *.up.railway.app.
+      allowedHosts: [
+        "0.0.0.0",
+        "new-app.chartmetric.com",
+        ...(railwayPublicDomain === "" ? [] : [railwayPublicDomain]),
+      ],
       proxy: {
         "/app": {
           changeOrigin: true,
