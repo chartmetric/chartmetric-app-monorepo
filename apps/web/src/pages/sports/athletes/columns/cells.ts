@@ -9,13 +9,11 @@ import {
   formatDate,
   useListFormatters,
 } from "../../../../lib/formatting";
-import {
-  ClubCell,
-  GpsCell,
-  LeagueCell,
-  LevelCell,
-  MomentumCell,
-} from "../components/AthleteCells";
+import { ClubCell } from "../components/AthleteCells/ClubCell";
+import { GpsCell } from "../components/AthleteCells/GpsCell";
+import { LeagueCell } from "../components/AthleteCells/LeagueCell";
+import { LevelCell } from "../components/AthleteCells/LevelCell";
+import { MomentumCell } from "../components/AthleteCells/MomentumCell";
 
 export const useAthleteColumnHeadings = (): Record<
   AthleteColumnKey,
