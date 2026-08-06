@@ -4,7 +4,7 @@ import { createElement, useMemo } from "react";
 import type { AthleteColumnKey, AthleteTableColumn } from "./types";
 
 import { EMPTY_CELL, useListFormatters } from "../../../../lib/formatting";
-import { AthleteIdentity } from "../components/AthleteCells";
+import { AthleteIdentity } from "../components/AthleteCells/AthleteIdentity";
 import { useAthleteCellRenderers, useAthleteColumnHeadings } from "./cells";
 import { ATHLETE_COLUMNS } from "./registry";
 
