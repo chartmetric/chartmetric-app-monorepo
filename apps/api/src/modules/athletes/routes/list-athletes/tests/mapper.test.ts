@@ -60,7 +60,6 @@ const baseRow: AthleteListRow = {
   tiktok_videos: null,
   turned_pro_year: null,
   twitter_handle: null,
-  type: "athlete",
   youtube_handle: null,
 };
 
@@ -213,14 +212,12 @@ describe("toAthlete", () => {
       name: "",
       nationality: null,
       sport: "",
-      type: "",
     });
 
     expect(athlete.name).toBeNull();
     expect(athlete.imageUrl).toBeNull();
     expect(athlete.nationality).toBeNull();
     expect(athlete.sport).toBeNull();
-    expect(athlete.type).toBeNull();
     expect(athlete.nationalTeam).toBeNull();
   });
 

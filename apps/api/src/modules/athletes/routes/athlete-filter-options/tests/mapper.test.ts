@@ -33,37 +33,13 @@ const row = (
   nationality: null,
   sport: "football",
   tennis_tour: null,
-  type: "athlete",
   ...overrides,
 });
 
 describe("toAthleteFilterOptions", () => {
-  it("counts categorical values and derives CM score bounds", () => {
-    const options = toAthleteFilterOptions(
-      [
-        row({ cm_score: 87.4, nationality: "United States" }),
-        row({ cm_score: 72.1, nationality: "Canada" }),
-        row({ cm_score: null, sport: "tennis", type: "" }),
-      ],
-      emptyIndex,
-    );
-
-    expect(options.cmScore).toEqual({ max: 87.4, min: 72.1 });
-    expect(options.nationalities).toEqual([
-      { count: 1, value: "Canada" },
-      { count: 1, value: "United States" },
-    ]);
-    expect(options.sports).toEqual([
-      { count: 2, value: "Football" },
-      { count: 1, value: "Tennis" },
-    ]);
-    expect(options.types).toEqual([{ count: 2, value: "athlete" }]);
-  });
-
   it("returns nullable bounds when no rows have a CM score", () => {
     expect(
-      toAthleteFilterOptions([row({ sport: "", type: "" })], emptyIndex)
-        .cmScore,
+      toAthleteFilterOptions([row({ sport: "" })], emptyIndex).cmScore,
     ).toEqual({ max: null, min: null });
   });
 

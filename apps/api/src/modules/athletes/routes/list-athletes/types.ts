@@ -6,7 +6,6 @@ export interface AthleteListRow {
   profile_id: number;
   name: string | null;
   sport: string | null;
-  type: string | null;
   nationality: string | null;
   image_url: string | null;
   cm_score: number | null;

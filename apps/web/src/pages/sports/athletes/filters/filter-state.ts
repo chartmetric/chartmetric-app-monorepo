@@ -17,7 +17,6 @@ export const createEmptyFilterValues = (): AthleteFilterValues => ({
   name: "",
   nationalities: emptyMultiSelectValue(),
   sports: emptyMultiSelectValue(),
-  types: emptyMultiSelectValue(),
 });
 
 const hasSelection = (selection: MultiSelectFilterValue): boolean =>
@@ -28,7 +27,6 @@ export const countActiveFilters = (values: AthleteFilterValues): number =>
     values.name.trim() !== "",
     hasSelection(values.sports),
     hasSelection(values.nationalities),
-    hasSelection(values.types),
     hasSelection(values.leagues),
     hasSelection(values.clubs),
     values.levels.length > 0,
@@ -40,7 +38,6 @@ export const countActiveFilters = (values: AthleteFilterValues): number =>
 const EXCLUDE_KEYS = {
   nationalities: "excludeNationalities",
   sports: "excludeSports",
-  types: "excludeTypes",
 } as const;
 
 const addCategoricalFilter = (
@@ -73,7 +70,7 @@ export const toFilterQuery = (values: AthleteFilterValues): AthleteFilters => {
   if (values.leagues.included.length > 0) filters.leagues = [...values.leagues.included];
   if (values.clubs.included.length > 0) filters.clubs = [...values.clubs.included];
 
-  for (const key of ["nationalities", "sports", "types"] as const) {
+  for (const key of ["nationalities", "sports"] as const) {
     addCategoricalFilter(filters, key, values[key]);
   }
 

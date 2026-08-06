@@ -72,11 +72,11 @@ msgstr "CM 점수"
 msgid "College"
 msgstr "대학"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:108
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:103
 msgid "Column groups"
 msgstr "열 그룹"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:113
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:108
 msgid "Columns"
 msgstr "열"
 
@@ -85,7 +85,7 @@ msgid "Configure columns"
 msgstr "열 구성"
 
 #. Accessible label for deleting a saved column group
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:91
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:86
 msgid "Delete group {name}"
 msgstr "{name} 그룹 삭제"
 
@@ -115,7 +115,7 @@ msgstr "필터"
 msgid "Filters ({activeCount})"
 msgstr "필터 ({activeCount})"
 
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:74
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:69
 msgid "Find a league…"
 msgstr "리그 검색…"
 
@@ -127,13 +127,9 @@ msgstr "국적 찾기…"
 msgid "Find a sport…"
 msgstr "스포츠 찾기…"
 
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:85
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:79
 msgid "Find a team…"
 msgstr "팀 검색…"
-
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:45
-msgid "Find a type…"
-msgstr "유형 찾기…"
 
 #: src/pages/sports/athletes/columns/cells.ts:30
 #: src/pages/sports/athletes/columns/cells.ts:38
@@ -149,7 +145,7 @@ msgstr "GPS"
 msgid "Hearts"
 msgstr "하트"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:97
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:92
 msgid "Hidden"
 msgstr "숨김"
 
@@ -176,7 +172,7 @@ msgstr "최근 경기"
 
 #: src/pages/sports/athletes/columns/cells.ts:33
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:44
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:69
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:64
 msgid "League"
 msgstr "리그"
 
@@ -212,12 +208,12 @@ msgid "Momentum"
 msgstr "모멘텀"
 
 #. Accessible label for moving a column earlier
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:104
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:99
 msgid "Move {label} earlier"
 msgstr "{label}을(를) 앞으로 이동"
 
 #. Accessible label for moving a column later
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:99
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:94
 msgid "Move {label} later"
 msgstr "{label}을(를) 뒤로 이동"
 
@@ -227,7 +223,7 @@ msgstr "{label}을(를) 뒤로 이동"
 msgid "Nationality"
 msgstr "국적"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:96
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:91
 msgid "New group name…"
 msgstr "새 그룹 이름…"
 
@@ -239,7 +235,7 @@ msgstr "다음"
 msgid "No athletes found"
 msgstr "선수를 찾을 수 없습니다"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:95
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:90
 msgid "No matching columns"
 msgstr "일치하는 열이 없습니다"
 
@@ -278,12 +274,7 @@ msgstr "프로"
 msgid "Rank"
 msgstr "순위"
 
-#. Accessible label of the drag handle that reorders a column
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:86
-msgid "Reorder {label}"
-msgstr "{label} 순서 변경"
-
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:104
 msgid "Reset to default"
 msgstr "기본값으로 초기화"
 
@@ -291,11 +282,11 @@ msgstr "기본값으로 초기화"
 msgid "Retry filter options"
 msgstr "필터 옵션 다시 시도"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:110
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:105
 msgid "Save"
 msgstr "저장"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:111
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:106
 msgid "Save as group"
 msgstr "그룹으로 저장"
 
@@ -307,7 +298,7 @@ msgstr "선수 검색…"
 msgid "Search by name"
 msgstr "이름으로 검색"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:112
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:107
 msgid "Search columns…"
 msgstr "열 검색…"
 
@@ -331,7 +322,7 @@ msgstr "안정"
 
 #: src/pages/sports/athletes/columns/cells.ts:27
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:38
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:80
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:74
 msgid "Team"
 msgstr "팀"
 
@@ -368,10 +359,6 @@ msgstr "다시 시도"
 msgid "Try widening your filters or clearing the search."
 msgstr "필터를 넓히거나 검색을 지워 보세요."
 
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:45
-msgid "Type"
-msgstr "유형"
-
 #. Error title on the athletes list page
 #: src/pages/sports/athletes/components/AthleteListStates/AthleteListError.tsx:10
 msgid "Unable to load athletes"
@@ -404,6 +391,6 @@ msgstr "Instagram에서 인증됨"
 msgid "Videos"
 msgstr "동영상"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:114
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
 msgid "Visible"
 msgstr "표시"
