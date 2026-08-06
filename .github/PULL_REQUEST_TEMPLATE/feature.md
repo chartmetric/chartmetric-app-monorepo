@@ -1,3 +1,15 @@
+<!--
+PR title convention: `<Type>: <Title Case Summary>`
+
+  Types: Feature | Fix | Refactor | Chore | Docs | Test
+  Examples:
+    Feature: Artist List Table w/ Change Metrics
+    Fix: Debounced Search Race in Artist List
+
+  Keep the title scoped to this PR's own diff. In a stacked PR, describe the
+  layer, not the whole stack.
+-->
+
 ## Summary
 
 <!-- Summary of the requirements and how these changes meet them -->
