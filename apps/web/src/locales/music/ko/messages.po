@@ -29,7 +29,7 @@ msgstr "28일"
 msgid "7D"
 msgstr "7일"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:259
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:256
 msgid "All filters"
 msgstr "모든 필터"
 
@@ -55,12 +55,12 @@ msgstr "변화량"
 msgid "Change period"
 msgstr "변화 기간"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:228
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:225
 msgid "Clear filters"
 msgstr "필터 지우기"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:167
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:183
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:164
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:180
 msgid "Clear range"
 msgstr "범위 지우기"
 
@@ -90,8 +90,8 @@ msgstr "제외"
 msgid "Explore artists across the music industry."
 msgstr "음악 업계의 아티스트를 살펴보세요."
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:229
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:266
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:226
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:263
 msgid "Filters"
 msgstr "필터"
 
@@ -106,7 +106,7 @@ msgstr "포함"
 
 #: src/pages/music/artists/components/ArtistColumnPicker.tsx:26
 #: src/pages/music/artists/components/ArtistsTable.tsx:226
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:170
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:167
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:168
 msgid "Instagram followers"
 msgstr "인스타그램 팔로워"
@@ -123,12 +123,12 @@ msgstr "아티스트 불러오는 중…"
 msgid "Max"
 msgstr "최대"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:171
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:168
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:170
 msgid "Maximum Instagram followers"
 msgstr "인스타그램 팔로워 최대값"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:187
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:184
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:184
 msgid "Maximum TikTok followers"
 msgstr "틱톡 팔로워 최대값"
@@ -137,12 +137,12 @@ msgstr "틱톡 팔로워 최대값"
 msgid "Min"
 msgstr "최소"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:172
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:169
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:171
 msgid "Minimum Instagram followers"
 msgstr "인스타그램 팔로워 최소값"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:188
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:185
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:185
 msgid "Minimum TikTok followers"
 msgstr "틱톡 팔로워 최소값"
@@ -183,11 +183,11 @@ msgstr "이전"
 msgid "Retry filter options"
 msgstr "필터 옵션 다시 시도"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:137
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:134
 msgid "Search artists…"
 msgstr "아티스트 검색…"
 
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:127
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:124
 msgid "Search by name"
 msgstr "이름으로 검색"
 
@@ -216,7 +216,7 @@ msgstr "이 페이지에 표시할 아티스트가 없습니다."
 
 #: src/pages/music/artists/components/ArtistColumnPicker.tsx:27
 #: src/pages/music/artists/components/ArtistsTable.tsx:227
-#: src/pages/music/artists/components/filters/ArtistFilters.tsx:186
+#: src/pages/music/artists/components/filters/ArtistFilters.tsx:183
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:182
 msgid "TikTok followers"
 msgstr "틱톡 팔로워"

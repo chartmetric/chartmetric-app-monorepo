@@ -114,9 +114,6 @@ interface ArtistSearchInputProps {
   value: string;
 }
 
-// Local state keeps keystroke echo instant (only this component re-renders
-// while typing); the shared draft hears the value once, debounced. Clear
-// filters resets by remounting, which also cancels any pending emit.
 const ArtistSearchInput: FC<ArtistSearchInputProps> = ({ onChange, value }) => {
   const { t } = useLingui();
   const [text, setText] = useState(value);
