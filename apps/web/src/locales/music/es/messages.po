@@ -13,113 +13,113 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/music/artists/ArtistsPage.tsx:165
+#: src/pages/music/artists/ArtistsPage.tsx:150
 msgid "% Change"
 msgstr "% de cambio"
 
-#: src/pages/music/artists/ArtistsPage.tsx:151
+#: src/pages/music/artists/ArtistsPage.tsx:136
 msgid "1D"
 msgstr "1D"
 
-#: src/pages/music/artists/ArtistsPage.tsx:153
+#: src/pages/music/artists/ArtistsPage.tsx:138
 msgid "28D"
 msgstr "28D"
 
-#: src/pages/music/artists/ArtistsPage.tsx:152
+#: src/pages/music/artists/ArtistsPage.tsx:137
 msgid "7D"
 msgstr "7D"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:171
+#: src/pages/music/artists/components/ArtistsTable.tsx:162
 msgid "Artist"
 msgstr "Artista"
 
-#: src/pages/music/artists/ArtistsPage.tsx:268
-#: src/pages/music/artists/components/ArtistsTable.tsx:260
+#: src/pages/music/artists/ArtistsPage.tsx:253
+#: src/pages/music/artists/components/ArtistsTable.tsx:251
 msgid "Artists"
 msgstr "Artistas"
 
-#: src/pages/music/artists/ArtistsPage.tsx:164
+#: src/pages/music/artists/ArtistsPage.tsx:149
 msgid "Change"
 msgstr "Cambio"
 
-#: src/pages/music/artists/ArtistsPage.tsx:149
+#: src/pages/music/artists/ArtistsPage.tsx:134
 msgid "Change period"
 msgstr "Período de cambio"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:186
+#: src/pages/music/artists/components/ArtistsTable.tsx:177
 msgid "CM score"
 msgstr "Puntuación CM"
 
-#: src/pages/music/artists/ArtistsPage.tsx:271
+#: src/pages/music/artists/ArtistsPage.tsx:256
 msgid "Explore artists across the music industry."
 msgstr "Explora artistas de toda la industria musical."
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:199
+#: src/pages/music/artists/components/ArtistsTable.tsx:190
 msgid "Instagram followers"
 msgstr "Seguidores de Instagram"
 
-#: src/pages/music/artists/ArtistsPage.tsx:103
+#: src/pages/music/artists/ArtistsPage.tsx:88
 msgid "Loading artists"
 msgstr "Cargando artistas"
 
-#: src/pages/music/artists/ArtistsPage.tsx:105
+#: src/pages/music/artists/ArtistsPage.tsx:90
 msgid "Loading artists…"
 msgstr "Cargando artistas…"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:279
+#: src/pages/music/artists/components/ArtistsTable.tsx:270
 msgid "Next"
 msgstr "Siguiente"
 
-#: src/pages/music/artists/ArtistsPage.tsx:117
+#: src/pages/music/artists/ArtistsPage.tsx:102
 msgid "No artists found"
 msgstr "No se encontraron artistas"
 
 #. Current page number in the artists list
-#: src/pages/music/artists/components/ArtistsTable.tsx:244
+#: src/pages/music/artists/components/ArtistsTable.tsx:235
 msgid "Page {currentPageText}"
 msgstr "Página {currentPageText}"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:284
+#: src/pages/music/artists/components/ArtistsTable.tsx:275
 msgid "Previous"
 msgstr "Anterior"
 
 #. Accessible label for a sortable artists table column
-#: src/pages/music/artists/components/ArtistsTable.tsx:268
+#: src/pages/music/artists/components/ArtistsTable.tsx:259
 msgid "Sort by {label}"
 msgstr "Ordenar por {label}"
 
-#: src/pages/music/artists/ArtistsPage.tsx:186
+#: src/pages/music/artists/ArtistsPage.tsx:171
 msgid "The artist list could not be loaded. Try again."
 msgstr "No se pudo cargar la lista de artistas. Inténtalo de nuevo."
 
-#: src/pages/music/artists/ArtistsPage.tsx:120
+#: src/pages/music/artists/ArtistsPage.tsx:105
 msgid "There are no artists to show on this page."
 msgstr "No hay artistas para mostrar en esta página."
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:212
+#: src/pages/music/artists/components/ArtistsTable.tsx:203
 msgid "TikTok followers"
 msgstr "Seguidores de TikTok"
 
-#: src/pages/music/artists/ArtistsPage.tsx:163
+#: src/pages/music/artists/ArtistsPage.tsx:148
 msgid "Total"
 msgstr "Total"
 
 #. Button that retries loading the artists list
-#: src/pages/music/artists/ArtistsPage.tsx:189
+#: src/pages/music/artists/ArtistsPage.tsx:174
 msgid "Try again"
 msgstr "Reintentar"
 
 #. Error title on the artists list page
-#: src/pages/music/artists/ArtistsPage.tsx:179
+#: src/pages/music/artists/ArtistsPage.tsx:164
 msgid "Unable to load artists"
 msgstr "No se pudieron cargar los artistas"
 
-#: src/pages/music/artists/components/ArtistsTable.tsx:254
-#: src/pages/music/artists/components/ArtistsTable.tsx:278
+#: src/pages/music/artists/components/ArtistsTable.tsx:245
+#: src/pages/music/artists/components/ArtistsTable.tsx:269
 msgid "Updating artists"
 msgstr "Actualizando artistas"
 
-#: src/pages/music/artists/ArtistsPage.tsx:161
+#: src/pages/music/artists/ArtistsPage.tsx:146
 msgid "Value display"
 msgstr "Visualización de valores"
 

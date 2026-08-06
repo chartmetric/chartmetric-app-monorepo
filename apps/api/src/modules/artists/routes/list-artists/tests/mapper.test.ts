@@ -133,6 +133,23 @@ describe("toArtistList", () => {
     expect(reply.data[0]?.tiktokFollowers).toBe(456);
   });
 
+  it("reports an unreadable follower count as missing, not as zero", () => {
+    const artists = [
+      {
+        ...baseRow,
+        instagram_followers: "",
+        instagram_followers_change: "not-a-number",
+        tiktok_followers: 0,
+      },
+    ];
+
+    const reply = toArtistList(artists, { limit: 10, offset: 0 });
+
+    expect(reply.data[0]?.instagramFollowers).toBeNull();
+    expect(reply.data[0]?.instagramFollowersChange).toBeNull();
+    expect(reply.data[0]?.tiktokFollowers).toBe(0);
+  });
+
   it("returns an empty list untouched", () => {
     expect(toArtistList([], { limit: 10, offset: 20 })).toEqual({
       data: [],
