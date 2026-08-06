@@ -1,19 +1,28 @@
+import type { FC } from "react";
+
 import { useLingui } from "@lingui/react/macro";
 import { FilterBar } from "@repo/ui/filter-bar";
 import { emptyMultiSelectValue } from "@repo/ui/multi-select-filter";
 import { SearchInput } from "@repo/ui/search-input";
-import { type FC, useMemo } from "react";
 
 import type {
   AthleteFilterOptionsReply,
   AthleteFilters as AthleteFilterQuery,
-} from "../api/types";
+} from "../../api/types";
 
-import { useAthleteFilterDraft } from "../filters/draft";
-import { useAthleteFilterFacets } from "../filters/facets";
-import { AthleteEntityFilters } from "./AthleteEntityFilters";
-import { AthleteQuickFilters } from "./AthleteQuickFilters";
-import { AthleteScoreFilter } from "./AthleteScoreFilter";
+import { useAthleteFilterFacets } from "../../filters/facets";
+import {
+  countActiveFilters,
+  createEmptyFilterValues,
+  useAthleteFilterValues,
+} from "../../filters/filter-state";
+import {
+  useCompactNumberFormatter,
+  useFilterBarLabel,
+} from "../../filters/formatters";
+import { AthleteEntityFilters } from "./components/AthleteEntityFilters";
+import { AthleteQuickFilters } from "./components/AthleteQuickFilters/AthleteQuickFilters";
+import { AthleteScoreFilter } from "./components/AthleteScoreFilter";
 
 export interface AthleteFiltersProps {
   isLoading: boolean;
@@ -21,97 +30,82 @@ export interface AthleteFiltersProps {
   options: AthleteFilterOptionsReply | undefined;
 }
 
-const useFilterBarLabel = (activeFilterCount: number): string => {
+export const AthleteFilters: FC<AthleteFiltersProps> = (props) => {
+  const { isLoading, onChange, options } = props;
   const { t } = useLingui();
-  const activeCount = String(activeFilterCount);
-
-  if (activeFilterCount === 0) return t`Filters`;
-
-  return t({
-    comment: "Filter bar heading with the number of active filters",
-    message: `Filters (${activeCount})`,
-  });
-};
-
-export const AthleteFilters: FC<AthleteFiltersProps> = ({
-  isLoading,
-  onChange,
-  options,
-}) => {
-  const { i18n, t } = useLingui();
-  const { activeFilterCount, commit, draft, preview, reset } =
-    useAthleteFilterDraft(onChange);
-  const countFormatter = useMemo(
-    () => new Intl.NumberFormat(i18n.locale, { notation: "compact" }),
-    [i18n.locale],
-  );
-  const filterBarLabel = useFilterBarLabel(activeFilterCount);
+  const { filterValues, setFilterValues, updateFilters } =
+    useAthleteFilterValues(onChange);
+  const countFormatter = useCompactNumberFormatter();
+  const filterBarLabel = useFilterBarLabel(countActiveFilters(filterValues));
   const facets = useAthleteFilterFacets(
     options,
     countFormatter,
-    draft.sports.included,
-    draft.leagues.included,
+    filterValues.sports.included,
+    filterValues.leagues.included,
   );
-
   return (
     <FilterBar
       clearLabel={t`Clear filters`}
       label={filterBarLabel}
-      onClear={reset}
+      onClear={() => {
+        updateFilters(createEmptyFilterValues());
+      }}
     >
       <SearchInput
         label={t`Search by name`}
         name="athlete-search"
         onChange={(name) => {
-          commit({ ...draft, name });
+          updateFilters({ ...filterValues, name });
         }}
         placeholder={t`Search athletes…`}
-        value={draft.name}
+        value={filterValues.name}
       />
       <AthleteEntityFilters
-        draft={draft}
         isDisabled={isLoading || options === undefined}
         onCategoricalChange={(key, value) => {
-          commit({ ...draft, [key]: value });
+          updateFilters({ ...filterValues, [key]: value });
         }}
         onClubsChange={(values) => {
-          commit({ ...draft, clubs: { excluded: [], included: values } });
+          updateFilters({
+            ...filterValues,
+            clubs: { excluded: [], included: values },
+          });
         }}
         // Narrowing the league set can orphan an already selected team, so the
         // team selection resets whenever the leagues change.
         onLeaguesChange={(values) => {
-          commit({
-            ...draft,
+          updateFilters({
+            ...filterValues,
             clubs: emptyMultiSelectValue(),
             leagues: { excluded: [], included: values },
           });
         }}
         options={facets}
+        values={filterValues}
       />
       <AthleteScoreFilter
         bounds={options?.cmScore}
         isLoading={isLoading}
         onChange={(cmScore) => {
-          preview({ cmScore });
+          setFilterValues((current) => ({ ...current, cmScore }));
         }}
         onChangeEnd={(cmScore) => {
-          commit({ ...draft, cmScore });
+          updateFilters({ ...filterValues, cmScore });
         }}
-        value={draft.cmScore}
+        value={filterValues.cmScore}
       />
-
       <AthleteQuickFilters
         compactFormatter={countFormatter}
-        draft={draft}
         onFollowersChange={(followers) => {
-          commit({ ...draft, followers });
+          updateFilters({ ...filterValues, followers });
         }}
         onLevelsChange={(levels) => {
-          commit({ ...draft, levels });
+          updateFilters({ ...filterValues, levels });
         }}
         onVerifiedChange={(isVerified) => {
-          commit({ ...draft, isVerified });
+          updateFilters({ ...filterValues, isVerified });
         }}
+        values={filterValues}
       />
     </FilterBar>
   );
