@@ -24,7 +24,7 @@ describe("listAthleteFilterOptions", () => {
     });
   });
 
-  it("reads the facet columns needed to group leagues and clubs", () => {
+  it("reads the columns the filter options are grouped by", () => {
     const sql = queries.listAthleteFilterOptions().toSQL();
 
     for (const column of [
