@@ -241,6 +241,7 @@ const artistMetrics = ((database) =>
     ])
     .where("profile_type", "eq", "musician")
     .where("vertical", "eq", "music")
+    .where("active", "eq", "true")
     .whereNull("deleted_at")) satisfies MetricsQueryFactory;
 
 const listArtists = ((database, query) => {

@@ -37,6 +37,9 @@ describe("listArtists", () => {
       "latest_score AS (SELECT profile_id, max(score_date <= today() - 7) AS cm_has_past, argMax(if(score_date <= today() - 7, cm_scores.cm_score, 0), if(score_date <= today() - 7, score_date, toDate(0))) AS cm_score_past, argMax(cm_score, score_date) AS cm_score FROM new_vertical.cm_scores WHERE profile_type = 'musician' GROUP BY profile_id)",
     );
     expect(sql).toContain("FROM new_vertical.profile FINAL");
+    expect(sql).toContain(
+      "profile_type = 'musician' AND vertical = 'music' AND active = 'true' AND deleted_at IS NULL",
+    );
     expect(sql).toContain("accurateCastOrNull(cm_source_id, 'Int32')");
     expect(sql).toContain(
       "profile_verified AS (SELECT profile_id, max(verified = 'true') AS is_verified FROM new_vertical.profile_snapshots WHERE platform IN ('instagram', 'tiktok') GROUP BY profile_id)",
