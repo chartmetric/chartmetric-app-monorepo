@@ -2,7 +2,7 @@ import type { ClickHouseDatabase } from "../../../db/clickhouse/client.ts";
 import type { DatabaseQueryFactory } from "../../../lib/database.ts";
 import type { ClubCatalog, ClubCatalogQueries, ClubIndex } from "./types.ts";
 
-import { buildClubIndex } from "./resolution.ts";
+import { buildClubIndex } from "./club-utilities.ts";
 
 const CATALOG_SETTINGS = {
   max_execution_time: 30,
