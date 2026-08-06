@@ -1,6 +1,5 @@
 import type { createQueryBuilder } from "@hypequery/clickhouse";
 
-import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
 import type { Database } from "../../../../db/clickhouse/schema.ts";
 import type { ListArtistsQuery } from "./schemas.ts";
 
@@ -79,7 +78,6 @@ export type MetricsDatabase = ReturnType<
   typeof createQueryBuilder<Database & ArtistMetricCtes>
 >;
 
-export type DatabaseQueryFactory = (database: ClickHouseDatabase) => unknown;
 export type MetricsQueryFactory = (database: MetricsDatabase) => unknown;
 export type PeriodQueryFactory = (
   database: MetricsDatabase,

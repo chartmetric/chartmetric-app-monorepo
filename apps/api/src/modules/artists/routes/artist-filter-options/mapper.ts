@@ -1,14 +1,10 @@
+import type { ArtistFilterOptionsReply } from "./schemas.ts";
 import type {
   CountryOptionRow,
+  FilterOption,
   FollowerBoundsRow,
   GenreOptionRow,
-} from "./queries.ts";
-import type { ArtistFilterOptionsReply } from "./schemas.ts";
-
-interface FilterOption {
-  count: number;
-  value: string;
-}
+} from "./types.ts";
 
 const toSortedOptions = (
   rows: { count: number | string; value: string }[],

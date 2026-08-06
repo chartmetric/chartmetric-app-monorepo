@@ -15,7 +15,7 @@ import {
   type CheckboxListFilterOption,
 } from "@repo/ui/checkbox-list-filter";
 
-import type { ArtistFilterDraft } from "./artist-filter-draft";
+import type { ArtistFilterDraft } from "../../utils/artist-filter-draft";
 
 interface FollowerRangeInputsProps {
   formatValue: (value: number) => string;

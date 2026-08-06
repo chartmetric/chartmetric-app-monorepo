@@ -1,6 +1,4 @@
-import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
-
-type DatabaseQueryFactory = (database: ClickHouseDatabase) => unknown;
+import type { DatabaseQueryFactory } from "../../../../db/clickhouse/client.ts";
 
 const optionSettings = {
   max_execution_time: 30,
@@ -58,21 +56,3 @@ export const createArtistFilterOptionsQueries = ((database) => ({
   instagramFollowerBounds: () => instagramFollowerBounds(database),
   tiktokFollowerBounds: () => tiktokFollowerBounds(database),
 })) satisfies DatabaseQueryFactory;
-
-type ArtistFilterOptionsQueries = ReturnType<
-  typeof createArtistFilterOptionsQueries
->;
-
-export type CountryOptionRow = Awaited<
-  ReturnType<
-    ReturnType<ArtistFilterOptionsQueries["countryOptions"]>["execute"]
-  >
->[number];
-export type GenreOptionRow = Awaited<
-  ReturnType<ReturnType<ArtistFilterOptionsQueries["genreOptions"]>["execute"]>
->[number];
-export type FollowerBoundsRow = Awaited<
-  ReturnType<
-    ReturnType<ArtistFilterOptionsQueries["instagramFollowerBounds"]>["execute"]
-  >
->[number];

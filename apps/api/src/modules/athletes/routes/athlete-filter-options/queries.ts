@@ -1,6 +1,4 @@
-import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
-
-type DatabaseQueryFactory = (database: ClickHouseDatabase) => unknown;
+import type { DatabaseQueryFactory } from "../../../../db/clickhouse/client.ts";
 
 const listAthleteFilterOptions = ((database) =>
   database

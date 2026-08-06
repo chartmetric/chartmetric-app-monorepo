@@ -13,14 +13,14 @@ import { type FC, useMemo, useState } from "react";
 import type {
   ArtistFilterOptionsReply,
   ArtistFilters as ArtistFilterQuery,
-} from "../types";
+} from "../../types";
 
-import { useCountryName } from "../../../../lib/country-names";
+import { useCountryName } from "../../../../../lib/country-names";
 import {
   type ArtistFilterDraft,
   createFilterDraft,
   toFilterQuery,
-} from "./artist-filter-draft";
+} from "../../utils/artist-filter-draft";
 import { ArtistFiltersDrawerContent } from "./ArtistFiltersDrawer";
 
 interface ArtistFiltersProps {

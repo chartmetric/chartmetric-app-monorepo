@@ -18,7 +18,6 @@ import type {
 
 import { loadArtists } from "./api/artist-list";
 import { loadArtistFilterOptions } from "./api/filter-options";
-import { ArtistFilters } from "./components/ArtistFilters";
 import {
   EmptyState,
   ErrorState,
@@ -26,6 +25,7 @@ import {
   LoadingState,
 } from "./components/ArtistsPageStates";
 import { ArtistsTable } from "./components/ArtistsTable";
+import { ArtistFilters } from "./components/filters/ArtistFilters";
 import { MetricDisplayControls } from "./components/MetricDisplayControls";
 import { DEFAULT_ARTIST_QUERY, METRIC_SORTS, sortFamilyOf } from "./constants";
 
