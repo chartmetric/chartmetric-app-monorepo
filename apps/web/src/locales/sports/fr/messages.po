@@ -72,11 +72,11 @@ msgstr "Score CM"
 msgid "College"
 msgstr "Universitaire"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:108
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:103
 msgid "Column groups"
 msgstr "Groupes de colonnes"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:113
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:108
 msgid "Columns"
 msgstr "Colonnes"
 
@@ -85,7 +85,7 @@ msgid "Configure columns"
 msgstr "Configurer les colonnes"
 
 #. Accessible label for deleting a saved column group
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:91
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:86
 msgid "Delete group {name}"
 msgstr "Supprimer le groupe {name}"
 
@@ -115,7 +115,7 @@ msgstr "Filtres"
 msgid "Filters ({activeCount})"
 msgstr "Filtres ({activeCount})"
 
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:74
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:69
 msgid "Find a league…"
 msgstr "Rechercher une ligue…"
 
@@ -127,13 +127,9 @@ msgstr "Rechercher une nationalité…"
 msgid "Find a sport…"
 msgstr "Rechercher un sport…"
 
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:85
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:79
 msgid "Find a team…"
 msgstr "Rechercher une équipe…"
-
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:45
-msgid "Find a type…"
-msgstr "Rechercher un type…"
 
 #: src/pages/sports/athletes/columns/cells.ts:30
 #: src/pages/sports/athletes/columns/cells.ts:38
@@ -149,7 +145,7 @@ msgstr "GPS"
 msgid "Hearts"
 msgstr "Cœurs"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:97
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:92
 msgid "Hidden"
 msgstr "Masquées"
 
@@ -176,7 +172,7 @@ msgstr "Dernier match"
 
 #: src/pages/sports/athletes/columns/cells.ts:33
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:44
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:69
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:64
 msgid "League"
 msgstr "Ligue"
 
@@ -212,12 +208,12 @@ msgid "Momentum"
 msgstr "Momentum"
 
 #. Accessible label for moving a column earlier
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:104
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:99
 msgid "Move {label} earlier"
 msgstr "Déplacer {label} vers le haut"
 
 #. Accessible label for moving a column later
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:99
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:94
 msgid "Move {label} later"
 msgstr "Déplacer {label} vers le bas"
 
@@ -227,7 +223,7 @@ msgstr "Déplacer {label} vers le bas"
 msgid "Nationality"
 msgstr "Nationalité"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:96
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:91
 msgid "New group name…"
 msgstr "Nom du nouveau groupe…"
 
@@ -239,7 +235,7 @@ msgstr "Suivant"
 msgid "No athletes found"
 msgstr "Aucun athlète trouvé"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:95
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:90
 msgid "No matching columns"
 msgstr "Aucune colonne correspondante"
 
@@ -278,12 +274,7 @@ msgstr "Pro"
 msgid "Rank"
 msgstr "Rang"
 
-#. Accessible label of the drag handle that reorders a column
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:86
-msgid "Reorder {label}"
-msgstr "Réorganiser {label}"
-
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:104
 msgid "Reset to default"
 msgstr "Réinitialiser"
 
@@ -291,11 +282,11 @@ msgstr "Réinitialiser"
 msgid "Retry filter options"
 msgstr "Réessayer de charger les options de filtre"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:110
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:105
 msgid "Save"
 msgstr "Enregistrer"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:111
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:106
 msgid "Save as group"
 msgstr "Enregistrer comme groupe"
 
@@ -307,7 +298,7 @@ msgstr "Rechercher des athlètes…"
 msgid "Search by name"
 msgstr "Rechercher par nom"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:112
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:107
 msgid "Search columns…"
 msgstr "Rechercher des colonnes…"
 
@@ -331,7 +322,7 @@ msgstr "Stable"
 
 #: src/pages/sports/athletes/columns/cells.ts:27
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:38
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:80
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:74
 msgid "Team"
 msgstr "Équipe"
 
@@ -368,10 +359,6 @@ msgstr "Réessayer"
 msgid "Try widening your filters or clearing the search."
 msgstr "Essayez d'élargir vos filtres ou d'effacer la recherche."
 
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:45
-msgid "Type"
-msgstr "Type"
-
 #. Error title on the athletes list page
 #: src/pages/sports/athletes/components/AthleteListStates/AthleteListError.tsx:10
 msgid "Unable to load athletes"
@@ -404,6 +391,6 @@ msgstr "Vérifié sur Instagram"
 msgid "Videos"
 msgstr "Vidéos"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:114
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
 msgid "Visible"
 msgstr "Affichées"

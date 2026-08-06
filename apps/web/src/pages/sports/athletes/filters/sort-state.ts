@@ -24,7 +24,6 @@ const ASCENDING_FIRST_SORTS = new Set<AthleteSortBy>([
   "nationality",
   "rank",
   "sport",
-  "type",
 ]);
 
 const nextSortDirection = (
