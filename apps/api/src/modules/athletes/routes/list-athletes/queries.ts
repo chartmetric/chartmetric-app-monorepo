@@ -46,10 +46,6 @@ const CACHE_COLUMNS = [
   `${CACHE}.facebook_handle AS facebook_handle`,
 ] as const;
 
-// Columns that arrive from an enrichment source, as `[expression, alias]`. The
-// generated schema does not describe CTE output, and the enrichment joins are
-// wired outside the builder's type state (see `enrichment.ts`), so these are
-// selected as aliased expressions instead of checked column names.
 const JOINED_COLUMNS = [
   ["roster_rank.athlete_rank", "athlete_rank"],
   ["tiktok_latest.tiktok_posts", "snapshot_tiktok_posts"],
@@ -81,11 +77,6 @@ const joinedSelections = JOINED_COLUMNS.map(([expression, alias]) =>
 
 const DEFAULT_SORT_BY = "rank";
 
-/**
- * Columns whose useful first look is ascending. Everything else is a metric,
- * where the reader wants the largest values first, so asking for `cmScore`
- * without a direction should not return the worst scores.
- */
 const ASCENDING_FIRST: ReadonlySet<string> = new Set([
   "name",
   "nationality",

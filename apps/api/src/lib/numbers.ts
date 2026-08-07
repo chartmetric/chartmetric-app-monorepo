@@ -16,12 +16,7 @@ export const toNumber = (
   return Number.isFinite(parsed) ? parsed : null;
 };
 
-/**
- * Reads a count where the source treats 0 as "not backfilled yet" rather than a
- * real zero — true of the cached social columns. Only use this where a genuine
- * zero is impossible or indistinguishable from missing data; `toNumber` is the
- * right choice everywhere else.
- */
+// The cached social columns write 0 for "not backfilled yet", not a real zero.
 export const toPositiveCount = (
   value: number | string | null | undefined,
 ): number | null => {
