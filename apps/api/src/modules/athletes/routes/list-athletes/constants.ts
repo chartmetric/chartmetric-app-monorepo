@@ -40,5 +40,3 @@ export const CACHE_PROFILE_ID = "new_vertical.athletes_cache.profile_id";
 export const CTE_FACTORIES = new Map<string, DatabaseQueryFactory>(
   ENRICHMENT_CTES,
 );
-
-export type EnrichmentSource = (typeof ENRICHMENT_JOINS)[number];

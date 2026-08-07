@@ -2,11 +2,11 @@ import { rawAs } from "@hypequery/clickhouse";
 
 import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
 import type { ExecutableQuery } from "../../../../lib/database.ts";
-import type { EnrichmentSource } from "./constants.ts";
 import type { ListAthletesQuery } from "./schemas.ts";
 import type {
   AthleteCountRow,
   AthleteListRow,
+  CteAlias,
   ListAthletesOptions,
   RosterBuilder,
 } from "./types.ts";
@@ -109,8 +109,8 @@ const QUERY_SETTINGS = {
  * `LEFT ANY JOIN` cannot change how many roster rows match, and no other filter
  * looks outside `athletes_cache`.
  */
-const filteredSources = (query: ListAthletesQuery): EnrichmentSource[] => {
-  const sources = new Set<EnrichmentSource>();
+const filteredSources = (query: ListAthletesQuery): CteAlias[] => {
+  const sources = new Set<CteAlias>();
 
   if (query.leagues !== undefined) sources.add("basketball_roster");
   if (query.clubs !== undefined) {

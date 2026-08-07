@@ -1,17 +1,17 @@
 import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
 import type { JoinableChain } from "../../../../lib/database.ts";
+import type { CteAlias } from "./types.ts";
 
 import {
   CACHE_PROFILE_ID,
   CTE_FACTORIES,
   ENRICHMENT_JOINS,
-  type EnrichmentSource,
 } from "./constants.ts";
 
 export const withEnrichment = <Builder>(
   builder: Builder,
   database: ClickHouseDatabase,
-  sources: readonly EnrichmentSource[] = ENRICHMENT_JOINS,
+  sources: readonly CteAlias[] = ENRICHMENT_JOINS,
 ): Builder => {
   let next = builder as unknown as JoinableChain;
 
