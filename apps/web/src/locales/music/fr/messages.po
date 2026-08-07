@@ -73,7 +73,7 @@ msgstr "Effacer la plage"
 msgid "CM score"
 msgstr "Score CM"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:68
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:70
 msgid "Columns"
 msgstr "Colonnes"
 
@@ -112,7 +112,7 @@ msgstr "Découvrez des artistes de toute l’industrie musicale."
 msgid "Filters"
 msgstr "Filtres"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:67
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:69
 msgid "Find a column"
 msgstr "Rechercher une colonne"
 
@@ -121,7 +121,7 @@ msgstr "Rechercher une colonne"
 msgid "Genre"
 msgstr "Genre"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:52
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:54
 msgid "Hidden"
 msgstr "Masquées"
 
@@ -173,16 +173,16 @@ msgid "Minimum TikTok followers"
 msgstr "Nombre minimal d’abonnés TikTok"
 
 #. Accessible label of the button moving a column later
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:54
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:56
 msgid "Move {label} down"
 msgstr "Déplacer {label} vers le bas"
 
 #. Accessible label of the button moving a column earlier
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:59
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:61
 msgid "Move {label} up"
 msgstr "Déplacer {label} vers le haut"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:51
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:53
 msgid "Name this set"
 msgstr "Nommer cet ensemble"
 
@@ -194,7 +194,7 @@ msgstr "Suivant"
 msgid "No artists found"
 msgstr "Aucun artiste trouvé"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:50
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:52
 msgid "No columns found"
 msgstr "Aucune colonne trouvée"
 
@@ -218,11 +218,11 @@ msgid "Previous"
 msgstr "Précédent"
 
 #. Accessible label of the drag handle that reorders a column
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:46
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:47
 msgid "Reorder {label}"
 msgstr "Réorganiser {label}"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:64
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:66
 msgid "Reset"
 msgstr "Réinitialiser"
 
@@ -230,15 +230,15 @@ msgstr "Réinitialiser"
 msgid "Retry filter options"
 msgstr "Réessayer les options de filtre"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:65
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:67
 msgid "Save"
 msgstr "Enregistrer"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:66
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:68
 msgid "Save as set"
 msgstr "Enregistrer comme ensemble"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:63
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:65
 msgid "Saved sets"
 msgstr "Ensembles enregistrés"
 
@@ -315,6 +315,6 @@ msgstr "Artiste vérifié"
 msgid "Verified artists only"
 msgstr "Artistes vérifiés uniquement"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:69
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:71
 msgid "Visible"
 msgstr "Visibles"

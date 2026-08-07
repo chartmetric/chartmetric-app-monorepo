@@ -72,11 +72,11 @@ msgstr "CM 점수"
 msgid "College"
 msgstr "대학"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:108
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
 msgid "Column groups"
 msgstr "열 그룹"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:113
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:114
 msgid "Columns"
 msgstr "열"
 
@@ -85,7 +85,7 @@ msgid "Configure columns"
 msgstr "열 구성"
 
 #. Accessible label for deleting a saved column group
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:91
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:92
 msgid "Delete group {name}"
 msgstr "{name} 그룹 삭제"
 
@@ -145,7 +145,7 @@ msgstr "GPS"
 msgid "Hearts"
 msgstr "하트"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:97
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:98
 msgid "Hidden"
 msgstr "숨김"
 
@@ -208,12 +208,12 @@ msgid "Momentum"
 msgstr "모멘텀"
 
 #. Accessible label for moving a column earlier
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:104
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:105
 msgid "Move {label} earlier"
 msgstr "{label}을(를) 앞으로 이동"
 
 #. Accessible label for moving a column later
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:99
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:100
 msgid "Move {label} later"
 msgstr "{label}을(를) 뒤로 이동"
 
@@ -223,7 +223,7 @@ msgstr "{label}을(를) 뒤로 이동"
 msgid "Nationality"
 msgstr "국적"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:96
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:97
 msgid "New group name…"
 msgstr "새 그룹 이름…"
 
@@ -235,7 +235,7 @@ msgstr "다음"
 msgid "No athletes found"
 msgstr "선수를 찾을 수 없습니다"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:95
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:96
 msgid "No matching columns"
 msgstr "일치하는 열이 없습니다"
 
@@ -279,7 +279,7 @@ msgstr "순위"
 msgid "Reorder {label}"
 msgstr "{label} 순서 변경"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:110
 msgid "Reset to default"
 msgstr "기본값으로 초기화"
 
@@ -287,11 +287,11 @@ msgstr "기본값으로 초기화"
 msgid "Retry filter options"
 msgstr "필터 옵션 다시 시도"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:110
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:111
 msgid "Save"
 msgstr "저장"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:111
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:112
 msgid "Save as group"
 msgstr "그룹으로 저장"
 
@@ -303,7 +303,7 @@ msgstr "선수 검색…"
 msgid "Search by name"
 msgstr "이름으로 검색"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:112
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:113
 msgid "Search columns…"
 msgstr "열 검색…"
 
@@ -396,6 +396,6 @@ msgstr "Instagram에서 인증됨"
 msgid "Videos"
 msgstr "동영상"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:114
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:115
 msgid "Visible"
 msgstr "표시"

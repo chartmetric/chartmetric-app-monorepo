@@ -73,7 +73,7 @@ msgstr "範囲をクリア"
 msgid "CM score"
 msgstr "CMスコア"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:68
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:70
 msgid "Columns"
 msgstr "列"
 
@@ -112,7 +112,7 @@ msgstr "音楽業界のアーティストを探しましょう。"
 msgid "Filters"
 msgstr "フィルター"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:67
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:69
 msgid "Find a column"
 msgstr "列を検索"
 
@@ -121,7 +121,7 @@ msgstr "列を検索"
 msgid "Genre"
 msgstr "ジャンル"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:52
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:54
 msgid "Hidden"
 msgstr "非表示"
 
@@ -173,16 +173,16 @@ msgid "Minimum TikTok followers"
 msgstr "TikTokフォロワーの最小数"
 
 #. Accessible label of the button moving a column later
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:54
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:56
 msgid "Move {label} down"
 msgstr "{label} を下へ移動"
 
 #. Accessible label of the button moving a column earlier
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:59
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:61
 msgid "Move {label} up"
 msgstr "{label} を上へ移動"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:51
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:53
 msgid "Name this set"
 msgstr "このセットに名前を付ける"
 
@@ -194,7 +194,7 @@ msgstr "次へ"
 msgid "No artists found"
 msgstr "アーティストが見つかりません"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:50
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:52
 msgid "No columns found"
 msgstr "列が見つかりません"
 
@@ -218,11 +218,11 @@ msgid "Previous"
 msgstr "前へ"
 
 #. Accessible label of the drag handle that reorders a column
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:46
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:47
 msgid "Reorder {label}"
 msgstr "{label} を並べ替え"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:64
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:66
 msgid "Reset"
 msgstr "リセット"
 
@@ -230,15 +230,15 @@ msgstr "リセット"
 msgid "Retry filter options"
 msgstr "フィルターオプションを再試行"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:65
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:67
 msgid "Save"
 msgstr "保存"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:66
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:68
 msgid "Save as set"
 msgstr "セットとして保存"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:63
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:65
 msgid "Saved sets"
 msgstr "保存したセット"
 
@@ -315,6 +315,6 @@ msgstr "認証済みアーティスト"
 msgid "Verified artists only"
 msgstr "認証済みアーティストのみ"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:69
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:71
 msgid "Visible"
 msgstr "表示中"
