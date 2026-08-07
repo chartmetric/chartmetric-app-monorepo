@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { canMoveTo, type ColumnPickerOption, isSamePreset, moveKey  } from "./types";
+import type { ColumnPickerOption } from "./types";
 
+import { canMoveTo, isSamePreset, moveKey } from "./ordering";
 
 describe("isSamePreset", () => {
   it("matches the same columns in the same order", () => {

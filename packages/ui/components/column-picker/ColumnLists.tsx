@@ -1,13 +1,10 @@
 import { Stack, Text } from "@mantine/core";
 import { type FC, useState } from "react";
 
+import type { ColumnPickerLabels, ColumnPickerOption } from "./types";
+
 import { ColumnRow } from "./ColumnRow";
-import {
-  canMoveTo,
-  type ColumnPickerLabels,
-  type ColumnPickerOption,
-  moveKey,
-} from "./types";
+import { canMoveTo, moveKey } from "./ordering";
 
 export interface ColumnListsProps {
   hiddenOptions: readonly ColumnPickerOption[];
