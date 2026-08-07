@@ -84,7 +84,8 @@ export const AthleteColumnPicker: FC<AthleteColumnPickerProps> = ({
         configureTitle: t`Configure columns`,
         dragHandle: (label) =>
           t({
-            comment: "Accessible label of the drag handle that reorders a column",
+            comment:
+              "Accessible label of the drag handle that reorders a column",
             message: `Reorder ${label}`,
           }),
         deleteGroup: (name) =>

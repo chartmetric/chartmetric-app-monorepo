@@ -39,12 +39,14 @@ export const ArtistColumnPicker: FC<ArtistColumnPickerProps> = ({
         configureTitle: t`Configure columns`,
         deleteGroup: (name) =>
           t({
-            comment: "Accessible label of the button deleting a saved column set",
+            comment:
+              "Accessible label of the button deleting a saved column set",
             message: `Delete ${name}`,
           }),
         dragHandle: (label) =>
           t({
-            comment: "Accessible label of the drag handle that reorders a column",
+            comment:
+              "Accessible label of the drag handle that reorders a column",
             message: `Reorder ${label}`,
           }),
         empty: t`No columns found`,
