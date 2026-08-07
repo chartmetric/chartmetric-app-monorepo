@@ -72,11 +72,11 @@ msgstr "CMスコア"
 msgid "College"
 msgstr "大学"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:103
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:108
 msgid "Column groups"
 msgstr "列グループ"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:108
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:113
 msgid "Columns"
 msgstr "列"
 
@@ -85,7 +85,7 @@ msgid "Configure columns"
 msgstr "列を設定"
 
 #. Accessible label for deleting a saved column group
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:86
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:91
 msgid "Delete group {name}"
 msgstr "グループ {name} を削除"
 
@@ -115,7 +115,7 @@ msgstr "フィルター"
 msgid "Filters ({activeCount})"
 msgstr "フィルター（{activeCount}）"
 
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:70
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:74
 msgid "Find a league…"
 msgstr "リーグを検索…"
 
@@ -127,7 +127,7 @@ msgstr "国籍を検索…"
 msgid "Find a sport…"
 msgstr "スポーツを検索…"
 
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:80
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:85
 msgid "Find a team…"
 msgstr "チームを検索…"
 
@@ -149,7 +149,7 @@ msgstr "GPS"
 msgid "Hearts"
 msgstr "ハート"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:92
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:97
 msgid "Hidden"
 msgstr "非表示"
 
@@ -176,7 +176,7 @@ msgstr "最終試合"
 
 #: src/pages/sports/athletes/columns/cells.ts:33
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:44
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:65
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:69
 msgid "League"
 msgstr "リーグ"
 
@@ -212,12 +212,12 @@ msgid "Momentum"
 msgstr "モメンタム"
 
 #. Accessible label for moving a column earlier
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:99
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:104
 msgid "Move {label} earlier"
 msgstr "{label} を前に移動"
 
 #. Accessible label for moving a column later
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:94
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:99
 msgid "Move {label} later"
 msgstr "{label} を後ろに移動"
 
@@ -227,7 +227,7 @@ msgstr "{label} を後ろに移動"
 msgid "Nationality"
 msgstr "国籍"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:91
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:96
 msgid "New group name…"
 msgstr "新しいグループ名…"
 
@@ -239,7 +239,7 @@ msgstr "次へ"
 msgid "No athletes found"
 msgstr "選手が見つかりません"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:90
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:95
 msgid "No matching columns"
 msgstr "一致する列がありません"
 
@@ -278,7 +278,12 @@ msgstr "プロ"
 msgid "Rank"
 msgstr "順位"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:104
+#. Accessible label of the drag handle that reorders a column
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:86
+msgid "Reorder {label}"
+msgstr "{label} を並べ替え"
+
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
 msgid "Reset to default"
 msgstr "デフォルトに戻す"
 
@@ -286,11 +291,11 @@ msgstr "デフォルトに戻す"
 msgid "Retry filter options"
 msgstr "フィルターオプションを再試行"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:105
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:110
 msgid "Save"
 msgstr "保存"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:106
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:111
 msgid "Save as group"
 msgstr "グループとして保存"
 
@@ -302,7 +307,7 @@ msgstr "アスリートを検索…"
 msgid "Search by name"
 msgstr "名前で検索"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:107
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:112
 msgid "Search columns…"
 msgstr "列を検索…"
 
@@ -326,7 +331,7 @@ msgstr "安定"
 
 #: src/pages/sports/athletes/columns/cells.ts:27
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:38
-#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:75
+#: src/pages/sports/athletes/components/filters/components/AthleteEntityFilters.tsx:80
 msgid "Team"
 msgstr "チーム"
 
@@ -399,6 +404,6 @@ msgstr "Instagramで認証済み"
 msgid "Videos"
 msgstr "動画"
 
-#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:109
+#: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:114
 msgid "Visible"
 msgstr "表示中"
