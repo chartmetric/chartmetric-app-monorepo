@@ -194,7 +194,7 @@ export const ColumnConfigureModal: FC<ColumnConfigureModalProps> = ({
           />
         )}
         <ModalFooter
-          cancelLabel={labels.cancel}
+          closeLabel={labels.close}
           onClose={close}
           onReset={() => {
             onChange([...defaultKeys]);
@@ -207,14 +207,14 @@ export const ColumnConfigureModal: FC<ColumnConfigureModalProps> = ({
 };
 
 interface ModalFooterProps {
-  cancelLabel: string;
+  closeLabel: string;
   onClose: () => void;
   onReset: () => void;
   resetLabel: string;
 }
 
 const ModalFooter: FC<ModalFooterProps> = ({
-  cancelLabel,
+  closeLabel,
   onClose,
   onReset,
   resetLabel,
@@ -224,7 +224,7 @@ const ModalFooter: FC<ModalFooterProps> = ({
       {resetLabel}
     </Button>
     <Button onClick={onClose} variant="default">
-      {cancelLabel}
+      {closeLabel}
     </Button>
   </Group>
 );
