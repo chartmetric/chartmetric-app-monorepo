@@ -79,7 +79,7 @@ python3 -m unittest discover tests     # the harness's own tests
 
 Read [`docs/HARNESS_GUIDE.md`](docs/HARNESS_GUIDE.md) before using it, starting with the system-overview diagram. [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) holds the invariants every phase must preserve — the review stage treats a `CRITICAL` / `MUST NOT` violation as blocking. Decisions land in [`docs/ADR.md`](docs/ADR.md).
 
-The harness needs Python 3.10+ (no third-party packages) and the `.claude` / `CLAUDE.md` symlinks from the section above — spawned agents read repo instructions through them, and `doctor` fails if they are missing.
+The harness needs Python 3.10+ (stdlib only, no third-party packages) and the `.claude` / `CLAUDE.md` symlinks from the section above — spawned agents read repo instructions through them, and `doctor` fails if either is missing or broken. CI runs the harness tests on 3.10, the oldest version we claim to support.
 
 A `dangerous_cmd_guard` hook (wired in `.agents/settings.json`) denies destructive shell commands in every Claude Code session in this repo, harness run or not.
 
@@ -87,7 +87,7 @@ A `dangerous_cmd_guard` hook (wired in `.agents/settings.json`) denies destructi
 
 - **Pre-commit** (husky + lint-staged): ESLint `--fix` and Prettier run on staged files, then typecheck and tests. Auto-fixes are re-staged into the commit.
 - **Commit messages** follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat: ...`, `fix(api): ...`), enforced by commitlint on the `commit-msg` hook.
-- **CI** (GitHub Actions): format check, lint, typecheck, test, and build on every PR and push to `main`, with pnpm + turbo caching, plus a separate job for the harness's Python tests. Railway waits for CI before deploying.
+- **CI** (GitHub Actions): harness tests, format check, lint, typecheck, test, and build on every PR and push to `main`, with pnpm + turbo caching. Railway waits for CI before deploying.
 - **Dependabot**: weekly dependency PRs (minor/patch grouped, 7-day cooldown).
 
 ## Apps

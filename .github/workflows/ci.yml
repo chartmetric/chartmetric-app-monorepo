@@ -16,20 +16,6 @@ env:
   TURBO_TELEMETRY_DISABLED: "1"
 
 jobs:
-  harness:
-    name: Harness (python)
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.13"
-
-      - name: Harness unit tests
-        run: python3 -m unittest discover tests -v
-
   verify:
     name: Format, test, build
     runs-on: ubuntu-latest
@@ -43,6 +29,15 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
+
+      # The harness's documented floor — the oldest version we claim to
+      # support is the one most likely to break.
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Harness tests
+        run: python3 -m unittest discover tests
 
       - name: Authenticate FontAwesome registry
         # pnpm only honors registry credentials from user-level config,
