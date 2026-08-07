@@ -88,6 +88,7 @@ export const ColumnPickerMenu: FC<ColumnPickerMenuProps> = ({
       opened={isOpen}
       position="bottom-end"
       shadow="md"
+      trapFocus
       width={POPOVER_WIDTH}
       withinPortal
     >
