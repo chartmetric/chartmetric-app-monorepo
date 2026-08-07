@@ -105,11 +105,6 @@ const ENRICHMENT_CTES = [
   ["espn_basketball", selectEspnBasketball],
 ] as const satisfies readonly (readonly [CteAlias, DatabaseQueryFactory])[];
 
-/**
- * Join order is the CTEs first, then the warehouse tables that already carry one
- * row per profile. `satisfies` checks each warehouse name against the generated
- * schema and rejects a table with no `profile_id` to join on.
- */
 export const ENRICHMENT_JOINS = [
   "roster_rank",
   "tiktok_latest",
@@ -127,16 +122,6 @@ const CTE_FACTORIES = new Map<string, DatabaseQueryFactory>(ENRICHMENT_CTES);
 
 export type EnrichmentSource = (typeof ENRICHMENT_JOINS)[number];
 
-/**
- * Joins the requested enrichment sources onto the roster, CTEs registered first
- * so a join can name one.
- *
- * `LEFT ANY JOIN` keeps one row per athlete even where a source has duplicates,
- * and `join_use_nulls` (set on the outer query) keeps an absent row null rather
- * than zero. Because the join cannot add or remove a roster row, a query that
- * only counts needs the sources its filters read and nothing else — passing
- * fewer here is a cost decision, never a correctness one.
- */
 export const withEnrichment = <Builder>(
   builder: Builder,
   database: ClickHouseDatabase,

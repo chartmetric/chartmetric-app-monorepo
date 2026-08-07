@@ -46,13 +46,6 @@ export const selectRoster = ((database) =>
       predicate.fn<boolean>("isNull", COLUMN.deletedAt),
     )) satisfies DatabaseQueryFactory;
 
-/**
- * The builder's `where(column, operator, value)` overload cannot type a
- * fully-qualified column — its value inference reads the first dot as the table
- * boundary, so a `new_vertical.<table>.<column>` reference resolves to `never`.
- * Numeric comparisons against the roster go through the predicate builder
- * instead, which types qualified columns correctly.
- */
 const applyComparison = (
   builder: RosterBuilder,
   column: (typeof COLUMN)[keyof typeof COLUMN],
