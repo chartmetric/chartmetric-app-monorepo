@@ -52,3 +52,6 @@ The CLI runner is `scripts/execute.py`. Project knobs live in
 - Defer architectural choices not covered by `docs/ARCHITECTURE.md` to
   the user — do not silently lock in boundaries, libraries, or schema
   shapes.
+- If `docs/PRD.md` doesn't exist, or doesn't cover the feature the user
+  is asking for, tell them to run `/feature-intake` first rather than
+  inventing requirements or architectural decisions yourself.
