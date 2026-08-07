@@ -1,6 +1,14 @@
-import type { FC } from "react";
+import type { DragEvent, FC } from "react";
 
-import { ActionIcon, Badge, Checkbox, Group } from "@mantine/core";
+import { ActionIcon, Badge, Checkbox, Group, UnstyledButton } from "@mantine/core";
+
+export interface ColumnRowDrag {
+  handleLabel: string;
+  onDragEnd: () => void;
+  onDragOver: (event: DragEvent<HTMLElement>) => void;
+  onDragStart: () => void;
+  onDrop: () => void;
+}
 
 export interface ColumnRowReorder {
   canMoveDown: boolean;
@@ -12,23 +20,47 @@ export interface ColumnRowReorder {
 }
 
 export interface ColumnRowProps {
+  drag?: ColumnRowDrag | undefined;
   group: string | undefined;
+  isLocked?: boolean | undefined;
   isVisible: boolean;
   label: string;
   onToggle: () => void;
-  reorder?: ColumnRowReorder;
+  reorder?: ColumnRowReorder | undefined;
 }
 
 export const ColumnRow: FC<ColumnRowProps> = ({
+  drag,
   group,
+  isLocked = false,
   isVisible,
   label,
   onToggle,
   reorder,
 }) => (
-  <Group gap="xs" justify="space-between" wrap="nowrap">
+  <Group
+    gap="xs"
+    justify="space-between"
+    onDragOver={drag?.onDragOver}
+    onDrop={drag?.onDrop}
+    wrap="nowrap"
+  >
+    {drag === undefined || isLocked ? null : (
+      // The buttons below do the same job for keyboard and touch; dragging is
+      // the shortcut, never the only way.
+      <UnstyledButton
+        aria-label={drag.handleLabel}
+        draggable
+        onDragEnd={drag.onDragEnd}
+        onDragStart={drag.onDragStart}
+        style={{ cursor: "grab" }}
+      >
+        <span aria-hidden="true">⠿</span>
+      </UnstyledButton>
+    )}
     <Checkbox
       checked={isVisible}
+      disabled={isLocked}
       flex={1}
       label={label}
       onChange={onToggle}

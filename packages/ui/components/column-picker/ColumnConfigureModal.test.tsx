@@ -18,6 +18,7 @@ const labels: ColumnPickerLabels = {
   configureDescription: "Choose columns",
   configureTitle: "Configure columns",
   deleteGroup: (name) => `Delete ${name}`,
+  dragHandle: (label) => `Reorder ${label}`,
   empty: "No columns found",
   groupNamePlaceholder: "Group name",
   hiddenSection: "Hidden",
@@ -123,6 +124,79 @@ describe("ColumnConfigureModal", () => {
     fireEvent.click(screen.getByRole("button", { name: "Done" }));
 
     expect(onChange).toHaveBeenLastCalledWith(["rank", "name", "igFollowers"]);
+  });
+
+  /**
+   * A locked column is the one the table pins to its left edge; hiding it would
+   * leave the row unreadable.
+   */
+  // Only the disabled state is asserted: `fireEvent` dispatches straight at the
+  // element, so it would reach a handler a real user cannot reach at all.
+  it("will not let a locked column be hidden", () => {
+    render(
+      <MantineProvider>
+        <ColumnConfigureModal
+          defaultKeys={["name"]}
+          isOpen
+          labels={labels}
+          onChange={vi.fn()}
+          onClose={vi.fn()}
+          options={[
+            { key: "name", label: "Athlete", locked: true },
+            { key: "sport", label: "Sport" },
+          ]}
+          value={["name", "sport"]}
+        />
+      </MantineProvider>,
+    );
+
+    expect(
+      screen.getByRole<HTMLInputElement>("checkbox", { name: "Athlete" })
+        .disabled,
+    ).toBe(true);
+    expect(
+      screen.getByRole<HTMLInputElement>("checkbox", { name: "Sport" }).disabled,
+    ).toBe(false);
+  });
+
+  it("gives a locked column no drag handle and no way to move", () => {
+    render(
+      <MantineProvider>
+        <ColumnConfigureModal
+          defaultKeys={["name"]}
+          isOpen
+          labels={labels}
+          onChange={vi.fn()}
+          onClose={vi.fn()}
+          options={[
+            { key: "name", label: "Athlete", locked: true },
+            { key: "sport", label: "Sport" },
+          ]}
+          value={["name", "sport"]}
+        />
+      </MantineProvider>,
+    );
+
+    expect(screen.queryByRole("button", { name: "Reorder Athlete" })).toBeNull();
+    expect(
+      screen.getByRole<HTMLButtonElement>("button", {
+        name: "Move Athlete down",
+      }).disabled,
+    ).toBe(true);
+    // The unlocked column below it cannot move up onto the locked position.
+    expect(
+      screen.getByRole<HTMLButtonElement>("button", { name: "Move Sport up" })
+        .disabled,
+    ).toBe(true);
+  });
+
+  it("reorders unlocked columns with the move buttons", () => {
+    const onChange = vi.fn();
+    renderModal({ onChange, value: ["rank", "name"] });
+
+    fireEvent.click(screen.getByRole("button", { name: "Move Rank down" }));
+
+    expect(onChange).toHaveBeenCalledWith(["name", "rank"]);
   });
 
   it("resets to the caller's defaults", () => {
