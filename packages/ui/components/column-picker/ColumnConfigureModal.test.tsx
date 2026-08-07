@@ -155,7 +155,8 @@ describe("ColumnConfigureModal", () => {
         .disabled,
     ).toBe(true);
     expect(
-      screen.getByRole<HTMLInputElement>("checkbox", { name: "Sport" }).disabled,
+      screen.getByRole<HTMLInputElement>("checkbox", { name: "Sport" })
+        .disabled,
     ).toBe(false);
   });
 
@@ -177,7 +178,9 @@ describe("ColumnConfigureModal", () => {
       </MantineProvider>,
     );
 
-    expect(screen.queryByRole("button", { name: "Reorder Athlete" })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: "Reorder Athlete" }),
+    ).toBeNull();
     expect(
       screen.getByRole<HTMLButtonElement>("button", {
         name: "Move Athlete down",
