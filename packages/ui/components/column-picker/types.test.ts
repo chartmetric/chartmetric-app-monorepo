@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { isSamePreset, moveKey } from "./types";
+import { canMoveTo, type ColumnPickerOption, isSamePreset, moveKey  } from "./types";
+
 
 describe("isSamePreset", () => {
   it("matches the same columns in the same order", () => {
@@ -51,5 +52,36 @@ describe("moveKey", () => {
   // Splice would otherwise silently drop or duplicate a column.
   it("returns the same columns when an index is out of range", () => {
     expect(moveKey(["a", "b"], 5, 0)).toEqual(["a", "b"]);
+  });
+});
+
+describe("canMoveTo", () => {
+  const options: ColumnPickerOption[] = [
+    { key: "name", label: "Athlete", locked: true },
+    { key: "sport", label: "Sport" },
+    { key: "rank", label: "Rank" },
+  ];
+
+  it("allows a move between two unlocked positions", () => {
+    expect(canMoveTo(options, 1, 2)).toBe(true);
+    expect(canMoveTo(options, 2, 1)).toBe(true);
+  });
+
+  // The identity column a table pins to its left edge has to stay first.
+  it("refuses to move a locked column", () => {
+    expect(canMoveTo(options, 0, 1)).toBe(false);
+  });
+
+  it("refuses to displace a locked column", () => {
+    expect(canMoveTo(options, 1, 0)).toBe(false);
+  });
+
+  it("refuses a move outside the list", () => {
+    expect(canMoveTo(options, 1, -1)).toBe(false);
+    expect(canMoveTo(options, 1, 3)).toBe(false);
+  });
+
+  it("refuses a move onto itself", () => {
+    expect(canMoveTo(options, 1, 1)).toBe(false);
   });
 });
