@@ -49,11 +49,6 @@ export const formatCount = (
   formatter: Intl.NumberFormat,
 ): string => (value === null ? EMPTY_CELL : formatter.format(value));
 
-/**
- * Formats a date, or reports that there is none. Returning null rather than the
- * empty-cell dash leaves that presentation choice with the caller, so this is
- * usable outside a table too.
- */
 export const formatDate = (
   value: string | null,
   formatter: Intl.DateTimeFormat,
@@ -240,15 +235,8 @@ const MOMENTUM_INDICATORS: Readonly<Record<MomentumTrend, string>> = {
   steady: "—",
 };
 
-/**
- * Matches whole words, not substrings: "up" inside "cup", "down" inside
- * "showdown" and "hot" inside "shot" would otherwise decide the trend.
- *
- * Reading a trend out of a display string is a stopgap. The warehouse has the
- * momentum direction already, so the contract should carry it rather than have
- * the page re-derive policy — including the score threshold below — from a
- * label meant for humans.
- */
+// Whole words, not substrings: "cup", "showdown" and "shot" would otherwise
+// decide the trend. Deriving it from a display label belongs in the contract.
 const hasTerm = (label: string, terms: readonly string[]): boolean => {
   const words = new Set(label.toLocaleLowerCase().split(/[^a-z]+/u));
 
