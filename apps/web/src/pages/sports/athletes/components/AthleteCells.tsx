@@ -49,15 +49,20 @@ export const formatCount = (
   formatter: Intl.NumberFormat,
 ): string => (value === null ? EMPTY_CELL : formatter.format(value));
 
+/**
+ * Formats a date, or reports that there is none. Returning null rather than the
+ * empty-cell dash leaves that presentation choice with the caller, so this is
+ * usable outside a table too.
+ */
 export const formatDate = (
   value: string | null,
   formatter: Intl.DateTimeFormat,
-): string => {
-  if (value === null) return EMPTY_CELL;
+): string | null => {
+  if (value === null) return null;
 
   const parsed = new Date(value);
 
-  return Number.isNaN(parsed.getTime()) ? EMPTY_CELL : formatter.format(parsed);
+  return Number.isNaN(parsed.getTime()) ? null : formatter.format(parsed);
 };
 
 interface AthleteIdentityProps {
@@ -235,20 +240,35 @@ const MOMENTUM_INDICATORS: Readonly<Record<MomentumTrend, string>> = {
   steady: "—",
 };
 
+/**
+ * Matches whole words, not substrings: "up" inside "cup", "down" inside
+ * "showdown" and "hot" inside "shot" would otherwise decide the trend.
+ *
+ * Reading a trend out of a display string is a stopgap. The warehouse has the
+ * momentum direction already, so the contract should carry it rather than have
+ * the page re-derive policy — including the score threshold below — from a
+ * label meant for humans.
+ */
+const hasTerm = (label: string, terms: readonly string[]): boolean => {
+  const words = new Set(label.toLocaleLowerCase().split(/[^a-z]+/u));
+
+  return terms.some((term) => words.has(term));
+};
+
 const momentumTrend = (
   label: string | null,
   score: number | null,
 ): MomentumTrend => {
-  const normalized = (label ?? "").toLocaleLowerCase();
+  const normalized = label ?? "";
 
   if (
-    HOT_TERMS.some((term) => normalized.includes(term)) ||
+    hasTerm(normalized, HOT_TERMS) ||
     (score !== null && score > MOMENTUM_HOT_THRESHOLD)
   ) {
     return "hot";
   }
   if (
-    COLD_TERMS.some((term) => normalized.includes(term)) ||
+    hasTerm(normalized, COLD_TERMS) ||
     (score !== null && score < -MOMENTUM_HOT_THRESHOLD)
   ) {
     return "cold";

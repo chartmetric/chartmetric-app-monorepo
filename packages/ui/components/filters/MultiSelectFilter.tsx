@@ -29,6 +29,12 @@ export interface MultiSelectFilterOption {
 }
 
 export interface MultiSelectFilterProps {
+  /**
+   * Whether the reader can exclude as well as include. Some filters resolve
+   * through a lookup that can only answer which values belong to a set, so they
+   * have no exclude to offer and must not show the control.
+   */
+  canExclude?: boolean;
   disabled?: boolean;
   emptyMessage: string;
   excludeLabel: string;
@@ -96,6 +102,7 @@ const FilterOptions: FC<FilterOptionsProps> = ({
 };
 
 interface FilterDropdownProps extends FilterOptionsProps {
+  canExclude: boolean;
   excludeLabel: string;
   includeLabel: string;
   mode: FilterSelectionMode;
@@ -106,6 +113,7 @@ interface FilterDropdownProps extends FilterOptionsProps {
 }
 
 const FilterDropdown: FC<FilterDropdownProps> = ({
+  canExclude,
   emptyMessage,
   excludedValues,
   excludeLabel,
@@ -120,17 +128,19 @@ const FilterDropdown: FC<FilterDropdownProps> = ({
 }) => (
   <Combobox.Dropdown maw="calc(100vw - var(--mantine-spacing-md) * 2)">
     <Stack gap="xs" p="xs">
-      <SegmentedControl
-        data={[
-          { label: includeLabel, value: "include" },
-          { label: excludeLabel, value: "exclude" },
-        ]}
-        fullWidth
-        onChange={(nextMode) => {
-          onModeChange(nextMode === "exclude" ? "exclude" : "include");
-        }}
-        value={mode}
-      />
+      {canExclude ? (
+        <SegmentedControl
+          data={[
+            { label: includeLabel, value: "include" },
+            { label: excludeLabel, value: "exclude" },
+          ]}
+          fullWidth
+          onChange={(nextMode) => {
+            onModeChange(nextMode === "exclude" ? "exclude" : "include");
+          }}
+          value={mode}
+        />
+      ) : null}
       <Combobox.Search
         aria-label={searchPlaceholder}
         onChange={(event) => {
@@ -189,6 +199,7 @@ const toggleMultiSelectValue = (
 };
 
 export const MultiSelectFilter: FC<MultiSelectFilterProps> = ({
+  canExclude = true,
   disabled = false,
   emptyMessage,
   excludeLabel,
@@ -242,6 +253,7 @@ export const MultiSelectFilter: FC<MultiSelectFilterProps> = ({
         </Button>
       </Combobox.Target>
       <FilterDropdown
+        canExclude={canExclude}
         emptyMessage={emptyMessage}
         excludedValues={excludedValues}
         excludeLabel={excludeLabel}

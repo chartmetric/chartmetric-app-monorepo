@@ -68,8 +68,12 @@ export const AthleteEntityFilters: FC<AthleteEntityFiltersProps> = ({
           value={draft[key]}
         />
       ))}
+      {/* League and team resolve through the football club catalog, which only
+          answers which clubs belong to a set of leagues — there is no exclude
+          for it to express, so the control is not offered. */}
       <MultiSelectFilter
         {...shared}
+        canExclude={false}
         label={t`League`}
         onChange={(value) => {
           onLeaguesChange(value.included);
@@ -80,6 +84,7 @@ export const AthleteEntityFilters: FC<AthleteEntityFiltersProps> = ({
       />
       <MultiSelectFilter
         {...shared}
+        canExclude={false}
         label={t`Team`}
         onChange={(value) => {
           onClubsChange(value.included);
