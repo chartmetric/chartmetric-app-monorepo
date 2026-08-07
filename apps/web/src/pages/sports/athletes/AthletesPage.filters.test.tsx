@@ -152,7 +152,17 @@ describe("AthletesPage filters", () => {
 
     await expectQuery({ ...DEFAULT_QUERY, sports: ["Football"] });
 
+    // Include and exclude are separate lists, so the tab is a view rather than a
+    // mode: switching it leaves the selection alone until the option is picked
+    // again, which then moves it across.
     fireEvent.click(getControlledRadio(sportFilter, "Exclude"));
+
+    await expectQuery({ ...DEFAULT_QUERY, sports: ["Football"] });
+
+    sportFilter = screen.getByRole<HTMLButtonElement>("combobox", {
+      name: "Sport",
+    });
+    fireEvent.click(getControlledOption(sportFilter, /Football/u));
 
     await expectQuery({ ...DEFAULT_QUERY, excludeSports: ["Football"] });
 
