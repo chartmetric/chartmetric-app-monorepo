@@ -4,7 +4,7 @@ import { ActionIcon, Button, Group, Stack, Text } from "@mantine/core";
 
 import type { ColumnPickerPreset } from "./types";
 
-import { isSamePreset } from "./ordering";
+import { isSamePreset } from "./ordering-utilities";
 
 export interface ColumnPresetListProps {
   deleteLabel?: (name: string) => string;
