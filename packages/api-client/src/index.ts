@@ -28,7 +28,6 @@ export type GetReply<Path extends keyof paths> =
     ? Body
     : never;
 
-/** The querystring a GET accepts. */
 export type GetQuery<Path extends keyof paths> =
   GetOperation<Path> extends {
     parameters: { query: infer Query };
