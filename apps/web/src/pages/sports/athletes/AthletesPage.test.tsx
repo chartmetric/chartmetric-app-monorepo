@@ -173,7 +173,6 @@ describe("AthletesPage", () => {
     expect(
       within(table).getByRole("button", { name: "Sort by Athlete" }),
     ).toBeDefined();
-    // GPS and Momentum are outside the default column set.
     expect(within(table).queryByText("GPS")).toBeNull();
     expect(within(table).queryByText("Momentum")).toBeNull();
   });
