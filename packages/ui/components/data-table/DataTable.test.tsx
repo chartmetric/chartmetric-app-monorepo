@@ -58,10 +58,6 @@ describe("DataTable", () => {
     expect(onSort).toHaveBeenCalledWith("name");
   });
 
-  /**
-   * Each pinned column sits at the sum of the widths before it, so they line up
-   * edge to edge instead of stacking on 0.
-   */
   it("offsets each pinned column by the widths before it", () => {
     renderSticky();
 
@@ -89,11 +85,6 @@ describe("DataTable", () => {
     expect(cells[2]?.className).not.toContain("stickyCell");
   });
 
-  /**
-   * The pinned cells need an opaque background or the scrolled-under columns
-   * show through, which is why the background cannot stay inline: a row hover
-   * has to be able to override it.
-   */
   it("paints pinned cells from a class rather than an inline background", () => {
     renderSticky();
 

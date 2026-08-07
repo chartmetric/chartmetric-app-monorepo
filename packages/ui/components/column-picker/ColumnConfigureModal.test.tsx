@@ -81,8 +81,6 @@ describe("ColumnConfigureModal", () => {
     expect(screen.queryByText("Rank")).toBeNull();
   });
 
-  // The group is the source a column comes from, so searching "tiktok" should
-  // find its columns even though none of them say TikTok in the label.
   it("matches a column by its group", () => {
     renderModal();
     search("tiktok");
@@ -126,10 +124,6 @@ describe("ColumnConfigureModal", () => {
     expect(onChange).toHaveBeenLastCalledWith(["rank", "name", "igFollowers"]);
   });
 
-  /**
-   * A locked column is the one the table pins to its left edge; hiding it would
-   * leave the row unreadable.
-   */
   // Only the disabled state is asserted: `fireEvent` dispatches straight at the
   // element, so it would reach a handler a real user cannot reach at all.
   it("will not let a locked column be hidden", () => {
