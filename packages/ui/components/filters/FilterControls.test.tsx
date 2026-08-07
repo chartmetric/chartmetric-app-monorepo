@@ -101,6 +101,42 @@ describe("filter controls", () => {
     });
   });
 
+  /**
+   * Some filters resolve through a lookup that only answers membership, so there
+   * is no exclude for them to express. Offering the control anyway gave the
+   * reader a toggle that snapped back and changed nothing.
+   */
+  it("hides the exclude toggle when the filter cannot exclude", () => {
+    renderWithProvider(
+      <MantineProvider>
+        <MultiSelectFilter
+          canExclude={false}
+          emptyMessage="No leagues found"
+          excludeLabel="Exclude"
+          includeLabel="Include"
+          label="League"
+          onChange={vi.fn()}
+          options={[{ label: "Serie A", value: "Serie A" }]}
+          searchPlaceholder="Find a league"
+          value={{ excluded: [], included: [] }}
+        />
+      </MantineProvider>,
+    );
+
+    fireEvent.click(screen.getByRole("combobox", { name: "League" }));
+
+    expect(screen.queryByRole("radio", { name: "Exclude" })).toBeNull();
+    expect(screen.getByRole("option", { name: /Serie A/ })).toBeDefined();
+  });
+
+  it("offers the exclude toggle by default", () => {
+    renderWithProvider(<MultiSelectHarness onChange={vi.fn()} />);
+
+    fireEvent.click(screen.getByRole("combobox", { name: "Sport" }));
+
+    expect(screen.getByRole("radio", { name: "Exclude" })).toBeDefined();
+  });
+
   it("anchors the dropdown to its trigger and closes outside", async () => {
     renderWithProvider(<MultiSelectHarness onChange={vi.fn()} />);
 

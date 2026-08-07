@@ -143,7 +143,6 @@ export const isAthleteColumnKeyList = (
   candidate: unknown,
 ): candidate is AthleteColumnKey[] =>
   Array.isArray(candidate) &&
-  candidate.length > 0 &&
   candidate.every((item) => typeof item === "string" && COLUMN_KEYS.has(item));
 
 export const isAthleteColumnPresetList = (
