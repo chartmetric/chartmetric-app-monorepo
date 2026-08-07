@@ -1,0 +1,16 @@
+{
+  "project_name": "chartmetric-app-monorepo",
+  "required_docs": ["docs/ARCHITECTURE.md"],
+  "agents_file": "AGENTS.md",
+  "agents_sections": [],
+  "min_substantive_lines": 3,
+  "default_verification_cmd": "pnpm test",
+  "max_attempts": 4,
+  "max_review_cycles": 2,
+  "agent_timeout_sec": 3600,
+  "command_timeout_sec": 1800,
+  "test_file_conventions": ["*.test.ts", "*.test.tsx"],
+  "backlog_path": "docs/BACKLOG.md",
+  "commit_message_format": "phase({num}): {title}",
+  "commit_trailers": []
+}

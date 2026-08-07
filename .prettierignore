@@ -7,3 +7,6 @@ pnpm-lock.yaml
 # Machine-generated API contracts
 apps/api/openapi.generated.json
 packages/api-client/src/schema.generated.ts
+
+# Harness phase state — the runner rewrites these mid-pipeline
+phases/

@@ -83,6 +83,19 @@ Before completing a task, run the checks relevant to the changed packages.
 
 Generated-artifact no-diff validation must be added when the repository first commits generated contracts, clients, SDKs, or documentation. Do not introduce placeholder generation infrastructure before then.
 
+## Harness engineering
+
+Multi-step work runs through the in-repo phase harness. Mechanics and the full phase lifecycle live in `docs/HARNESS_GUIDE.md`; the architectural invariants every phase must preserve live in `docs/ARCHITECTURE.md`.
+
+- **Phase lifecycle** — `/harness` proposes phases, then `python3 scripts/execute.py run <id>` executes one end to end (lint → write ⟲ verify → gates → smoke → review ⟲ fix → retro draft → local commit). The human edits the drafted retro, lands worthwhile `proposed_rules` into `## Learned rules` below, then pushes. One phase = one commit = one PR.
+- **Slash commands** — `/harness` advances the harness. `/backlog` triages `docs/BACKLOG.md`, which is otherwise never read. `/harness-review` reviews the current branch against repo conventions. `/phase-review <id>` re-audits a phase with a fresh-context agent.
+- **Do not invoke slash commands from inside a Claude Code session** — they recurse. To see what one does, read the file in `.agents/commands/`.
+- **Precheck gates every run.** `docs/ARCHITECTURE.md` must have substantive content; `python3 scripts/execute.py precheck` reports what is missing. Architecture and product docs are filled collaboratively with the user, never invented autonomously.
+- **Architecture decisions go in `docs/ADR.md` before the phase that depends on them.**
+- **Never run harness subcommands from inside a spawned agent.** `HARNESS_PARENT=1` is set on every agent the runner spawns and `execute.py` refuses to run with it set.
+
+The `dangerous_cmd_guard` PreToolUse hook (wired in `.agents/settings.json`) denies destructive shell commands in every session. When it blocks an action: read the reason, fix the underlying cause, and try again. Never retry with `--no-verify`, and never edit the hook script to make a failing rule pass — propose a separate change if the rule itself is wrong.
+
 ## Agent skills
 
 Installed skills live in `.agents/skills/` (exposed to Claude Code via the per-machine `.claude` symlink; see the README setup). Each nested `AGENTS.md` lists the skills relevant to its workspace; read the matching skill before working on that technology. Registry-installed skills are managed with `npx skills` and pinned in `skills-lock.json`; do not hand-edit them. Skills with no lock entry (e.g. `comment-discipline`, `enhanced-message-context`) are repo-authored or carry repo-specific customizations: edit them in place and never reinstall them from the registry, which would overwrite the customizations.
@@ -107,3 +120,11 @@ Prefer code and generated artifacts as operational sources of truth.
 Packages that generate source code, OpenAPI specs, SDKs, or documentation must expose a `generate` script.
 
 Generated files are never edited manually. Modify the canonical source, run the relevant generator, and commit the generated output.
+
+## Learned rules
+
+Durable rules harvested from phase retrospectives. Each phase's retro proposes candidates in `proposed_rules`; a human lands the ones worth keeping here, and every future writer and reviewer reads them. This section grows over time — that accretion is the point.
+
+Keep entries short, imperative, and specific enough to act on. A rule belongs here when it would have prevented a real failure; general advice belongs in a skill instead.
+
+_No rules landed yet — the first phase retro will propose the first candidates._
