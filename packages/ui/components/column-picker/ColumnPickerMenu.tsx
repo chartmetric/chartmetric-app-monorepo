@@ -11,6 +11,7 @@ import { type FC, useState } from "react";
 
 import type { ColumnPickerLabels, ColumnPickerPreset } from "./types";
 
+import classes from "./ColumnPickerMenu.module.css";
 import { ColumnPresetList } from "./ColumnPresetList";
 
 const POPOVER_WIDTH = 260;
@@ -35,13 +36,15 @@ const MenuContent: FC<MenuContentProps> = ({
   value,
 }) => (
   <Stack gap="xs">
-    <UnstyledButton onClick={onOpenConfigure}>
-      <Text fw={600} size="sm">
-        {labels.configureTitle}
-      </Text>
-      <Text c="dimmed" size="xs">
-        {labels.configureDescription}
-      </Text>
+    <UnstyledButton className={classes["configure"]} onClick={onOpenConfigure}>
+      <Stack gap={0}>
+        <Text fw={600} size="sm">
+          {labels.configureTitle}
+        </Text>
+        <Text c="dimmed" size="xs">
+          {labels.configureDescription}
+        </Text>
+      </Stack>
     </UnstyledButton>
     {presets.length === 0 && customPresets.length === 0 ? null : (
       <>
