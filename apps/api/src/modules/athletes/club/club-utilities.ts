@@ -69,12 +69,6 @@ const isSubset = (small: Set<string>, large: Set<string>): boolean => {
   return true;
 };
 
-/**
- * Finds the candidate whose token set fully contains, or is fully contained by,
- * the athlete's club token set — {roma} matches "AS Roma" -> {roma}. Returns
- * undefined rather than a wrong guess when neither side is a full subset of the
- * other, which leaves league and crest blank for that athlete.
- */
 export const findFuzzyClubMatch = <Candidate extends ClubCandidate>(
   clubName: string,
   candidates: readonly Candidate[],

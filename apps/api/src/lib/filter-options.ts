@@ -1,26 +1,15 @@
 import { emptyToNull } from "./strings.ts";
 
-/** A value a reader can filter by, and how many records carry it. */
 export interface CountedOption {
   count: number;
   value: string;
 }
 
-/**
- * Orders display names for a response payload.
- *
- * The locale is pinned rather than left to `localeCompare`'s default, which
- * follows the server's own locale: two machines with different environments
- * would otherwise return the same options in a different order.
- */
+// Locale pinned: the default follows the server's, so two machines would order
+// the same options differently.
 export const compareNames = (left: string, right: string): number =>
   left.localeCompare(right, "en");
 
-/**
- * Tallies raw column values into options, most common first and alphabetical
- * within a count. Absent and empty values are not options, so they are dropped
- * rather than counted under a blank label.
- */
 export const countValues = (
   values: readonly (string | null | undefined)[],
 ): CountedOption[] => {
@@ -49,7 +38,6 @@ export const countValues = (
 export const sortedKeys = (source: ReadonlyMap<string, unknown>): string[] =>
   [...source].map(([key]) => key).toSorted(compareNames);
 
-/** Flattens grouped values into the sorted record a JSON response returns. */
 export const toSortedRecord = (
   source: ReadonlyMap<string, ReadonlySet<string>>,
 ): Record<string, string[]> => {
