@@ -2,6 +2,8 @@ import type { CSSProperties, Key, ReactNode } from "react";
 
 import { Group, Table, Text, UnstyledButton } from "@mantine/core";
 
+import classes from "./DataTable.module.css";
+
 export type DataTableSortDirection = "asc" | "desc";
 
 export interface DataTableColumn<Row, SortKey extends string> {
@@ -31,6 +33,11 @@ export interface DataTableProps<Row, SortKey extends string> {
   sortBy: SortKey;
   sortDirection: DataTableSortDirection;
   sortLabel: (label: string) => string;
+  /**
+   * Keeps the header visible while the body scrolls. Mantine documents this as
+   * incompatible with `Table.ScrollContainer`, which this component always
+   * wraps in, so confirm it in a browser before relying on it.
+   */
   stickyHeader?: boolean;
 }
 
@@ -59,11 +66,14 @@ const stickyStyle = (
   left === undefined
     ? undefined
     : {
-        backgroundColor: "var(--mantine-color-body)",
         left,
-        position: "sticky",
         zIndex: isHeader ? STICKY_HEADER_CELL_Z_INDEX : STICKY_CELL_Z_INDEX,
       };
+
+// Paired with `stickyStyle`: the class carries the background and `position`,
+// which a hover rule needs to override and an inline style cannot.
+const stickyClass = (left: number | undefined): string | undefined =>
+  left === undefined ? undefined : classes["stickyCell"];
 
 const ariaSort = (
   isActive: boolean,
@@ -117,6 +127,7 @@ const HeaderCell = <Row, SortKey extends string>({
       aria-sort={
         sortKey === undefined ? undefined : ariaSort(isActive, sortDirection)
       }
+      className={stickyClass(left)}
       miw={column.minWidth}
       style={stickyStyle(left, true)}
       ta={column.align}
@@ -191,6 +202,7 @@ export const DataTable = <Row, SortKey extends string>({
             <Table.Tr key={getRowKey(row)}>
               {columns.map((column) => (
                 <Table.Td
+                  className={stickyClass(offsets.get(column.key))}
                   key={column.key}
                   style={stickyStyle(offsets.get(column.key), false)}
                   ta={column.align}

@@ -57,7 +57,81 @@ describe("DataTable", () => {
 
     expect(onSort).toHaveBeenCalledWith("name");
   });
+
+  /**
+   * Each pinned column sits at the sum of the widths before it, so they line up
+   * edge to edge instead of stacking on 0.
+   */
+  it("offsets each pinned column by the widths before it", () => {
+    renderSticky();
+
+    const cells = screen.getAllByRole("cell");
+
+    expect(cells[0]?.style.left).toBe("0px");
+    expect(cells[1]?.style.left).toBe("64px");
+  });
+
+  it("pins the header to the same offsets as the body", () => {
+    renderSticky();
+
+    const headers = screen.getAllByRole("columnheader");
+
+    expect(headers[0]?.style.left).toBe("0px");
+    expect(headers[1]?.style.left).toBe("64px");
+  });
+
+  it("leaves columns after the first non-sticky one unpinned", () => {
+    renderSticky();
+
+    const cells = screen.getAllByRole("cell");
+
+    expect(cells[2]?.style.left).toBe("");
+    expect(cells[2]?.className).not.toContain("stickyCell");
+  });
+
+  /**
+   * The pinned cells need an opaque background or the scrolled-under columns
+   * show through, which is why the background cannot stay inline: a row hover
+   * has to be able to override it.
+   */
+  it("paints pinned cells from a class rather than an inline background", () => {
+    renderSticky();
+
+    const [first] = screen.getAllByRole("cell");
+
+    expect(first?.style.backgroundColor).toBe("");
+    expect(first?.className).toContain("stickyCell");
+  });
 });
+
+const stickyColumns: DataTableColumn<Person, "name" | "score">[] = [
+  { key: "rank", label: "Rank", renderCell: () => 1, sticky: true, width: 64 },
+  {
+    key: "name",
+    label: "Name",
+    renderCell: ({ name }) => name,
+    sticky: true,
+    width: 240,
+  },
+  { key: "score", label: "Score", renderCell: ({ score }) => score },
+];
+
+const renderSticky = (): void => {
+  render(
+    <MantineProvider>
+      <DataTable
+        ariaLabel="People"
+        columns={stickyColumns}
+        getRowKey={({ id }) => id}
+        onSort={vi.fn()}
+        rows={[{ id: 1, name: "Alex", score: 87.4 }]}
+        sortBy="score"
+        sortDirection="desc"
+        sortLabel={(label) => `Sort by ${label}`}
+      />
+    </MantineProvider>,
+  );
+};
 
 describe("TablePagination", () => {
   it("emits previous and next offsets", () => {
