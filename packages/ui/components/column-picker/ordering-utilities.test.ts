@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { ColumnPickerOption } from "./types";
 
-import { canMoveTo, isSamePreset, moveKey } from "./ordering";
+import { canMoveTo, isSamePreset, moveKey } from "./ordering-utilities";
 
 describe("isSamePreset", () => {
   it("matches the same columns in the same order", () => {

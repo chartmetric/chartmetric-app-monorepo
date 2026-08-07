@@ -4,7 +4,7 @@ import { type FC, useState } from "react";
 import type { ColumnPickerLabels, ColumnPickerOption } from "./types";
 
 import { ColumnRow } from "./ColumnRow";
-import { canMoveTo, moveKey } from "./ordering";
+import { canMoveTo, moveKey } from "./ordering-utilities";
 
 export interface ColumnListsProps {
   hiddenOptions: readonly ColumnPickerOption[];
