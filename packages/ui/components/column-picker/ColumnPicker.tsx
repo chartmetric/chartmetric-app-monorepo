@@ -10,6 +10,8 @@ import type {
 import { ColumnConfigureModal } from "./ColumnConfigureModal";
 import { ColumnPickerMenu } from "./ColumnPickerMenu";
 
+// Re-exported through aliases rather than `export … from`, which reads as a
+// barrel file to the lint rule that bans them.
 export type ColumnPickerLabels = Labels;
 export type ColumnPickerOption = Option;
 export type ColumnPickerPreset = Preset;
