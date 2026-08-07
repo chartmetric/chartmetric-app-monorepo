@@ -28,11 +28,8 @@ export interface DataTableProps<Row, SortKey extends string> {
   sortBy: SortKey;
   sortDirection: DataTableSortDirection;
   sortLabel: (label: string) => string;
-  /**
-   * Keeps the header visible while the body scrolls. Mantine documents this as
-   * incompatible with `Table.ScrollContainer`, which this component always
-   * wraps in, so confirm it in a browser before relying on it.
-   */
+  // Mantine documents this as incompatible with `Table.ScrollContainer`,
+  // which this component always wraps in. Confirm in a browser before relying.
   stickyHeader?: boolean;
 }
 
