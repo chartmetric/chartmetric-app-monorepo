@@ -46,6 +46,7 @@ A worked example of a complete phase (JSON + md + retro) lives in
 ┌───────────────────────────────────────────────────────────────────────┐
 │  HUMAN + interactive Claude Code session (the "driver")               │
 │                                                                       │
+│   /feature-intake  plain-language ask → ADR-grounded PRD entry       │
 │   /harness       propose + lint phases, confirm, trigger runs        │
 │   /backlog       triage deferred work                                │
 │   /harness-review  rubric review of the current branch               │
@@ -329,8 +330,14 @@ command cannot hang the pipeline.
 
 What actually happens per phase, for someone new to the harness:
 
-1. **Plan** — in your interactive session, `/harness` proposes the next
-   phase (or you write `phases/NN-slug.{json,md}` by hand following
+1. **Plan** — if the ask arrived as a plain-language description rather
+   than a technical PRD (a PM or designer's request, for example), run
+   `/feature-intake` first: it grounds the ask in `docs/ADR.md` and
+   `docs/ARCHITECTURE.md`, stops to ask the user whenever it hits a
+   missing or conflicting architectural decision, and writes the
+   result into `docs/PRD.md`. Then, in your interactive session,
+   `/harness` proposes the next phase from that PRD (or you write
+   `phases/NN-slug.{json,md}` by hand following
    `phases/PHASE_TEMPLATE.md`). `execute.py lint <id>` checks it costs
    nothing to validate.
 2. **Run** — `python3 scripts/execute.py run <id>`. Walk away; the
