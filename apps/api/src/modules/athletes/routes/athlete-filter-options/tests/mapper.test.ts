@@ -31,6 +31,7 @@ const row = (
   cm_score: null,
   football_club: null,
   nationality: null,
+  on3_school: null,
   sport: "football",
   tennis_tour: null,
   ...overrides,
@@ -140,5 +141,17 @@ describe("toAthleteFilterOptions", () => {
       Gymnastics: ["NCAA"],
       Volleyball: ["NCAA"],
     });
+  });
+
+  it("offers the school a college athlete is listed under", () => {
+    const options = toAthleteFilterOptions(
+      [
+        row({ on3_school: "LSU", sport: "Gymnastics" }),
+        row({ on3_school: "", sport: "Volleyball" }),
+      ],
+      emptyIndex,
+    );
+
+    expect(options.clubsBySport).toEqual({ Gymnastics: { NCAA: ["LSU"] } });
   });
 });

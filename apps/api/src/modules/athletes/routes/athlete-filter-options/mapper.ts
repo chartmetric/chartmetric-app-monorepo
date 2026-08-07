@@ -46,7 +46,12 @@ const toFilterValues = (
   const sport = toSportLabel(rawSport);
 
   if (level === "college") {
-    return { club: null, leagues: [NCAA_LEAGUE], level, sport };
+    return {
+      club: emptyToNull(row.on3_school),
+      leagues: [NCAA_LEAGUE],
+      level,
+      sport,
+    };
   }
 
   const basketballTeam = emptyToNull(row.basketball_team);

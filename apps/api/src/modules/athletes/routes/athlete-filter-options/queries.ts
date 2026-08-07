@@ -8,14 +8,18 @@ import type {
 import type { AthleteFilterOptionRow } from "./types.ts";
 
 import { withBasketballRoster } from "../../basketball/roster.ts";
+import { withOn3School } from "../../college/school.ts";
 
 const listAthleteFilterOptions = ((database) =>
-  withBasketballRoster(
-    database
-      .table("new_vertical.athletes_cache")
-      .final()
-      .where("is_active", "eq", 1)
-      .where((predicate) => predicate.fn<boolean>("isNull", "deleted_at")),
+  withOn3School(
+    withBasketballRoster(
+      database
+        .table("new_vertical.athletes_cache")
+        .final()
+        .where("is_active", "eq", 1)
+        .where((predicate) => predicate.fn<boolean>("isNull", "deleted_at")),
+      database,
+    ),
     database,
   )
     .select([
@@ -32,6 +36,7 @@ const listAthleteFilterOptions = ((database) =>
         "basketball_roster.basketball_league",
         "basketball_league",
       ),
+      rawAs<string, "on3_school">("on3_school.school", "on3_school"),
     ])
     .limit(100_000)
     .settings({

@@ -66,21 +66,8 @@ export const selectLastMatch = ((database) =>
 
 // `updated_at` is outside this table's sorting key, so `argMax` over it already
 // returns the newest version of a row. That is what `.final()` would do here, at
-// less cost, and it applies to the ESPN subquery below too.
-export const selectOn3School = ((database) =>
-  database
-    .table("new_vertical.profile_sport_external_ids")
-    .where("provider", "eq", "on3")
-    .whereNotNull("metadata")
-    .groupBy("profile_id")
-    .select([
-      "profile_id",
-      rawAs<string, "school">(
-        "argMax(JSONExtractString(assumeNotNull(metadata), 'school'), updated_at)",
-        "school",
-      ),
-    ])) satisfies DatabaseQueryFactory;
-
+// less cost.
+//
 // Basketball crests are absent from the football team catalog; the provider's
 // external-id metadata carries the league and team abbreviation that ESPN's
 // public logo path is built from.
