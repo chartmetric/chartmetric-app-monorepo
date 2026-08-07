@@ -55,6 +55,10 @@ msgstr "変化量"
 msgid "Change period"
 msgstr "変化の期間"
 
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:38
+msgid "Choose which columns to show and their order"
+msgstr "表示する列と並び順を選択"
+
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:225
 msgid "Clear filters"
 msgstr "フィルターをクリア"
@@ -69,9 +73,13 @@ msgstr "範囲をクリア"
 msgid "CM score"
 msgstr "CMスコア"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:38
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:68
 msgid "Columns"
 msgstr "列"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:39
+msgid "Configure columns"
+msgstr "列を設定"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:84
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:158
@@ -81,6 +89,15 @@ msgstr "国"
 #: src/pages/music/artists/components/ArtistsPageStates.tsx:75
 msgid "Country and genre filters are temporarily unavailable."
 msgstr "国とジャンルのフィルターは一時的に利用できません。"
+
+#. Accessible label of the button deleting a saved column set
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:41
+msgid "Delete {name}"
+msgstr "{name} を削除"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:37
+msgid "Done"
+msgstr "完了"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:90
 msgid "Exclude"
@@ -95,10 +112,18 @@ msgstr "音楽業界のアーティストを探しましょう。"
 msgid "Filters"
 msgstr "フィルター"
 
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:67
+msgid "Find a column"
+msgstr "列を検索"
+
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:83
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:147
 msgid "Genre"
 msgstr "ジャンル"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:52
+msgid "Hidden"
+msgstr "非表示"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:91
 msgid "Include"
@@ -147,10 +172,19 @@ msgstr "Instagramフォロワーの最小数"
 msgid "Minimum TikTok followers"
 msgstr "TikTokフォロワーの最小数"
 
-#. Accessible label of the drag handle for a table column
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:40
-msgid "Move {columnLabel}"
-msgstr "{columnLabel}を移動"
+#. Accessible label of the button moving a column later
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:54
+msgid "Move {label} down"
+msgstr "{label} を下へ移動"
+
+#. Accessible label of the button moving a column earlier
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:59
+msgid "Move {label} up"
+msgstr "{label} を上へ移動"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:51
+msgid "Name this set"
+msgstr "このセットに名前を付ける"
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:298
 msgid "Next"
@@ -159,6 +193,10 @@ msgstr "次へ"
 #: src/pages/music/artists/components/ArtistsPageStates.tsx:35
 msgid "No artists found"
 msgstr "アーティストが見つかりません"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:50
+msgid "No columns found"
+msgstr "列が見つかりません"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:89
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:146
@@ -179,9 +217,30 @@ msgstr "プラットフォーム認証済みアカウント"
 msgid "Previous"
 msgstr "前へ"
 
+#. Accessible label of the drag handle that reorders a column
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:46
+msgid "Reorder {label}"
+msgstr "{label} を並べ替え"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:64
+msgid "Reset"
+msgstr "リセット"
+
 #: src/pages/music/artists/components/ArtistsPageStates.tsx:78
 msgid "Retry filter options"
 msgstr "フィルターオプションを再試行"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:65
+msgid "Save"
+msgstr "保存"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:66
+msgid "Save as set"
+msgstr "セットとして保存"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:63
+msgid "Saved sets"
+msgstr "保存したセット"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:134
 msgid "Search artists…"
@@ -255,3 +314,7 @@ msgstr "認証済みアーティスト"
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:105
 msgid "Verified artists only"
 msgstr "認証済みアーティストのみ"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:69
+msgid "Visible"
+msgstr "表示中"

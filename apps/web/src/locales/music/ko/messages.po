@@ -55,6 +55,10 @@ msgstr "변화량"
 msgid "Change period"
 msgstr "변화 기간"
 
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:38
+msgid "Choose which columns to show and their order"
+msgstr "표시할 열과 순서를 선택하세요"
+
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:225
 msgid "Clear filters"
 msgstr "필터 지우기"
@@ -69,9 +73,13 @@ msgstr "범위 지우기"
 msgid "CM score"
 msgstr "CM 점수"
 
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:38
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:68
 msgid "Columns"
 msgstr "열"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:39
+msgid "Configure columns"
+msgstr "열 구성"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:84
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:158
@@ -81,6 +89,15 @@ msgstr "국가"
 #: src/pages/music/artists/components/ArtistsPageStates.tsx:75
 msgid "Country and genre filters are temporarily unavailable."
 msgstr "국가 및 장르 필터를 일시적으로 사용할 수 없습니다."
+
+#. Accessible label of the button deleting a saved column set
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:41
+msgid "Delete {name}"
+msgstr "{name} 삭제"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:37
+msgid "Done"
+msgstr "완료"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:90
 msgid "Exclude"
@@ -95,10 +112,18 @@ msgstr "음악 업계의 아티스트를 살펴보세요."
 msgid "Filters"
 msgstr "필터"
 
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:67
+msgid "Find a column"
+msgstr "열 찾기"
+
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:83
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:147
 msgid "Genre"
 msgstr "장르"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:52
+msgid "Hidden"
+msgstr "숨김"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:91
 msgid "Include"
@@ -147,10 +172,19 @@ msgstr "인스타그램 팔로워 최소값"
 msgid "Minimum TikTok followers"
 msgstr "틱톡 팔로워 최소값"
 
-#. Accessible label of the drag handle for a table column
-#: src/pages/music/artists/components/ArtistColumnPicker.tsx:40
-msgid "Move {columnLabel}"
-msgstr "{columnLabel} 이동"
+#. Accessible label of the button moving a column later
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:54
+msgid "Move {label} down"
+msgstr "{label} 아래로 이동"
+
+#. Accessible label of the button moving a column earlier
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:59
+msgid "Move {label} up"
+msgstr "{label} 위로 이동"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:51
+msgid "Name this set"
+msgstr "이 세트의 이름 지정"
 
 #: src/pages/music/artists/components/ArtistsTable.tsx:298
 msgid "Next"
@@ -159,6 +193,10 @@ msgstr "다음"
 #: src/pages/music/artists/components/ArtistsPageStates.tsx:35
 msgid "No artists found"
 msgstr "아티스트를 찾을 수 없습니다"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:50
+msgid "No columns found"
+msgstr "열을 찾을 수 없습니다"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:89
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:146
@@ -179,9 +217,30 @@ msgstr "플랫폼 인증 계정"
 msgid "Previous"
 msgstr "이전"
 
+#. Accessible label of the drag handle that reorders a column
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:46
+msgid "Reorder {label}"
+msgstr "{label} 순서 변경"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:64
+msgid "Reset"
+msgstr "초기화"
+
 #: src/pages/music/artists/components/ArtistsPageStates.tsx:78
 msgid "Retry filter options"
 msgstr "필터 옵션 다시 시도"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:65
+msgid "Save"
+msgstr "저장"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:66
+msgid "Save as set"
+msgstr "세트로 저장"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:63
+msgid "Saved sets"
+msgstr "저장된 세트"
 
 #: src/pages/music/artists/components/filters/ArtistFilters.tsx:134
 msgid "Search artists…"
@@ -255,3 +314,7 @@ msgstr "인증된 아티스트"
 #: src/pages/music/artists/components/filters/ArtistFiltersDrawer.tsx:105
 msgid "Verified artists only"
 msgstr "인증된 아티스트만"
+
+#: src/pages/music/artists/components/ArtistColumnPicker.tsx:69
+msgid "Visible"
+msgstr "표시"
