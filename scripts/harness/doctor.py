@@ -94,16 +94,18 @@ def _check_symlinks(results: list) -> None:
     """
     for link, target in ((".claude", ".agents"), ("CLAUDE.md", "AGENTS.md")):
         path = REPO_ROOT / link
-        if not path.exists():
-            results.append(
-                (
-                    FAIL,
-                    f"{link} missing — spawned agents would read no repo instructions. "
-                    f"Run `ln -s {target} {link}` from the repo root (see README).",
-                )
-            )
-        else:
+        if path.exists():
             results.append((OK, f"{link} -> {target}"))
+            continue
+        # exists() follows symlinks, so a dangling link lands here too.
+        state = "is a broken symlink" if path.is_symlink() else "missing"
+        results.append(
+            (
+                FAIL,
+                f"{link} {state} — spawned agents would read no repo instructions. "
+                f"Run `ln -s {target} {link}` from the repo root (see README).",
+            )
+        )
 
 
 def _check_hooks(results: list) -> None:

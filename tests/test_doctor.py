@@ -68,6 +68,12 @@ class TestDoctor(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("CLAUDE.md missing", result.stdout)
 
+    def test_broken_agent_symlink_reported_as_broken(self) -> None:
+        (self.tmp / "AGENTS.md").unlink()
+        result = _doctor(self.tmp, extra_env={"HARNESS_CLAUDE_CMD": sys.executable})
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("CLAUDE.md is a broken symlink", result.stdout)
+
     def test_skeleton_docs_reported_as_info_not_failure(self) -> None:
         result = _doctor(self.tmp, extra_env={"HARNESS_CLAUDE_CMD": sys.executable})
         self.assertEqual(result.returncode, 0)

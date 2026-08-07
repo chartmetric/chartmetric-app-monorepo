@@ -127,4 +127,10 @@ Durable rules harvested from phase retrospectives. Each phase's retro proposes c
 
 Keep entries short, imperative, and specific enough to act on. A rule belongs here when it would have prevented a real failure; general advice belongs in a skill instead.
 
-_No rules landed yet — the first phase retro will propose the first candidates._
+The first three were harvested from recurring pull-request review comments rather than from a retro — each one had to be raised with an agent by hand more than once.
+
+- **Compose ClickHouse queries with the hypequery builder; never write SQL.** Use `.table()`, `.withCTE()`, `.where()`, and the join helpers. `rawAs<T, "alias">("<expr>", "alias")` is allowed only for a scalar expression inside a chain — an aggregate, a cast, arithmetic — never for a `FROM`, `JOIN`, `WHERE`, or a whole statement. A hand-written query string loses the schema types that make a column rename a compile error instead of a runtime one, and it reintroduces interpolation as an injection path. ESLint blocks both the raw `@clickhouse/client` import and SQL-shaped template literals under `apps/api/src/modules/**`.
+- **Derive types from generated artifacts; never restate them.** API request and response types come from `paths` in `@repo/api-client`; ClickHouse row shapes come from `db/clickhouse/schema.generated.ts`; route contracts come from the TypeBox schemas. Narrow with `Pick`, `NonNullable`, and indexed access. Hand-write a type only for something that exists solely in the consumer, such as component props or a UI display mode. A restated type does not fail when the contract changes — it silently disagrees with it.
+- **Keep the established file layout; do not flatten it.** An API route owns a directory containing `route.ts`, `schemas.ts`, `queries.ts`, `mapper.ts`, and `tests/`; a web page owns a directory with `api/`, `components/`, `hooks/`, `constants.ts`, and `types.ts`. Put code specific to one route or page with it, and promote it outward — to `apps/web/src/hooks/` or `@repo/ui` — only when a second consumer appears. Both directions are failures: a route handler that also builds queries and maps rows, and a helper hoisted to a shared package on its first use.
+
+See `docs/ARCHITECTURE.md` for the full statement of each, including the file-layout diagrams and the canonical type-derivation idiom.

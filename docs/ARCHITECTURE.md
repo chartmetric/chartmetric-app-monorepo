@@ -101,10 +101,13 @@ Applications MUST NOT import internal files from other applications.
 Packages MUST NOT import from applications. Cross-workspace access goes
 through declared package exports only.
 
-Packages MUST NOT add re-export barrel files. Each export is declared
-as a `package.json` subpath pointing at the module that defines it —
-`@repo/ui` maps one subpath per component — and consumers import that
-subpath directly.
+Packages MUST NOT add a module whose only purpose is re-exporting other
+modules. Each export is declared as a `package.json` subpath pointing at
+the module that defines it — `@repo/ui` maps one subpath per component —
+and consumers import that subpath directly. A package entry point that
+defines its own behaviour is not a barrel: `@repo/api-client`'s root
+export builds the client and re-exports the generated types alongside
+it, which is correct.
 
 ### Generated artifacts
 
@@ -125,9 +128,81 @@ before it can be committed; the pre-commit hook runs
 
 ### Data access
 
-ClickHouse queries live in the owning module's query builders, not in
-route handlers. Route handlers validate, delegate, and map.
+CRITICAL: ClickHouse query structure is composed with the hypequery
+builder — `.table()`, `.withCTE()`, `.where()`, joins, ordering. SQL
+statements MUST NOT be hand-written as strings and MUST NOT be
+assembled by interpolation. `rawAs<T, "alias">("<expr>", "alias")` is
+the one permitted escape hatch, and only for a **scalar expression**
+inside a builder chain (an aggregate, a cast, arithmetic) — never for
+a `FROM`, `JOIN`, `WHERE`, or a whole query.
+
+The raw `@clickhouse/client` is confined to
+`apps/api/src/db/clickhouse/`. Module code MUST NOT import it. ESLint
+enforces both of these rules in `apps/api/src/modules/**`, so they fail
+at lint time rather than review time.
+
+Queries live in the owning route directory's `queries.ts` /
+`subqueries.ts`, not in route handlers. Route handlers validate,
+delegate, and map.
 
 Secrets MUST NOT be committed or printed. Production data MUST NOT be
 modified, and production migrations MUST NOT be run, from a
 development session or an agent run.
+
+### Types are derived, never restated
+
+CRITICAL: a type that describes an API request or response MUST be
+derived from the generated client, not hand-written. The canonical
+idiom, from `apps/web/src/pages/music/artists/types.ts`:
+
+```ts
+import type { paths } from "@repo/api-client";
+
+export type ArtistListQuery =
+  paths["/app/artists"]["get"]["parameters"]["query"];
+export type ArtistListReply =
+  paths["/app/artists"]["get"]["responses"][200]["content"]["application/json"];
+export type Artist = ArtistListReply["data"][number];
+```
+
+Narrow with `Pick`, `NonNullable`, and indexed access rather than
+retyping fields. The same applies on the API side: ClickHouse row
+shapes come from `db/clickhouse/schema.generated.ts`, and route
+contracts come from the TypeBox schemas that generate the OpenAPI
+document.
+
+Hand-written types are for concepts that exist only in the consumer —
+component props, UI display modes, column configuration. If a type has
+a counterpart in a generated artifact, derive it.
+
+### File and folder layout
+
+Structure follows the shape already established. Code specific to one
+route or one page lives with it; it moves outward only when a second
+consumer appears.
+
+API — one directory per route, under the owning entity module:
+
+```
+apps/api/src/modules/<entity>/routes.ts          registers the routes
+apps/api/src/modules/<entity>/routes/<route>/
+    route.ts  schemas.ts  queries.ts  subqueries.ts  mapper.ts  types.ts
+    tests/
+```
+
+Web — one directory per page, under its vertical:
+
+```
+apps/web/src/pages/<vertical>/<entity>/<Entity>Page.tsx
+    api/  components/  components/<group>/  hooks/
+    constants.ts  types.ts  tests/
+```
+
+Shared code is promoted, not pre-emptively placed: a hook used by one
+page lives in that page's `hooks/`, and moves to `apps/web/src/hooks/`
+when something else needs it. A component used by one page lives in its
+`components/`, and moves to `@repo/ui` when a second page needs it.
+
+A new route or page MUST NOT flatten this into fewer files — a route
+whose queries, mapping, and schema all live in `route.ts` is a review
+finding, not a shortcut.

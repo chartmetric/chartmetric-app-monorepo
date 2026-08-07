@@ -64,5 +64,6 @@ code and existing contracts, so their dates are approximate.
   false positives.
 - **Consequences**: Phases run via `python3 scripts/execute.py run <id>`
   and commit locally; pushing stays human. Python enters the repo for
-  the harness only, tested in its own CI job and outside the Turborepo
-  task graph. See `docs/HARNESS_GUIDE.md`.
+  the harness only — stdlib, exercised by a step in the existing CI
+  job at the 3.10 floor, and outside the Turborepo task graph. See
+  `docs/HARNESS_GUIDE.md`.
