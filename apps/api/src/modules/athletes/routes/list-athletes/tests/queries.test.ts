@@ -46,11 +46,6 @@ describe("listAthletes", () => {
     }
   });
 
-  /**
-   * Every enrichment source is a `ReplacingMergeTree`, and a joined table cannot
-   * carry `FINAL`, so each is read through a CTE that does. Without this the join
-   * can pick a row that is still awaiting a merge.
-   */
   it("reads every enrichment source with FINAL", () => {
     const sql = queries.listAthletes(PAGE).toSQL();
     const ctes = sql.slice(0, sql.lastIndexOf(") SELECT "));
@@ -66,11 +61,6 @@ describe("listAthletes", () => {
     }
   });
 
-  /**
-   * `athletes_basketball` is sorted by `id`, not `profile_id`, so `FINAL` cannot
-   * reduce it to one row per athlete and the join key would otherwise match an
-   * arbitrary row.
-   */
   it("reduces the basketball roster to the newest row per athlete", () => {
     const sql = queries.listAthletes(PAGE).toSQL();
 
@@ -95,11 +85,6 @@ describe("listAthletes", () => {
     expect(sql).toContain("OFFSET 50");
   });
 
-  /**
-   * The cache column is backfilled on a delay, so the displayed count falls back
-   * to snapshot history. Computing it once means the column a reader sees and
-   * the column the sort uses are the same expression.
-   */
   it("selects one TikTok follower count and sorts on it", () => {
     const sql = queries
       .listAthletes({
@@ -115,10 +100,6 @@ describe("listAthletes", () => {
     expect(sql).toContain("ORDER BY tiktok_followers DESC");
   });
 
-  /**
-   * A `LEFT ANY JOIN` cannot change how many roster rows match, so the count
-   * only needs the sources its filters read.
-   */
   it("counts without joining enrichment no filter reads", () => {
     const sql = queries.countAthletes(PAGE).toSQL();
 
@@ -154,10 +135,6 @@ describe("listAthletes", () => {
     expect(sql).not.toContain("on3_school");
   });
 
-  /**
-   * Asking for a metric without a direction should show the best values, not the
-   * worst; rank and the text columns read the other way.
-   */
   it("defaults a metric sort to descending and a name sort to ascending", () => {
     expect(
       queries.listAthletes({ ...PAGE, sortBy: "cmScore" }).toSQL(),
