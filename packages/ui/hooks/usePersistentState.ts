@@ -1,47 +1,37 @@
-import { useCallback, useState } from "react";
+import { useLocalStorage } from "@mantine/hooks";
 
-const read = <Value>(
-  key: string,
-  isValid: (candidate: unknown) => candidate is Value,
-): Value | null => {
-  // Private-mode browsers throw on storage access rather than returning null,
-  // and a stored value can be stale JSON from an earlier shape of the setting.
-  try {
-    const stored = localStorage.getItem(key);
-
-    if (stored === null) return null;
-
-    const parsed: unknown = JSON.parse(stored);
-
-    return isValid(parsed) ? parsed : null;
-  } catch {
-    return null;
-  }
-};
-
-// The validator guards against a value persisted by an earlier version of the
-// caller; any storage failure degrades to in-memory state rather than breaking
-// the page.
+/**
+ * Persisted state that ignores a stored value the caller no longer understands.
+ *
+ * Wraps Mantine's `useLocalStorage`, which already handles cross-tab sync and
+ * re-reads when the key changes. The validator is the part it does not do: a
+ * value written by an earlier shape of the setting is discarded for the
+ * fallback rather than restored as the wrong type.
+ */
 export const usePersistentState = <Value>(
   key: string,
   fallback: Value,
   isValid: (candidate: unknown) => candidate is Value,
 ): readonly [Value, (next: Value) => void] => {
-  const [value, setValue] = useState<Value>(
-    () => read(key, isValid) ?? fallback,
-  );
-  const store = useCallback(
-    (next: Value) => {
-      setValue(next);
+  const [value, setValue] = useLocalStorage<Value>({
+    defaultValue: fallback,
+    deserialize: (stored) => {
+      if (stored === undefined) return fallback;
 
       try {
-        localStorage.setItem(key, JSON.stringify(next));
+        const parsed: unknown = JSON.parse(stored);
+
+        return isValid(parsed) ? parsed : fallback;
       } catch {
-        // Storage is unavailable or full; the in-memory value still applies.
+        // Not JSON at all; treat it the same as a value that fails validation.
+        return fallback;
       }
     },
-    [key],
-  );
+    // Read synchronously: deferring to an effect would render the fallback
+    // first, flashing default columns before the reader's own selection.
+    getInitialValueInEffect: false,
+    key,
+  });
 
-  return [value, store];
+  return [value, setValue];
 };
