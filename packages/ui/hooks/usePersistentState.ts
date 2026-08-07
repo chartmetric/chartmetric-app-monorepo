@@ -1,13 +1,5 @@
 import { useLocalStorage } from "@mantine/hooks";
 
-/**
- * Persisted state that ignores a stored value the caller no longer understands.
- *
- * Wraps Mantine's `useLocalStorage`, which already handles cross-tab sync and
- * re-reads when the key changes. The validator is the part it does not do: a
- * value written by an earlier shape of the setting is discarded for the
- * fallback rather than restored as the wrong type.
- */
 export const usePersistentState = <Value>(
   key: string,
   fallback: Value,

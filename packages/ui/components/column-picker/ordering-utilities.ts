@@ -1,11 +1,7 @@
 import type { ColumnPickerOption } from "./types";
 
-/**
- * Compares index by index rather than by membership. Order is what the configure
- * modal exists to change, so a preset holding the same columns in a different
- * order is a different preset — and a membership test would also call
- * `["a", "a"]` equal to `["a", "b"]`.
- */
+// Index-wise: order is what the modal changes, and a membership test would
+// also call ["a", "a"] equal to ["a", "b"].
 export const isSamePreset = (
   value: readonly string[],
   keys: readonly string[],

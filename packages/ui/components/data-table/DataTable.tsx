@@ -14,11 +14,6 @@ export interface DataTableColumn<Row, SortKey extends string> {
   renderCell: (row: Row) => ReactNode;
   secondaryLabel?: string;
   sortKey?: SortKey;
-  /**
-   * Pins the column to the left edge while the remaining columns scroll.
-   * Sticky columns must be declared before any non-sticky column, and each
-   * needs a `width` so the offsets of those after it can be resolved.
-   */
   sticky?: boolean;
   width?: number;
 }
@@ -70,8 +65,6 @@ const stickyStyle = (
         zIndex: isHeader ? STICKY_HEADER_CELL_Z_INDEX : STICKY_CELL_Z_INDEX,
       };
 
-// Paired with `stickyStyle`: the class carries the background and `position`,
-// which a hover rule needs to override and an inline style cannot.
 const stickyClass = (left: number | undefined): string | undefined =>
   left === undefined ? undefined : classes["stickyCell"];
 

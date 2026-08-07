@@ -52,8 +52,6 @@ export const ColumnRow: FC<ColumnRowProps> = ({
     wrap="nowrap"
   >
     {drag === undefined || isLocked ? null : (
-      // The buttons below do the same job for keyboard and touch; dragging is
-      // the shortcut, never the only way.
       <UnstyledButton
         aria-label={drag.handleLabel}
         draggable

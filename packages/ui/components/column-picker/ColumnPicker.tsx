@@ -77,8 +77,6 @@ export const ColumnPicker: FC<ColumnPickerProps> = ({
     ]);
   };
 
-  // With no presets to choose from, the menu holds a single "configure" item, so
-  // it would cost a click and show nothing. The trigger opens the modal instead.
   const hasMenu = presets.length > 0 || customPresets.length > 0;
 
   return (
@@ -98,8 +96,6 @@ export const ColumnPicker: FC<ColumnPickerProps> = ({
           value={value}
         />
       ) : (
-        // With no presets to choose from the menu would hold a single
-        // "configure" item, costing a click and showing nothing.
         <ConfigureTrigger label={labels.trigger} onOpen={openConfigure} />
       )}
       <ColumnConfigureModal
