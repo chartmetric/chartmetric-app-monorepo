@@ -4,6 +4,10 @@ import type { ClubCandidate } from "./types.ts";
 // "Inter Milan") while `teams_apifootball.name` stores official ones ("AS Roma",
 // "Paris Saint Germain", "Inter"). These generic club-name tokens are stripped
 // before comparing so "Roma" and "AS Roma" reduce to the same token set.
+//
+// A token only belongs here if no pair of real clubs is told apart by it alone.
+// "city", "united" and "real" are not such tokens — stripping them collapsed
+// Manchester United and Manchester City to the same set.
 const CLUB_NAME_STOPWORDS: ReadonlySet<string> = new Set([
   "ac",
   "as",
@@ -12,7 +16,6 @@ const CLUB_NAME_STOPWORDS: ReadonlySet<string> = new Set([
   "calcio",
   "cd",
   "cf",
-  "city",
   "club",
   "de",
   "fc",
@@ -21,13 +24,11 @@ const CLUB_NAME_STOPWORDS: ReadonlySet<string> = new Set([
   "if",
   "olympique",
   "rc",
-  "real",
   "sc",
   "sk",
   "sport",
   "sporting",
   "ud",
-  "united",
 ]);
 
 // A bare acronym shares no tokens at all with the spelled-out official name, so
@@ -71,6 +72,7 @@ export const findFuzzyClubMatch = <Candidate extends ClubCandidate>(
 
   let best: Candidate | undefined;
   let bestDifference = Infinity;
+  let isTied = false;
 
   for (const candidate of candidates) {
     let candidateTokens = tokenCache.get(candidate.name);
@@ -89,19 +91,20 @@ export const findFuzzyClubMatch = <Candidate extends ClubCandidate>(
     if (!isSubset(small, large)) continue;
 
     // Prefer the candidate whose token count is closest to the athlete's club,
-    // so {roma} picks "AS Roma" ({roma}) over "Roma W" ({roma, w}); fall back to
-    // the shorter official name when two candidates tie.
+    // so {roma} picks "AS Roma" ({roma}) over "Roma W" ({roma, w}).
     const difference = Math.abs(candidateTokens.size - clubTokens.size);
 
-    if (
-      difference < bestDifference ||
-      (difference === bestDifference &&
-        (best === undefined || candidate.name.length < best.name.length))
-    ) {
+    if (difference < bestDifference) {
       best = candidate;
       bestDifference = difference;
+      isTied = false;
+    } else if (difference === bestDifference) {
+      isTied = true;
     }
   }
 
-  return best;
+  // Two candidates this close are two different clubs the tokens cannot tell
+  // apart. Reporting neither costs a crest; picking one attaches a rival club's
+  // league and crest to the athlete.
+  return isTied ? undefined : best;
 };
