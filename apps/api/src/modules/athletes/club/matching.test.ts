@@ -15,7 +15,13 @@ describe("normalizeClubTokens", () => {
   it("strips generic club-name tokens", () => {
     expect(tokens("AS Roma")).toEqual(["roma"]);
     expect(tokens("FC Barcelona")).toEqual(["barcelona"]);
-    expect(tokens("Manchester United")).toEqual(["manchester"]);
+    expect(tokens("Sporting Lisbon")).toEqual(["lisbon"]);
+  });
+
+  it("keeps the tokens that tell two clubs of one city apart", () => {
+    expect(tokens("Manchester United")).toEqual(["manchester", "united"]);
+    expect(tokens("Manchester City")).toEqual(["manchester", "city"]);
+    expect(tokens("Real Madrid")).toEqual(["real", "madrid"]);
   });
 
   it("folds accents and punctuation", () => {
@@ -39,7 +45,7 @@ describe("findFuzzyClubMatch", () => {
   });
 
   it("matches when the cache name is longer than the official name", () => {
-    expect(match("Inter Milan", ["Inter", "AC Milan"])).toBe("Inter");
+    expect(match("Inter Milan", ["Inter", "Napoli"])).toBe("Inter");
   });
 
   it("bridges an acronym to the spelled-out name", () => {
@@ -52,8 +58,16 @@ describe("findFuzzyClubMatch", () => {
     expect(match("Roma", ["Roma W", "AS Roma"])).toBe("AS Roma");
   });
 
-  it("breaks a tie on the shorter official name", () => {
-    expect(match("Inter", ["Inter Milan", "Inter M"])).toBe("Inter M");
+  it("refuses to choose between two candidates that are equally close", () => {
+    expect(match("Inter", ["Inter Milan", "Inter M"])).toBeUndefined();
+  });
+
+  it("does not give a club its city rival's identity", () => {
+    const manchester = ["Manchester United", "Manchester City"];
+
+    expect(match("Manchester Utd", manchester)).toBeUndefined();
+    expect(match("Manchester", manchester)).toBeUndefined();
+    expect(match("Manchester United", manchester)).toBe("Manchester United");
   });
 
   it("returns undefined rather than guessing when no side is a subset", () => {
