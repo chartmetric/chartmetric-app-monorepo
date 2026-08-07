@@ -6,11 +6,6 @@ import { clubCatalogFor, createClubCatalog } from "./catalog.ts";
 
 const TTL_MS = 5 * 60 * 1000;
 
-/**
- * Counts how many times the catalog reaches the warehouse. The catalog queries
- * only chain these builder methods before `execute`, so a stub of them stands in
- * for the whole builder.
- */
 const CHAINED = ["final", "groupBy", "limit", "select", "settings", "where"];
 
 const countingDatabase = (
