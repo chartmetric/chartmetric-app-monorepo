@@ -1,9 +1,9 @@
-import type { FC } from "react";
-
 import { Stack, Text } from "@mantine/core";
+import { type FC, useState } from "react";
 
 import { ColumnRow } from "./ColumnRow";
 import {
+  canMoveTo,
   type ColumnPickerLabels,
   type ColumnPickerOption,
   moveKey,
@@ -18,6 +18,79 @@ export interface ColumnListsProps {
   visibleOptions: readonly ColumnPickerOption[];
 }
 
+interface VisibleColumnsProps {
+  labels: ColumnPickerLabels;
+  onChange: (keys: string[]) => void;
+  onToggle: (key: string) => void;
+  options: readonly ColumnPickerOption[];
+  value: readonly string[];
+}
+
+const VisibleColumns: FC<VisibleColumnsProps> = ({
+  labels,
+  onChange,
+  onToggle,
+  options,
+  value,
+}) => {
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const move = (from: number, to: number): void => {
+    if (canMoveTo(options, from, to)) onChange(moveKey(value, from, to));
+  };
+
+  return (
+    <Stack gap={4}>
+      <Text c="dimmed" size="xs" tt="uppercase">
+        {labels.visibleSection}
+      </Text>
+      {options.map((option, index) => (
+        <ColumnRow
+          drag={{
+            handleLabel: labels.dragHandle(option.label),
+            onDragEnd: () => {
+              setDragIndex(null);
+            },
+            onDragOver: (event) => {
+              // Without this the drop never fires; a locked row refuses it so
+              // the browser keeps showing "not allowed".
+              if (dragIndex !== null && option.locked !== true) {
+                event.preventDefault();
+              }
+            },
+            onDragStart: () => {
+              setDragIndex(index);
+            },
+            onDrop: () => {
+              if (dragIndex !== null) move(dragIndex, index);
+              setDragIndex(null);
+            },
+          }}
+          group={option.group}
+          isLocked={option.locked}
+          isVisible
+          key={option.key}
+          label={option.label}
+          onToggle={() => {
+            onToggle(option.key);
+          }}
+          reorder={{
+            canMoveDown: canMoveTo(options, index, index + 1),
+            canMoveUp: canMoveTo(options, index, index - 1),
+            moveDownLabel: labels.moveDown(option.label),
+            moveUpLabel: labels.moveUp(option.label),
+            onMoveDown: () => {
+              move(index, index + 1);
+            },
+            onMoveUp: () => {
+              move(index, index - 1);
+            },
+          }}
+        />
+      ))}
+    </Stack>
+  );
+};
+
 export const ColumnLists: FC<ColumnListsProps> = ({
   hiddenOptions,
   labels,
@@ -27,34 +100,13 @@ export const ColumnLists: FC<ColumnListsProps> = ({
   visibleOptions,
 }) => (
   <Stack gap="md">
-    <Stack gap={4}>
-      <Text c="dimmed" size="xs" tt="uppercase">
-        {labels.visibleSection}
-      </Text>
-      {visibleOptions.map((option, index) => (
-        <ColumnRow
-          group={option.group}
-          isVisible
-          key={option.key}
-          label={option.label}
-          onToggle={() => {
-            onToggle(option.key);
-          }}
-          reorder={{
-            canMoveDown: index < visibleOptions.length - 1,
-            canMoveUp: index > 0,
-            moveDownLabel: labels.moveDown(option.label),
-            moveUpLabel: labels.moveUp(option.label),
-            onMoveDown: () => {
-              onChange(moveKey(value, index, index + 1));
-            },
-            onMoveUp: () => {
-              onChange(moveKey(value, index, index - 1));
-            },
-          }}
-        />
-      ))}
-    </Stack>
+    <VisibleColumns
+      labels={labels}
+      onChange={onChange}
+      onToggle={onToggle}
+      options={visibleOptions}
+      value={value}
+    />
     {hiddenOptions.length === 0 ? null : (
       <Stack gap={4}>
         <Text c="dimmed" size="xs" tt="uppercase">
@@ -63,6 +115,7 @@ export const ColumnLists: FC<ColumnListsProps> = ({
         {hiddenOptions.map((option) => (
           <ColumnRow
             group={option.group}
+            isLocked={option.locked}
             isVisible={false}
             key={option.key}
             label={option.label}
@@ -98,6 +151,7 @@ export const ColumnSearchResults: FC<ColumnSearchResultsProps> = ({
       {results.map((option) => (
         <ColumnRow
           group={option.group}
+          isLocked={option.locked}
           isVisible={value.includes(option.key)}
           key={option.key}
           label={option.label}

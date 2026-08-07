@@ -3,6 +3,12 @@ export interface ColumnPickerOption {
   group?: string;
   key: string;
   label: string;
+  /**
+   * Keeps the column visible and in place: it cannot be hidden, moved, or
+   * displaced by another column moving onto it. For the identity column a table
+   * pins to its left edge, which is unreadable without.
+   */
+  locked?: boolean;
 }
 
 export interface ColumnPickerPreset {
@@ -16,6 +22,7 @@ export interface ColumnPickerLabels {
   configureDescription: string;
   configureTitle: string;
   deleteGroup: (name: string) => string;
+  dragHandle: (label: string) => string;
   empty: string;
   groupNamePlaceholder: string;
   hiddenSection: string;
@@ -42,6 +49,21 @@ export const isSamePreset = (
 ): boolean =>
   keys.length === value.length &&
   keys.every((key, index) => value[index] === key);
+
+/**
+ * Whether `from` can move to `to`. A locked column neither moves nor gives up
+ * its position, so both ends are checked.
+ */
+export const canMoveTo = (
+  options: readonly ColumnPickerOption[],
+  from: number,
+  to: number,
+): boolean =>
+  to >= 0 &&
+  to < options.length &&
+  from !== to &&
+  options[from]?.locked !== true &&
+  options[to]?.locked !== true;
 
 export const moveKey = (
   keys: readonly string[],
