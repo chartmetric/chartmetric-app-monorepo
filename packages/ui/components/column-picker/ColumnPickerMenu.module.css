@@ -1,0 +1,16 @@
+/*
+ * The configure entry is a title over a description, which reads as a section
+ * heading rather than something to press. Highlighting it on hover is what marks
+ * it as a menu item; an inline style cannot express `:hover`.
+ */
+.configure {
+  border-radius: var(--mantine-radius-sm);
+  cursor: pointer;
+  display: block;
+  padding: var(--mantine-spacing-xs);
+  width: 100%;
+}
+
+.configure:hover {
+  background-color: var(--mantine-color-default-hover);
+}
