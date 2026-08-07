@@ -37,10 +37,63 @@ to see exactly what was written.
 
 ## Project conventions (load before reviewing)
 
-- {agents_file} — read every numbered section
-- Project docs listed in section 1 of {agents_file}
+- {agents_file} at the repo root, including its `## Learned rules`
+- The nested {agents_file} of every workspace the diff touches
+  (`apps/api/`, `apps/web/`, `packages/*/`). More specific overrides
+  broader — the nested file wins on layout, naming, and type placement.
+- docs/ARCHITECTURE.md for cross-cutting invariants.
 - Any CRITICAL / MUST NOT tokens in those docs are non-negotiable;
   flag violations as MUST_FIX.
+
+## Recurring defects in this repo
+
+Each of these has needed a human review comment before. Check every one
+that the diff could plausibly hit; say nothing about the rest.
+
+1. **Reinvented helper.** A new helper duplicating existing semantics —
+   option mapping, collation, formatting, null normalization, date
+   conversion. Search before accepting a new one; name the existing
+   owner if there is one.
+2. **Misplaced type.** A handwritten `interface`/`type` outside the
+   `types.ts` of the folder that owns it. Inline component props and
+   library-generic aliases are fine; TypeBox contracts stay in
+   `schemas.ts`.
+3. **Wrong ownership level.** A file used by one endpoint or page that
+   was hoisted to a shared location on first use, or a file two
+   siblings both need that is still inside one of them. Promotion is
+   triggered by a second consumer, not by anticipated reuse.
+4. **Assorted-bucket naming.** A `utils`/`helpers`/`common`/`shared`
+   module, or an abstract noun that lets unrelated code accumulate.
+   Name a module for the responsibility its exports serve.
+5. **Wrapper module.** A file that imports one sibling function, wraps
+   it in a single hook, and re-exports it without adding a contract.
+6. **Multi-component module.** A `.tsx` declaring several React
+   components where one composer owns the rest — those belong in a
+   nested `components/` folder beside their composer. Small render
+   helpers used once may stay.
+7. **Duplicated instance.** Sibling routes each constructing the same
+   cache/catalog/factory with identical dependencies and lifetime, when
+   one shared instance belongs in the module registrar.
+8. **Ungoverned query escape hatch.** A locally declared builder
+   interface, an `unknown` cast around the query builder, or `rawAs`
+   used for anything but a scalar expression. Library limitations
+   belong in `src/lib/database.ts`, not in feature code.
+9. **ClickHouse read guarantees.** A `Replacing*` table read without
+   `FINAL`, or joined directly rather than through a CTE that can carry
+   it; a deduplicated table joined on a column that is not a prefix of
+   its sorting key. Both are invisible in row counts today and wrong on
+   the first duplicate row.
+10. **Same table, different guarantees.** Sibling routes reading one
+    warehouse table with different correctness treatment — one with
+    `FINAL` or an explicit dedupe, one without.
+11. **Unexecuted SQL.** A changed ClickHouse query whose only proof is
+    a stubbed builder or an asserted SQL string. Generated SQL that has
+    never run against a real schema is unverified — ambiguous
+    identifiers and join keys pass every string assertion.
+12. **Data-quality assertion.** A test pinned to an observed population
+    count, match rate, or ingestion distribution rather than to a
+    controlled fixture. Stable transformation rules are testable;
+    current warehouse population is not.
 
 ## Output contract (machine-parsed — follow exactly)
 

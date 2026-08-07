@@ -141,9 +141,17 @@ The raw `@clickhouse/client` is confined to
 enforces both of these rules in `apps/api/src/modules/**`, so they fail
 at lint time rather than review time.
 
-Queries live in the owning route directory's `queries.ts` /
-`subqueries.ts`, not in route handlers. Route handlers validate,
-delegate, and map.
+Query-builder limitations and their escape hatches belong to the
+database layer, not to whichever feature hit them first. A feature MUST
+NOT declare its own builder interface or cast around the builder;
+`apps/api/AGENTS.md` names where those live.
+
+A deduplicated (`Replacing*`) table MUST NOT be read without a
+correctness guarantee. Read it through a CTE that applies `FINAL` — a
+join target cannot carry `FINAL` — and when its sorting key differs
+from the join key, reduce it to one row per join key explicitly.
+Neither defect is visible in current row counts; both are wrong on the
+first duplicate row.
 
 Secrets MUST NOT be committed or printed. Production data MUST NOT be
 modified, and production migrations MUST NOT be run, from a
@@ -152,57 +160,33 @@ development session or an agent run.
 ### Types are derived, never restated
 
 CRITICAL: a type that describes an API request or response MUST be
-derived from the generated client, not hand-written. The canonical
-idiom, from `apps/web/src/pages/music/artists/types.ts`:
+derived from the generated artifact, not hand-written. On the web side
+that means `paths` from `@repo/api-client`; on the API side, TypeBox
+schemas for contracts and `db/clickhouse/schema.generated.ts` for row
+shapes. Narrow with `Pick`, `NonNullable`, and indexed access rather
+than retyping fields.
 
-```ts
-import type { paths } from "@repo/api-client";
+Hand-write a type only for a concept that exists solely in the
+consumer — component props, a UI display mode, column configuration. A
+restated type does not fail when the contract changes; it silently
+disagrees with it.
 
-export type ArtistListQuery =
-  paths["/app/artists"]["get"]["parameters"]["query"];
-export type ArtistListReply =
-  paths["/app/artists"]["get"]["responses"][200]["content"]["application/json"];
-export type Artist = ArtistListReply["data"][number];
-```
-
-Narrow with `Pick`, `NonNullable`, and indexed access rather than
-retyping fields. The same applies on the API side: ClickHouse row
-shapes come from `db/clickhouse/schema.generated.ts`, and route
-contracts come from the TypeBox schemas that generate the OpenAPI
-document.
-
-Hand-written types are for concepts that exist only in the consumer —
-component props, UI display modes, column configuration. If a type has
-a counterpart in a generated artifact, derive it.
+Where a hand-written type is _placed_ is a workspace convention, not a
+cross-cutting invariant: see the nested `AGENTS.md`.
 
 ### File and folder layout
 
-Structure follows the shape already established. Code specific to one
-route or one page lives with it; it moves outward only when a second
-consumer appears.
+Two rules hold everywhere. Code specific to one route or one page lives
+with it, and is promoted only when a second consumer appears —
+anticipated reuse is not a trigger. And a module is named for the
+responsibility its exports serve: a repository MUST NOT grow
+`utils`/`helpers`/`common`/`shared` buckets, or abstract nouns that let
+unrelated code accumulate under a name that excludes nothing.
 
-API — one directory per route, under the owning entity module:
-
-```
-apps/api/src/modules/<entity>/routes.ts          registers the routes
-apps/api/src/modules/<entity>/routes/<route>/
-    route.ts  schemas.ts  queries.ts  subqueries.ts  mapper.ts  types.ts
-    tests/
-```
-
-Web — one directory per page, under its vertical:
-
-```
-apps/web/src/pages/<vertical>/<entity>/<Entity>Page.tsx
-    api/  components/  components/<group>/  hooks/
-    constants.ts  types.ts  tests/
-```
-
-Shared code is promoted, not pre-emptively placed: a hook used by one
-page lives in that page's `hooks/`, and moves to `apps/web/src/hooks/`
-when something else needs it. A component used by one page lives in its
-`components/`, and moves to `@repo/ui` when a second page needs it.
-
-A new route or page MUST NOT flatten this into fewer files — a route
-whose queries, mapping, and schema all live in `route.ts` is a review
-finding, not a shortcut.
+The concrete layout — which base names a route folder uses, where
+concern folders sit, how page folders are grouped — is a per-workspace
+convention that changes as each app matures. It lives in the nested
+`AGENTS.md` of the workspace being edited (`apps/api/AGENTS.md`,
+`apps/web/AGENTS.md`, `packages/*/AGENTS.md`), which overrides this
+file on those specifics. Do not restate it here; two copies of a layout
+rule drift, and this one carries blocking authority in review.

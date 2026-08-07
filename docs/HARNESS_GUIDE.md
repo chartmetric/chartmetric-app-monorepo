@@ -146,6 +146,20 @@ A phase is a JSON file under `phases/` plus a markdown spec:
   deps, cross-process flows). Absence means the phase ships no
   orchestration. File-existence checks in `verification_cmd` are NOT a
   substitute — unwired orchestration passes them cleanly.
+
+  **A phase that changes a ClickHouse query always needs one**, even
+  when it adds no route and wires nothing new. Unit tests here assert
+  the SQL the builder emits; they cannot tell whether ClickHouse
+  accepts it. Ambiguous identifiers, ambiguous join keys, and
+  `Replacing*` reads missing `FINAL` all pass a string assertion and
+  fail against a real schema. Execute a matrix — every filter, every
+  sort, the count/list sibling pair, empty values, include/exclude
+  modes, joined enrichment paths — and record the ClickHouse version
+  and schema snapshot used. Assert deltas against a baseline captured
+  through the same reader, never absolute counts: warehouse population
+  changes underneath you, and a test pinned to today's match rate is a
+  flake waiting to happen.
+
 - `security_review: true` adds a threat-model addendum to the review
   stage's brief. Flag launch, auth, payment, and PII-touching phases.
 - Optional per-phase overrides: `max_attempts` (writer retry budget),

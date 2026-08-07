@@ -29,7 +29,7 @@ so you can see the shape before writing your own. Schema docs live in
     "pnpm build"
   ],
   "verification_cmd": "pnpm test --filter=api -- list-artists",
-  "smoke_cmd": null,
+  "smoke_cmd": "pnpm --filter api test:clickhouse -- list-artists",
   "security_review": false,
   "notes": "Filter only. No new permission — genre is not a commercial boundary (ARCHITECTURE.md invariants)."
 }
@@ -48,8 +48,15 @@ Why these values:
 - `gates` include `pnpm check:generated` because this phase changes an
   API contract. They omit `pnpm lint` — the commit stage stages every
   file, so lint-staged already lints them at commit time.
-- `smoke_cmd` is null: the phase ships no new orchestration, only a
-  filter on an already-wired route.
+- `smoke_cmd` executes the generated SQL against a real ClickHouse
+  schema. It is tempting to leave this null — the phase adds no new
+  route, only a filter — but a query change is exactly where stubbed
+  builders and asserted SQL strings pass while ClickHouse rejects the
+  statement (ambiguous identifiers, ambiguous join keys). The unit
+  tests prove the builder emits what we expect; only execution proves
+  ClickHouse accepts it. The matrix should cover each filter, each
+  sort, the count/list sibling pair, empty values, and include/exclude
+  modes.
 
 ## `phases/01-artist-genres-filter.md`
 
