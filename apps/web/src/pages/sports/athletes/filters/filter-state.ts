@@ -67,8 +67,10 @@ export const toFilterQuery = (values: AthleteFilterValues): AthleteFilters => {
   if (values.levels.length > 0) filters.levels = [...values.levels];
   // League and team have no exclude mode: both resolve through the football club
   // catalog, which only answers which clubs belong to a set of leagues.
-  if (values.leagues.included.length > 0) filters.leagues = [...values.leagues.included];
-  if (values.clubs.included.length > 0) filters.clubs = [...values.clubs.included];
+  if (values.leagues.included.length > 0)
+    filters.leagues = [...values.leagues.included];
+  if (values.clubs.included.length > 0)
+    filters.clubs = [...values.clubs.included];
 
   for (const key of ["nationalities", "sports"] as const) {
     addCategoricalFilter(filters, key, values[key]);

@@ -93,8 +93,9 @@ describe("ArtistsPage columns", () => {
     expect(artistCheckbox.checked).toBe(true);
     expect(screen.queryByRole("button", { name: "Reorder Artist" })).toBeNull();
     expect(
-      screen.getByRole<HTMLButtonElement>("button", { name: "Move Artist down" })
-        .disabled,
+      screen.getByRole<HTMLButtonElement>("button", {
+        name: "Move Artist down",
+      }).disabled,
     ).toBe(true);
   });
 
