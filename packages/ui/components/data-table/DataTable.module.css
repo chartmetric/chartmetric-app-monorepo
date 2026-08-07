@@ -1,0 +1,15 @@
+/*
+ * A pinned cell has to paint its own background, or the scrolled-under columns
+ * show through it. That opaque background sits on the `td`, while
+ * `highlightOnHover` paints the `tr`, so the pinned columns would stay
+ * body-coloured on a row the reader is pointing at. The hover colour has to be
+ * repeated here — an inline style cannot express `tr:hover td`.
+ */
+.stickyCell {
+  background-color: var(--mantine-color-body);
+  position: sticky;
+}
+
+tr:hover .stickyCell {
+  background-color: var(--table-hover-color, var(--mantine-color-body));
+}
