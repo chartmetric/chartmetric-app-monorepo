@@ -60,8 +60,6 @@ export const useAthleteTableColumns = (
 
       if (definition === undefined) return [];
 
-      // Instagram and TikTok both contribute a "Followers" and a "Posts"
-      // column, so the platform sits above the metric name in the header.
       const isPlatformColumn =
         definition.source === "Instagram" || definition.source === "TikTok";
 
