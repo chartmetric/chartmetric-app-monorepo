@@ -11,11 +11,8 @@ export const toDateString = (
   return text === ZERO_DATE ? null : text;
 };
 
-// Ages outside this range mean the stored date is wrong, not that the person is
-// remarkable — a placeholder year or a future date. Both read as no value.
 const MAX_AGE_YEARS = 120;
 
-// Compared in UTC so the result does not shift with the server's timezone.
 export const toAge = (
   dateOfBirth: string | null,
   today: Date,

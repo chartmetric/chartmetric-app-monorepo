@@ -159,9 +159,6 @@ const applyLeagueFilter = (
     return predicate.or(branches);
   });
 
-// A club filter spans three sources because the displayed club comes from the
-// football cache, the basketball roster, or the college school depending on the
-// athlete.
 const applyClubFilter = (
   builder: RosterBuilder,
   clubs: readonly string[],

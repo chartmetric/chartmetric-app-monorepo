@@ -1,8 +1,5 @@
-/**
- * A numeric warehouse column as it arrives over JSON: ClickHouse renders 64-bit
- * integers as strings, so an `Int64` column can arrive either way. Read one
- * through `toNumber`, which treats unparseable input as no value.
- */
+// ClickHouse renders 64-bit integers as strings, so an `Int64` column arrives
+// over JSON either way.
 export type WarehouseNumber = number | string | null;
 
 export const toNumber = (
@@ -16,7 +13,6 @@ export const toNumber = (
   return Number.isFinite(parsed) ? parsed : null;
 };
 
-// The cached social columns write 0 for "not backfilled yet", not a real zero.
 export const toPositiveCount = (
   value: number | string | null | undefined,
 ): number | null => {

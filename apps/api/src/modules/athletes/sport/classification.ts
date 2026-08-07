@@ -3,8 +3,7 @@ import type { AthleteLevel } from "./types.ts";
 // The on3 college-athlete ingestion batch is the only writer that uses
 // title-case sport values in `athletes_cache`; professional rows arrive
 // lowercase ("football"). No level, division, or source column exists on the
-// table, so casing is the only available signal. Replace this with a real
-// column if one is ever added upstream.
+// table, so casing is the only available signal.
 //
 // `Basketball`, `Women's Basketball`, and `Softball` also appear in title case
 // but are deliberately absent: the upstream dashboard this contract mirrors
@@ -23,10 +22,8 @@ export const COLLEGE_SPORT_LIST: readonly string[] = [...COLLEGE_SPORT_VALUES];
 export const toAthleteLevel = (rawSport: string): AthleteLevel =>
   COLLEGE_SPORT_VALUES.has(rawSport) ? "college" : "professional";
 
-// `football` (professional) and `Football` (college) are the same sport to a
-// reader but distinct strings in the warehouse. Collapsing them to one label
-// keeps the sport filter from listing the same sport twice; `level` is what
-// separates the two populations.
+// Collapsing both casings to one label keeps the sport filter from listing the
+// same sport twice; `level` is what separates the two populations.
 export const toSportLabel = (rawSport: string): string =>
   rawSport
     .split(" ")

@@ -5,8 +5,6 @@ export interface CountedOption {
   value: string;
 }
 
-// Locale pinned: the default follows the server's, so two machines would order
-// the same options differently.
 export const compareNames = (left: string, right: string): number =>
   left.localeCompare(right, "en");
 
@@ -33,8 +31,6 @@ export const countValues = (
     });
 };
 
-// Spreads entries rather than `source.keys()`: the iterator-helper form the
-// lint rule prefers is not in this project's TypeScript lib.
 export const sortedKeys = (source: ReadonlyMap<string, unknown>): string[] =>
   [...source].map(([key]) => key).toSorted(compareNames);
 
