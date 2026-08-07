@@ -2,7 +2,9 @@ import type { FC } from "react";
 
 import { ActionIcon, Button, Group, Stack, Text } from "@mantine/core";
 
-import { type ColumnPickerPreset, isSamePreset } from "./types";
+import type { ColumnPickerPreset } from "./types";
+
+import { isSamePreset } from "./ordering";
 
 export interface ColumnPresetListProps {
   deleteLabel?: (name: string) => string;

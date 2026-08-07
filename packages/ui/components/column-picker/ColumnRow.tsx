@@ -1,6 +1,12 @@
 import type { DragEvent, FC } from "react";
 
-import { ActionIcon, Badge, Checkbox, Group, UnstyledButton } from "@mantine/core";
+import {
+  ActionIcon,
+  Badge,
+  Checkbox,
+  Group,
+  UnstyledButton,
+} from "@mantine/core";
 
 export interface ColumnRowDrag {
   handleLabel: string;
