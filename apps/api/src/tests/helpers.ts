@@ -67,8 +67,6 @@ export const stubClickhouse = (rowsByTable: StubRows = {}): ClickHouse => {
 
         const rows = rowsByTable[table] ?? [];
 
-        // A count query runs the same builder against the same table, so the
-        // stub answers it from the row count it would otherwise return.
         return isSelectsAggregate ? [{ total: rows.length }] : rows;
       },
       final: () => chain,

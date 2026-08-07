@@ -2,6 +2,7 @@ import { rawAs } from "@hypequery/clickhouse";
 
 import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
 import type { ExecutableQuery } from "../../../../lib/database.ts";
+import type { EnrichmentSource } from "./constants.ts";
 import type { ListAthletesQuery } from "./schemas.ts";
 import type {
   AthleteCountRow,
@@ -10,7 +11,7 @@ import type {
   RosterBuilder,
 } from "./types.ts";
 
-import { type EnrichmentSource, withEnrichment } from "./enrichment.ts";
+import { withEnrichment } from "./enrichment.ts";
 import { applyFilters, selectRoster } from "./filters.ts";
 
 const CACHE = "new_vertical.athletes_cache";

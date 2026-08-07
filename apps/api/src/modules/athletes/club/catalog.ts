@@ -2,7 +2,7 @@ import type { ClickHouseDatabase } from "../../../db/clickhouse/client.ts";
 import type { DatabaseQueryFactory } from "../../../lib/database.ts";
 import type { ClubCatalog, ClubCatalogQueries, ClubIndex } from "./types.ts";
 
-import { buildClubIndex } from "./club-utilities.ts";
+import { buildClubIndex } from "./lookup.ts";
 
 const CATALOG_SETTINGS = {
   max_execution_time: 30,
@@ -86,43 +86,43 @@ export const createClubCatalog = (
   now: () => number = Date.now,
 ): ClubCatalog => {
   const queries = createClubCatalogQueries(database);
-  let cached: { index: ClubIndex; loadedAt: number } | undefined;
-  let inFlight: Promise<ClubIndex> | undefined;
+  let cached: { index: Promise<ClubIndex>; loadedAt: number } | undefined;
 
-  const loadAndCache = async (): Promise<ClubIndex> => {
-    try {
-      const [teams, competitions, teamCompetitions, clubNames] =
-        await Promise.all([
-          queries.listTeams().execute(),
-          queries.listCompetitions().execute(),
-          queries.listTeamCompetitions().execute(),
-          queries.listRosterClubNames().execute(),
-        ]);
-      const index = buildClubIndex(
-        teams,
-        competitions,
-        teamCompetitions,
-        clubNames.map(({ football_club: club }) => club),
-      );
+  const load = async (): Promise<ClubIndex> => {
+    const [teams, competitions, teamCompetitions, clubNames] =
+      await Promise.all([
+        queries.listTeams().execute(),
+        queries.listCompetitions().execute(),
+        queries.listTeamCompetitions().execute(),
+        queries.listRosterClubNames().execute(),
+      ]);
 
-      cached = { index, loadedAt: now() };
-
-      return index;
-    } finally {
-      inFlight = undefined;
-    }
+    return buildClubIndex(
+      teams,
+      competitions,
+      teamCompetitions,
+      clubNames.map(({ football_club: club }) => club),
+    );
   };
 
   return {
+    // Caching the promise rather than the resolved index means requests that
+    // arrive while a load is running share it instead of each issuing the same
+    // four catalog queries.
     load: async () => {
-      if (cached !== undefined && now() - cached.loadedAt < CATALOG_TTL_MS) {
-        return cached.index;
+      if (cached === undefined || now() - cached.loadedAt >= CATALOG_TTL_MS) {
+        cached = { index: load(), loadedAt: now() };
       }
-      // Concurrent first requests share one load instead of each issuing the
-      // same four catalog queries.
-      inFlight ??= loadAndCache();
 
-      return await inFlight;
+      const pending = cached;
+
+      try {
+        return await pending.index;
+      } catch (error) {
+        if (cached === pending) cached = undefined;
+
+        throw error;
+      }
     },
   };
 };

@@ -7,8 +7,6 @@ import {
 } from "./classification.ts";
 
 describe("toAthleteLevel", () => {
-  // Casing is the only signal the warehouse gives: the on3 college batch writes
-  // title case, professional sources write lowercase.
   it("reads title-case college sports as college", () => {
     expect(toAthleteLevel("Football")).toBe("college");
     expect(toAthleteLevel("Women's Soccer")).toBe("college");
@@ -19,8 +17,6 @@ describe("toAthleteLevel", () => {
     expect(toAthleteLevel("tennis")).toBe("professional");
   });
 
-  // Title-case sports outside the list stay professional on purpose, so the
-  // level split keeps matching the dashboard this contract mirrors.
   it("does not widen the college set to other title-case sports", () => {
     expect(toAthleteLevel("Basketball")).toBe("professional");
     expect(toAthleteLevel("Softball")).toBe("professional");

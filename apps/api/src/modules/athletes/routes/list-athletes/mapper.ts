@@ -14,7 +14,7 @@ import type {
 import { toAge, toDateString } from "../../../../lib/dates.ts";
 import { toNumber, toPositiveCount } from "../../../../lib/numbers.ts";
 import { emptyToNull } from "../../../../lib/strings.ts";
-import { leaguesForClub, logoForClub } from "../../club/club-utilities.ts";
+import { leaguesForClub, logoForClub } from "../../club/lookup.ts";
 import { toAthleteLevel, toSportLabel } from "../../sport/classification.ts";
 
 const PLATFORM_ORDER = [
@@ -25,8 +25,6 @@ const PLATFORM_ORDER = [
   "facebook",
 ] as const satisfies readonly SocialPlatform[];
 
-// The cache stores handles only, so profile URLs are built from each platform's
-// canonical pattern rather than read back from the warehouse.
 const PLATFORM_URLS: Readonly<
   Record<SocialPlatform, (handle: string) => string>
 > = {
@@ -57,22 +55,31 @@ const toSocialLinks = (
   return links;
 };
 
+// ESPN exposes no crest lookup: the logo sits at a path built from the league
+// and the team abbreviation its external-id metadata already carries.
+const ESPN_LOGO_BASE_URL = "https://a.espncdn.com/i/teamlogos";
+const ESPN_LOGO_WIDTH = "500";
+
 const toEspnLogoUrl = (
   league: string | null,
   teamAbbreviation: string | null,
-): string | null =>
-  league === null ||
-  league === "" ||
-  teamAbbreviation === null ||
-  teamAbbreviation === ""
-    ? null
-    : `https://a.espncdn.com/i/teamlogos/${league.toLowerCase()}/500/${teamAbbreviation.toLowerCase()}.png`;
+): string | null => {
+  const espnLeague = emptyToNull(league);
+  const abbreviation = emptyToNull(teamAbbreviation);
+
+  if (espnLeague === null || abbreviation === null) return null;
+
+  return [
+    ESPN_LOGO_BASE_URL,
+    espnLeague.toLowerCase(),
+    ESPN_LOGO_WIDTH,
+    `${abbreviation.toLowerCase()}.png`,
+  ].join("/");
+};
 
 const NCAA_LEAGUE = "NCAA";
 
 const toClub = (row: AthleteListRow, isCollege: boolean): string | null => {
-  // College athletes show their school; basketball comes from its own roster
-  // table; tennis is individual so it has no club at all.
   if (isCollege) return emptyToNull(row.on3_school);
   if (emptyToNull(row.basketball_team) !== null) return row.basketball_team;
 

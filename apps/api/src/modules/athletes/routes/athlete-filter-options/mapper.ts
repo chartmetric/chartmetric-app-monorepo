@@ -1,9 +1,6 @@
 import type { ClubIndex } from "../../club/types.ts";
 import type { AthleteFilterOptionsReply } from "./schemas.ts";
-import type {
-  AthleteFilterOptionRow,
-  AthleteFilterValues,
-} from "./types.ts";
+import type { AthleteFilterOptionRow, AthleteFilterValues } from "./types.ts";
 
 import { addToGroup } from "../../../../lib/collections.ts";
 import {
@@ -14,7 +11,7 @@ import {
 } from "../../../../lib/filter-options.ts";
 import { toNumber } from "../../../../lib/numbers.ts";
 import { emptyToNull } from "../../../../lib/strings.ts";
-import { leaguesForClub } from "../../club/club-utilities.ts";
+import { leaguesForClub } from "../../club/lookup.ts";
 import { toAthleteLevel, toSportLabel } from "../../sport/classification.ts";
 
 const NCAA_LEAGUE = "NCAA";

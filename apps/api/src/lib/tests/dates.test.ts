@@ -40,7 +40,6 @@ describe("toAge", () => {
     expect(toAge("not-a-date", today)).toBeNull();
   });
 
-  // A future date or a placeholder year is bad data, not a remarkable person.
   it("rejects implausible ages", () => {
     expect(toAge("2030-01-01", today)).toBeNull();
     expect(toAge("1800-01-01", today)).toBeNull();

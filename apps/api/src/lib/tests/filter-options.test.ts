@@ -21,7 +21,6 @@ describe("countValues", () => {
     ).toEqual(["Football", "Tennis"]);
   });
 
-  // A blank column is not a value a reader can pick, so it is not an option.
   it("drops absent and empty values instead of counting them", () => {
     expect(countValues(["a", "", null, undefined, "a"])).toEqual([
       { count: 2, value: "a" },
@@ -42,7 +41,6 @@ describe("compareNames", () => {
     ]);
   });
 
-  // The server's own locale must not decide the order a client receives.
   it("does not depend on the default locale", () => {
     expect(compareNames("a", "b")).toBe("a".localeCompare("b", "en"));
   });

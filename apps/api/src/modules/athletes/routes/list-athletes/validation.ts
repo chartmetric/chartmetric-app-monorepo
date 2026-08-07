@@ -1,10 +1,7 @@
 import type { ListAthletesQuery } from "./schemas.ts";
 
-/**
- * Range filters that arrive as an independent minimum and maximum. TypeBox
- * validates each field on its own, so an inverted pair — a minimum above its
- * maximum — is only detectable once both values are known.
- */
+// TypeBox validates each bound on its own, so an inverted pair is only
+// detectable once both values are known.
 const RANGE_BOUNDS = [
   ["minCmScore", "maxCmScore"],
   ["minFollowers", "maxFollowers"],
@@ -13,8 +10,6 @@ const RANGE_BOUNDS = [
   keyof ListAthletesQuery,
 ])[];
 
-// Left unchecked, an inverted range returns an empty page instead of telling the
-// caller the request was contradictory.
 export const findInvertedRange = (
   query: ListAthletesQuery,
 ): string | undefined => {

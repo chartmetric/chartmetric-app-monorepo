@@ -18,11 +18,6 @@ export interface RosterClubNameRow {
   football_club: string | null;
 }
 
-/**
- * The catalog only ever executes its queries, so this is narrower than
- * `lib/database.ts`'s `ExecutableQuery`: a builder satisfies it structurally and
- * the catalog assigns one directly, with no cast.
- */
 export interface CatalogQuery<Row> {
   execute: () => Promise<Row[]>;
 }

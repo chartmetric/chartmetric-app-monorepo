@@ -302,14 +302,9 @@ describe("listAthletes", () => {
 });
 
 describe("countAthletes", () => {
-  /**
-   * An unqualified column in the outer query is ambiguous as soon as an
-   * enrichment source shares the name — `name` and `nationality` both exist on
-   * the momentum cache — and ClickHouse rejects the whole query with
-   * AMBIGUOUS_IDENTIFIER instead of choosing a side. The list query happens to
-   * survive because its `... AS nationality` select alias shadows the column, so
-   * the count query is where the mistake actually surfaces.
-   */
+  // The list query survives an unqualified column because its `... AS
+  // nationality` select alias shadows it; the count query has no alias, so
+  // AMBIGUOUS_IDENTIFIER only surfaces here.
   it("qualifies roster filters that share a name with an enrichment source", () => {
     const { sql } = queries
       .countAthletes({ ...PAGE, name: "alex", nationalities: ["Brazil"] })
