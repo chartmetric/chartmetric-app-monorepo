@@ -11,6 +11,7 @@ export interface AthleteFilterOptionRow {
   cm_score: number | null;
   football_club: string | null;
   nationality: string | null;
+  on3_school: string | null;
   sport: string | null;
   tennis_tour: string | null;
 }

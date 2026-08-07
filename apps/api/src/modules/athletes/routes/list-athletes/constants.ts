@@ -2,12 +2,12 @@ import type { DatabaseQueryFactory } from "../../../../lib/database.ts";
 import type { CteAlias } from "./types.ts";
 
 import { selectBasketballRoster } from "../../basketball/roster.ts";
+import { selectOn3School } from "../../college/school.ts";
 import {
   selectEspnBasketball,
   selectGpsScores,
   selectLastMatch,
   selectMomentum,
-  selectOn3School,
   selectRosterRank,
   selectTiktokLatest,
 } from "./ctes.ts";

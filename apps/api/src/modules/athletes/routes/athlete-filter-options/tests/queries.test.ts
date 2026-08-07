@@ -35,15 +35,17 @@ describe("listAthleteFilterOptions", () => {
       "tennis_tour",
       "basketball_roster.basketball_team AS basketball_team",
       "basketball_roster.basketball_league AS basketball_league",
+      "on3_school.school AS on3_school",
     ]) {
       expect(sql).toContain(column);
     }
   });
 
-  it("joins the basketball roster without fanning out rows", () => {
+  it("joins the basketball roster and the college school without fanning out rows", () => {
     const sql = queries.listAthleteFilterOptions().toSQL();
 
     expect(sql).toContain("LEFT ANY JOIN basketball_roster ON");
+    expect(sql).toContain("LEFT ANY JOIN on3_school ON");
     expect(
       queries.listAthleteFilterOptions().getQueryNode().settings,
     ).toMatchObject({ join_use_nulls: 1 });
