@@ -66,11 +66,28 @@ pnpm format     # format with Prettier
 
 To target a single workspace, use a turbo filter, e.g. `pnpm build --filter=api` or `pnpm dev --filter=web`.
 
+## AI development harness
+
+Multi-step work can be driven phase by phase through an in-repo harness vendored from [`chartmetric/harness-template`](https://github.com/chartmetric/harness-template). One command writes, verifies, gates, reviews, and locally commits a phase; pushing stays human.
+
+```sh
+python3 scripts/execute.py doctor      # environment check — run this first
+python3 scripts/execute.py status      # list phases
+python3 scripts/execute.py run <id>    # execute one phase end to end
+python3 -m unittest discover tests     # the harness's own tests
+```
+
+Read [`docs/HARNESS_GUIDE.md`](docs/HARNESS_GUIDE.md) before using it, starting with the system-overview diagram. [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) holds the invariants every phase must preserve — the review stage treats a `CRITICAL` / `MUST NOT` violation as blocking. Decisions land in [`docs/ADR.md`](docs/ADR.md).
+
+The harness needs Python 3.10+ (no third-party packages) and the `.claude` / `CLAUDE.md` symlinks from the section above — spawned agents read repo instructions through them, and `doctor` fails if they are missing.
+
+A `dangerous_cmd_guard` hook (wired in `.agents/settings.json`) denies destructive shell commands in every Claude Code session in this repo, harness run or not.
+
 ## Quality gates
 
 - **Pre-commit** (husky + lint-staged): ESLint `--fix` and Prettier run on staged files, then typecheck and tests. Auto-fixes are re-staged into the commit.
 - **Commit messages** follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat: ...`, `fix(api): ...`), enforced by commitlint on the `commit-msg` hook.
-- **CI** (GitHub Actions): format check, lint, typecheck, test, and build on every PR and push to `main`, with pnpm + turbo caching. Railway waits for CI before deploying.
+- **CI** (GitHub Actions): format check, lint, typecheck, test, and build on every PR and push to `main`, with pnpm + turbo caching, plus a separate job for the harness's Python tests. Railway waits for CI before deploying.
 - **Dependabot**: weekly dependency PRs (minor/patch grouped, 7-day cooldown).
 
 ## Apps

@@ -33,3 +33,10 @@ apps/web/src/locales/*/*/messages.js
 .agents/settings.local.json
 .claude
 /CLAUDE.md
+
+# Harness runtime state: audit log, agent transcripts, per-phase locks
+.harness/
+
+# Python bytecode from the harness scripts
+__pycache__/
+*.py[cod]

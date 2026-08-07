@@ -1,0 +1,24 @@
+{
+  "phase_id": "NN-slug",
+  "duration_min": 0,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "<output of `git diff --stat <base>..HEAD`>",
+  "tests_added": 0,
+  "tests_passing_total": 0,
+  "drafted_by": "human",
+  "smoke_run": {
+    "ts": "2026-01-01T00:00:00+00:00",
+    "result": "pass",
+    "cmd": "<smoke_cmd>"
+  },
+  "surprises": [],
+  "proposed_rules": [],
+  "followups": []
+}
