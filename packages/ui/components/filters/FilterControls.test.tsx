@@ -101,11 +101,6 @@ describe("filter controls", () => {
     });
   });
 
-  /**
-   * Some filters resolve through a lookup that only answers membership, so there
-   * is no exclude for them to express. Offering the control anyway gave the
-   * reader a toggle that snapped back and changed nothing.
-   */
   it("hides the exclude toggle when the filter cannot exclude", () => {
     renderWithProvider(
       <MantineProvider>
@@ -209,11 +204,6 @@ describe("filter controls", () => {
     expect(onClear).toHaveBeenCalledTimes(1);
   });
 
-  /**
-   * The main row wraps only as it fills, which splits a group of compact
-   * controls at whatever point it runs out of space. Quick filters keep a row of
-   * their own, beneath everything else.
-   */
   it("keeps quick filters on a row of their own", () => {
     renderWithProvider(
       <FilterBar
