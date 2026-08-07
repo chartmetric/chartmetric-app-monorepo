@@ -33,10 +33,6 @@ export const toFilterOptions = (
 ): MultiSelectFilterOption[] =>
   values.map((value) => ({ label: value, value }));
 
-/**
- * Options that show how many records carry each value. The caller formats the
- * count, so this package stays free of locale knowledge.
- */
 export const toCountedFilterOptions = (
   options: readonly { count: number; value: string }[],
   formatCount: (count: number) => string,
