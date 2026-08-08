@@ -71,6 +71,18 @@ Before implementing a frontend feature, inspect the supported `@repo/ui` exports
 
 Equivalent features should remain behaviorally and visually consistent across entities by default. Keep a difference only when product or domain requirements justify it; make the reason evident in the implementation and tests.
 
+## Module layout
+
+Page code lives under `src/pages/<vertical>/<page>/`. Identify the owning concern before adding a file; do not create a flat collection and reorganize later.
+
+- Group a page's code by concern (`api/`, `columns/`, `filters/`, `components/`) once more than a couple of files share one.
+- One React function component per `.tsx` file. Tests and an intentionally colocated compound-component implementation are the exceptions.
+- When several components exist only to implement one high-level component, the composer sits at the feature-folder root and its private building blocks go in a nested `components/` directory. Nothing outside that group imports from the nested folder.
+- Name modules for the responsibility their exports collectively serve (`filter-state.ts`), never for one data type they use (`values.ts`) or a generic bucket (`utils.ts`, `helpers.ts`).
+- Handwritten types live in the owning folder's `types.ts`, which stays a leaf module. Derive API types from `@repo/api-client`; hand-write only what exists solely in the frontend, such as component props and UI display modes.
+- Split modules by responsibility, not because a function is a hook. A module whose only content wraps one sibling function in one hook adds no contract — keep tightly coupled pure logic and its single orchestration hook together while the module stays focused. Move support hooks and formatters out of a component module only when they form a distinct, nameable responsibility.
+- Name state after the values it represents. Reserve `draft` for state with an explicit apply/discard lifecycle; a control may hold an uncommitted preview value during interaction without turning the feature's state into a draft abstraction.
+
 ## Responsive layout
 
 Every screen, layout, and component must remain usable at mobile widths. This applies to all UI work, not only pages designed for mobile.
