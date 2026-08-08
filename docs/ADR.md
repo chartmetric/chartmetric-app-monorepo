@@ -67,3 +67,50 @@ code and existing contracts, so their dates are approximate.
   the harness only — stdlib, exercised by a step in the existing CI
   job at the 3.10 floor, and outside the Turborepo task graph. See
   `docs/HARNESS_GUIDE.md`.
+
+## ADR-005: ClickHouse is queried through hypequery builders, never raw SQL
+
+- **Date**: 2026-08-07 (decision predates this entry; recorded when the
+  rule was harvested from recurring review findings)
+- **Status**: accepted
+- **Context**: Hand-written SQL strings lose the generated schema types
+  that turn a column rename into a compile error, and they reintroduce
+  string interpolation as an injection path. Both failure modes
+  appeared in real implementation sessions before the rule existed.
+- **Decision**: All ClickHouse access in `apps/api` composes queries
+  with the `@hypequery/clickhouse` builder against the generated
+  schema. `rawAs` is permitted only for a scalar expression inside a
+  chain — an aggregate, a cast, arithmetic — never for a `FROM`,
+  `JOIN`, `WHERE`, or a whole statement. Builder limitations are
+  handled once in the database layer (`lib/database.ts`), not worked
+  around per feature.
+- **Consequences**: ESLint blocks the raw `@clickhouse/client` import
+  and SQL-shaped template literals under `apps/api/src/modules/**`.
+  Generated SQL still proves nothing until it executes against a real
+  ClickHouse schema, so query phases carry a `smoke_cmd`. Operational
+  statement in the `## Learned rules` section of `AGENTS.md` and
+  `apps/api/AGENTS.md`.
+
+## ADR-006: Feature code colocates with its consumer; promotion requires a second consumer
+
+- **Date**: 2026-08-07 (decision predates this entry; recorded when the
+  rule was harvested from recurring review findings)
+- **Status**: accepted
+- **Context**: The rejected alternatives — organizing by technical
+  layer, or hoisting helpers to shared packages on first use — produce
+  central buckets (`utils`, `helpers`) that accumulate unrelated code,
+  and shared abstractions with a single caller. Implementation
+  sessions exhibited both directions: helpers reimplemented locally
+  because no owner was findable, and code promoted to shared locations
+  nothing else consumed.
+- **Decision**: Code specific to one route or page lives in that route
+  or page's folder and is promoted only when a second consumer
+  actually appears — never in anticipation of one. Every module is
+  named for the responsibility its exports serve, not for a data type
+  it uses or a generic bucket name.
+- **Consequences**: Adding a second consumer is the trigger to move
+  code up one ownership level, in the same change. Per-workspace
+  layout details (base filenames, concern folders, component
+  grouping) live in each workspace's nested `AGENTS.md`, which this
+  decision anchors. Operational statement in the `## Learned rules`
+  section of `AGENTS.md`.
