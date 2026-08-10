@@ -119,6 +119,23 @@ phase's retry loop or review cycle exhausts.
   not, so the guard has to be mechanical. Neither `rawAs` strings nor
   hand-declared CTE types can fail at compile time, which is why
   regenerating alone would not have caught it.
+- P2: Make the runner's commit subject survive commitlint. The
+  `commit_message_format` interpolates the phase title verbatim, and
+  `@commitlint/config-conventional` rejects a sentence-case subject, so
+  a capitalised title fails at the commit stage after every other stage
+  has passed. Downcase the title's first character when building the
+  message. `docs/EXAMPLE_PHASE.md` carries the same defect: its example
+  title, "Genre filter on the artists list endpoint", fails the
+  identical check, so the worked example teaches the trap.
+- P2: When reviewing a query that joins a `Replacing*` table, confirm
+  from the schema that the join key is a prefix of the table's sorting
+  key — `FINAL` cannot deduplicate for that join otherwise, and the
+  defect is dormant while the table happens to hold one row per join
+  key. `schema.generated.ts` records column names and types only, with
+  no engine or sorting key, so this cannot be checked from the committed
+  snapshot: read it through the ClickHouse MCP (`SHOW CREATE TABLE`).
+  Either teach the generator to emit the sorting key, or fold the check
+  into the schema-drift gate above.
 - P2: Run the first pilot phase against an `apps/api` module and tune
   `max_attempts` / `max_review_cycles` from the resulting retro.
 - P3: When the athlete implementation branch lands: add direct unit
