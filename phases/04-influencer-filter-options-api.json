@@ -1,13 +1,13 @@
 {
   "id": "04-influencer-filter-options-api",
-  "title": "Serve influencer filter vocabularies from /app only",
+  "title": "serve influencer filter vocabularies from /app only",
   "status": "pending",
   "depends_on": [
     "03-influencer-list-api"
   ],
   "acceptance": [
-    "GET /app/influencer-filter-options returns category, country, gender and age-group vocabularies",
-    "the route is absent from openapi.generated.json, matching the app-only treatment of athlete-filter-options",
+    "GET /app/influencers/filter-options returns category, country, gender and age-group vocabularies",
+    "the route appears in openapi.generated.json under /app/influencers/filter-options and no /v1/influencers/filter-options entry exists",
     "categories are derived from the JSON-encoded creator_tags column and ordered by descending creator count",
     "countries are returned as ISO codes with counts, not as display names",
     "the age-group vocabulary contains exactly the six supported buckets and excludes the overlapping data-quality values",

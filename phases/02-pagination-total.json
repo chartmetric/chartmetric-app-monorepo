@@ -1,6 +1,6 @@
 {
   "id": "02-pagination-total",
-  "title": "Add an optional total to the shared pagination contract and control",
+  "title": "add an optional total to the shared pagination contract and control",
   "status": "pending",
   "depends_on": [],
   "acceptance": [
