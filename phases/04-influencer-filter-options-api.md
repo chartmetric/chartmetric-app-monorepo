@@ -4,15 +4,15 @@
 
 The filter panel needs to know which categories, countries, genders and
 age groups exist before a user picks one. This phase adds
-`GET /app/influencer-filter-options` to supply them, on the `app` surface
+`GET /app/influencers/filter-options` to supply them, on the `app` surface
 only — the developer API gets the list route and its filter parameters,
 not a discoverable vocabulary endpoint. That mirrors athletes, where
-`athlete-filter-options` is also `app`-only.
+`/athletes/filter-options` is also `app`-only.
 
 ## Acceptance
 
-- `GET /app/influencer-filter-options` returns category, country, gender and age-group vocabularies
-- the route is absent from `openapi.generated.json`, matching the app-only treatment of `athlete-filter-options`
+- `GET /app/influencers/filter-options` returns category, country, gender and age-group vocabularies
+- the route appears in `openapi.generated.json` under `/app/influencers/filter-options` and no `/v1/influencers/filter-options` entry exists
 - categories are derived from the JSON-encoded `creator_tags` column and ordered by descending creator count
 - countries are returned as ISO codes with counts, not as display names
 - the age-group vocabulary contains exactly the six supported buckets and excludes the overlapping data-quality values
@@ -21,7 +21,7 @@ not a discoverable vocabulary endpoint. That mirrors athletes, where
 
 ## In scope
 
-- `apps/api/src/modules/influencers/routes/influencer-filter-options/` — `route.ts`, `schemas.ts`, `queries.ts`, `mapper.ts`, `tests/`, and the smoke matrix.
+- `apps/api/src/modules/influencers/routes/influencer-filter-options/` — `route.ts` (path `/influencers/filter-options`), `schemas.ts`, `queries.ts`, `mapper.ts`, `tests/`, and the smoke matrix.
 - `apps/api/src/modules/influencers/routes.ts` — register the new plugin with `surfaces: ["app"]`.
 - `apps/api/src/modules/influencers/routes.test.ts` — extend to assert the surface split.
 - Regenerated `openapi.generated.json` and `packages/api-client/src/schema.generated.ts`.
@@ -29,6 +29,7 @@ not a discoverable vocabulary endpoint. That mirrors athletes, where
 ## Out of scope
 
 - Do not register this route on `v1`, and do not add a `hide` flag to achieve the exclusion. The `/app` surface already marks its routes hidden through an `onRoute` hook; see `apps/api/AGENTS.md`.
+- Do not try to keep this route out of `openapi.generated.json`. That committed document deliberately contains every `/app` path — the web app derives its types from them (`paths["/app/artists/filter-options"]` is already in use). Only the *runtime* `/openapi.json` hides `/app`, via the `onRoute` hook. Suppressing it from the committed artifact would break client generation.
 - Do not change the list route's schemas, queries, or mapper.
 - Do not map ISO country codes to display names, and do not add a country-name library. That is the frontend's job under ADR-008, in phase 06.
 - Do not localize or rewrite the category labels. They are data values, not authored copy — ADR-008.

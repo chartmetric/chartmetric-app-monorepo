@@ -1,6 +1,6 @@
 {
   "id": "05-influencers-page-list",
-  "title": "Render the influencer list table with pagination",
+  "title": "render the influencer list table with pagination",
   "status": "pending",
   "depends_on": [
     "02-pagination-total",
