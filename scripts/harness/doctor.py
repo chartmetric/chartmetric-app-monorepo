@@ -15,7 +15,7 @@ import sys
 
 from harness.agents import AGENT_ROLES, resolve_agent_cmd
 from harness.context import PHASES_DIR, REPO_ROOT
-from harness.docs_gate import precheck_failures
+from harness.docs_gate import precheck_advisories, precheck_failures
 
 FAIL = "✗"
 WARN = "!"
@@ -152,6 +152,16 @@ def _check_docs(results: list) -> None:
         )
     else:
         results.append((OK, "precheck passes — docs have substantive content"))
+
+    advisories = precheck_advisories()
+    if advisories:
+        results.append(
+            (
+                WARN,
+                "recommended docs are thin or absent (does not block a run):\n   "
+                + "\n   ".join(a.strip() for a in advisories),
+            )
+        )
 
 
 def run_doctor() -> int:

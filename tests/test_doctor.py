@@ -79,6 +79,23 @@ class TestDoctor(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertIn("still skeletons", result.stdout)
 
+    def test_advisory_doc_warns_without_failing(self) -> None:
+        (self.tmp / "docs/ARCHITECTURE.md").write_text("# A\n\nreal line 1\nreal line 2\nreal line 3\n")
+        (self.tmp / "harness.config.json").write_text(
+            json.dumps(
+                {
+                    "required_docs": ["docs/ARCHITECTURE.md"],
+                    "advisory_docs": {"docs/PRD.md": "run /feature-intake"},
+                    "agents_sections": [],
+                }
+            )
+        )
+        result = _doctor(self.tmp, extra_env={"HARNESS_CLAUDE_CMD": sys.executable})
+        self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+        self.assertIn("docs/PRD.md", result.stdout)
+        self.assertIn("run /feature-intake", result.stdout)
+        self.assertIn("1 warning(s)", result.stdout)
+
     def test_broken_config_fails(self) -> None:
         (self.tmp / "harness.config.json").write_text('{"max_attempts": "five"}')
         result = _doctor(self.tmp, extra_env={"HARNESS_CLAUDE_CMD": sys.executable})
