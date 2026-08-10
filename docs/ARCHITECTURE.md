@@ -121,10 +121,19 @@ same commit — `pnpm check:generated` fails otherwise.
 
 ### Internationalization
 
-Every user-facing string in `apps/web` goes through Lingui. A new
-string MUST be extracted and translated across all seven locales
+Every piece of **authored copy** in `apps/web` goes through Lingui. A
+new string MUST be extracted and translated across all seven locales
 before it can be committed; the pre-commit hook runs
 `lingui compile --strict` and refuses untranslated messages.
+
+**Data values** are not authored copy. Names, handles, cities, and
+category labels arriving from the API or a datastore are rendered as
+received and MUST NOT be added to the catalogs. Where such a value has
+a locale-correct presentation defined by CLDR, use the platform's
+ECMA-402 APIs (`Intl.DisplayNames`, `Intl.NumberFormat`,
+`Intl.DateTimeFormat`) keyed on the active Lingui locale, rather than
+adding a dependency that restates data the runtime already ships. See
+ADR-008.
 
 ### Data access
 

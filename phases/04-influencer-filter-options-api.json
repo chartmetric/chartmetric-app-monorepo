@@ -1,0 +1,34 @@
+{
+  "id": "04-influencer-filter-options-api",
+  "title": "Serve influencer filter vocabularies from /app only",
+  "status": "pending",
+  "depends_on": [
+    "03-influencer-list-api"
+  ],
+  "acceptance": [
+    "GET /app/influencer-filter-options returns category, country, gender and age-group vocabularies",
+    "the route is absent from openapi.generated.json, matching the app-only treatment of athlete-filter-options",
+    "categories are derived from the JSON-encoded creator_tags column and ordered by descending creator count",
+    "countries are returned as ISO codes with counts, not as display names",
+    "the age-group vocabulary contains exactly the six supported buckets and excludes the overlapping data-quality values",
+    "every vocabulary query is scoped to profile_type 'creator' so counts match the list route",
+    "influencer-filter-options.smoke.ts executes each vocabulary query against real ClickHouse"
+  ],
+  "files": [
+    "apps/api/src/modules/influencers/routes.ts",
+    "apps/api/src/modules/influencers/routes.test.ts",
+    "apps/api/src/modules/influencers/routes/influencer-filter-options/**",
+    "apps/api/openapi.generated.json",
+    "packages/api-client/src/schema.generated.ts"
+  ],
+  "gates": [
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm check:generated"
+  ],
+  "verification_cmd": "pnpm --filter api exec vitest run influencer-filter-options",
+  "smoke_cmd": "pnpm --filter api test:smoke",
+  "security_review": false,
+  "notes": "app surface only, per the requester's decision and the athletes precedent. The list route's filter parameters remain the developer-API entry point."
+}

@@ -1,0 +1,30 @@
+{
+  "id": "01-clickhouse-smoke",
+  "title": "Execute ClickHouse queries in a smoke suite instead of asserting their SQL",
+  "status": "pending",
+  "depends_on": [],
+  "acceptance": [
+    "pnpm --filter api test:smoke runs every src/**/*.smoke.ts case against real ClickHouse and exits 0 when all queries are accepted",
+    "pnpm test does not execute any *.smoke.ts file, so CI stays green without ClickHouse credentials",
+    "the smoke setup exits non-zero naming the missing variables when CLICKHOUSE_HOST, CLICKHOUSE_USER or CLICKHOUSE_PASSWORD is unset",
+    "a ClickHouse server error propagates out of the smoke executor as a test failure rather than being swallowed, covered by a unit test",
+    "list-athletes.smoke.ts executes the athletes list query for the unfiltered default, each supported filter, and both sort directions"
+  ],
+  "files": [
+    "apps/api/vitest.smoke.config.ts",
+    "apps/api/package.json",
+    "apps/api/src/db/clickhouse/clickhouse-smoke.ts",
+    "apps/api/src/db/clickhouse/tests/clickhouse-smoke.test.ts",
+    "apps/api/src/modules/athletes/routes/list-athletes/list-athletes.smoke.ts",
+    "apps/api/AGENTS.md"
+  ],
+  "gates": [
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test"
+  ],
+  "verification_cmd": "pnpm --filter api exec vitest run clickhouse-smoke",
+  "smoke_cmd": "pnpm --filter api test:smoke",
+  "security_review": false,
+  "notes": "Prerequisite for every later query phase. ADR-005 and the AGENTS.md learned rule require executed SQL; today's query tests only assert builder output."
+}

@@ -1,0 +1,32 @@
+{
+  "id": "05-influencers-page-list",
+  "title": "Render the influencer list table with pagination",
+  "status": "pending",
+  "depends_on": [
+    "02-pagination-total",
+    "03-influencer-list-api"
+  ],
+  "acceptance": [
+    "InfluencersPage renders a table of influencers fetched through the generated client, replacing the placeholder title",
+    "the table shows name, category, subtags, handles, country with city, gender and age columns",
+    "country codes render as locale-correct names through Intl.DisplayNames keyed on the active Lingui locale",
+    "the result count and page-of-N label come from the reply's pagination total",
+    "loading, empty and error states are rendered, and the error state offers a retry",
+    "all request and reply types derive from paths in @repo/api-client with no hand-written response types",
+    "new strings are extracted and translated across all seven locales so lingui compile --strict passes",
+    "the table scrolls within its own container at mobile widths without the page scrolling horizontally"
+  ],
+  "files": [
+    "apps/web/src/pages/creators/influencers/**",
+    "apps/web/src/locales/creators/**"
+  ],
+  "gates": [
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm --filter web exec lingui compile --strict"
+  ],
+  "verification_cmd": "pnpm --filter web exec vitest run InfluencersPage",
+  "security_review": false,
+  "notes": "Reuses the existing @repo/ui data-table and table-pagination exports; no new shared component. Filters arrive in phase 06."
+}

@@ -1,0 +1,31 @@
+{
+  "id": "02-pagination-total",
+  "title": "Add an optional total to the shared pagination contract and control",
+  "status": "pending",
+  "depends_on": [],
+  "acceptance": [
+    "PaginationMetaSchema exposes an optional integer total, and a reply that omits it still validates",
+    "@repo/ui/table-pagination accepts an optional total and renders a total-aware page label when one is supplied",
+    "TablePagination falls back to its current hasNextPage behaviour and page label when no total is supplied",
+    "TablePagination disables the next control on the final page when a total is supplied",
+    "packages/ui tests cover the with-total and without-total rendering paths and the athletes page renders unchanged",
+    "pnpm check:generated passes with the regenerated OpenAPI document and API client committed"
+  ],
+  "files": [
+    "apps/api/src/lib/pagination.ts",
+    "apps/api/src/lib/tests/pagination.test.ts",
+    "packages/ui/components/data-table/TablePagination.tsx",
+    "packages/ui/components/data-table/TablePagination.test.tsx",
+    "apps/api/openapi.generated.json",
+    "packages/api-client/src/schema.generated.ts"
+  ],
+  "gates": [
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm check:generated"
+  ],
+  "verification_cmd": "pnpm --filter @repo/ui exec vitest run TablePagination",
+  "security_review": false,
+  "notes": "Additive on both sides so the published /v1/athletes contract does not break. The influencers page needs the total for the mockup's result count and page-of-N label."
+}
