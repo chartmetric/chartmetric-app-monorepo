@@ -20,6 +20,10 @@ DEFAULTS: dict = {
     "project_name": "my-project",
     # Docs that must have substantive content before phases can run.
     "required_docs": ["docs/PRD.md", "docs/ARCHITECTURE.md"],
+    # Docs that are recommended but not gated, as {path: how-to-fill hint}.
+    # Reported by precheck and never fatal — for docs a project bootstraps
+    # on first use, which cannot be required before that use happens.
+    "advisory_docs": {},
     "agents_file": "AGENTS.md",
     "agents_sections": [2, 3, 4],
     "min_substantive_lines": 3,

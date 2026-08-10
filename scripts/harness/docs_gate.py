@@ -82,3 +82,21 @@ def precheck_failures() -> list[str]:
                     f"  {agents_rel} section {sec}: {n} substantive line(s); need >= {minimum}"
                 )
     return failures
+
+
+def precheck_advisories() -> list[str]:
+    """Thin-or-absent `advisory_docs`, each with its configured hint.
+
+    Never blocks. These are docs a project bootstraps on first use, so
+    requiring them would fail the very first run — but a caller that
+    reports only `required_docs` gives a green precheck to a repo that a
+    later stage will refuse for a doc precheck never mentioned.
+    """
+    config = get_config()
+    minimum = int(config["min_substantive_lines"])
+    advisories: list[str] = []
+    for rel, hint in config["advisory_docs"].items():
+        n = substantive_lines(REPO_ROOT / rel)
+        if n < minimum:
+            advisories.append(f"  {rel}: {n} substantive line(s) — {hint}")
+    return advisories

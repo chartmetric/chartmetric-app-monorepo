@@ -12,6 +12,7 @@ Run:
 
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
 import sys
@@ -51,21 +52,25 @@ FILLED_AGENTS = (
 )
 
 
-def _run_precheck(cwd: Path) -> int:
-    proc = subprocess.run(
+def _precheck(cwd: Path) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
         [sys.executable, str(cwd / "scripts/execute.py"), "precheck"],
         cwd=cwd,
         capture_output=True,
         text=True,
         timeout=10,
     )
-    return proc.returncode
+
+
+def _run_precheck(cwd: Path) -> int:
+    return _precheck(cwd).returncode
 
 
 def _make_repo(
     prd: str | None = FILLED_DOC,
     arch: str | None = FILLED_DOC,
     agents: str | None = FILLED_AGENTS,
+    config: dict | None = None,
 ) -> Path:
     tmp = Path(tempfile.mkdtemp(prefix="harness-precheck-"))
     (tmp / "docs").mkdir()
@@ -75,6 +80,8 @@ def _make_repo(
         (tmp / "docs/ARCHITECTURE.md").write_text(arch)
     if agents is not None:
         (tmp / "AGENTS.md").write_text(agents)
+    if config is not None:
+        (tmp / "harness.config.json").write_text(json.dumps(config))
     shutil.copytree(SCRIPTS_DIR, tmp / "scripts", ignore=shutil.ignore_patterns("__pycache__"))
     return tmp
 
@@ -167,6 +174,57 @@ class TestPrecheck(unittest.TestCase):
         self.tmp = _make_repo(agents=agents)
         code = _run_precheck(self.tmp)
         self.assertEqual(code, 0)
+
+
+class TestAdvisoryDocs(unittest.TestCase):
+    """`advisory_docs` reports without blocking — the gap that let a green
+    precheck be followed by a later stage refusing for an unmentioned doc."""
+
+    ADVISORY_CONFIG = {
+        "required_docs": ["docs/ARCHITECTURE.md"],
+        "advisory_docs": {"docs/PRD.md": "run /feature-intake"},
+        "agents_sections": [],
+    }
+
+    def setUp(self) -> None:
+        self.tmp: Path | None = None
+
+    def tearDown(self) -> None:
+        if self.tmp is not None:
+            shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_missing_advisory_doc_passes_but_reports(self) -> None:
+        self.tmp = _make_repo(prd=None, config=self.ADVISORY_CONFIG)
+        proc = _precheck(self.tmp)
+        self.assertEqual(proc.returncode, 0)
+        self.assertIn("docs/PRD.md", proc.stdout)
+        self.assertIn("run /feature-intake", proc.stdout)
+
+    def test_skeleton_advisory_doc_passes_but_reports(self) -> None:
+        self.tmp = _make_repo(prd=SKELETON_DOC, config=self.ADVISORY_CONFIG)
+        proc = _precheck(self.tmp)
+        self.assertEqual(proc.returncode, 0)
+        self.assertIn("docs/PRD.md", proc.stdout)
+
+    def test_filled_advisory_doc_is_silent(self) -> None:
+        self.tmp = _make_repo(prd=FILLED_DOC, config=self.ADVISORY_CONFIG)
+        proc = _precheck(self.tmp)
+        self.assertEqual(proc.returncode, 0)
+        self.assertNotIn("advisories", proc.stdout)
+
+    def test_advisory_does_not_mask_a_required_failure(self) -> None:
+        self.tmp = _make_repo(prd=None, arch=SKELETON_DOC, config=self.ADVISORY_CONFIG)
+        proc = _precheck(self.tmp)
+        self.assertEqual(proc.returncode, 2)
+        self.assertIn("docs/ARCHITECTURE.md", proc.stderr)
+        self.assertIn("docs/PRD.md", proc.stdout)
+
+    def test_no_advisory_docs_configured_is_silent(self) -> None:
+        config = {"required_docs": ["docs/ARCHITECTURE.md"], "agents_sections": []}
+        self.tmp = _make_repo(prd=None, config=config)
+        proc = _precheck(self.tmp)
+        self.assertEqual(proc.returncode, 0)
+        self.assertNotIn("advisories", proc.stdout)
 
 
 if __name__ == "__main__":
