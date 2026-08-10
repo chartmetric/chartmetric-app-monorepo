@@ -12,6 +12,7 @@
     "start": "node dist/server.js",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
+    "test:clickhouse": "vitest --config vitest.clickhouse.config.ts run",
     "typecheck": "tsc --noEmit",
     "generate": "pnpm generate:openapi",
     "generate:ch-schema": "node --env-file-if-exists=.env scripts/generate-ch-schema.mjs",

@@ -42,6 +42,69 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/app/actors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    limit: number;
+                    offset: number;
+                    sortBy?: "instagramFollowers" | "name" | "popularity" | "roleCount";
+                    sortDirection?: "asc" | "desc";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                id: number;
+                                imageUrl: string | null;
+                                instagramFollowers: number | null;
+                                instagramHandle: string | null;
+                                instagramUrl: string | null;
+                                knownFor: {
+                                    character: string;
+                                    id: number;
+                                    kind: string;
+                                    name: string;
+                                    popularity: number;
+                                }[];
+                                name: string;
+                                popularity: number;
+                                roleCount: number;
+                            }[];
+                            meta: {
+                                limit: number;
+                                offset: number;
+                                total: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/app/artists/filter-options": {
         parameters: {
             query?: never;
@@ -407,6 +470,69 @@ export interface paths {
                             message?: string;
                         } & {
                             [key: string]: unknown;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/actors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    limit: number;
+                    offset: number;
+                    sortBy?: "instagramFollowers" | "name" | "popularity" | "roleCount";
+                    sortDirection?: "asc" | "desc";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                id: number;
+                                imageUrl: string | null;
+                                instagramFollowers: number | null;
+                                instagramHandle: string | null;
+                                instagramUrl: string | null;
+                                knownFor: {
+                                    character: string;
+                                    id: number;
+                                    kind: string;
+                                    name: string;
+                                    popularity: number;
+                                }[];
+                                name: string;
+                                popularity: number;
+                                roleCount: number;
+                            }[];
+                            meta: {
+                                limit: number;
+                                offset: number;
+                                total: number;
+                            };
                         };
                     };
                 };

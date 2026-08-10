@@ -66,6 +66,13 @@ export interface IntrospectedSchema {
     image_url: "Nullable(String)";
     deleted_at: "Nullable(DateTime)";
     football_team_id: "Nullable(UInt32)";
+    football_team_logo: "Nullable(String)";
+    football_league: "Nullable(String)";
+    basketball_team: "Nullable(String)";
+    basketball_league: "Nullable(String)";
+    basketball_position: "Nullable(String)";
+    college_school: "Nullable(String)";
+    college_level: "Nullable(String)";
   };
   athletes_football_fixture_player_stats_apifootball: {
     id: "UInt32";
@@ -391,6 +398,55 @@ export interface IntrospectedSchema {
     venue_id: "Nullable(UInt32)";
     _loaded_at: "DateTime";
   };
+  test_tv_credits: {
+    title_id: "UInt32";
+    title_kind: "LowCardinality(String)";
+    person_id: "UInt32";
+    credit_type: "LowCardinality(String)";
+    character: "String";
+    cast_order: "UInt16";
+    updated_at: "DateTime";
+  };
+  test_tv_person_socials: {
+    person_id: "UInt32";
+    platform: "LowCardinality(String)";
+    handle: "String";
+    url: "String";
+    followers: "Int64";
+    following: "Int64";
+    posts: "Int64";
+    source: "LowCardinality(String)";
+    fetched_at: "DateTime";
+  };
+  test_tv_persons: {
+    id: "UInt32";
+    name: "String";
+    department: "LowCardinality(String)";
+    popularity: "Float64";
+    profile_path: "Nullable(String)";
+    gender: "UInt8";
+    updated_at: "DateTime";
+  };
+  test_tv_titles: {
+    id: "UInt32";
+    kind: "LowCardinality(String)";
+    name: "String";
+    network: "LowCardinality(String)";
+    genres: "Array(String)";
+    release_date: "Nullable(Date)";
+    popularity: "Float64";
+    vote_average: "Float32";
+    vote_count: "UInt32";
+    poster_path: "Nullable(String)";
+    backdrop_path: "Nullable(String)";
+    overview: "String";
+    seasons: "Nullable(UInt16)";
+    episodes: "Nullable(UInt16)";
+    status: "LowCardinality(String)";
+    original_language: "LowCardinality(String)";
+    origin_country: "String";
+    updated_at: "DateTime";
+  };
   tiktok_cache: {
     account_id: "UInt32";
     snapshot_date: "Date";
@@ -471,6 +527,13 @@ export interface Athletes_cacheRecord {
   image_url: string | null;
   deleted_at: string | null;
   football_team_id: number | null;
+  football_team_logo: string | null;
+  football_league: string | null;
+  basketball_team: string | null;
+  basketball_league: string | null;
+  basketball_position: string | null;
+  college_school: string | null;
+  college_level: string | null;
 }
 
 export interface Athletes_football_fixture_player_stats_apifootballRecord {
@@ -809,6 +872,59 @@ export interface Teams_apifootballRecord {
   logo_url: string | null;
   venue_id: number | null;
   _loaded_at: string;
+}
+
+export interface Test_tv_creditsRecord {
+  title_id: number;
+  title_kind: string;
+  person_id: number;
+  credit_type: string;
+  character: string;
+  cast_order: number;
+  updated_at: string;
+}
+
+export interface Test_tv_person_socialsRecord {
+  person_id: number;
+  platform: string;
+  handle: string;
+  url: string;
+  followers: string;
+  following: string;
+  posts: string;
+  source: string;
+  fetched_at: string;
+}
+
+export interface Test_tv_personsRecord {
+  id: number;
+  name: string;
+  department: string;
+  popularity: number;
+  profile_path: string | null;
+  gender: number;
+  updated_at: string;
+}
+
+export interface Test_tv_titlesRecord {
+  id: number;
+  kind: string;
+  name: string;
+  network: string;
+  genres: Array<string>;
+  release_date: string | null;
+  popularity: number;
+  vote_average: number;
+  vote_count: number;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  overview: string;
+  seasons: number | null;
+  episodes: number | null;
+  status: string;
+  original_language: string;
+  origin_country: string;
+  updated_at: string;
 }
 
 export interface Tiktok_cacheRecord {

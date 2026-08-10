@@ -1,0 +1,52 @@
+{
+  "phase_id": "01-actors-api",
+  "duration_min": 110,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "11 files changed, 741 insertions(+), 9 deletions(-)\n      15",
+  "tests_added": 12,
+  "tests_passing_total": 12,
+  "drafted_by": "agent",
+  "surprises": [
+    "The phase's declared `pnpm check:generated` gate can never pass mid-run because it asserts a clean git tree, forcing a human-approved substitution to `pnpm generate:api-client` and pushing the no-diff assertion out to post-commit CI.",
+    "Proving the `test_tv_person_socials` leftAnyJoin safe required querying `system.tables` live, because the committed ClickHouse schema snapshot omits `engine` and `sorting_key` — the two fields the FINAL/join-key rule depends on.",
+    "Three review cycles were needed and the MUST_FIX count went 1 -> 2 -> 1 before clearing, so fixing one finding kept exposing another rather than converging monotonically."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+ - **A ClickHouse smoke matrix must execute every ORDER BY branch, not just the default sort.** One page per sort column, including the `<col> IS NULL` companion expressions. A sort the matrix never requests is an unexecuted query, and unexecuted SQL is unverified SQL regardless of how many string assertions cover it."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+ - **Build the smoke client with `clickhouse_settings: { readonly: 2 }`.** Calling a suite read-only is a comment; `readonly: 2` is enforcement — it permits SELECT plus per-query settings while blocking DDL and DML, so a later test in the same file cannot write to the warehouse."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+ - **Assert on structure, never on warehouse population.** A smoke matrix may assert what the joins and ordering guarantee (every row has a credit, nulls sort last); it may not assert that some column is currently non-null anywhere. Coverage-dependent assertions pass today and fail on a data refresh nobody touched."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+ - **A gate substitution belongs in the commit message, not only in the phase `notes`.** Gates that assert a clean git tree cannot run against a mid-phase working tree; declare the generator as the in-run gate, leave the no-diff assertion to CI, and state the swap where a reviewer of the commit will see it."
+    }
+  ],
+  "followups": [
+    "P2: /actors aggregates the full credits x titles join twice per request (list + count) with no push-down or cache; add a persisted actor summary table or cache the count.",
+    "P2: Emit `engine` and `sorting_key` from `generate:ch-schema` so the FINAL/join-key rule is checkable from the committed snapshot instead of a live `system.tables` query.",
+    "P3: `max_rows_to_read: 100_000_000` will start returning 500s once `test_tv_credits` outgrows it; revisit the cap with a bounded pre-aggregate.",
+    "P3: /v1 has no api-key auth, scopes, or rate limits; /actors inherits that gap from the surface and it should be closed at the surface level.",
+    "P1: Compose `ActorListRow` from `Pick<Test_tv_personsRecord, ...>` plus the alias/aggregate fields so a generated column change breaks the build.",
+    "P1: Remove the two stale `docs/BACKLOG.md` entries — the already-fixed `imageUrl` MUST_FIX and the `test:clickhouse` item this phase satisfied."
+  ],
+  "smoke_run": {
+    "ts": "2026-08-10T19:32:35+00:00",
+    "result": "pass",
+    "cmd": "pnpm --filter api test:clickhouse -- actors"
+  }
+}

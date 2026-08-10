@@ -7,14 +7,6 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
-- P1: Add a `test:clickhouse` script to `apps/api` so query phases have
-  a real `smoke_cmd` to point at. The harness requires one for any
-  phase touching a ClickHouse query, and three rules harvested from the
-  athlete implementation (live-execution matrix, `FINAL`-via-CTE,
-  dedupe-key-vs-join-key) are enforceable only as prose until it
-  exists. The matrix should also check, per joined `Replacing*` table,
-  that the join key is a prefix of the table's sorting key — the one
-  defect class in that harvest that no data-driven test can catch.
 - P2: Run the first pilot phase against an `apps/api` module and tune
   `max_attempts` / `max_review_cycles` from the resulting retro.
 - P2: When the athlete implementation branch lands: both athlete routes
@@ -42,6 +34,13 @@ phase's retry loop or review cycle exhausts.
 
 ## Resolved
 
+- P1: Add a `test:clickhouse` script to `apps/api` so query phases have
+  a real `smoke_cmd` to point at. Resolved 2026-08-10 by phase
+  01-actors-api: `apps/api` now has a reusable read-only
+  `test:clickhouse` command with an actors execution matrix. The
+  join-key-vs-sorting-key prefix check remains prose-only — see the
+  active item on emitting `engine`/`sorting_key` from
+  `generate:ch-schema`.
 - P2: Converge the agent-improvement-candidates log with the retro
   loop. Resolved 2026-08-07: the AIC log from the athlete
   implementation was harvested in full — decisions to `docs/ADR.md`

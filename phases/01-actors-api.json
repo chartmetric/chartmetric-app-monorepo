@@ -1,7 +1,7 @@
 {
   "id": "01-actors-api",
-  "title": "Actors list API and generated contract",
-  "status": "pending",
+  "title": "actors list API and generated contract",
+  "status": "completed",
   "depends_on": [],
   "acceptance": [
     "GET /actors is registered on both app and v1 surfaces with TypeBox pagination and sorting schemas, defaulting to instagramFollowers descending",
@@ -15,7 +15,11 @@
   ],
   "files": [
     "apps/api/package.json",
+    "apps/api/tsconfig.json",
+    "apps/api/tsconfig.build.json",
+    "apps/api/vitest.config.ts",
     "apps/api/vitest.clickhouse.config.ts",
+    "apps/api/src/lib/database.ts",
     "apps/api/src/modules/actors/**",
     "apps/api/src/routes/app-surface.ts",
     "apps/api/src/routes/v1-surface.ts",
@@ -30,11 +34,24 @@
     "pnpm --filter api test",
     "pnpm --filter @repo/api-client lint",
     "pnpm --filter @repo/api-client typecheck",
-    "pnpm check:generated",
+    "pnpm generate:api-client",
     "pnpm --filter api build"
   ],
   "verification_cmd": "pnpm --filter api exec vitest run src/modules/actors",
   "smoke_cmd": "pnpm --filter api test:clickhouse -- actors",
   "security_review": true,
-  "notes": "ADR-001, ADR-002, ADR-005, and ADR-006 apply. The public resource is actors everywhere; warehouse table names containing persons are immutable source names, not product terminology. Use the committed TV schema diagram only as discovery context, then regenerate the governed ClickHouse snapshot and verify engine/order-key details from that output."
+  "notes": "ADR-001, ADR-002, ADR-005, and ADR-006 apply. The public resource is actors everywhere; warehouse table names containing persons are immutable source names, not product terminology. Use the committed TV schema diagram only as discovery context, then regenerate the governed ClickHouse snapshot and verify engine/order-key details from that output. Gate change (deliberate, human-approved): `pnpm check:generated` asserts a clean git status on the generated artifacts, which a mid-phase uncommitted tree can never satisfy, so the in-run gate is `pnpm generate:api-client`; CI still runs the no-diff assertion post-commit.",
+  "attempts": 1,
+  "run_started_at": "2026-08-10T18:03:36+00:00",
+  "stage": "commit",
+  "smoke_result": {
+    "ts": "2026-08-10T19:32:35+00:00",
+    "result": "pass",
+    "cmd": "pnpm --filter api test:clickhouse -- actors"
+  },
+  "out_of_scope_files": [
+    "docs/BACKLOG.md"
+  ],
+  "review_findings": "SHOULD_FIX:\n- apps/api/src/modules/actors/routes/list-actors/types.ts:3 \u2014 `ActorListRow` restates generated columns (`id`, `name`, `profile_path`, `popularity`) by hand, violating the Learned Rule 'derive types from generated artifacts; never restate them'; a column type change in `schema.generated.ts` will not fail the build. Compose from `Pick<Test_tv_personsRecord, ...>` plus the alias/aggregate fields.\n- apps/api/src/tests/clickhouse/actors.test.ts:9 \u2014 the matrix is described as read-only but uses the plain production client with no enforcement, so a future test in this suite can write. Pass `clickhouse_settings: { readonly: 2 }` (allows SELECT plus per-query settings, blocks DDL/DML) for the smoke client.\n- apps/api/src/tests/clickhouse/actors.test.ts:71 \u2014 `expect(pages.flat().filter(r => r.instagram_followers !== null)).not.toHaveLength(0)` pins the matrix to current warehouse population (recurring defect 12); the join and sort are structural but Instagram coverage is not. Drop it or assert the null-last ordering property instead.\n- apps/api/src/tests/clickhouse/actors.test.ts:41 \u2014 the matrix only executes `sortBy=instagramFollowers`; the `name`, `popularity` and `roleCount` ORDER BY expressions (including their `<col> IS NULL` companions) have never run against real ClickHouse, which Learned Rule 'a ClickHouse query is unverified until its SQL has executed' exists to prevent. Add one page per sort column.\n- docs/BACKLOG.md:10 \u2014 the appended entry records a MUST_FIX (`imageUrl` publishes the bare TMDB path) that the delivered mapper already resolves (`mapper.ts:11-16`), and the pre-existing 'P1: Add a test:clickhouse script to apps/api' item is satisfied by this phase but left open. Remove both stale entries before committing.\n- phases/01-actors-api.json:37 \u2014 the declared gate `pnpm check:generated` was swapped for `pnpm generate:api-client`, dropping the no-diff assertion from the phase run. I verified both generated artifacts regenerate byte-identical, so nothing is stale today, but the substitution should be surfaced in the commit message rather than only in `notes`.\n\nBACKLOG_WORTHY:\n- medium \u2014 every /actors request aggregates the full credits\u00d7titles join twice (list + count) with no push-down or cache; add a persisted actor summary or cache the count\n- medium \u2014 emit `engine` and `sorting_key` in generate:ch-schema so the FINAL/join-key rule is checkable from the committed snapshot (I had to query system.tables live to confirm socials sorts by (person_id, platform), which is what makes the leftAnyJoin safe)\n- low \u2014 /v1 still has no api-key auth, scopes, or rate limits; /actors inherits that gap from the surface, not from this phase\n- low \u2014 `max_rows_to_read: 100_000_000` will start 500-ing the endpoint once test_tv_credits outgrows it",
+  "review_cycles": 3
 }

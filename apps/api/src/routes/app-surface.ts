@@ -2,6 +2,7 @@ import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 
 import cors from "@fastify/cors";
 
+import { actorsRoutes } from "../modules/actors/routes.ts";
 import { artistsRoutes } from "../modules/artists/routes.ts";
 import { athletesRoutes } from "../modules/athletes/routes.ts";
 import { authRoutes } from "../modules/auth/routes.ts";
@@ -24,6 +25,7 @@ export const appSurface: FastifyPluginAsyncTypebox<AppSurfaceOptions> = async (
   }
 
   await fastify.register(cors, { origin: options.corsOrigins ?? true });
+  await fastify.register(actorsRoutes, { surface: "app" });
   await fastify.register(artistsRoutes, { surface: "app" });
   await fastify.register(athletesRoutes, { surface: "app" });
   await fastify.register(authRoutes, { surface: "app" });
