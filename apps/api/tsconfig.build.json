@@ -8,11 +8,12 @@
     "sourceMap": true
   },
   "exclude": [
-    "dist",
-    "vitest.smoke.config.ts",
-    "**/*.test.ts",
-    "**/*.spec.ts",
     "**/*.smoke.ts",
-    "**/tests/**"
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/tests/**",
+    "dist",
+    "src/db/clickhouse/clickhouse-smoke.ts",
+    "vitest.smoke.config.ts"
   ]
 }
