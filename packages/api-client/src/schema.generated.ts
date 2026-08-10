@@ -153,6 +153,7 @@ export interface paths {
                             meta: {
                                 limit: number;
                                 offset: number;
+                                total?: number;
                             };
                         };
                     };
@@ -586,6 +587,7 @@ export interface paths {
                             meta: {
                                 limit: number;
                                 offset: number;
+                                total?: number;
                             };
                         };
                     };

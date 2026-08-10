@@ -225,4 +225,3 @@ const renderSticky = (): ReturnType<typeof render> =>
       />
     </MantineProvider>,
   );
-

@@ -108,4 +108,55 @@ describe("TablePagination with a total", () => {
       screen.getByRole("button", { name: "Next" }).hasAttribute("disabled"),
     ).toBe(true);
   });
+
+  // An exact multiple is where `offset + pageSize >= total` and
+  // `offset + pageSize > total` disagree, so this case is what pins the
+  // comparison rather than merely exercising it.
+  it("disables next on the last page when total is an exact multiple of pageSize", () => {
+    render(
+      <MantineProvider>
+        <TablePagination
+          hasNextPage
+          isLoading={false}
+          loadingLabel="Updating"
+          nextLabel="Next"
+          offset={25}
+          onPageChange={vi.fn()}
+          pageLabel={pageLabel}
+          pageSize={25}
+          previousLabel="Previous"
+          total={50}
+        />
+      </MantineProvider>,
+    );
+
+    expect(screen.getByText("Page 2 of 2")).toBeDefined();
+    expect(
+      screen.getByRole("button", { name: "Next" }).hasAttribute("disabled"),
+    ).toBe(true);
+  });
+
+  it("reports a single page when the total is zero", () => {
+    render(
+      <MantineProvider>
+        <TablePagination
+          hasNextPage
+          isLoading={false}
+          loadingLabel="Updating"
+          nextLabel="Next"
+          offset={0}
+          onPageChange={vi.fn()}
+          pageLabel={pageLabel}
+          pageSize={25}
+          previousLabel="Previous"
+          total={0}
+        />
+      </MantineProvider>,
+    );
+
+    expect(screen.getByText("Page 1 of 1")).toBeDefined();
+    expect(
+      screen.getByRole("button", { name: "Next" }).hasAttribute("disabled"),
+    ).toBe(true);
+  });
 });
