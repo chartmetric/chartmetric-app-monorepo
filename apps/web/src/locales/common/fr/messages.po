@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/verticals.ts:42
+msgid "Actors"
+msgstr "Acteurs"
+
 #: src/verticals.ts:21
 msgid "Artists"
 msgstr "Artistes"
@@ -36,6 +40,10 @@ msgstr "pour la Musique"
 #: src/verticals.ts:27
 msgid "for Sports"
 msgstr "pour le Sport"
+
+#: src/verticals.ts:41
+msgid "for TV & Movies"
+msgstr "pour la TV et le Cinéma"
 
 #: src/verticals.ts:35
 msgid "Influencers"

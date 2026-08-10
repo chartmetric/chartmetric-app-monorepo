@@ -50,6 +50,7 @@ const CATALOG_NAMES = [
   "demo",
   "music",
   "sports",
+  "tv",
 ];
 
 export const dynamicActivate = async (locale: Locale): Promise<void> => {

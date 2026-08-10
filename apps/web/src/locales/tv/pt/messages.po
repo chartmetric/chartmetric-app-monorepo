@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-08-10 14:38-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: pt\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. A known-for acting credit: the title and the character played
+#: src/pages/tv/actors/components/ActorCells/KnownForCell.tsx:30
+msgid "{title} as {character}"
+msgstr "{title} como {character}"
+
+#: src/pages/tv/actors/table-columns.ts:45
+msgid "Actor name"
+msgstr "Nome do ator"
+
+#: src/pages/tv/actors/ActorsPage.tsx:24
+#: src/pages/tv/actors/components/ActorsTable.tsx:54
+msgid "Actors"
+msgstr "Atores"
+
+#: src/pages/tv/actors/ActorsPage.tsx:27
+msgid "Explore actors across TV and movies."
+msgstr "Explore atores de cinema e televisão."
+
+#: src/pages/tv/actors/table-columns.ts:48
+msgid "IG Followers"
+msgstr "Seguidores do IG"
+
+#: src/pages/tv/actors/table-columns.ts:46
+msgid "Index"
+msgstr "Índice"
+
+#: src/pages/tv/actors/table-columns.ts:47
+msgid "Instagram"
+msgstr "Instagram"
+
+#. Accessible label for a link to an actor's Instagram profile
+#: src/pages/tv/actors/components/ActorCells/InstagramCell.tsx:32
+msgid "Instagram profile {handle}"
+msgstr "Perfil de Instagram {handle}"
+
+#: src/pages/tv/actors/table-columns.ts:49
+msgid "Known for"
+msgstr "Conhecido por"
+
+#: src/pages/tv/actors/components/ActorListStates/ActorListLoading.tsx:12
+msgid "Loading actors"
+msgstr "Carregando atores"
+
+#: src/pages/tv/actors/components/ActorListStates/ActorListLoading.tsx:14
+msgid "Loading actors…"
+msgstr "Carregando atores…"
+
+#: src/pages/tv/actors/components/ActorsTable.tsx:87
+msgid "Next"
+msgstr "Próxima"
+
+#: src/pages/tv/actors/components/ActorListStates/ActorListEmpty.tsx:11
+msgid "No actors found"
+msgstr "Nenhum ator encontrado"
+
+#. Current page number in the actors list
+#: src/pages/tv/actors/components/ActorsTable.tsx:93
+msgid "Page {current} of {pageCount}"
+msgstr "Página {current} de {pageCount}"
+
+#: src/pages/tv/actors/table-columns.ts:50
+msgid "Popularity"
+msgstr "Popularidade"
+
+#: src/pages/tv/actors/components/ActorsTable.tsx:99
+msgid "Previous"
+msgstr "Anterior"
+
+#: src/pages/tv/actors/table-columns.ts:51
+msgid "Roles"
+msgstr "Papéis"
+
+#. Range of actors shown out of the total
+#: src/pages/tv/actors/components/ActorsTable.tsx:77
+msgid "Showing {firstRow}–{lastRow} of {totalRows} actors"
+msgstr "Mostrando {firstRow}–{lastRow} de {totalRows} atores"
+
+#. Accessible label for a sortable actors table column
+#: src/pages/tv/actors/components/ActorsTable.tsx:67
+msgid "Sort by {label}"
+msgstr "Ordenar por {label}"
+
+#: src/pages/tv/actors/components/ActorListStates/ActorListError.tsx:21
+msgid "The actor list could not be loaded. Try again."
+msgstr "Não foi possível carregar a lista de atores. Tente novamente."
+
+#: src/pages/tv/actors/components/ActorListStates/ActorListEmpty.tsx:14
+msgid "There are no actors to show on this page."
+msgstr "Não há atores para mostrar nesta página."
+
+#. Button that retries loading the actors list
+#: src/pages/tv/actors/components/ActorListStates/ActorListError.tsx:24
+msgid "Try again"
+msgstr "Tentar novamente"
+
+#. Error title on the actors list page
+#: src/pages/tv/actors/components/ActorListStates/ActorListError.tsx:14
+msgid "Unable to load actors"
+msgstr "Não foi possível carregar os atores"
+
+#: src/pages/tv/actors/components/ActorsTable.tsx:86
+msgid "Updating actors"
+msgstr "Atualizando atores"

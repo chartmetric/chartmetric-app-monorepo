@@ -1,7 +1,7 @@
 {
   "id": "02-tv-actors-list",
   "title": "tv & movies actors list",
-  "status": "pending",
+  "status": "completed",
   "depends_on": [
     "01-actors-api"
   ],
@@ -21,7 +21,8 @@
     "apps/web/src/verticals.ts",
     "apps/web/src/i18n.ts",
     "apps/web/src/pages/tv/actors/**",
-    "apps/web/src/locales/tv/**"
+    "apps/web/src/locales/tv/**",
+    "apps/web/src/locales/common/**"
   ],
   "gates": [
     "pnpm --filter web extract",
@@ -31,7 +32,21 @@
     "pnpm --filter web test",
     "pnpm --filter web build"
   ],
-  "verification_cmd": "pnpm --filter web exec vitest run src/pages/tv/actors/ActorsPage.test.tsx",
+  "verification_cmd": "pnpm --filter web exec vitest run src/pages/tv/actors",
   "security_review": true,
-  "notes": "Depends on the generated actors contract from Phase 01. ADR-001, ADR-002, ADR-003, and ADR-006 apply. Reuse DataTable and TablePagination unchanged unless a demonstrated entity-neutral gap requires a separately scoped shared-component extension. Detail pages are not part of this phase, but links must use the canonical actor and title paths."
+  "notes": "Depends on the generated actors contract from Phase 01. ADR-001, ADR-002, ADR-003, and ADR-006 apply. Reuse DataTable and TablePagination unchanged unless a demonstrated entity-neutral gap requires a separately scoped shared-component extension. Detail pages are not part of this phase, but links must use the canonical actor and title paths.",
+  "attempts": 1,
+  "run_started_at": "2026-08-10T21:25:06+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [
+    "apps/web/src/locales/common/de/messages.po",
+    "apps/web/src/locales/common/en/messages.po",
+    "apps/web/src/locales/common/es/messages.po",
+    "apps/web/src/locales/common/fr/messages.po",
+    "apps/web/src/locales/common/ja/messages.po",
+    "apps/web/src/locales/common/ko/messages.po",
+    "apps/web/src/locales/common/pt/messages.po",
+    "apps/web/src/pages/tv/"
+  ],
+  "review_findings": "SHOULD_FIX:\n- apps/web/src/pages/tv/actors/components/ActorsTable.tsx:43 \u2014 the row-range summary and page-count math (firstRow/lastRow/totalRows/pageCount plus the Group+Text block and hasNextPage arithmetic) are duplicated verbatim from apps/web/src/pages/sports/athletes/components/AthletesTable.tsx:49-104, differing only in the entity noun; this is the second consumer, which is the documented promotion trigger \u2014 extract the total-aware range summary into @repo/ui beside TablePagination rather than carrying a third copy later\n- phases/02-tv-actors-list.json:20 \u2014 the declared `files` globs omit apps/web/src/locales/common/**, yet the two verticals.ts messages\u5fc5 land in the common catalog under apps/web/lingui.config.ts (`exclude: src/pages/**`), so `pnpm --filter web extract` necessarily rewrites all seven common .po files; the change is required wiring, not creep \u2014 add the glob so it is not reported as out of scope\n- apps/web/src/pages/tv/actors/ActorsPage.tsx:12 \u2014 the phase requires validating the rendered page in a real browser at desktop and below the AppShell breakpoint (horizontal containment, keyboard sorting, links, states) and reporting explicitly when that is unavailable; the diff contains only jsdom assertions (ActorsPage.columns.test.tsx:158 checks the --table-min-width custom property, which does not prove containment) \u2014 state the validation result or its unavailability in the phase notes and commit message\n\nBACKLOG_WORTHY:\n- medium \u2014 apps/web/src/pages/sports/athletes/components/AthletesTable.tsx has no aria-busy wrapper while ArtistsTable and the new ActorsTable both mark the refreshing table busy; align the athletes table so the refreshing state is announced consistently across verticals\n- low \u2014 apps/api/.../list-actors/mapper.ts:62 passes warehouse instagram_url through unvalidated and InstagramCell.tsx:38 renders it as href; React 19 blocks javascript: URLs and the athletes SocialLinks does the same, but an https-scheme check in the mapper would close the stored-URL vector at the contract boundary\n- low \u2014 apps/web/src/pages/tv/actors/table-columns.ts:147 derives the absolute row number from a Map keyed by actor.id rather than the row index, so duplicate ids in one page would repeat a number instead of numbering sequentially\n- low \u2014 apps/web/src/pages/tv/actors/table-columns.ts:105 re-inlines the null\u2192EMPTY_CELL rule that formatCount in src/lib/formatting.ts owns; widening formatCount to accept a (value: number) => string formatter would let the abbreviated-number path reuse it\n- low \u2014 phases/02-tv-actors-list.json verification_cmd runs only ActorsPage.test.tsx, while most column, link, and formatting assertions live in ActorsPage.columns.test.tsx; widen it to src/pages/tv/actors"
 }

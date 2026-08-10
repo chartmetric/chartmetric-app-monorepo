@@ -9,7 +9,7 @@ interface VerticalNavLink {
 
 export interface VerticalConfig {
   homePath: string;
-  id: "creators" | "music" | "sports";
+  id: "creators" | "music" | "sports" | "tv";
   label: MessageDescriptor;
   navLinks: VerticalNavLink[];
 }
@@ -35,7 +35,14 @@ const creators: VerticalConfig = {
   navLinks: [{ label: msg`Influencers`, path: "/creators/influencers" }],
 };
 
-export const VERTICALS: VerticalConfig[] = [music, sports, creators];
+const tv: VerticalConfig = {
+  homePath: "/tv/actors",
+  id: "tv",
+  label: msg`for TV & Movies`,
+  navLinks: [{ label: msg`Actors`, path: "/tv/actors" }],
+};
+
+export const VERTICALS: VerticalConfig[] = [music, sports, creators, tv];
 
 export const DEFAULT_VERTICAL = music;
 

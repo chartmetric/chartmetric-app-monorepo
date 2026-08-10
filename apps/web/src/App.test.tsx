@@ -15,6 +15,7 @@ import { messages as enDemo } from "./locales/demo/en/messages.po";
 import { messages as esDemo } from "./locales/demo/es/messages.po";
 import { messages as enMusic } from "./locales/music/en/messages.po";
 import { messages as enSports } from "./locales/sports/en/messages.po";
+import { messages as enTv } from "./locales/tv/en/messages.po";
 
 interface MockAuthState {
   accessToken: string | null;
@@ -79,6 +80,7 @@ i18n.load({
     ...enDemo,
     ...enMusic,
     ...enSports,
+    ...enTv,
   },
   es: { ...esCommon, ...esDemo },
 });
@@ -177,6 +179,40 @@ describe("App", () => {
     ).toBeDefined();
     expect(screen.getByRole("link", { name: "Athletes" })).toBeDefined();
     expect(location.pathname).toBe("/sports/athletes");
+  });
+
+  it("switches to the TV & Movies vertical from the global selector", async () => {
+    renderApp("/music/artists");
+
+    fireEvent.click(screen.getByRole("button", { name: "Switch vertical" }));
+    fireEvent.click(
+      await screen.findByRole("menuitem", { name: "for TV & Movies" }),
+    );
+
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Actors" }),
+    ).toBeDefined();
+    expect(screen.getByRole("link", { name: "Actors" })).toBeDefined();
+    expect(location.pathname).toBe("/tv/actors");
+  });
+
+  it("renders the actors list at the TV vertical route", async () => {
+    renderApp("/tv/actors");
+
+    expect(await screen.findByText("No actors found")).toBeDefined();
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Actors" }),
+    ).toBeDefined();
+    expect(apiGetMock).toHaveBeenCalledWith("/app/actors", {
+      params: {
+        query: {
+          limit: 25,
+          offset: 0,
+          sortBy: "instagramFollowers",
+          sortDirection: "desc",
+        },
+      },
+    });
   });
 
   it("renders the creators vertical at its route", async () => {

@@ -1,0 +1,44 @@
+{
+  "phase_id": "02-tv-actors-list",
+  "duration_min": 38,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "12 files changed, 120 insertions(+), 4 deletions(-)\n      14",
+  "tests_added": 29,
+  "tests_passing_total": 88,
+  "drafted_by": "agent",
+  "surprises": [
+    "Adding a vertical is not confined to the vertical's own catalog: `apps/web/lingui.config.ts` excludes `src/pages/**`, so the two verticals.ts navigation messages landed in the shared common catalog and `extract` rewrote all seven common .po files the phase had declared out of scope.",
+    "The row-range summary hit its second consumer on the very first table of the new vertical, so a copy that read as page-local in the athletes table became a promotion obligation the moment actors shipped.",
+    "No browser validation was possible in this run, and the closest jsdom proxy (asserting the `--table-min-width` custom property) does not actually prove horizontal containment below the AppShell breakpoint."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+ - **A phase that touches `verticals.ts`, navigation, or any string outside `src/pages/**` must declare `apps/web/src/locales/common/**` in its `files`.** `apps/web/lingui.config.ts` routes those messages to the common catalog, so `pnpm --filter web extract` necessarily rewrites all seven common `.po` files. Omitting the glob reports required wiring as scope creep."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+ - **Point `verification_cmd` at the test directory, not a single spec file.** A page's assertions routinely split across sibling specs (`ActorsPage.test.tsx` plus `ActorsPage.columns.test.tsx`); a file-scoped command silently skips most of the phase's own coverage on every retry."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+ - **When an acceptance criterion requires real-browser validation, the phase notes and the commit message must state the result or say plainly that it was unavailable.** jsdom can assert that a style token is set; it cannot assert horizontal containment, focus order, or scroll behavior. An unstated gap reads as a passed check."
+    }
+  ],
+  "followups": [
+    "P1: Extract the total-aware row-range summary (firstRow/lastRow/totalRows/pageCount plus the Group+Text block and hasNextPage arithmetic) into @repo/ui beside TablePagination; ActorsTable.tsx:43 and AthletesTable.tsx:49-104 now carry it verbatim.",
+    "P1: Add `apps/web/src/locales/common/**` to this phase's `files` and widen `verification_cmd` to `src/pages/tv/actors` before the commit lands.",
+    "P1: Validate /tv/actors in a real browser at desktop and below the AppShell breakpoint (horizontal containment, keyboard sorting, links, loading/refreshing/empty/error states) and record the outcome.",
+    "P2: Wrap AthletesTable in the aria-busy refreshing wrapper that ArtistsTable and ActorsTable already use, so the state is announced consistently across verticals.",
+    "P3: Validate the https scheme of `instagram_url` in apps/api/.../list-actors/mapper.ts:62 so the stored-URL vector is closed at the contract boundary rather than relying on React 19 blocking javascript: hrefs in InstagramCell.tsx:38.",
+    "P3: Derive the absolute row number in table-columns.ts:147 from the row index instead of a Map keyed by actor.id, so duplicate ids in one page cannot repeat a number.",
+    "P3: Widen formatCount in src/lib/formatting.ts to accept a `(value: number) => string` formatter so table-columns.ts:105 reuses the null→EMPTY_CELL rule instead of re-inlining it."
+  ]
+}
