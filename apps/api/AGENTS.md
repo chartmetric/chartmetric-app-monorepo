@@ -150,6 +150,7 @@ ClickHouse specifics:
 - Qualify every column in a query that joins: write `new_vertical.athletes_cache.name`, not `name`. An unqualified name is ambiguous the moment any joined source shares it, and ClickHouse fails the whole query with `AMBIGUOUS_IDENTIFIER` instead of choosing. A `SELECT ... AS name` alias can mask the problem in the list query while the sibling `count()` query — which has no aliases — still fails, so a passing page does not prove the filter is safe.
 - The builder's `where(column, operator, value)` overload cannot type a fully-qualified column: its value inference reads the first dot as the table boundary, so `new_vertical.<table>.<column>` resolves to `never`. Use the predicate form (`where((p) => p.fn("equals", p.col(column), p.value(v)))`) for qualified comparisons.
 - `leftAnyJoin` only accepts an _unqualified_ left column and only a table in the generated schema, so joining CTEs or joining on a qualified key needs a narrow structural escape hatch. Keep it in one documented place, and verify the result against real ClickHouse — these mistakes typecheck.
+- A query change ships a colocated `*.smoke.ts` matrix run by `pnpm --filter api test:smoke` (never the default suite): execute the built query against real ClickHouse for the unfiltered default, every filter, and both sort directions, asserting acceptance and row shape rather than absolute counts. A SQL-string assertion cannot catch an ambiguous identifier, an ambiguous join key, or a `Replacing*` read missing `FINAL`.
 
 ## Completion checklist
 

@@ -6,5 +6,5 @@
     // override once fastify's chain is fixed upstream.
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "vitest.smoke.config.ts"]
 }

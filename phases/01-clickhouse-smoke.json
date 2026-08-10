@@ -1,7 +1,7 @@
 {
   "id": "01-clickhouse-smoke",
-  "title": "Execute ClickHouse queries in a smoke suite instead of asserting their SQL",
-  "status": "pending",
+  "title": "execute ClickHouse queries in a smoke suite instead of asserting their SQL",
+  "status": "completed",
   "depends_on": [],
   "acceptance": [
     "pnpm --filter api test:smoke runs every src/**/*.smoke.ts case against real ClickHouse and exits 0 when all queries are accepted",
@@ -26,5 +26,19 @@
   "verification_cmd": "pnpm --filter api exec vitest run clickhouse-smoke",
   "smoke_cmd": "pnpm --filter api test:smoke",
   "security_review": false,
-  "notes": "Prerequisite for every later query phase. ADR-005 and the AGENTS.md learned rule require executed SQL; today's query tests only assert builder output."
+  "notes": "Prerequisite for every later query phase. ADR-005 and the AGENTS.md learned rule require executed SQL; today's query tests only assert builder output.",
+  "attempts": 1,
+  "run_started_at": "2026-08-10T15:23:22+00:00",
+  "stage": "commit",
+  "smoke_result": {
+    "ts": "2026-08-10T15:38:24+00:00",
+    "result": "pass",
+    "cmd": "pnpm --filter api test:smoke"
+  },
+  "out_of_scope_files": [
+    "apps/api/tsconfig.build.json",
+    "apps/api/tsconfig.json",
+    "packages/eslint-config/base.js"
+  ],
+  "review_findings": "SHOULD_FIX:\n- apps/api/src/db/clickhouse/clickhouse-smoke.ts:50-73 \u2014 createSmokeClickhouse rebuilds a full Config only to reach buildClientOptions, then re-implements createClickhouse's body (logger.configure + createClient + createQueryBuilder) verbatim; the canonical constructor createClickhouse(config) in client.ts:33 already does exactly this. Reuse it: `return createClickhouse(config)` \u2014 reinvented-helper duplication (recurring defect #1).\n\nBACKLOG_WORTHY:\n- Out-of-scope files (tsconfig.json, tsconfig.build.json, packages/eslint-config/base.js) are all justified wiring \u2014 build/typecheck must see/exclude vitest.smoke.config.ts and *.smoke.ts, and lint must let smoke files import vitest devDeps and skip max-lines-per-function; already recorded in phase JSON out_of_scope_files. No action; low priority note only. (low)\n- Shape assertions in list-athletes.smoke.ts only fire when a filter returns >0 rows; empty results still prove query acceptance (the phase's intent), but consider one non-empty guarantee per filter if warehouse data allows. (low)"
 }

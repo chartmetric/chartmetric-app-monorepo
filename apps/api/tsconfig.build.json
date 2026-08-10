@@ -7,5 +7,12 @@
     "rewriteRelativeImportExtensions": true,
     "sourceMap": true
   },
-  "exclude": ["dist", "**/*.test.ts", "**/*.spec.ts", "**/tests/**"]
+  "exclude": [
+    "dist",
+    "vitest.smoke.config.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.smoke.ts",
+    "**/tests/**"
+  ]
 }

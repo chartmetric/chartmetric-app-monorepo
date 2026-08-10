@@ -150,6 +150,7 @@ export default defineConfig(
             ...CONFIG_FILES,
             "**/*.test.*",
             "**/*.spec.*",
+            "**/*.smoke.*",
             "**/vitest.setup.*",
             "**/__tests__/**",
           ],
@@ -273,7 +274,7 @@ export default defineConfig(
     // Test suites and setup files are structurally one long describe()/setup
     // block — the per-function limit would just force artificial splitting.
     // The per-file limit still applies.
-    files: ["**/*.test.{ts,tsx}", "**/vitest.setup.ts"],
+    files: ["**/*.test.{ts,tsx}", "**/*.smoke.{ts,tsx}", "**/vitest.setup.ts"],
     rules: {
       "max-lines-per-function": "off",
     },

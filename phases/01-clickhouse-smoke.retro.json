@@ -1,0 +1,35 @@
+{
+  "phase_id": "01-clickhouse-smoke",
+  "duration_min": 17,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "6 files changed, 29 insertions(+), 5 deletions(-)\n10",
+  "tests_added": 26,
+  "tests_passing_total": 26,
+  "drafted_by": "agent",
+  "surprises": [
+    "Standing up the smoke config forced out-of-scope edits to tsconfig.json, tsconfig.build.json, and eslint base.js so build, typecheck, and lint would see, exclude, and correctly treat the new *.smoke.ts files.",
+    "createSmokeClickhouse re-implemented createClickhouse's body verbatim instead of delegating to the canonical constructor, the recurring reinvented-helper defect surfacing again.",
+    "Each per-filter shape assertion only fires when the filter returns rows, so an empty result still passes while proving only query acceptance."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+ A smoke ClickHouse client must delegate to the canonical createClickhouse(config) constructor, never re-derive buildClientOptions and re-run logger.configure + createClient + createQueryBuilder inline. Reconstructing the client body forks connection setup and drifts from the real client the moment either changes."
+    }
+  ],
+  "followups": [
+    "P3 Give each filter case one non-empty guarantee where warehouse data allows, so shape assertions verify column mapping and not just query acceptance."
+  ],
+  "smoke_run": {
+    "ts": "2026-08-10T15:38:24+00:00",
+    "result": "pass",
+    "cmd": "pnpm --filter api test:smoke"
+  }
+}
