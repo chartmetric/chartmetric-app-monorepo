@@ -1,6 +1,6 @@
 import { rawAs } from "@hypequery/clickhouse";
 
-import type { DatabaseQueryFactory } from "../../../../db/clickhouse/client.ts";
+import type { DatabaseQueryFactory } from "../../../../lib/database.ts";
 import type {
   InfluencerFilterOptionsDatabase,
   InfluencerFilterOptionsQueryFactory,
@@ -104,6 +104,8 @@ const categoryVocabulary = ((database) =>
     .withCTE("creators", creatorCategories(database))
     .withCTE("scoped", scopedCreators(database))
     .arrayJoin("category_tags")
+    // `category_tags` is the CTE's array column; ARRAY JOIN yields one scalar
+    // per row, and this cast is what tells the builder so.
     .select([rawAs<string, "value">("category_tags", "value")])
     .countDistinct("profile_id", "count")
     .groupBy("category_tags")
