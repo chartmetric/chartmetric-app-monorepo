@@ -23,6 +23,7 @@ import type { Influencer, InfluencerSortBy } from "../types";
 import { useCountryName } from "../../../../lib/country-names";
 import { EMPTY_CELL } from "../../../../lib/formatting";
 import { DEFAULT_INFLUENCER_SORT_BY, INFLUENCER_PAGE_SIZE } from "../constants";
+import { useInfluencerValueLabels } from "../use-influencer-value-labels";
 import { InfluencerIdentity } from "./InfluencerIdentity";
 
 interface InfluencersTableProps {
@@ -123,22 +124,14 @@ const useInfluencerColumns = (): DataTableColumn<
 >[] => {
   const { t } = useLingui();
   const formatCountry = useCountryName();
+  const { formatAgeGroup, formatGender } = useInfluencerValueLabels();
 
   return useMemo<DataTableColumn<Influencer, InfluencerSortBy>[]>(() => {
-    const genderLabels: Record<string, string> = {
-      female: t`Female`,
-      male: t`Male`,
-      "non-binary": t`Non-binary`,
-    };
-
     const handleLabels: Record<HandleKey, string> = {
       instagramHandle: t`Instagram`,
       tiktokHandle: t`TikTok`,
       youtubeHandle: t`YouTube`,
     };
-
-    const formatAgeGroup = (ageGroup: string): string =>
-      ageGroup === "18-" ? t`Under 18` : ageGroup;
 
     return [
       {
@@ -185,7 +178,7 @@ const useInfluencerColumns = (): DataTableColumn<
         renderCell: (influencer) =>
           influencer.gender === null
             ? EMPTY_CELL
-            : (genderLabels[influencer.gender] ?? influencer.gender),
+            : formatGender(influencer.gender),
       },
       {
         key: "ageGroup",
@@ -196,7 +189,7 @@ const useInfluencerColumns = (): DataTableColumn<
             : formatAgeGroup(influencer.ageGroup),
       },
     ];
-  }, [formatCountry, t]);
+  }, [formatAgeGroup, formatCountry, formatGender, t]);
 };
 
 export const InfluencersTable: FC<InfluencersTableProps> = ({

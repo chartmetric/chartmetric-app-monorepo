@@ -6,6 +6,7 @@ import type { Influencer, InfluencerListReply } from "../types";
 
 import { messages as enCreators } from "../../../../locales/creators/en/messages.po";
 import {
+  emptyFilterOptions,
   makeReply,
   renderInfluencersPage as renderPage,
 } from "./influencers-page.test.helpers";
@@ -34,9 +35,11 @@ type MockReply = { data: InfluencerListReply } | { error: { message: string } };
 
 const mockInfluencerRequest = (reply?: MockReply): void => {
   const resolved: MockReply = reply ?? { data: makeReply([influencer]) };
-  apiGetMock.mockImplementation(async () => {
+  apiGetMock.mockImplementation(async (path: string) => {
     await Promise.resolve();
-    return resolved;
+    return path === "/app/influencers/filter-options"
+      ? { data: emptyFilterOptions }
+      : resolved;
   });
 };
 
@@ -134,11 +137,14 @@ describe("InfluencersPage", () => {
   });
 
   it("renders an error state and retries", async () => {
-    let requestCount = 0;
-    apiGetMock.mockImplementation(async () => {
+    let listRequestCount = 0;
+    apiGetMock.mockImplementation(async (path: string) => {
       await Promise.resolve();
-      requestCount += 1;
-      return requestCount === 1
+      if (path === "/app/influencers/filter-options") {
+        return { data: emptyFilterOptions };
+      }
+      listRequestCount += 1;
+      return listRequestCount === 1
         ? { error: { message: "failed" } }
         : { data: makeReply([influencer]) };
     });
@@ -148,7 +154,7 @@ describe("InfluencersPage", () => {
     fireEvent.click(await screen.findByRole("button", { name: "Try again" }));
 
     expect(await screen.findByText("Chiara Ferragni")).toBeDefined();
-    expect(requestCount).toBe(2);
+    expect(listRequestCount).toBe(2);
   });
 
   it("requests the next page with its offset and shows the page of count", async () => {

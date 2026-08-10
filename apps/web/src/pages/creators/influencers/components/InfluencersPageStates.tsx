@@ -67,3 +67,18 @@ export const ErrorState: FC<RetryProps> = ({ retry }) => (
     </Stack>
   </Alert>
 );
+
+export const FilterOptionsError: FC<RetryProps> = ({ retry }) => (
+  <Alert color="yellow" title={<Trans>Unable to load filter options</Trans>}>
+    <Stack align="flex-start" gap="sm">
+      <Text>
+        <Trans>
+          Category, country, gender and age filters are temporarily unavailable.
+        </Trans>
+      </Text>
+      <Button color="yellow" onClick={retry} variant="light">
+        <Trans>Retry filter options</Trans>
+      </Button>
+    </Stack>
+  </Alert>
+);

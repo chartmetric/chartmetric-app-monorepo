@@ -1,7 +1,7 @@
 {
   "id": "06-influencers-page-filters",
   "title": "wire the influencer filter panel to the list query",
-  "status": "pending",
+  "status": "completed",
   "depends_on": [
     "04-influencer-filter-options-api",
     "05-influencers-page-list"
@@ -28,5 +28,10 @@
   ],
   "verification_cmd": "pnpm --filter web exec vitest run InfluencersPage.filters",
   "security_review": false,
-  "notes": "Completes the PRD entry. Behavioural parity with the artists filter panel (ArtistFilters, ArtistFiltersDrawer, artist-filter-draft) is an acceptance concern, not a stylistic one."
+  "notes": "Completes the PRD entry. Behavioural parity with the artists filter panel (ArtistFilters, ArtistFiltersDrawer, artist-filter-draft) is an acceptance concern, not a stylistic one.",
+  "attempts": 1,
+  "run_started_at": "2026-08-10T17:40:33+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [],
+  "review_findings": "BACKLOG_WORTHY:\n- FilterOptionsError warning offers only Retry, not a close/dismiss \u2014 acceptance says 'dismissible'; shared with ArtistsPage precedent, so fix both together (low)\n- Handle search is debounced twice (HandleSearchInput 350ms \u2192 applyDraft 350ms \u2248 700ms), matching the artists precedent; consider single-debouncing across both filter panels (low)"
 }
