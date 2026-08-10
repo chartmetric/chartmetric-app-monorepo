@@ -33,7 +33,9 @@ interface InfluencersTableProps {
   total: number | undefined;
 }
 
-type HandleKey = "instagramHandle" | "tiktokHandle" | "youtubeHandle";
+// Derived so a handle field added to the reply forces a label — and therefore
+// a decision about the new platform — rather than being dropped silently.
+type HandleKey = Extract<keyof Influencer, `${string}Handle`>;
 
 const HANDLE_PLATFORMS: readonly {
   icon: IconDefinition;

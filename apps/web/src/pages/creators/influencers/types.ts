@@ -9,6 +9,3 @@ export type InfluencerListReply =
 export type Influencer = InfluencerListReply["data"][number];
 
 export type InfluencerSortBy = NonNullable<InfluencerListQuery["sortBy"]>;
-export type InfluencerSortDirection = NonNullable<
-  InfluencerListQuery["sortDirection"]
->;

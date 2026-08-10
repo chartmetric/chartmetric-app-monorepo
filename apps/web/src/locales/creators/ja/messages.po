@@ -17,11 +17,11 @@ msgstr ""
 msgid "{total, plural, one {# influencer} other {# influencers}}"
 msgstr "{total, plural, one {#人のインフルエンサー} other {#人のインフルエンサー}}"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:190
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:192
 msgid "Age"
 msgstr "年齢"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:151
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:153
 msgid "Categories"
 msgstr "カテゴリー"
 
@@ -29,28 +29,28 @@ msgstr "カテゴリー"
 msgid "Explore influencers across social platforms."
 msgstr "ソーシャルプラットフォーム全体のインフルエンサーを探索します。"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:127
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:129
 msgid "Female"
 msgstr "女性"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:182
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:184
 msgid "Gender"
 msgstr "性別"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:161
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:163
 msgid "Handles"
 msgstr "ハンドル"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:144
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:146
 msgid "Influencer"
 msgstr "インフルエンサー"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:239
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:241
 #: src/pages/creators/influencers/InfluencersPage.tsx:28
 msgid "Influencers"
 msgstr "インフルエンサー"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:133
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:135
 msgid "Instagram"
 msgstr "Instagram"
 
@@ -62,15 +62,15 @@ msgstr "インフルエンサーを読み込み中"
 msgid "Loading influencers…"
 msgstr "インフルエンサーを読み込み中…"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:168
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:170
 msgid "Location"
 msgstr "所在地"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:128
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:130
 msgid "Male"
 msgstr "男性"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:255
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:257
 msgid "Next"
 msgstr "次へ"
 
@@ -78,25 +78,25 @@ msgstr "次へ"
 msgid "No influencers found"
 msgstr "インフルエンサーが見つかりません"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:129
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:131
 msgid "Non-binary"
 msgstr "ノンバイナリー"
 
 #. Current page number in the influencers list
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:214
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:216
 msgid "Page {currentPageText}"
 msgstr "{currentPageText}ページ"
 
 #. Current page number and total page count in the influencers list
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:222
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:224
 msgid "Page {currentPageText} of {pageCountText}"
 msgstr "{pageCountText}ページ中{currentPageText}ページ"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:260
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:262
 msgid "Previous"
 msgstr "前へ"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:156
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:158
 msgid "Subtags"
 msgstr "サブタグ"
 
@@ -108,7 +108,7 @@ msgstr "インフルエンサーのリストを読み込めませんでした。
 msgid "There are no influencers to show on this page."
 msgstr "このページに表示するインフルエンサーはありません。"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:134
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:136
 msgid "TikTok"
 msgstr "TikTok"
 
@@ -122,7 +122,7 @@ msgstr "再試行"
 msgid "Unable to load influencers"
 msgstr "インフルエンサーを読み込めません"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:139
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:141
 msgid "Under 18"
 msgstr "18歳未満"
 
@@ -131,11 +131,11 @@ msgstr "18歳未満"
 msgid "Unnamed influencer"
 msgstr "名前のないインフルエンサー"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:233
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:254
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:235
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:256
 msgid "Updating influencers"
 msgstr "インフルエンサーを更新中"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:135
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:137
 msgid "YouTube"
 msgstr "YouTube"
