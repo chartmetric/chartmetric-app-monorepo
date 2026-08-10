@@ -13,6 +13,129 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/creators/influencers/InfluencersPage.tsx:8
-msgid "This is the Influencers page"
-msgstr "Dies ist die Influencer-Seite"
+#: src/pages/creators/influencers/InfluencersPage.tsx:35
+msgid "{total, plural, one {# influencer} other {# influencers}}"
+msgstr "{total, plural, one {# Influencer} other {# Influencer}}"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:190
+msgid "Age"
+msgstr "Alter"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:151
+msgid "Categories"
+msgstr "Kategorien"
+
+#: src/pages/creators/influencers/InfluencersPage.tsx:31
+msgid "Explore influencers across social platforms."
+msgstr "Entdecken Sie Influencer über soziale Plattformen hinweg."
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:127
+msgid "Female"
+msgstr "Weiblich"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:182
+msgid "Gender"
+msgstr "Geschlecht"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:161
+msgid "Handles"
+msgstr "Handles"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:144
+msgid "Influencer"
+msgstr "Influencer"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:239
+#: src/pages/creators/influencers/InfluencersPage.tsx:28
+msgid "Influencers"
+msgstr "Influencer"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:133
+msgid "Instagram"
+msgstr "Instagram"
+
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:21
+msgid "Loading influencers"
+msgstr "Influencer werden geladen"
+
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:23
+msgid "Loading influencers…"
+msgstr "Influencer werden geladen…"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:168
+msgid "Location"
+msgstr "Standort"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:128
+msgid "Male"
+msgstr "Männlich"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:255
+msgid "Next"
+msgstr "Weiter"
+
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:35
+msgid "No influencers found"
+msgstr "Keine Influencer gefunden"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:129
+msgid "Non-binary"
+msgstr "Nichtbinär"
+
+#. Current page number in the influencers list
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:214
+msgid "Page {currentPageText}"
+msgstr "Seite {currentPageText}"
+
+#. Current page number and total page count in the influencers list
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:222
+msgid "Page {currentPageText} of {pageCountText}"
+msgstr "Seite {currentPageText} von {pageCountText}"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:260
+msgid "Previous"
+msgstr "Zurück"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:156
+msgid "Subtags"
+msgstr "Subtags"
+
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:60
+msgid "The influencer list could not be loaded. Try again."
+msgstr "Die Influencer-Liste konnte nicht geladen werden. Versuchen Sie es erneut."
+
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:38
+msgid "There are no influencers to show on this page."
+msgstr "Auf dieser Seite sind keine Influencer vorhanden."
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:134
+msgid "TikTok"
+msgstr "TikTok"
+
+#. Button that retries loading the influencers list
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:63
+msgid "Try again"
+msgstr "Erneut versuchen"
+
+#. Error title on the influencers list page
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:53
+msgid "Unable to load influencers"
+msgstr "Influencer konnten nicht geladen werden"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:139
+msgid "Under 18"
+msgstr "Unter 18"
+
+#. Fallback name when an influencer profile has no name
+#: src/pages/creators/influencers/components/InfluencerIdentity.tsx:14
+msgid "Unnamed influencer"
+msgstr "Unbenannter Influencer"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:233
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:254
+msgid "Updating influencers"
+msgstr "Influencer werden aktualisiert"
+
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:135
+msgid "YouTube"
+msgstr "YouTube"

@@ -183,9 +183,7 @@ describe("App", () => {
     renderApp("/creators/influencers");
 
     expect(
-      await screen.findByRole("heading", {
-        name: "This is the Influencers page",
-      }),
+      await screen.findByRole("heading", { name: "Influencers" }),
     ).toBeDefined();
     expect(screen.getByRole("link", { name: "Influencers" })).toBeDefined();
   });
