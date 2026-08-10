@@ -94,6 +94,8 @@ export const InfluencersPage: FC = () => {
   const [query, setQuery] = useState<InfluencerListQuery>(
     DEFAULT_INFLUENCER_QUERY,
   );
+  const [isFilterWarningDismissed, setIsFilterWarningDismissed] =
+    useState(false);
   const filterOptionsQuery = useQuery({
     queryFn: loadInfluencerFilterOptions,
     queryKey: ["influencer-filter-options"],
@@ -116,9 +118,13 @@ export const InfluencersPage: FC = () => {
   return (
     <Stack gap="lg">
       <InfluencersHeader total={influencersQuery.data?.meta.total} />
-      {filterOptionsQuery.isError ? (
+      {!isFilterWarningDismissed && filterOptionsQuery.isError ? (
         <FilterOptionsError
+          dismiss={() => {
+            setIsFilterWarningDismissed(true);
+          }}
           retry={() => {
+            setIsFilterWarningDismissed(false);
             void filterOptionsQuery.refetch();
           }}
         />

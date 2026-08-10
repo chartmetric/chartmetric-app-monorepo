@@ -258,5 +258,14 @@ describe("InfluencersPage filters", () => {
       "disabled",
       true,
     );
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Dismiss filter warning" }),
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText("Unable to load filter options")).toBeNull();
+    });
+    expect(screen.getByText("Chiara Ferragni")).toBeDefined();
   });
 });

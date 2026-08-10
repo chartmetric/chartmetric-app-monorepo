@@ -19,7 +19,7 @@ msgstr "{total, plural, one {인플루언서 #명} other {인플루언서 #명}}
 
 #: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:97
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:51
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:183
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:185
 msgid "Age"
 msgstr "연령"
 
@@ -27,7 +27,7 @@ msgstr "연령"
 msgid "All filters"
 msgstr "모든 필터"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:144
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:146
 msgid "Categories"
 msgstr "카테고리"
 
@@ -36,7 +36,7 @@ msgstr "카테고리"
 msgid "Category"
 msgstr "카테고리"
 
-#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:75
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:91
 msgid "Category, country, gender and age filters are temporarily unavailable."
 msgstr "카테고리, 국가, 성별, 연령 필터를 일시적으로 사용할 수 없습니다."
 
@@ -48,6 +48,10 @@ msgstr "필터 지우기"
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:39
 msgid "Country"
 msgstr "국가"
+
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:83
+msgid "Dismiss filter warning"
+msgstr "필터 경고 닫기"
 
 #: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:103
 msgid "Exclude"
@@ -68,11 +72,11 @@ msgstr "필터"
 
 #: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:96
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:45
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:175
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:177
 msgid "Gender"
 msgstr "성별"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:154
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:156
 msgid "Handles"
 msgstr "핸들"
 
@@ -80,16 +84,16 @@ msgstr "핸들"
 msgid "Include"
 msgstr "포함"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:137
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:139
 msgid "Influencer"
 msgstr "인플루언서"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:232
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:234
 #: src/pages/creators/influencers/InfluencersPage.tsx:35
 msgid "Influencers"
 msgstr "인플루언서"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:129
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:131
 msgid "Instagram"
 msgstr "Instagram"
 
@@ -101,7 +105,7 @@ msgstr "인플루언서 불러오는 중"
 msgid "Loading influencers…"
 msgstr "인플루언서 불러오는 중…"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:161
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:163
 msgid "Location"
 msgstr "위치"
 
@@ -109,7 +113,7 @@ msgstr "위치"
 msgid "Male"
 msgstr "남성"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:248
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:250
 msgid "Next"
 msgstr "다음"
 
@@ -127,20 +131,20 @@ msgid "Non-binary"
 msgstr "논바이너리"
 
 #. Current page number in the influencers list
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:207
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:209
 msgid "Page {currentPageText}"
 msgstr "{currentPageText}페이지"
 
 #. Current page number and total page count in the influencers list
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:215
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:217
 msgid "Page {currentPageText} of {pageCountText}"
 msgstr "{pageCountText}페이지 중 {currentPageText}페이지"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:253
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:255
 msgid "Previous"
 msgstr "이전"
 
-#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:80
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:97
 msgid "Retry filter options"
 msgstr "필터 옵션 다시 시도"
 
@@ -172,7 +176,7 @@ msgstr "성별 검색…"
 msgid "Search handles…"
 msgstr "핸들 검색…"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:149
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:151
 msgid "Subtags"
 msgstr "서브태그"
 
@@ -184,7 +188,7 @@ msgstr "인플루언서 목록을 불러올 수 없습니다. 다시 시도하�
 msgid "There are no influencers to show on this page."
 msgstr "이 페이지에 표시할 인플루언서가 없습니다."
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:130
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:132
 msgid "TikTok"
 msgstr "TikTok"
 
@@ -193,7 +197,7 @@ msgstr "TikTok"
 msgid "Try again"
 msgstr "다시 시도"
 
-#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:72
+#: src/pages/creators/influencers/components/InfluencersPageStates.tsx:86
 msgid "Unable to load filter options"
 msgstr "필터 옵션을 불러올 수 없습니다"
 
@@ -211,11 +215,11 @@ msgstr "18세 미만"
 msgid "Unnamed influencer"
 msgstr "이름 없는 인플루언서"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:226
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:247
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:228
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:249
 msgid "Updating influencers"
 msgstr "인플루언서 업데이트 중"
 
-#: src/pages/creators/influencers/components/InfluencersTable.tsx:131
+#: src/pages/creators/influencers/components/InfluencersTable.tsx:133
 msgid "YouTube"
 msgstr "YouTube"
