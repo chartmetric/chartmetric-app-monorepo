@@ -24,11 +24,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@mantine/charts": "^9.5.0",
-    "@mantine/core": "^9.5.0",
-    "@mantine/form": "^9.5.0",
-    "@mantine/hooks": "^9.5.0",
-    "@mantine/modals": "^9.5.0",
+    "@mantine/charts": "^9.5.1",
+    "@mantine/core": "^9.5.1",
+    "@mantine/form": "^9.5.1",
+    "@mantine/hooks": "^9.5.1",
+    "@mantine/modals": "^9.5.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -36,10 +36,10 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@testing-library/react": "^16.3.2",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "eslint": "^10.7.0",
+    "eslint": "^10.8.0",
     "jsdom": "^29.1.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^4.1.10"

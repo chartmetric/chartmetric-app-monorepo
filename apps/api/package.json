@@ -23,18 +23,18 @@
     "@fastify/sensible": "^6.0.4",
     "@fastify/swagger": "^9.8.1",
     "@fastify/type-provider-typebox": "^6.1.0",
-    "@hypequery/clickhouse": "^2.5.2",
-    "@scalar/fastify-api-reference": "^1.63.0",
+    "@hypequery/clickhouse": "^2.5.4",
+    "@scalar/fastify-api-reference": "^1.64.0",
     "@sinclair/typebox": "^0.34.52",
-    "fastify": "^5.10.0",
+    "fastify": "^5.11.2",
     "fastify-plugin": "^6.0.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^26.1.1",
+    "@types/node": "^26.1.2",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "eslint": "^10.7.0",
+    "eslint": "^10.8.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^4.1.10"
   }
