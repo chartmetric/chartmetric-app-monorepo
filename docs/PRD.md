@@ -200,10 +200,12 @@ athletes page established so the two pages behave consistently.
 
 - `GET /app/influencers` and `GET /v1/influencers` — the paginated list,
   with filters supplied as query parameters.
-- `GET /app/influencer-filter-options` — filter vocabularies, `app`
+- `GET /app/influencers/filter-options` — filter vocabularies, `app`
   surface only. The developer API exposes the list and its filter
   parameters, not a discoverable vocabulary endpoint. This matches
-  athletes, where `athlete-filter-options` is also `app`-only.
+  athletes, whose `/app/athletes/filter-options` is also `app`-only.
+  Vocabulary routes nest under the collection; the route folder name
+  (`athlete-filter-options`) is not the route path.
 - Note that the six accepted age buckets still appear in
   `openapi.json` through the `/v1/influencers` request schema, since the
   route validates against them. Withholding the vocabulary endpoint keeps
@@ -237,8 +239,12 @@ athletes page established so the two pages behave consistently.
 **Web** — `apps/web/src/pages/creators/influencers/`
 
 - Replace the placeholder `InfluencersPage.tsx`. Structure mirrors the
-  athletes page: a list query module, a filter-options query module, and
-  a `components/` folder for the table and filter panel.
+  **artists** page — `types.ts`, an `api/` module per endpoint,
+  `components/` with a nested `filters/`, `utils/` for filter state, and
+  `tests/` with shared helpers. Athletes is flat only because it has two
+  query modules and one filter component; `apps/web/AGENTS.md` groups by
+  concern once more than a couple of files share one, and five filters
+  plus search starts at artists' scale.
 - Request and response types derive from `paths` in `@repo/api-client`.
 - Country codes render through `Intl.DisplayNames` keyed on the active
   Lingui locale (ADR-008), in one module owned by this page until a
