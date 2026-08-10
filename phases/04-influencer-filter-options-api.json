@@ -1,7 +1,7 @@
 {
   "id": "04-influencer-filter-options-api",
   "title": "serve influencer filter vocabularies from /app only",
-  "status": "pending",
+  "status": "completed",
   "depends_on": [
     "03-influencer-list-api"
   ],
@@ -29,5 +29,13 @@
   ],
   "verification_cmd": "pnpm --filter api exec vitest run influencer-filter-options",
   "security_review": false,
-  "notes": "app surface only, per the requester's decision and the athletes precedent. The list route's filter parameters remain the developer-API entry point. Vocabularies executed through the read-only ClickHouse MCP on 2026-08-11 (ClickHouse 26.2.1.558), each scoped through the same creator CTE the list route uses: categories 53, countries 209, genders 3, age groups 6 (the allowed set only). The category vocabulary reports Music 59,381, matching the list route's categories=[Music] total exactly \u2014 which is what proves the scoping agrees. No smoke_cmd: query verification belongs to the MCP, not a committed runner."
+  "notes": "app surface only, per the requester's decision and the athletes precedent. The list route's filter parameters remain the developer-API entry point. Vocabularies executed through the read-only ClickHouse MCP on 2026-08-11 (ClickHouse 26.2.1.558), each scoped through the same creator CTE the list route uses: categories 53, countries 209, genders 3, age groups 6 (the allowed set only). The category vocabulary reports Music 59,381, matching the list route's categories=[Music] total exactly \u2014 which is what proves the scoping agrees. No smoke_cmd: query verification belongs to the MCP, not a committed runner.",
+  "attempts": 1,
+  "run_started_at": "2026-08-10T16:38:37+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [
+    "apps/api/src/modules/influencers/routes/list-influencers/schemas.ts",
+    "apps/api/src/tests/helpers.ts"
+  ],
+  "review_findings": "SHOULD_FIX:\n- apps/api/src/modules/influencers/routes/influencer-filter-options/influencer-filter-options.smoke.ts:37 \u2014 `expect(rows.length).toBeGreaterThan(0)` runs for all four vocabularies, asserting warehouse population rather than acceptance+shape (learned rule: 'a smoke case asserts acceptance and row shape, never warehouse population'); the ageGroupVocabulary variant is especially population-coupled since it filters to allowed buckets \u2014 drop the count assertion and keep only `assertOptionShape`.\n- apps/api/src/modules/influencers/routes/list-influencers/schemas.ts:28 \u2014 exporting `AgeGroupSchema` touches the list route's schemas, which the phase's 'out of scope' forbids, while its Notes require importing the allowed set; the export is the minimal non-behavioral reconciliation, but confirm this was the intended resolution rather than restating the six buckets locally.\n\nBACKLOG_WORTHY:\n- Low: option collation (`toSorted` by count desc then localeCompare) and the local `FilterOption` interface are duplicated across influencer + athlete + artist filter-options mappers \u2014 centralize once a fourth consumer appears.\n- Low: category query uses `rawAs(...,\"value\")` for its alias while country/gender/age use inline `\"col AS value\"` strings \u2014 pick one aliasing idiom for consistency."
 }

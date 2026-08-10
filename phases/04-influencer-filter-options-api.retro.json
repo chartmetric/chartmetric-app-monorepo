@@ -1,0 +1,36 @@
+{
+  "phase_id": "04-influencer-filter-options-api",
+  "duration_min": 26,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "7 files changed, 226 insertions(+), 3 deletions(-)\n8",
+  "tests_added": 9,
+  "tests_passing_total": 127,
+  "drafted_by": "agent",
+  "surprises": [
+    "The phase's 'out of scope' forbade touching list-influencers schemas, yet its Notes required importing the allowed age-group set, forcing an AgeGroupSchema export from that file as the minimal non-behavioral reconciliation.",
+    "The smoke case asserts rows.length > 0 for all four vocabularies, coupling to warehouse population against the learned smoke-shape rule.",
+    "The category query aliases with rawAs(...,\"value\") while country/gender/age use inline \"col AS value\" strings, mixing two aliasing idioms in one module."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+ Within one query module, pick a single column-aliasing idiom. Alias a plain column with an inline `\"col AS value\"` projection; reserve `rawAs(expr, \"value\")` for a scalar expression that needs it (aggregate, cast, arithmetic). Do not mix the two for equivalent plain-column aliases in the same file."
+    }
+  ],
+  "followups": [
+    "P2: Drop the population-coupled `rows.length > 0` assertions from influencer-filter-options.smoke.ts and keep only assertOptionShape; the ageGroupVocabulary variant is especially population-coupled since it filters to allowed buckets.",
+    "P3: Centralize the duplicated `FilterOption` interface and the toSorted count-desc-then-localeCompare collation shared across the influencer, athlete, and artist filter-options mappers once a fourth consumer appears."
+  ],
+  "smoke_run": {
+    "ts": "2026-08-10T17:02:00+00:00",
+    "result": "pass",
+    "cmd": "pnpm --filter api test:smoke"
+  }
+}
