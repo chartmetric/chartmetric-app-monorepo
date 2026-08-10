@@ -1,0 +1,41 @@
+{
+  "phase_id": "03-influencer-list-api",
+  "duration_min": 26,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "6 files changed, 1511 insertions(+), 418 deletions(-)\n7",
+  "tests_added": 24,
+  "tests_passing_total": 44,
+  "drafted_by": "agent",
+  "surprises": [
+    "Regenerating the ClickHouse schema folded in unrelated athletes_cache column drift (football_team_id, basketball_*, college_*), bundling a second table's schema change into this influencers commit.",
+    "The first smoke run failed and only passed on the second attempt, so the query matrix was not green on the first pass.",
+    "The committed openapi.generated.json now exposes /app/influencers because the onRoute hide:true hook only affects the runtime spec, not the generated snapshot."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+ Smoke cases assert only that a query executes and returns the expected row shape; never assert on the current warehouse population (e.g. that some rows carry empty city/country/age_group). Assert value transforms like empty->null on a fixture row in a mapper unit test instead — population assertions flake on ingestion changes."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+ The CTE-schema-extension machinery (typed Ctes plus the `as unknown as Database` cast) belongs in the database layer under src/lib/database.ts, shared across modules — do not copy a per-module InfluencerCtes/InfluencerDatabase cast into each route module."
+    }
+  ],
+  "followups": [
+    "P2: Rework the list-influencers 'empty-value' smoke case to assert the mapper's empty->null transform on a fixture row rather than pinning to the current warehouse population.",
+    "P3: Unify the influencers and artists module CTE casts onto a shared helper in src/lib/database.ts instead of per-module `as unknown` casts.",
+    "P3: Confirm the committed openapi.generated.json exposing /app/influencers (alongside /app/athletes and /app/artists) is intended for the generated artifact."
+  ],
+  "smoke_run": {
+    "ts": "2026-08-10T16:29:05+00:00",
+    "result": "pass",
+    "cmd": "pnpm --filter api test:smoke"
+  }
+}
