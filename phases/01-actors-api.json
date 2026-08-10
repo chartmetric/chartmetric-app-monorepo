@@ -1,0 +1,40 @@
+{
+  "id": "01-actors-api",
+  "title": "Actors list API and generated contract",
+  "status": "pending",
+  "depends_on": [],
+  "acceptance": [
+    "GET /actors is registered on both app and v1 surfaces with TypeBox pagination and sorting schemas, defaulting to instagramFollowers descending",
+    "the response returns normalized actor identity, profile image, Instagram handle and URL, follower count, popularity, total distinct role count, and at most two known-for acting credits plus total pagination metadata",
+    "hypequery builders read the four approved TV tables, restrict rows to acting credits, count distinct title-kind-character roles, choose known-for credits by title popularity with a deterministic tie-breaker, and sort null follower counts last",
+    "ReplacingMergeTree inputs are deduplicated according to their generated engine and sorting-key metadata, and the ClickHouse schema snapshot is regenerated rather than hand-edited",
+    "route, query, and mapper tests cover both API surfaces, invalid query values, pagination, default and reversed sorting, null normalization, known-for ordering, and distinct role counting",
+    "the regenerated OpenAPI and api-client artifacts publish v1 GET /actors while the app route remains hidden from the public document",
+    "apps/api exposes a reusable read-only test:clickhouse command whose actors matrix executes list and count queries against real ClickHouse with safety caps and records the server version and schema snapshot used",
+    "the endpoint follows the existing authentication model for each surface and introduces no new feature permission or Stripe-plan logic"
+  ],
+  "files": [
+    "apps/api/package.json",
+    "apps/api/vitest.clickhouse.config.ts",
+    "apps/api/src/modules/actors/**",
+    "apps/api/src/routes/app-surface.ts",
+    "apps/api/src/routes/v1-surface.ts",
+    "apps/api/src/tests/clickhouse/**",
+    "apps/api/src/db/clickhouse/schema.generated.ts",
+    "apps/api/openapi.generated.json",
+    "packages/api-client/src/schema.generated.ts"
+  ],
+  "gates": [
+    "pnpm --filter api lint",
+    "pnpm --filter api typecheck",
+    "pnpm --filter api test",
+    "pnpm --filter @repo/api-client lint",
+    "pnpm --filter @repo/api-client typecheck",
+    "pnpm check:generated",
+    "pnpm --filter api build"
+  ],
+  "verification_cmd": "pnpm --filter api exec vitest run src/modules/actors",
+  "smoke_cmd": "pnpm --filter api test:clickhouse -- actors",
+  "security_review": true,
+  "notes": "ADR-001, ADR-002, ADR-005, and ADR-006 apply. The public resource is actors everywhere; warehouse table names containing persons are immutable source names, not product terminology. Use the committed TV schema diagram only as discovery context, then regenerate the governed ClickHouse snapshot and verify engine/order-key details from that output."
+}

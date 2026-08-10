@@ -1,0 +1,35 @@
+{
+  "id": "02-tv-actors-list",
+  "title": "TV & Movies actors list",
+  "status": "pending",
+  "depends_on": ["01-actors-api"],
+  "acceptance": [
+    "TV & Movies is a fourth vertical labeled for TV & Movies with Actors navigation and /tv/actors as its home route",
+    "the actors page consumes the generated GET /v1/actors contract through the existing API client and TanStack Query, with limit, offset, sortBy, and sortDirection represented in its query key",
+    "the table reuses @repo/ui data-table and table-pagination and displays absolute index, Actor name, Known for, Instagram, IG Followers, Roles, and Popularity columns in that order",
+    "actor names link to /tv/actors/:actorId, known-for title and character text link to /tv/titles/:titleId, and Instagram handles use safe external links",
+    "IG Followers defaults to descending sorting, supports both directions, sorts through the API, and uses the existing abbreviated-number formatter while popularity uses one decimal place",
+    "loading, refreshing, empty, error, partial-data, and total-aware pagination states are accessible and the wide table scrolls within its container at mobile widths",
+    "all new user-facing messages are extracted and translated for de, en, es, fr, ja, ko, and pt with strict Lingui compilation",
+    "behavioral tests cover vertical routing, request parameters, absolute indices across pages, sorting, links, formatting, missing data, states, and pagination"
+  ],
+  "files": [
+    "apps/web/src/App.tsx",
+    "apps/web/src/App.test.tsx",
+    "apps/web/src/verticals.ts",
+    "apps/web/src/i18n.ts",
+    "apps/web/src/pages/tv/actors/**",
+    "apps/web/src/locales/tv/**"
+  ],
+  "gates": [
+    "pnpm --filter web extract",
+    "pnpm --filter web exec lingui compile --strict",
+    "pnpm --filter web lint",
+    "pnpm --filter web typecheck",
+    "pnpm --filter web test",
+    "pnpm --filter web build"
+  ],
+  "verification_cmd": "pnpm --filter web exec vitest run src/pages/tv/actors/ActorsPage.test.tsx",
+  "security_review": true,
+  "notes": "Depends on the generated actors contract from Phase 01. ADR-001, ADR-002, ADR-003, and ADR-006 apply. Reuse DataTable and TablePagination unchanged unless a demonstrated entity-neutral gap requires a separately scoped shared-component extension. Detail pages are not part of this phase, but links must use the canonical actor and title paths."
+}

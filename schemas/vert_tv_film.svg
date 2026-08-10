@@ -1,0 +1,221 @@
+<svg viewBox="0 0 970 1248" xmlns="http://www.w3.org/2000/svg" role="img" font-family="var(--font-sans, sans-serif)">
+<title>TV / Film entity graph — vert · new_vertical   (no awards table, no networks table)</title>
+<desc>Entity-relationship diagram of the TV/Movie tables in the vert ClickHouse service, new_vertical database.</desc>
+<style>
+ .tname{font:600 14px var(--font-sans,sans-serif);fill:var(--text-primary,#2c2c2a)}
+ .tsub{font:10px var(--font-sans,sans-serif);fill:var(--text-muted,#888780)}
+ .col{font:12px var(--font-mono,ui-monospace,monospace);fill:var(--text-secondary,#5f5e5a)}
+ .pk{font:700 10px var(--font-mono,monospace);fill:#534AB7}
+ .fk{font:700 10px var(--font-mono,monospace);fill:#D85A30}
+ .rel{stroke:var(--border-strong,#b4b2a9);stroke-width:1.6;fill:none;marker-end:url(#ah)}
+ .deriv{stroke:#1D9E75;stroke-width:1.6;stroke-dasharray:6 4;fill:none;marker-end:url(#ahg)}
+ .rlbl{font:10px var(--font-mono,monospace);fill:var(--text-muted,#888780)}
+ .h1{font:600 16px var(--font-sans,sans-serif);fill:var(--text-primary,#2c2c2a)}
+ .leg{font:11px var(--font-sans,sans-serif);fill:var(--text-secondary,#5f5e5a)}
+</style>
+<defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--border-strong,#8a887f)"/></marker><marker id="ahg" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1D9E75"/></marker></defs>
+<text x="30" y="34" class="h1">TV / Film entity graph — vert · new_vertical   (no awards table, no networks table)</text>
+<path d="M350,274.5 H315 V184.5 H280" class="rel"/>
+<text x="290" y="170" class="rlbl">person_id → id</text>
+<path d="M600,274.5 H640 V260.5 H680" class="rel"/>
+<text x="420" y="170" class="rlbl">(title_id, title_kind) → (id, kind)</text>
+<path d="M155.0,303 V279" class="rel"/>
+<text x="163" y="296" class="rlbl">person_id → id</text>
+<path d="M155.0,814 V790" class="rel"/>
+<text x="163" y="807" class="rlbl">person_id → id</text>
+<path d="M280,908.5 H315 V752.5 H350" class="rel"/>
+<path d="M155.0,1003 V1027" class="rel"/>
+<text x="163" y="1020" class="rlbl">cm_artist_id → id  (3 of 50 set)</text>
+<path d="M475.0,909 V885" class="rel"/>
+<text x="483" y="902" class="rlbl">title_id → id</text>
+<path d="M680,695.5 H645 V752.5 H600" class="rel"/>
+<path d="M680,880.0 H645 V752.5 H600" class="rel"/>
+<path d="M680,1083.5 H645 V752.5 H600" class="rel"/>
+<rect x="30" y="90" width="250" height="189" rx="9" fill="var(--surface-raised,#ffffff)" stroke="#534AB7" stroke-width="2"/>
+<path d="M30,134 h250" stroke="#534AB7" stroke-width="1" opacity="0.5"/>
+<rect x="30" y="90" width="250" height="44" rx="9" fill="#EEEDFE" opacity="0.9"/>
+<rect x="30" y="124" width="250" height="10" fill="#EEEDFE" opacity="0.9"/>
+<text x="44" y="112" class="tname">test_tv_persons</text>
+<text x="44" y="127" class="tsub">LIVE · people hub · 4,084 (FINAL)</text>
+<text x="44" y="152" class="col">id</text>
+<text x="266" y="152" text-anchor="end" class="pk">PK</text>
+<text x="44" y="171" class="col">name</text>
+<text x="44" y="190" class="col">department</text>
+<text x="44" y="209" class="col">popularity</text>
+<text x="44" y="228" class="col">gender</text>
+<text x="44" y="247" class="col">profile_path</text>
+<text x="44" y="266" class="col">updated_at</text>
+<rect x="30" y="303" width="250" height="208" rx="9" fill="var(--surface-raised,#ffffff)" stroke="var(--border,#d3d1c7)" stroke-width="1.2"/>
+<path d="M30,347 h250" stroke="var(--border,#d3d1c7)" stroke-width="1" opacity="0.5"/>
+<rect x="30" y="303" width="250" height="44" rx="9" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<rect x="30" y="337" width="250" height="10" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<text x="44" y="325" class="tname">test_tv_person_socials</text>
+<text x="44" y="340" class="tsub">3,485 rows · 2,128 people covered</text>
+<text x="44" y="365" class="col">person_id</text>
+<text x="266" y="365" text-anchor="end" class="fk">PK/FK</text>
+<text x="44" y="384" class="col">platform</text>
+<text x="266" y="384" text-anchor="end" class="pk">PK</text>
+<text x="44" y="403" class="col">handle</text>
+<text x="44" y="422" class="col">url</text>
+<text x="44" y="441" class="col">followers</text>
+<text x="44" y="460" class="col">following / posts</text>
+<text x="44" y="479" class="col">source</text>
+<text x="44" y="498" class="col">fetched_at</text>
+<rect x="350" y="180" width="250" height="189" rx="9" fill="var(--surface-raised,#ffffff)" stroke="var(--border,#d3d1c7)" stroke-width="1.2"/>
+<path d="M350,224 h250" stroke="var(--border,#d3d1c7)" stroke-width="1" opacity="0.5"/>
+<rect x="350" y="180" width="250" height="44" rx="9" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<rect x="350" y="214" width="250" height="10" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<text x="364" y="202" class="tname">test_tv_credits</text>
+<text x="364" y="217" class="tsub">link table · 4,749 (FINAL)</text>
+<text x="364" y="242" class="col">title_id</text>
+<text x="586" y="242" text-anchor="end" class="fk">FK</text>
+<text x="364" y="261" class="col">title_kind</text>
+<text x="586" y="261" text-anchor="end" class="fk">FK</text>
+<text x="364" y="280" class="col">person_id</text>
+<text x="586" y="280" text-anchor="end" class="fk">FK</text>
+<text x="364" y="299" class="col">credit_type</text>
+<text x="586" y="299" text-anchor="end" class="pk">PK</text>
+<text x="364" y="318" class="col">character</text>
+<text x="364" y="337" class="col">cast_order</text>
+<text x="364" y="356" class="col">updated_at</text>
+<rect x="680" y="90" width="250" height="341" rx="9" fill="var(--surface-raised,#ffffff)" stroke="#534AB7" stroke-width="2"/>
+<path d="M680,134 h250" stroke="#534AB7" stroke-width="1" opacity="0.5"/>
+<rect x="680" y="90" width="250" height="44" rx="9" fill="#EEEDFE" opacity="0.9"/>
+<rect x="680" y="124" width="250" height="10" fill="#EEEDFE" opacity="0.9"/>
+<text x="694" y="112" class="tname">test_tv_titles</text>
+<text x="694" y="127" class="tsub">LIVE · TMDB · 298 (238 show / 60 movie)</text>
+<text x="694" y="152" class="col">id</text>
+<text x="916" y="152" text-anchor="end" class="pk">PK</text>
+<text x="694" y="171" class="col">kind</text>
+<text x="916" y="171" text-anchor="end" class="pk">PK</text>
+<text x="694" y="190" class="col">name</text>
+<text x="694" y="209" class="col">network</text>
+<text x="694" y="228" class="col">genres  Array(String)</text>
+<text x="694" y="247" class="col">release_date</text>
+<text x="694" y="266" class="col">popularity</text>
+<text x="694" y="285" class="col">vote_average / vote_count</text>
+<text x="694" y="304" class="col">seasons / episodes</text>
+<text x="694" y="323" class="col">status</text>
+<text x="694" y="342" class="col">original_language</text>
+<text x="694" y="361" class="col">origin_country</text>
+<text x="694" y="380" class="col">overview</text>
+<text x="694" y="399" class="col">poster / backdrop path</text>
+<text x="694" y="418" class="col">updated_at</text>
+<rect x="30" y="620" width="250" height="170" rx="9" fill="var(--surface-raised,#ffffff)" stroke="#7F77DD" stroke-width="1.2"/>
+<path d="M30,664 h250" stroke="#7F77DD" stroke-width="1" opacity="0.5"/>
+<rect x="30" y="620" width="250" height="44" rx="9" fill="#EEEDFE" opacity="0.9"/>
+<rect x="30" y="654" width="250" height="10" fill="#EEEDFE" opacity="0.9"/>
+<text x="44" y="642" class="tname">media_persons</text>
+<text x="44" y="657" class="tsub">SEED · 12 rows</text>
+<text x="44" y="682" class="col">id</text>
+<text x="266" y="682" text-anchor="end" class="pk">PK</text>
+<text x="44" y="701" class="col">name</text>
+<text x="44" y="720" class="col">birth_date</text>
+<text x="44" y="739" class="col">bio</text>
+<text x="44" y="758" class="col">image_url</text>
+<text x="44" y="777" class="col">cm_artist_id</text>
+<text x="266" y="777" text-anchor="end" class="fk">FK</text>
+<rect x="30" y="814" width="250" height="189" rx="9" fill="var(--surface-raised,#ffffff)" stroke="var(--border,#d3d1c7)" stroke-width="1.2"/>
+<path d="M30,858 h250" stroke="var(--border,#d3d1c7)" stroke-width="1" opacity="0.5"/>
+<rect x="30" y="814" width="250" height="44" rx="9" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<rect x="30" y="848" width="250" height="10" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<text x="44" y="836" class="tname">media_cast</text>
+<text x="44" y="851" class="tsub">link table · 50 rows</text>
+<text x="44" y="876" class="col">title_id</text>
+<text x="266" y="876" text-anchor="end" class="fk">PK/FK</text>
+<text x="44" y="895" class="col">person_id</text>
+<text x="266" y="895" text-anchor="end" class="fk">PK/FK</text>
+<text x="44" y="914" class="col">id</text>
+<text x="44" y="933" class="col">name</text>
+<text x="44" y="952" class="col">role  Lead/Supporting/Guest</text>
+<text x="44" y="971" class="col">character</text>
+<text x="44" y="990" class="col">cm_artist_id</text>
+<text x="266" y="990" text-anchor="end" class="fk">FK</text>
+<rect x="30" y="1027" width="250" height="94" rx="9" fill="var(--surface-raised,#ffffff)" stroke="var(--border,#d3d1c7)" stroke-width="1.2"/>
+<path d="M30,1071 h250" stroke="var(--border,#d3d1c7)" stroke-width="1" opacity="0.5"/>
+<rect x="30" y="1027" width="250" height="44" rx="9" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<rect x="30" y="1061" width="250" height="10" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<text x="44" y="1049" class="tname">cm_artist</text>
+<text x="44" y="1064" class="tsub">music graph · 154,292 rows</text>
+<text x="44" y="1089" class="col">id</text>
+<text x="266" y="1089" text-anchor="end" class="pk">PK</text>
+<text x="44" y="1108" class="col">name</text>
+<rect x="350" y="620" width="250" height="265" rx="9" fill="var(--surface-raised,#ffffff)" stroke="#7F77DD" stroke-width="1.2"/>
+<path d="M350,664 h250" stroke="#7F77DD" stroke-width="1" opacity="0.5"/>
+<rect x="350" y="620" width="250" height="44" rx="9" fill="#EEEDFE" opacity="0.9"/>
+<rect x="350" y="654" width="250" height="10" fill="#EEEDFE" opacity="0.9"/>
+<text x="364" y="642" class="tname">media_titles</text>
+<text x="364" y="657" class="tsub">SEED · 10 rows (5 show / 5 movie)</text>
+<text x="364" y="682" class="col">id</text>
+<text x="586" y="682" text-anchor="end" class="pk">PK</text>
+<text x="364" y="701" class="col">title</text>
+<text x="364" y="720" class="col">type</text>
+<text x="364" y="739" class="col">genre</text>
+<text x="364" y="758" class="col">release_year</text>
+<text x="364" y="777" class="col">rating_avg</text>
+<text x="364" y="796" class="col">trending_score</text>
+<text x="364" y="815" class="col">seasons</text>
+<text x="364" y="834" class="col">synopsis</text>
+<text x="364" y="853" class="col">poster_url</text>
+<text x="364" y="872" class="col">updated_at</text>
+<rect x="350" y="909" width="250" height="151" rx="9" fill="var(--surface-raised,#ffffff)" stroke="var(--border,#d3d1c7)" stroke-width="1.2"/>
+<path d="M350,953 h250" stroke="var(--border,#d3d1c7)" stroke-width="1" opacity="0.5"/>
+<rect x="350" y="909" width="250" height="44" rx="9" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<rect x="350" y="943" width="250" height="10" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<text x="364" y="931" class="tname">media_seasons</text>
+<text x="364" y="946" class="tsub">13 rows</text>
+<text x="364" y="971" class="col">title_id</text>
+<text x="586" y="971" text-anchor="end" class="fk">PK/FK</text>
+<text x="364" y="990" class="col">season_number</text>
+<text x="586" y="990" text-anchor="end" class="pk">PK</text>
+<text x="364" y="1009" class="col">episodes</text>
+<text x="364" y="1028" class="col">premiere_date</text>
+<text x="364" y="1047" class="col">rating_avg</text>
+<rect x="680" y="620" width="250" height="151" rx="9" fill="var(--surface-raised,#ffffff)" stroke="var(--border,#d3d1c7)" stroke-width="1.2"/>
+<path d="M680,664 h250" stroke="var(--border,#d3d1c7)" stroke-width="1" opacity="0.5"/>
+<rect x="680" y="620" width="250" height="44" rx="9" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<rect x="680" y="654" width="250" height="10" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<text x="694" y="642" class="tname">media_ratings</text>
+<text x="694" y="657" class="tsub">daily · 300 rows</text>
+<text x="694" y="682" class="col">title_id</text>
+<text x="916" y="682" text-anchor="end" class="fk">PK/FK</text>
+<text x="694" y="701" class="col">date</text>
+<text x="916" y="701" text-anchor="end" class="pk">PK</text>
+<text x="694" y="720" class="col">imdb</text>
+<text x="694" y="739" class="col">rotten_tomatoes</text>
+<text x="694" y="758" class="col">metacritic</text>
+<rect x="680" y="795" width="250" height="170" rx="9" fill="var(--surface-raised,#ffffff)" stroke="var(--border,#d3d1c7)" stroke-width="1.2"/>
+<path d="M680,839 h250" stroke="var(--border,#d3d1c7)" stroke-width="1" opacity="0.5"/>
+<rect x="680" y="795" width="250" height="44" rx="9" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<rect x="680" y="829" width="250" height="10" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<text x="694" y="817" class="tname">media_viewership</text>
+<text x="694" y="832" class="tsub">daily · 140 rows</text>
+<text x="694" y="857" class="col">title_id</text>
+<text x="916" y="857" text-anchor="end" class="fk">PK/FK</text>
+<text x="694" y="876" class="col">date</text>
+<text x="916" y="876" text-anchor="end" class="pk">PK</text>
+<text x="694" y="895" class="col">netflix</text>
+<text x="694" y="914" class="col">disney_plus</text>
+<text x="694" y="933" class="col">hbo_max</text>
+<text x="694" y="952" class="col">amazon_prime</text>
+<rect x="680" y="989" width="250" height="189" rx="9" fill="var(--surface-raised,#ffffff)" stroke="var(--border,#d3d1c7)" stroke-width="1.2"/>
+<path d="M680,1033 h250" stroke="var(--border,#d3d1c7)" stroke-width="1" opacity="0.5"/>
+<rect x="680" y="989" width="250" height="44" rx="9" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<rect x="680" y="1023" width="250" height="10" fill="var(--surface-sunken,#f1efe8)" opacity="0.9"/>
+<text x="694" y="1011" class="tname">media_social</text>
+<text x="694" y="1026" class="tsub">daily × region · 300 rows</text>
+<text x="694" y="1051" class="col">title_id</text>
+<text x="916" y="1051" text-anchor="end" class="fk">PK/FK</text>
+<text x="694" y="1070" class="col">region</text>
+<text x="916" y="1070" text-anchor="end" class="pk">PK</text>
+<text x="694" y="1089" class="col">date</text>
+<text x="916" y="1089" text-anchor="end" class="pk">PK</text>
+<text x="694" y="1108" class="col">twitter_mentions</text>
+<text x="694" y="1127" class="col">instagram_posts</text>
+<text x="694" y="1146" class="col">tiktok_videos</text>
+<text x="694" y="1165" class="col">reddit_posts</text>
+<rect x="30" y="1219" width="16" height="12" rx="3" fill="#EEEDFE" stroke="#534AB7"/>
+<text x="52" y="1229" class="leg">core / hub table</text>
+<line x1="180" y1="1225" x2="210" y2="1225" class="rel"/>
+<text x="216" y="1229" class="leg">FK relationship</text>
+</svg>
