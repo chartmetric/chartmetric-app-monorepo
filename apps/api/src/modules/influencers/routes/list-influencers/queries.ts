@@ -1,6 +1,6 @@
 import { rawAs } from "@hypequery/clickhouse";
 
-import type { DatabaseQueryFactory } from "../../../../db/clickhouse/client.ts";
+import type { DatabaseQueryFactory } from "../../../../lib/database.ts";
 import type { ListInfluencersQuery } from "./schemas.ts";
 import type {
   InfluencerDatabase,
@@ -43,6 +43,7 @@ const influencerSource = ((database) =>
     .final()
     .innerJoin("creators", "id", "creators.profile_id")
     .where("profile_type", "eq", "creator")
+    .where("active", "eq", "true")
     .whereNull("deleted_at")) satisfies InfluencerQueryFactory;
 
 type InfluencerBuilder = ReturnType<typeof influencerSource>;

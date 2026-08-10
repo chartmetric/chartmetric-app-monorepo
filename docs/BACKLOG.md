@@ -151,13 +151,17 @@ phase's retry loop or review cycle exhausts.
   regenerate (`pnpm generate:api-client`) and leave verification to CI,
   where `HEAD` contains the artifacts. Fix both docs and consider
   whether the runner should reject the check outright.
-- P3: Unify the CTE-schema-extension machinery. Both
-  `list-influencers` and `list-artists` cast per-module
-  (`InfluencerDatabase`, `MetricsDatabase`) via `as unknown`, while
-  `docs/ARCHITECTURE.md` says query-builder escape hatches belong to the
-  database layer. `apps/api/src/lib/database.ts` does not exist, so the
-  invariant is currently unenforceable — either create the shared helper
-  and move both, or amend the invariant to match reality.
+- P2: Unify the CTE-schema-extension machinery. `list-influencers`,
+  `influencer-filter-options`, and `list-artists` each mint a per-module
+  builder type and cast `database as unknown as <X>Database`, while
+  `docs/ARCHITECTURE.md` states as `MUST NOT` that a feature may not
+  declare its own builder interface or cast around the builder.
+  `apps/api/src/lib/database.ts` now exists and already holds the other
+  hypequery workarounds (`ExecutableQuery`, `TablesWithColumn`,
+  `JoinableChain`), so the home the invariant names is available and this
+  is now actionable — add the CTE-extension helper there and move all
+  three callers onto it. Raised from P3 because the invariant is marked
+  `MUST NOT` and there are now three violations rather than two.
 - P3: Confirm that `openapi.generated.json` exposing `/app/*` paths is
   intended. It now lists `/app/influencers` alongside `/app/athletes` and
   `/app/artists`. It is required — the web client derives its types from

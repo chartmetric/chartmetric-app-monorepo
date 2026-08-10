@@ -298,6 +298,45 @@ export interface IntrospectedSchema {
     season: "UInt16";
     _loaded_at: "DateTime";
   };
+  creator_profile_cache: {
+    profiles: "UInt64";
+    tiktok_account_id: "String";
+    instagram_account_id: "String";
+    youtube_account_id: "String";
+    tiktok_handle: "String";
+    instagram_handle: "String";
+    youtube_handle: "String";
+    person_or_entity: "String";
+    person_type: "String";
+    entity_type: "String";
+    creator_tags: "String";
+    creator_subtags: "String";
+    creator_bio: "String";
+    creator_country: "String";
+    creator_city: "String";
+    creator_ethnicity: "String";
+    creator_primary_language: "String";
+    creator_secondary_language: "String";
+    creator_age_group: "String";
+    creator_gender: "String";
+    creator_contacts: "String";
+    audience_tags: "String";
+    suggested_brand_categories: "String";
+    suggested_influencer_categories: "String";
+    has_iqdata: "UInt8";
+    llm_history: "Nullable(UInt64)";
+    created_at: "DateTime64(3)";
+    modified_at: "DateTime64(3)";
+    is_non_brand: "Nullable(Bool)";
+    creator_country_source: "LowCardinality(String)";
+    gender: "String";
+    date_of_birth: "String";
+    countries_of_birth: "String";
+    sports: "String";
+    locations: "String";
+    tags: "String";
+    run_id: "String";
+  };
   instagram_cache: {
     account_id: "UInt32";
     snapshot_date: "Date";
@@ -730,6 +769,46 @@ export interface Competitions_apifootballRecord {
   country: string;
   season: number;
   _loaded_at: string;
+}
+
+export interface Creator_profile_cacheRecord {
+  profiles: string;
+  tiktok_account_id: string;
+  instagram_account_id: string;
+  youtube_account_id: string;
+  tiktok_handle: string;
+  instagram_handle: string;
+  youtube_handle: string;
+  person_or_entity: string;
+  person_type: string;
+  entity_type: string;
+  creator_tags: string;
+  creator_subtags: string;
+  creator_bio: string;
+  creator_country: string;
+  creator_city: string;
+  creator_ethnicity: string;
+  creator_primary_language: string;
+  creator_secondary_language: string;
+  creator_age_group: string;
+  creator_gender: string;
+  creator_contacts: string;
+  audience_tags: string;
+  suggested_brand_categories: string;
+  suggested_influencer_categories: string;
+  has_iqdata: number;
+  llm_history: string | null;
+  created_at: string;
+  modified_at: string;
+  is_non_brand: boolean | null;
+  creator_country_source: string;
+  gender: string;
+  date_of_birth: string;
+  countries_of_birth: string;
+  sports: string;
+  locations: string;
+  tags: string;
+  run_id: string;
 }
 
 export interface Instagram_cacheRecord {

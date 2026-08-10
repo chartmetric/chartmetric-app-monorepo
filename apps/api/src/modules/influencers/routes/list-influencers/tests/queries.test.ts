@@ -20,6 +20,7 @@ describe("listInfluencers", () => {
     expect(sql).toContain("FROM new_vertical.profile FINAL");
     expect(sql).toContain("INNER JOIN creators ON id = creators.profile_id");
     expect(sql).toContain("profile_type = 'creator'");
+    expect(sql).toContain("active = 'true'");
     expect(sql).toContain("deleted_at IS NULL");
     expect(sql).toContain("ORDER BY name ASC, id ASC");
     expect(sql).toContain("LIMIT 25");
@@ -68,6 +69,7 @@ describe("listInfluencers", () => {
     expect(sql).toContain("ORDER BY name DESC, id ASC");
     expect(parameters).toEqual([
       "creator",
+      "true",
       "Array(String)",
       "Music",
       "Gaming",
@@ -97,6 +99,7 @@ describe("listInfluencers", () => {
     expect(sql).toContain("FROM new_vertical.profile FINAL");
     expect(sql).toContain("INNER JOIN creators ON id = creators.profile_id");
     expect(sql).toContain("profile_type = 'creator'");
+    expect(sql).toContain("active = 'true'");
     expect(sql).toContain("creators.creator_country IN ('US')");
   });
 });
