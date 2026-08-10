@@ -610,6 +610,9 @@
                         },
                         "offset": {
                           "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
                         }
                       }
                     }
@@ -2379,6 +2382,9 @@
                           "type": "integer"
                         },
                         "offset": {
+                          "type": "integer"
+                        },
+                        "total": {
                           "type": "integer"
                         }
                       }

@@ -10,4 +10,5 @@ export type PaginationQuery = Static<typeof PaginationQuerySchema>;
 export const PaginationMetaSchema = Type.Object({
   limit: Type.Integer(),
   offset: Type.Integer(),
+  total: Type.Optional(Type.Integer()),
 });

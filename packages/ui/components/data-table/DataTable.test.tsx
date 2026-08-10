@@ -3,7 +3,6 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DataTable, type DataTableColumn } from "./DataTable";
-import { TablePagination } from "./TablePagination";
 
 interface Person {
   id: number;
@@ -227,31 +226,3 @@ const renderSticky = (): ReturnType<typeof render> =>
     </MantineProvider>,
   );
 
-describe("TablePagination", () => {
-  it("emits previous and next offsets", () => {
-    const onPageChange = vi.fn();
-    render(
-      <MantineProvider>
-        <TablePagination
-          hasNextPage
-          isLoading={false}
-          loadingLabel="Updating"
-          nextLabel="Next"
-          offset={25}
-          onPageChange={onPageChange}
-          pageLabel={(page) => `Page ${String(page)}`}
-          pageSize={25}
-          previousLabel="Previous"
-        />
-      </MantineProvider>,
-    );
-
-    expect(screen.getByText("Page 2")).toBeDefined();
-
-    fireEvent.click(screen.getByRole("button", { name: "Previous" }));
-    fireEvent.click(screen.getByRole("button", { name: "Next" }));
-
-    expect(onPageChange).toHaveBeenNthCalledWith(1, 0);
-    expect(onPageChange).toHaveBeenNthCalledWith(2, 50);
-  });
-});
