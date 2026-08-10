@@ -1,0 +1,32 @@
+{
+  "id": "06-influencers-page-filters",
+  "title": "Wire the influencer filter panel to the list query",
+  "status": "pending",
+  "depends_on": [
+    "04-influencer-filter-options-api",
+    "05-influencers-page-list"
+  ],
+  "acceptance": [
+    "the page renders category, country, gender and age-group filters populated from the filter-options route",
+    "a handle search input filters the list",
+    "applying a filter resets the offset to zero and refetches, and the result count reflects the filtered total",
+    "country filter options display locale-correct names while sending ISO codes to the API",
+    "the age-group filter offers only the six supported buckets",
+    "a filter-options request failure degrades to a dismissible warning without breaking the list",
+    "filter state and controls follow the athletes page conventions and reuse the existing @repo/ui filter exports",
+    "new strings are extracted and translated across all seven locales so lingui compile --strict passes"
+  ],
+  "files": [
+    "apps/web/src/pages/creators/influencers/**",
+    "apps/web/src/locales/creators/**"
+  ],
+  "gates": [
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm --filter web exec lingui compile --strict"
+  ],
+  "verification_cmd": "pnpm --filter web exec vitest run InfluencerFilters",
+  "security_review": false,
+  "notes": "Completes the PRD entry. Behavioural parity with AthleteFilters is an acceptance concern, not a stylistic one."
+}
