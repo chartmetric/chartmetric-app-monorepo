@@ -136,6 +136,16 @@ phase's retry loop or review cycle exhausts.
   snapshot: read it through the ClickHouse MCP (`SHOW CREATE TABLE`).
   Either teach the generator to emit the sorting key, or fold the check
   into the schema-drift gate above.
+- P2: Stop recommending `pnpm check:generated` as a phase gate.
+  `docs/HARNESS_GUIDE.md`'s phase-schema example lists it, and
+  `docs/EXAMPLE_PHASE.md` justifies it precisely for contract-changing
+  phases — but it regenerates and then fails when the artifacts differ
+  from `HEAD`, so correct-but-uncommitted output still reads as a diff,
+  and harness gates run before the commit. It therefore fails for
+  exactly the phases the docs recommend it for. The gate should
+  regenerate (`pnpm generate:api-client`) and leave verification to CI,
+  where `HEAD` contains the artifacts. Fix both docs and consider
+  whether the runner should reject the check outright.
 - P2: Run the first pilot phase against an `apps/api` module and tune
   `max_attempts` / `max_review_cycles` from the resulting retro.
 - P3: When the athlete implementation branch lands: add direct unit

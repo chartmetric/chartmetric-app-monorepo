@@ -25,7 +25,7 @@
     "pnpm lint",
     "pnpm typecheck",
     "pnpm test",
-    "pnpm check:generated"
+    "pnpm generate:api-client"
   ],
   "verification_cmd": "pnpm --filter api exec vitest run influencer-filter-options",
   "smoke_cmd": "pnpm --filter api test:smoke",

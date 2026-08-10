@@ -21,7 +21,7 @@ consume.
 - the default sort is `name` ascending, and `sortDirection` is honoured
 - the mapper imports `emptyToNull` from `lib/strings` rather than redeclaring it, and parses `creator_tags` and `creator_subtags` into string arrays
 - `list-influencers.smoke.ts` executes the default, every filter in both include and exclude modes, both sort directions, the count and list pair, and empty-value rows against real ClickHouse
-- `pnpm check:generated` passes with the regenerated ClickHouse schema, OpenAPI document and API client committed
+- the regenerated ClickHouse schema, OpenAPI document and API client are committed in this phase, so CI's `check:generated` finds no diff
 
 ## In scope
 
@@ -56,3 +56,4 @@ consume.
 - The `/v1` request schema publishes the six age buckets externally as validation values. That is understood and accepted; the vocabulary *endpoint* stays `app`-only.
 - Route paths are nested under the collection in this repository: the list is `/influencers` and phase 04's vocabulary route will be `/influencers/filter-options`, matching `/athletes` + `/athletes/filter-options`. The surface prefix (`/app`, `/v1`) is applied by the registrar, not written into the route.
 - `security_review: true`: the reviewer will threat-model exposing inferred gender and age-group attributes for individual creators on a public developer API. Keep the selected column set minimal and be able to justify each field.
+- Regenerate with `pnpm --filter api generate:ch-schema` (the generator finds new tables by scanning `.table()` calls) and `pnpm generate:api-client`, committing the output in this phase. Do **not** add `pnpm check:generated` to the gates: it regenerates and then fails if the artifacts differ from `HEAD`, so correct-but-uncommitted output still reads as a diff, and harness gates run before the commit. The gate regenerates; CI verifies after the commit, which is where that check belongs. `docs/HARNESS_GUIDE.md` and `docs/EXAMPLE_PHASE.md` both recommend it as a gate and are wrong.
