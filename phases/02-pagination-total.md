@@ -18,7 +18,7 @@ already-published `/v1/athletes` reply from breaking.
 - `TablePagination` falls back to its current `hasNextPage` behaviour and page label when no total is supplied
 - `TablePagination` disables the next control on the final page when a total is supplied
 - `packages/ui` tests cover the with-total and without-total rendering paths and the athletes page renders unchanged
-- `pnpm check:generated` passes with the regenerated OpenAPI document and API client committed
+- the regenerated OpenAPI document and API client are committed in this phase, so CI's `check:generated` finds no diff
 
 ## In scope
 
