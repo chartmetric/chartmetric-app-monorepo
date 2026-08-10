@@ -1,8 +1,10 @@
 {
   "id": "02-tv-actors-list",
-  "title": "TV & Movies actors list",
+  "title": "tv & movies actors list",
   "status": "pending",
-  "depends_on": ["01-actors-api"],
+  "depends_on": [
+    "01-actors-api"
+  ],
   "acceptance": [
     "TV & Movies is a fourth vertical labeled for TV & Movies with Actors navigation and /tv/actors as its home route",
     "the actors page consumes the generated GET /v1/actors contract through the existing API client and TanStack Query, with limit, offset, sortBy, and sortDirection represented in its query key",

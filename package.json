@@ -8,7 +8,7 @@
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,js,mjs,cjs,json,md}\"",
     "generate:api-client": "pnpm --filter api generate:openapi && pnpm --filter @repo/api-client generate",
-    "check:generated": "pnpm generate:api-client && ! git status --porcelain=v1 --untracked-files=all -- apps/api/openapi.generated.json packages/api-client/src/schema.generated.ts | grep .",
+    "check:generated": "f='apps/api/openapi.generated.json packages/api-client/src/schema.generated.ts' && before=$(git hash-object $f) && pnpm generate:api-client && [ \"$before\" = \"$(git hash-object $f)\" ] || { echo 'check:generated: regeneration changed the generated artifacts, so they were stale — commit the regenerated files' >&2; exit 1; }",
     "start": "turbo run start",
     "prepare": "husky"
   },
