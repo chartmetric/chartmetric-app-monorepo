@@ -7,6 +7,34 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
+- P1: Extract the total-aware row-range summary (firstRow/lastRow/
+  totalRows/pageCount plus the Group+Text block and hasNextPage
+  arithmetic) into `@repo/ui` beside TablePagination; ActorsTable.tsx
+  and AthletesTable.tsx now carry it verbatim — the second consumer is
+  the documented promotion trigger. Source: phase 02 retro, 2026-08-10.
+- P1: Validate /tv/actors in a real authenticated browser at desktop
+  and below the AppShell breakpoint (horizontal containment, keyboard
+  sorting, links, loading/refreshing/empty/error states) and record
+  the outcome. Attempted 2026-08-10: the dev API served GET
+  /app/actors end to end against real ClickHouse and headless Chrome
+  reached the app, but the PropelAuth gate blocked the page without a
+  test session — needs a logged-in human or stored test credentials.
+  Source: phase 02 retro, 2026-08-10.
+- P2: Wrap AthletesTable in the aria-busy refreshing wrapper that
+  ArtistsTable and ActorsTable already use, so the refreshing state is
+  announced consistently across verticals. Source: phase 02 retro,
+  2026-08-10.
+- P3: Validate the https scheme of `instagram_url` in the actors list
+  mapper so the stored-URL vector is closed at the contract boundary
+  rather than relying on React 19 blocking `javascript:` hrefs in
+  InstagramCell. Source: phase 02 retro, 2026-08-10.
+- P3: Derive the absolute row number in the actors table-columns from
+  the row index instead of a Map keyed by actor.id, so duplicate ids in
+  one page cannot repeat a number. Source: phase 02 retro, 2026-08-10.
+- P3: Widen `formatCount` in apps/web/src/lib/formatting.ts to accept a
+  `(value: number) => string` formatter so the actors popularity column
+  reuses the null→EMPTY_CELL rule instead of re-inlining it. Source:
+  phase 02 retro, 2026-08-10.
 - P1: Compose `ActorListRow` from `Pick<Test_tv_personsRecord, ...>`
   plus the alias/aggregate fields instead of restating generated
   columns by hand, so a generated column change breaks the build.
