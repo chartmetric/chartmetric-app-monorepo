@@ -7,7 +7,7 @@ import os
 import sys
 
 from harness.context import HARNESS_PARENT_ENV, PHASES_DIR
-from harness.docs_gate import precheck_failures
+from harness.docs_gate import precheck_advisories, precheck_failures
 from harness.doctor import run_doctor
 from harness.lint import lint_phase
 from harness.pipeline import run_pipeline
@@ -44,6 +44,19 @@ def _with_phase_lock(phase_id: str, fn) -> int:
         release_run_lock(phase_id)
 
 
+def _print_advisories() -> None:
+    advisories = precheck_advisories()
+    if not advisories:
+        return
+    print("\nprecheck advisories — recommended docs are thin or absent:")
+    for a in advisories:
+        print(a)
+    print(
+        "\nThese do not block a run. A phase grounded in a doc listed\n"
+        "here will be weaker for its absence."
+    )
+
+
 def cmd_precheck(_args: argparse.Namespace) -> int:
     failures = precheck_failures()
     if failures:
@@ -56,8 +69,10 @@ def cmd_precheck(_args: argparse.Namespace) -> int:
             "skeleton state.",
             file=sys.stderr,
         )
+        _print_advisories()
         return 2
     print("precheck ok: required docs have substantive content")
+    _print_advisories()
     return 0
 
 

@@ -340,6 +340,15 @@ What actually happens per phase, for someone new to the harness:
    `phases/NN-slug.{json,md}` by hand following
    `phases/PHASE_TEMPLATE.md`). `execute.py lint <id>` checks it costs
    nothing to validate.
+
+   `docs/PRD.md` is an append-only log of feature entries, one `##` per
+   feature, and does not exist until the first `/feature-intake` run.
+   That is why it sits in `advisory_docs` rather than `required_docs`:
+   gating on it would fail the first run of a repo with no features
+   logged yet, so precheck reports its absence and lets the run proceed.
+   Repository and tooling work needs no PRD entry at all —
+   `docs/ARCHITECTURE.md` and `docs/ADR.md` govern it.
+
 2. **Run** — `python3 scripts/execute.py run <id>`. Walk away; the
    pipeline writes, verifies, gates, smokes, reviews, fixes, drafts the
    retro, and commits locally. If it stops (`exhausted` /
@@ -362,6 +371,7 @@ load (a wrongly-typed value fails at harness entry, not mid-run).
 | -------------------------- | ------------------------- | ------------------------------------------------ |
 | `project_name`             | `my-project`              | naming in agent prompts                          |
 | `required_docs`            | `docs/ARCHITECTURE.md`    | files the precheck gates on                      |
+| `advisory_docs`            | `docs/PRD.md`             | files precheck reports but never blocks on       |
 | `agents_file`              | `AGENTS.md`               | conventions file agents read                     |
 | `agents_sections`          | `[2, 3, 4]`               | sections the precheck gates on                   |
 | `min_substantive_lines`    | `3`                       | precheck threshold per doc/section               |

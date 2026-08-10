@@ -1,6 +1,9 @@
 {
   "project_name": "chartmetric-app-monorepo",
   "required_docs": ["docs/ARCHITECTURE.md"],
+  "advisory_docs": {
+    "docs/PRD.md": "run /feature-intake to turn a plain-language ask into a PRD entry"
+  },
   "agents_file": "AGENTS.md",
   "agents_sections": [],
   "min_substantive_lines": 3,

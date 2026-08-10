@@ -17,11 +17,14 @@ The CLI runner is `scripts/execute.py`. Project knobs live in
    The check is programmatic (counts substantive lines excluding
    headers/comments) so you cannot satisfy it by inventing one-liners;
    the user must provide real product / architecture content.
+   Precheck may also print **advisories** — recommended docs that are
+   thin or absent. These do not block, but surface them to the user
+   now rather than discovering the gap several steps later.
 2. Run `python3 scripts/execute.py status` to list current phases.
 3. If `phases/` is empty AND precheck passed:
-   - Propose a phase plan (≤ 10 phases) derived from `docs/PRD.md` and
-     `docs/ARCHITECTURE.md`. Each phase should be one PR of work with
-     mechanically checkable acceptance criteria.
+   - Propose a phase plan (≤ 10 phases) derived from `docs/ARCHITECTURE.md`
+     and, when it covers the feature, `docs/PRD.md`. Each phase should be
+     one PR of work with mechanically checkable acceptance criteria.
    - Write each phase as `phases/NN-<slug>.json` (schema in
      `docs/HARNESS_GUIDE.md`) plus `phases/NN-<slug>.md` following
      `phases/PHASE_TEMPLATE.md`. Set `security_review: true` on
@@ -52,6 +55,13 @@ The CLI runner is `scripts/execute.py`. Project knobs live in
 - Defer architectural choices not covered by `docs/ARCHITECTURE.md` to
   the user — do not silently lock in boundaries, libraries, or schema
   shapes.
-- If `docs/PRD.md` doesn't exist, or doesn't cover the feature the user
-  is asking for, tell them to run `/feature-intake` first rather than
-  inventing requirements or architectural decisions yourself.
+- `docs/PRD.md` is an append-only log of feature entries, one `##` per
+  feature, created by `/feature-intake` on first use. It is deliberately
+  advisory rather than in `required_docs`: requiring it would fail the
+  first run of a repo that has no features logged yet.
+- For **product feature** work whose ask is not already covered by a
+  `docs/PRD.md` entry, tell the user to run `/feature-intake` first
+  rather than inventing requirements or architectural decisions
+  yourself. Repository and tooling maintenance — harness changes, CI,
+  lint rules, dependency work — needs no PRD entry; `docs/ARCHITECTURE.md`
+  and `docs/ADR.md` govern it.
