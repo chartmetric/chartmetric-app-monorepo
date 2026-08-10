@@ -151,6 +151,19 @@ phase's retry loop or review cycle exhausts.
   regenerate (`pnpm generate:api-client`) and leave verification to CI,
   where `HEAD` contains the artifacts. Fix both docs and consider
   whether the runner should reject the check outright.
+- P3: Unify the CTE-schema-extension machinery. Both
+  `list-influencers` and `list-artists` cast per-module
+  (`InfluencerDatabase`, `MetricsDatabase`) via `as unknown`, while
+  `docs/ARCHITECTURE.md` says query-builder escape hatches belong to the
+  database layer. `apps/api/src/lib/database.ts` does not exist, so the
+  invariant is currently unenforceable — either create the shared helper
+  and move both, or amend the invariant to match reality.
+- P3: Confirm that `openapi.generated.json` exposing `/app/*` paths is
+  intended. It now lists `/app/influencers` alongside `/app/athletes` and
+  `/app/artists`. It is required — the web client derives its types from
+  those paths — but the `onRoute` `hide: true` hook's purpose reads as
+  though `/app` should be absent, and the distinction between the
+  committed artifact and the runtime spec is not written down anywhere.
 - P2: Run the first pilot phase against an `apps/api` module and tune
   `max_attempts` / `max_review_cycles` from the resulting retro.
 - P3: When the athlete implementation branch lands: add direct unit
