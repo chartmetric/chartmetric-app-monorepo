@@ -126,14 +126,21 @@ new string MUST be extracted and translated across all seven locales
 before it can be committed; the pre-commit hook runs
 `lingui compile --strict` and refuses untranslated messages.
 
-**Data values** are not authored copy. Names, handles, cities, and
-category labels arriving from the API or a datastore are rendered as
-received and MUST NOT be added to the catalogs. Where such a value has
-a locale-correct presentation defined by CLDR, use the platform's
-ECMA-402 APIs (`Intl.DisplayNames`, `Intl.NumberFormat`,
+**Data values** are not authored copy. Open-ended values arriving from
+the API or a datastore — names, handles, cities, category labels — are
+rendered as received and MUST NOT be added to the catalogs. Where such a
+value has a locale-correct presentation defined by CLDR, use the
+platform's ECMA-402 APIs (`Intl.DisplayNames`, `Intl.NumberFormat`,
 `Intl.DateTimeFormat`) keyed on the active Lingui locale, rather than
-adding a dependency that restates data the runtime already ships. See
-ADR-008.
+adding a dependency that restates data the runtime already ships.
+
+A **closed enumeration** is the exception in the other direction. When a
+field's values are a fixed, contract-defined set — a gender, an age
+bucket, a sort mode — the value is a key and the text shown for it is
+authored copy, so that mapping goes through Lingui like any other string.
+The test is whether a translator could own the result: they can own
+"Non-binary" or "Under 18"; they cannot own an arbitrary creator's city.
+See ADR-008.
 
 ### Data access
 

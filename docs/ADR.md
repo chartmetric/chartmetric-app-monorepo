@@ -160,7 +160,12 @@ code and existing contracts, so their dates are approximate.
   (`Intl.DisplayNames`, `Intl.NumberFormat`, `Intl.DateTimeFormat`) are
   the sanctioned mechanism, keyed on the active Lingui locale. Country
   names in the influencer list use `Intl.DisplayNames`; no dependency
-  is added for data the runtime already ships.
+  is added for data the runtime already ships. A **closed enumeration**
+  is the exception in the other direction: when a field's values are a
+  fixed, contract-defined set (a gender, an age bucket, a sort mode) the
+  value is a key and the text shown for it is authored copy, so that
+  mapping does go through Lingui. The test is whether a translator could
+  own the result.
 - **Consequences**: `Intl` output is locale-correct without entering the
   catalogs, so `lingui compile --strict` stays meaningful — it fails
   only for copy a translator genuinely owns. Labels that look like copy
