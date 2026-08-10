@@ -16,7 +16,7 @@
     "the default sort is name ascending, and sortDirection is honoured",
     "the mapper imports emptyToNull from lib/strings rather than redeclaring it, and parses creator_tags and creator_subtags into string arrays",
     "list-influencers.smoke.ts executes the default, every filter in both include and exclude modes, both sort directions, the count and list pair, and empty-value rows against real ClickHouse",
-    "pnpm check:generated passes with the regenerated ClickHouse schema, OpenAPI document and API client committed"
+    "the regenerated ClickHouse schema, OpenAPI document and API client are committed in this phase, so CI's check:generated finds no diff"
   ],
   "files": [
     "apps/api/src/modules/influencers/**",
@@ -30,7 +30,7 @@
     "pnpm lint",
     "pnpm typecheck",
     "pnpm test",
-    "pnpm check:generated"
+    "pnpm generate:api-client"
   ],
   "verification_cmd": "pnpm --filter api exec vitest run influencers",
   "smoke_cmd": "pnpm --filter api test:smoke",
