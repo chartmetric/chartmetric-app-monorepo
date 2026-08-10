@@ -1,0 +1,38 @@
+{
+  "id": "03-influencer-list-api",
+  "title": "Serve the influencer list from /app and /v1",
+  "status": "pending",
+  "depends_on": [
+    "01-clickhouse-smoke",
+    "02-pagination-total"
+  ],
+  "acceptance": [
+    "GET /app/influencers and GET /v1/influencers return a paginated creator list with pagination meta carrying total",
+    "the query reads creator_profile_cache and profile through CTEs that each apply FINAL, and returns only rows with profile_type 'creator' and a null deleted_at",
+    "the list and count queries apply the same filters, so the total always describes the filtered set",
+    "categories, countries, genders, ageGroups and handle filters each narrow the result set, with categories matched against the JSON-encoded creator_tags column",
+    "ageGroups accepts only the six supported buckets and rejects the overlapping data-quality values with a 400",
+    "the default sort is name ascending, and sortDirection is honoured",
+    "the mapper imports emptyToNull from lib/strings rather than redeclaring it, and parses creator_tags and creator_subtags into string arrays",
+    "list-influencers.smoke.ts executes the default, every filter, both sort directions, the count and list pair, and empty-value rows against real ClickHouse",
+    "pnpm check:generated passes with the regenerated ClickHouse schema, OpenAPI document and API client committed"
+  ],
+  "files": [
+    "apps/api/src/modules/influencers/**",
+    "apps/api/src/routes/app-surface.ts",
+    "apps/api/src/routes/v1-surface.ts",
+    "apps/api/src/db/clickhouse/schema.generated.ts",
+    "apps/api/openapi.generated.json",
+    "packages/api-client/src/schema.generated.ts"
+  ],
+  "gates": [
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm check:generated"
+  ],
+  "verification_cmd": "pnpm --filter api exec vitest run influencers",
+  "smoke_cmd": "pnpm --filter api test:smoke",
+  "security_review": true,
+  "notes": "security_review is set because /v1 publishes inferred gender and age-group attributes for individual creator accounts to external API-key customers. creator_ethnicity exists in the source table and must not be exposed."
+}

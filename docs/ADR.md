@@ -114,3 +114,58 @@ code and existing contracts, so their dates are approximate.
   grouping) live in each workspace's nested `AGENTS.md`, which this
   decision anchors. Operational statement in the `## Learned rules`
   section of `AGENTS.md`.
+
+## ADR-007: An entity list route may join at request time; a denormalized cache is not required
+
+- **Date**: 2026-08-10
+- **Status**: accepted
+- **Context**: The athletes list reads `new_vertical.athletes_cache`, a
+  denormalized table with `name` and `image_url` already flattened in,
+  built by an upstream pipeline outside this repository. The influencer
+  list has no equivalent: `creator_profile_cache` carries tags,
+  demographics, and handles but no name and no avatar, so those must
+  come from `new_vertical.profile`. Following the athletes precedent
+  would block the feature on upstream pipeline work.
+- **Decision**: An entity list route may join its source tables at
+  request time. The influencer list joins `creator_profile_cache` to
+  `profile` through a hypequery CTE per ADR-005. A denormalized cache
+  table is an optimization to reach for when a measured problem
+  justifies it, not a precondition for shipping a list route.
+- **Consequences**: The influencers list is the first list route in the
+  repository that joins at request time; `athletes_cache` remains
+  correct for athletes and is not retrofitted. Both tables are
+  `Replacing*`, so both sides read through `.final()` and the join key
+  is checked against each sorting key. If request-time latency becomes
+  a problem, the replacement is a cache table and a superseding ADR,
+  not an ad-hoc denormalization inside the route.
+
+## ADR-008: The Lingui extraction requirement covers authored copy, not data values
+
+- **Date**: 2026-08-10
+- **Status**: accepted
+- **Context**: `docs/ARCHITECTURE.md` requires every user-facing string
+  in `apps/web` to be extracted and translated through Lingui. Read
+  literally that also covers values returned by the API — entity names,
+  handles, city names, category labels — none of which are extracted
+  today, and none of which a translator could own. The influencer list
+  makes the ambiguity load-bearing: it renders country names derived
+  from ISO codes, and the review stage treats an invariant violation as
+  a blocking finding.
+- **Decision**: The Lingui requirement governs **authored UI copy** —
+  strings written in this repository. **Data values** originating from
+  the API or a datastore are rendered as received and are not
+  extracted. Where a data value has a locale-correct presentation
+  defined by CLDR, the platform's ECMA-402 APIs
+  (`Intl.DisplayNames`, `Intl.NumberFormat`, `Intl.DateTimeFormat`) are
+  the sanctioned mechanism, keyed on the active Lingui locale. Country
+  names in the influencer list use `Intl.DisplayNames`; no dependency
+  is added for data the runtime already ships.
+- **Consequences**: `Intl` output is locale-correct without entering the
+  catalogs, so `lingui compile --strict` stays meaningful — it fails
+  only for copy a translator genuinely owns. Labels that look like copy
+  but arrive as data (the ~40 ClickHouse category names) are explicitly
+  out of scope for translation; making them translatable would require
+  the upstream data to carry locale variants, which is a separate
+  decision. This supersedes nothing; it narrows the wording of an
+  existing invariant, so the Internationalization section of
+  `docs/ARCHITECTURE.md` is updated to match in the same change.
