@@ -23,6 +23,16 @@ phase's retry loop or review cycle exhausts.
   the same defect: its example title, "Genre filter on the artists list
   endpoint", fails the identical check, so the worked example teaches
   the trap.
+- P2: Stop recommending `pnpm check:generated` as a phase gate.
+  `docs/HARNESS_GUIDE.md`'s phase-schema example lists it, and
+  `docs/EXAMPLE_PHASE.md` justifies it precisely for contract-changing
+  phases — but it regenerates and then fails when the artifacts differ
+  from `HEAD`, so correct-but-uncommitted output still reads as a diff,
+  and harness gates run before the commit. It therefore fails for
+  exactly the phases the docs recommend it for; phase 02 hit this. The
+  gate should regenerate (`pnpm generate:api-client`) and leave
+  verification to CI, where `HEAD` contains the artifacts. Fix both docs
+  and consider whether the runner should reject the check outright.
 - P3: Give each smoke filter case one non-empty guarantee where
   warehouse data allows. Per-filter shape assertions currently only fire
   when the filter returns rows, so an empty result still passes while
