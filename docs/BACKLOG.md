@@ -7,14 +7,26 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
-- P1: Add a `test:clickhouse` script to `apps/api` so query phases have
-  a real `smoke_cmd` to point at. The harness requires one for any
-  phase touching a ClickHouse query, and three rules harvested from the
-  athlete implementation (live-execution matrix, `FINAL`-via-CTE,
-  dedupe-key-vs-join-key) are enforceable only as prose until it
-  exists. The matrix should also check, per joined `Replacing*` table,
-  that the join key is a prefix of the table's sorting key — the one
-  defect class in that harvest that no data-driven test can catch.
+- P2: Extend the smoke matrix to assert, per joined `Replacing*` table,
+  that the join key is a prefix of the table's sorting key. Phase 01
+  delivered the runner but its only matrix reads a single table, so this
+  defect class — the one no data-driven test can catch, because it is
+  dormant while a table happens to hold one row per join key — is still
+  prose only. Phase 03 introduces the repository's first request-time
+  join and is where it first bites.
+- P2: Make the runner's commit subject survive commitlint. The
+  `commit_message_format` interpolates the phase title verbatim, and
+  `@commitlint/config-conventional` rejects a sentence-case subject, so
+  a capitalised title fails at the commit stage after every other stage
+  has passed — phase 01 hit exactly this. Downcase the title's first
+  character when building the message. `docs/EXAMPLE_PHASE.md` carries
+  the same defect: its example title, "Genre filter on the artists list
+  endpoint", fails the identical check, so the worked example teaches
+  the trap.
+- P3: Give each smoke filter case one non-empty guarantee where
+  warehouse data allows. Per-filter shape assertions currently only fire
+  when the filter returns rows, so an empty result still passes while
+  proving query acceptance alone. From phase 01's retro.
 - P2: Run the first pilot phase against an `apps/api` module and tune
   `max_attempts` / `max_review_cycles` from the resulting retro.
 - P2: When the athlete implementation branch lands: both athlete routes
