@@ -32,7 +32,7 @@ jobs:
 
       # The harness's documented floor — the oldest version we claim to
       # support is the one most likely to break.
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.10"
 
