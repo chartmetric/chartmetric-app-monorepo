@@ -16,10 +16,11 @@ consume.
 - the query reads `creator_profile_cache` and `profile` through CTEs that each apply `FINAL`, and returns only rows with `profile_type` `'creator'` and a null `deleted_at`
 - the list and count queries apply the same filters, so the total always describes the filtered set
 - `categories`, `countries`, `genders`, `ageGroups` and handle filters each narrow the result set, with categories matched against the JSON-encoded `creator_tags` column
-- `ageGroups` accepts only the six supported buckets and rejects the overlapping data-quality values with a 400
+- `excludeCategories`, `excludeCountries`, `excludeGenders` and `excludeAgeGroups` each remove matching rows, mirroring the athletes and artists contracts
+- `ageGroups` and `excludeAgeGroups` accept only the six supported buckets and reject the overlapping data-quality values with a 400
 - the default sort is `name` ascending, and `sortDirection` is honoured
 - the mapper imports `emptyToNull` from `lib/strings` rather than redeclaring it, and parses `creator_tags` and `creator_subtags` into string arrays
-- `list-influencers.smoke.ts` executes the default, every filter, both sort directions, the count and list pair, and empty-value rows against real ClickHouse
+- `list-influencers.smoke.ts` executes the default, every filter in both include and exclude modes, both sort directions, the count and list pair, and empty-value rows against real ClickHouse
 - `pnpm check:generated` passes with the regenerated ClickHouse schema, OpenAPI document and API client committed
 
 ## In scope
@@ -51,5 +52,7 @@ consume.
 - **`creator_country` is a 2-letter ISO code**; `creator_gender` is lowercase `male`/`female`/`non-binary`. Do not map either to display text here — that is the frontend's job under ADR-008.
 - `''` means "no value" in these columns. Normalize in the mapper, never in the query, per `apps/api/AGENTS.md`.
 - Typed CTE joins in hypequery need the `Database & Ctes` schema extension and an `as unknown` cast at the builder boundary; that machinery belongs in the database layer, not in this module. See the data-access invariant in `docs/ARCHITECTURE.md`.
+- **Every categorical filter ships as an include/exclude pair**, matching `/app/athletes` (`sports`/`excludeSports`, `nationalities`/`excludeNationalities`, `types`/`excludeTypes`) and `/app/artists` (`countries`/`excludeCountries`, `genres`/`excludeGenres`). This is not gold-plating: `@repo/ui/multi-select-filter`, which both peer pages use, carries a `{included, excluded}` value, so an include-only contract would leave the shared control half-usable and silently drop whatever a user excludes. Reuse the athletes naming convention exactly.
 - The `/v1` request schema publishes the six age buckets externally as validation values. That is understood and accepted; the vocabulary *endpoint* stays `app`-only.
+- Route paths are nested under the collection in this repository: the list is `/influencers` and phase 04's vocabulary route will be `/influencers/filter-options`, matching `/athletes` + `/athletes/filter-options`. The surface prefix (`/app`, `/v1`) is applied by the registrar, not written into the route.
 - `security_review: true`: the reviewer will threat-model exposing inferred gender and age-group attributes for individual creators on a public developer API. Keep the selected column set minimal and be able to justify each field.

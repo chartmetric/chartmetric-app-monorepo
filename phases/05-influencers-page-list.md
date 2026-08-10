@@ -3,10 +3,11 @@
 ## Goal
 
 Replace the ten-line `InfluencersPage` placeholder with the real list: a
-paginated table over the `/app/influencers` route, with the columns from
-the mockup, the result count the mockup shows, and locale-correct country
-names. Filters are deliberately excluded so this phase is one reviewable
-PR; phase 06 adds them.
+paginated table over `/app/influencers`, with the columns from the mockup,
+the result count the mockup shows, and locale-correct country names.
+Filters are deliberately excluded so this phase is one reviewable PR;
+phase 06 adds them. The page follows the **artists** page's structure, not
+the athletes one — see the notes for why.
 
 ## Acceptance
 
@@ -21,27 +22,35 @@ PR; phase 06 adds them.
 
 ## In scope
 
-- `apps/web/src/pages/creators/influencers/InfluencersPage.tsx` — replaces the placeholder.
-- `apps/web/src/pages/creators/influencers/influencer-list-query.ts` — the query module and derived types, mirroring `athlete-list-query.ts`.
+Follow the file layout of `apps/web/src/pages/music/artists/`:
+
+- `apps/web/src/pages/creators/influencers/InfluencersPage.tsx` — the composer, replacing the placeholder.
+- `apps/web/src/pages/creators/influencers/types.ts` — every derived type (`InfluencerListQuery`, `InfluencerListReply`, `Influencer`, `InfluencerSortBy`, …) pulled from `paths`, mirroring `artists/types.ts`.
+- `apps/web/src/pages/creators/influencers/api/influencer-list.ts` — the thin loader.
+- `apps/web/src/pages/creators/influencers/constants.ts` — page size and column configuration.
 - `apps/web/src/pages/creators/influencers/components/InfluencersTable.tsx`.
+- `apps/web/src/pages/creators/influencers/components/InfluencersPageStates.tsx` — loading, empty and error states, as `ArtistsPageStates.tsx` does.
+- `apps/web/src/pages/creators/influencers/components/InfluencerIdentity.tsx` — the name cell with its initial-letter avatar, as `ArtistIdentity.tsx` does.
 - A module owning ISO-code-to-display-name formatting, named for that responsibility.
-- `apps/web/src/pages/creators/influencers/InfluencersPage.test.tsx`.
+- `apps/web/src/pages/creators/influencers/tests/InfluencersPage.test.tsx` and `influencers-page.test.helpers.tsx`.
 - `apps/web/src/locales/creators/**` — extracted and translated catalogs for all seven locales.
 
 ## Out of scope
 
-- Do not build the filter panel, filter state, or any filter control. Phase 06 owns all of it. This page may fetch with defaults only.
+- Do not build the filter panel, the filter drawer, filter state, or any filter control. Phase 06 owns all of it. This page may fetch with defaults only.
 - Do not add sort controls or clickable column headers. The route's default sort is the only ordering this phase ships.
+- Do not add a column picker. Artists has one; whether influencers needs one is a product question nobody has asked.
 - Do not add a `VIDEOS` column, video thumbnails, or placeholder gradient tiles. No thumbnail data exists — see the PRD.
 - Do not add flag icons or a flag dependency.
 - Do not add any npm dependency. Country names come from the platform's `Intl.DisplayNames`; ADR-008 is explicit that no package is added for data the runtime already ships.
 - Do not extract anything into `packages/ui`. The needed primitives — `data-table`, `table-pagination` — already exist and are consumed as-is.
-- Do not modify the athletes page, its components, or its catalogs.
+- Do not modify the artists or athletes pages, their components, or their catalogs.
 - Do not modify `apps/api`.
 
 ## Notes / open questions
 
-- **Read `apps/web/AGENTS.md` and the `frontend-feature-workflow` skill first.** Both require auditing `@repo/ui` and the peer entity before writing presentation code. `@repo/ui` already exports `data-table`, `table-pagination`, `column-picker`, `filter-bar`, `checkbox-list-filter`, `multi-select-filter` and `range-filter`; `AthletesPage`/`AthletesTable` show how they compose. Equivalent features stay behaviorally consistent across entities by default.
+- **Follow artists, not athletes.** `apps/web/AGENTS.md` says to group a page's code by concern (`api/`, `filters/`, `components/`) once more than a couple of files share one. Artists does this; athletes is flat only because it has two query modules and one filter component. The influencers page ships five filters plus search, so it starts at artists' scale. Read `ArtistsPage.tsx`, `artists/types.ts`, `api/artist-list.ts` and `ArtistsPageStates.tsx` before writing anything.
+- **Read `apps/web/AGENTS.md` and the `frontend-feature-workflow` skill first.** Both require auditing `@repo/ui` and the peer entities before writing presentation code. `@repo/ui` already exports `data-table`, `table-pagination`, `column-picker`, `filter-bar`, `checkbox-list-filter`, `multi-select-filter` and `range-filter`.
 - `profile.image_url` is NULL for these creators, so the avatar falls back to an initial, as the mockup does. Do not fetch avatars from elsewhere.
 - Category and subtag labels arrive as data and are rendered as received. They are not Lingui messages — ADR-008. Only the surrounding chrome (column headers, states, pagination labels) is authored copy.
 - `Intl.DisplayNames` must be keyed on the **active Lingui locale**, not the browser default, or the page will disagree with itself. Verified correct for all seven locales on Node 26.

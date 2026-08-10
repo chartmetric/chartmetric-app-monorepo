@@ -1,6 +1,6 @@
 {
   "id": "06-influencers-page-filters",
-  "title": "Wire the influencer filter panel to the list query",
+  "title": "wire the influencer filter panel to the list query",
   "status": "pending",
   "depends_on": [
     "04-influencer-filter-options-api",
@@ -26,7 +26,7 @@
     "pnpm test",
     "pnpm --filter web exec lingui compile --strict"
   ],
-  "verification_cmd": "pnpm --filter web exec vitest run InfluencerFilters",
+  "verification_cmd": "pnpm --filter web exec vitest run InfluencersPage.filters",
   "security_review": false,
   "notes": "Completes the PRD entry. Behavioural parity with AthleteFilters is an acceptance concern, not a stylistic one."
 }
