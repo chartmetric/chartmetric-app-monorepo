@@ -39,8 +39,8 @@ export const ENRICHMENT_JOINS = [
 
 export const CACHE_PROFILE_ID = "new_vertical.athletes_cache.profile_id";
 
-// A source whose CTE reads another CTE needs that one declared first, and never
-// joined — it narrows a scan rather than carrying a column onto the row.
+// Absent from ENRICHMENT_JOINS on purpose: a prerequisite narrows its dependant's
+// scan rather than carrying a column onto the row, so it is declared, never joined.
 export const CTE_PREREQUISITES = new Map<CteAlias, readonly CteAlias[]>([
   ["tiktok_latest", [ROSTER_PROFILE_IDS]],
 ]);

@@ -9,8 +9,7 @@ import {
   ENRICHMENT_JOINS,
 } from "./constants.ts";
 
-// ClickHouse resolves a CTE only against the ones declared before it, so a
-// prerequisite is emitted ahead of the source that reads it.
+// ClickHouse resolves a CTE only against the ones declared before it.
 const declarationOrder = (sources: readonly CteAlias[]): CteAlias[] => {
   const ordered: CteAlias[] = [];
 

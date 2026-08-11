@@ -35,12 +35,9 @@ export const latestInstagramSnapshots = ((database, periodDays) =>
         pastValueExpression("followers", "snapshot_date", periodDays),
         "instagram_followers_past",
       ),
-      rawAs<number, "instagram_verified">(
-        "max(is_verified)",
-        "instagram_verified",
-      ),
     ])
     .argMax("followers", "snapshot_date", "instagram_followers")
+    .max("is_verified", "instagram_verified")
     .groupBy("account_id")) satisfies PeriodQueryFactory;
 
 export const latestTiktokSnapshots = ((database, periodDays) =>
@@ -56,9 +53,9 @@ export const latestTiktokSnapshots = ((database, periodDays) =>
         pastValueExpression("follower_count", "snapshot_date", periodDays),
         "tiktok_followers_past",
       ),
-      rawAs<number, "tiktok_verified">("max(is_verified)", "tiktok_verified"),
     ])
     .argMax("follower_count", "snapshot_date", "tiktok_followers")
+    .max("is_verified", "tiktok_verified")
     .groupBy("account_id")) satisfies PeriodQueryFactory;
 
 export const instagramFollowersByProfile = ((database) =>
@@ -126,9 +123,8 @@ export const latestCmScores = ((database, periodDays) =>
 // can carry several accounts per platform, so latest-snapshot semantics would
 // arbitrarily pick an unverified fan account.
 //
-// Read from the two platform caches rather than `profile_snapshots`, which
-// holds five platforms of full history and cannot prune on `platform` — the
-// caches are already scanned for follower counts, so this costs nothing.
+// `profile_snapshots` also carries this flag, but it holds five platforms of
+// full history and cannot prune on `platform`, so reading it costs a full scan.
 const VERIFIED_EXPRESSION =
   "greatest(ifNull(profile_ig.instagram_verified, 0), ifNull(profile_tt.tiktok_verified, 0))";
 

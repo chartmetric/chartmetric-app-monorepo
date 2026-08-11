@@ -1,6 +1,7 @@
 import { rawAs } from "@hypequery/clickhouse";
 
 import type { DatabaseQueryFactory } from "../../../../lib/database.ts";
+import type { CteAlias } from "./types.ts";
 
 // Each subquery is a governed builder, so `generate:ch-schema` discovers its
 // table. Three expressions have no builder form and stay raw — the ranking window
@@ -8,13 +9,12 @@ import type { DatabaseQueryFactory } from "../../../../lib/database.ts";
 // expression, and the CTE alias on the right of an `IN`, which the builder cannot
 // type. All are constant SQL that no request value reaches.
 
-export const ROSTER_PROFILE_IDS = "roster_ids";
+export const ROSTER_PROFILE_IDS = "roster_ids" satisfies CteAlias;
 
-// `profile_snapshots` is sorted by `(profile_id, platform, snapshot_date)`, so a
-// `platform` filter alone prunes nothing and the CTE below scans all 374M rows.
-// Restricting to the roster's ids lets the primary key skip granules, which is
-// the difference between reading 374M rows and 760k. Declared as its own CTE
-// because it is a prerequisite of `tiktok_latest`, not something to join.
+// `profile_snapshots` is sorted by `(profile_id, platform, snapshot_date)`, so
+// the `platform` filter in `selectTiktokLatest` prunes nothing on its own and
+// that CTE reads the whole table. Restricting it to these ids is what lets the
+// primary key skip granules.
 export const selectRosterProfileIds = ((database) =>
   database
     .table("new_vertical.athletes_cache")
