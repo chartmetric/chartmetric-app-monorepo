@@ -77,10 +77,11 @@ export interface paths {
                                 instagramHandle: string | null;
                                 instagramUrl: string | null;
                                 knownFor: {
-                                    character: string;
+                                    character: string | null;
                                     id: number;
                                     kind: string;
                                     name: string;
+                                    network: string | null;
                                     popularity: number;
                                 }[];
                                 name: string;
@@ -518,10 +519,11 @@ export interface paths {
                                 instagramHandle: string | null;
                                 instagramUrl: string | null;
                                 knownFor: {
-                                    character: string;
+                                    character: string | null;
                                     id: number;
                                     kind: string;
                                     name: string;
+                                    network: string | null;
                                     popularity: number;
                                 }[];
                                 name: string;

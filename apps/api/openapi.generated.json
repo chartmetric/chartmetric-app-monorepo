@@ -204,11 +204,19 @@
                                 "id",
                                 "kind",
                                 "name",
+                                "network",
                                 "popularity"
                               ],
                               "properties": {
                                 "character": {
-                                  "type": "string"
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
                                 },
                                 "id": {
                                   "type": "integer"
@@ -218,6 +226,16 @@
                                 },
                                 "name": {
                                   "type": "string"
+                                },
+                                "network": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
                                 },
                                 "popularity": {
                                   "type": "number"
@@ -1999,11 +2017,19 @@
                                 "id",
                                 "kind",
                                 "name",
+                                "network",
                                 "popularity"
                               ],
                               "properties": {
                                 "character": {
-                                  "type": "string"
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
                                 },
                                 "id": {
                                   "type": "integer"
@@ -2013,6 +2039,16 @@
                                 },
                                 "name": {
                                   "type": "string"
+                                },
+                                "network": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
                                 },
                                 "popularity": {
                                   "type": "number"

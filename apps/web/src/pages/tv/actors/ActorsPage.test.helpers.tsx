@@ -26,6 +26,7 @@ export const MOANA_CREDIT: KnownForCredit = {
   id: 1_108_427,
   kind: "movie",
   name: "Moana",
+  network: null,
   popularity: 55.1,
 };
 
@@ -34,6 +35,7 @@ export const BALLERS_CREDIT: KnownForCredit = {
   id: 62_704,
   kind: "tv",
   name: "Ballers",
+  network: "HBO",
   popularity: 21.4,
 };
 

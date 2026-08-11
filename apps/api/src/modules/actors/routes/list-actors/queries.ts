@@ -16,6 +16,7 @@ const INSTAGRAM = "instagram";
 const TITLES = "titles";
 
 const QUERY_SETTINGS = {
+  join_algorithm: "auto",
   join_use_nulls: 1,
   max_bytes_to_read: 50_000_000_000,
   max_execution_time: 30,
@@ -44,6 +45,7 @@ const selectTitles = ((database) =>
       "id",
       "kind",
       "name",
+      "network",
       "popularity",
     ])) satisfies DatabaseQueryFactory;
 
@@ -63,18 +65,13 @@ const selectCreditSummary = ((database) =>
   )
     .select([
       "person_id",
-      // rawAs: aggregate expressions the builder cannot express. FINAL
-      // over the (title_id, credit_type, person_id) sorting key keeps one
-      // row per title here, so role_count is distinct titles — the
-      // title_kind/character tuple members cannot add distinctions.
+      // hypequery has no builders for tuple-distinct or tuple-array aggregates.
       rawAs<number, "role_count">(
         "uniqExact(tuple(title_id, title_kind, character))",
         "role_count",
       ),
-      // Top-two credits by title popularity descending, tie-broken
-      // deterministically by title id, kind, then character.
       rawAs<string, "known_for">(
-        "toJSONString(arraySlice(arraySort(x -> (-x.1, x.2, x.3, x.4), groupArray(tuple(titles.popularity, title_id, title_kind, character, titles.name))), 1, 2))",
+        "toJSONString(arraySlice(arraySort(x -> (-x.1, x.2, x.3, x.4), groupArray(tuple(titles.popularity, title_id, title_kind, character, titles.name, titles.network))), 1, 2))",
         "known_for",
       ),
     ])
@@ -142,8 +139,7 @@ const listActors = (
       `${PERSONS}.name AS name`,
       `${PERSONS}.profile_path AS profile_path`,
       `${PERSONS}.popularity AS popularity`,
-      // rawAs: select() typing only knows generated-schema tables, so it
-      // rejects these CTE-qualified columns as plain select strings.
+      // CTE aliases are absent from the generated schema used by select().
       rawAs(`${INSTAGRAM}.instagram_handle`, "instagram_handle"),
       rawAs(`${INSTAGRAM}.instagram_url`, "instagram_url"),
       rawAs(`${INSTAGRAM}.instagram_followers`, "instagram_followers"),

@@ -31,10 +31,11 @@ export const ListActorsQuerySchema = Type.Object({
 export type ListActorsQuery = Static<typeof ListActorsQuerySchema>;
 
 const KnownForCreditSchema = Type.Object({
-  character: Type.String(),
+  character: Nullable(Type.String()),
   id: Type.Integer(),
   kind: Type.String(),
   name: Type.String(),
+  network: Nullable(Type.String()),
   popularity: Type.Number(),
 });
 

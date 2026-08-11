@@ -12,7 +12,8 @@ const database = createQueryBuilder<Database>({
 describe("createListActorsQueries", () => {
   it("builds acting-only deduplicated list and count siblings", () => {
     const queries = createListActorsQueries(database);
-    const list = queries.listActors({ limit: 25, offset: 50 }).toSQL();
+    const listQuery = queries.listActors({ limit: 25, offset: 50 });
+    const list = listQuery.toSQL();
     const count = queries.countActors().toSQL();
 
     for (const sql of [list, count]) {
@@ -25,11 +26,15 @@ describe("createListActorsQueries", () => {
         "uniqExact(tuple(title_id, title_kind, character)) AS role_count",
       );
       expect(sql).toContain("arraySlice(arraySort");
+      expect(sql).toContain("titles.network");
     }
     expect(list).toContain("instagram.instagram_followers IS NULL ASC");
     expect(list).toContain("instagram.instagram_followers DESC");
     expect(list).toContain("LIMIT 25 OFFSET 50");
     expect(count).toContain("count() AS total");
+    expect(listQuery.getQueryNode().settings).toMatchObject({
+      join_algorithm: "auto",
+    });
   });
 
   it("reverses requested sorting while keeping null followers last", () => {

@@ -12,9 +12,8 @@ interface KnownForCellProps {
   actor: Actor;
 }
 
-// A movie and a show can share a title id, so the id alone is not unique.
 const creditKey = (credit: KnownForCredit): string =>
-  `${String(credit.id)}-${credit.kind}-${credit.character}`;
+  `${String(credit.id)}-${credit.kind}-${credit.character ?? ""}`;
 
 export const KnownForCell: FC<KnownForCellProps> = ({ actor }) => {
   const { t } = useLingui();
@@ -22,10 +21,13 @@ export const KnownForCell: FC<KnownForCellProps> = ({ actor }) => {
   if (actor.knownFor.length === 0) return <>{EMPTY_CELL}</>;
 
   const creditLabel = (credit: KnownForCredit): string => {
-    const character = credit.character.trim();
-    const title = credit.name;
+    const title =
+      credit.network === null
+        ? credit.name
+        : `${credit.name} ${credit.network}`;
 
-    if (character === "") return title;
+    if (credit.character === null) return title;
+    const character = credit.character;
 
     return t({
       comment: "A known-for acting credit: the title and the character played",

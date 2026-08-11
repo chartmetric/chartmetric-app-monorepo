@@ -1,4 +1,8 @@
-import { type ClickHouseClient, createClient } from "@clickhouse/client";
+import {
+  type ClickHouseClient,
+  type ClickHouseSettings,
+  createClient,
+} from "@clickhouse/client";
 import { createQueryBuilder, logger } from "@hypequery/clickhouse";
 
 import type { Config } from "../../config.ts";
@@ -17,8 +21,12 @@ export interface ClickHouse {
 
 export const buildClientOptions = (
   config: Config,
+  clickhouseSettings?: ClickHouseSettings,
 ): NonNullable<Parameters<typeof createClient>[0]> => ({
   application: "chartmetric-app-api",
+  ...(clickhouseSettings !== undefined && {
+    clickhouse_settings: clickhouseSettings,
+  }),
   http_agent: pickClickhouseAgent(config.clickhouseHost),
   password: config.clickhousePassword,
   request_timeout: 60_000,
@@ -28,10 +36,13 @@ export const buildClientOptions = (
   username: config.clickhouseUser,
 });
 
-export const createClickhouse = (config: Config): ClickHouse => {
+export const createClickhouse = (
+  config: Config,
+  clickhouseSettings?: ClickHouseSettings,
+): ClickHouse => {
   logger.configure({ level: "warn" });
 
-  const client = createClient(buildClientOptions(config));
+  const client = createClient(buildClientOptions(config, clickhouseSettings));
   const database = createQueryBuilder<Database>({
     client,
     url: config.clickhouseHost,

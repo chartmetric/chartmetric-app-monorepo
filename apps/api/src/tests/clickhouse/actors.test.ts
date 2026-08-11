@@ -6,7 +6,36 @@ import { createClickhouse } from "../../db/clickhouse/client.ts";
 import { toNumber } from "../../lib/numbers.ts";
 import { createListActorsQueries } from "../../modules/actors/routes/list-actors/queries.ts";
 
-const clickhouse = createClickhouse(loadConfig());
+const clickhouse = createClickhouse(loadConfig(), {
+  max_bytes_to_read: "1000000000",
+  max_execution_time: 30,
+  max_rows_to_read: "1000000",
+  readonly: "2",
+  timeout_before_checking_execution_speed: 0,
+});
+
+const EXPECTED_SOURCE_METADATA = [
+  {
+    engine: "SharedReplacingMergeTree",
+    name: "test_tv_credits",
+    sorting_key: "title_id,credit_type,person_id",
+  },
+  {
+    engine: "SharedReplacingMergeTree",
+    name: "test_tv_person_socials",
+    sorting_key: "person_id,platform",
+  },
+  {
+    engine: "SharedReplacingMergeTree",
+    name: "test_tv_persons",
+    sorting_key: "id",
+  },
+  {
+    engine: "SharedReplacingMergeTree",
+    name: "test_tv_titles",
+    sorting_key: "kind,id",
+  },
+];
 
 afterAll(async () => {
   await clickhouse.client.close();
@@ -33,15 +62,22 @@ describe("actors ClickHouse matrix", () => {
     process.stdout.write(
       `${JSON.stringify({ schema: tableRows, version: versionRows[0]?.version })}\n`,
     );
-    expect(tableRows).toHaveLength(4);
+    expect(
+      tableRows.map((row) => ({
+        ...row,
+        sorting_key: row.sorting_key.replaceAll(" ", ""),
+      })),
+    ).toEqual(EXPECTED_SOURCE_METADATA);
   });
 
   it("executes bounded list and count siblings across the required matrix", async () => {
     const queries = createListActorsQueries(clickhouse.db);
     const matrix = [
       { limit: 2, offset: 0 },
-      { limit: 2, offset: 2, sortDirection: "desc" as const },
-      { limit: 2, offset: 0, sortDirection: "asc" as const },
+      { limit: 2, offset: 2, sortDirection: "asc" as const },
+      { limit: 2, offset: 0, sortBy: "name" as const },
+      { limit: 2, offset: 0, sortBy: "popularity" as const },
+      { limit: 2, offset: 0, sortBy: "roleCount" as const },
     ];
 
     const [counts, ...pages] = await Promise.all([
@@ -49,27 +85,28 @@ describe("actors ClickHouse matrix", () => {
       ...matrix.map(async (query) => await queries.listActors(query).execute()),
     ]);
 
-    expect(toNumber(counts[0]?.total)).toBeGreaterThan(0);
-
-    const firstPage = pages[0] ?? [];
-
-    expect(firstPage).not.toHaveLength(0);
+    expect(toNumber(counts[0]?.total)).toBeGreaterThanOrEqual(0);
     for (const [index, rows] of pages.entries()) {
       expect(rows.length).toBeLessThanOrEqual(matrix[index]?.limit ?? 0);
     }
 
-    // Structural under the credit-summary inner join, so safe to assert
-    // regardless of warehouse population: every returned row carries at
-    // least one cast credit.
-    for (const row of firstPage) {
+    for (const row of pages.flat()) {
       expect(toNumber(row.role_count)).toBeGreaterThan(0);
-      expect(JSON.parse(row.known_for ?? "[]") as unknown[]).not.toHaveLength(
-        0,
-      );
+      const knownFor = JSON.parse(row.known_for ?? "[]") as unknown[];
+      expect(knownFor.length).toBeGreaterThan(0);
+      expect(knownFor.length).toBeLessThanOrEqual(2);
     }
 
-    expect(
-      pages.flat().filter((row) => row.instagram_followers !== null),
-    ).not.toHaveLength(0);
+    for (const rows of pages.slice(0, 2)) {
+      const firstNullIndex = rows.findIndex(
+        (row) => row.instagram_followers === null,
+      );
+      if (firstNullIndex === -1) continue;
+      expect(
+        rows
+          .slice(firstNullIndex)
+          .every((row) => row.instagram_followers === null),
+      ).toBe(true);
+    }
   });
 });

@@ -79,7 +79,7 @@ describe("ActorsPage columns", () => {
 
     const moana = screen.getByRole("link", { name: "Moana as Maui" });
     const ballers = screen.getByRole("link", {
-      name: "Ballers as Spencer Strasmore",
+      name: "Ballers HBO as Spencer Strasmore",
     });
 
     expect(moana.getAttribute("href")).toBe("/tv/titles/1108427");
@@ -87,12 +87,37 @@ describe("ActorsPage columns", () => {
   });
 
   it("drops the character fragment when a credit has no character", async () => {
-    await renderWith({ knownFor: [{ ...MOANA_CREDIT, character: "  " }] });
+    await renderWith({ knownFor: [{ ...MOANA_CREDIT, character: null }] });
 
     const link = screen.getByRole("link", { name: "Moana" });
 
     expect(link.getAttribute("href")).toBe("/tv/titles/1108427");
     expect(screen.queryByText(/ as /u)).toBeNull();
+  });
+
+  it("keeps same-title credits with different characters distinct", async () => {
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => null);
+
+    try {
+      await renderWith({
+        knownFor: [
+          MOANA_CREDIT,
+          { ...MOANA_CREDIT, character: "Maui's singing voice" },
+        ],
+      });
+
+      expect(screen.getByRole("link", { name: "Moana as Maui" })).toBeDefined();
+      expect(
+        screen.getByRole("link", { name: "Moana as Maui's singing voice" }),
+      ).toBeDefined();
+      expect(consoleError.mock.calls.flat().join(" ")).not.toContain(
+        "same key",
+      );
+    } finally {
+      consoleError.mockRestore();
+    }
   });
 
   it("shows the empty cell when an actor has no known-for credits", async () => {

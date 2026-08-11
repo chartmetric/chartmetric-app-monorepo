@@ -19,13 +19,14 @@ type KnownForCredit = ListActorsReply["data"][number]["knownFor"][number];
 
 const isKnownForTuple = (
   credit: unknown,
-): credit is [number, number, string, string, string] =>
+): credit is [number, number, string, string, string, string] =>
   Array.isArray(credit) &&
   typeof credit[0] === "number" &&
   typeof credit[1] === "number" &&
   typeof credit[2] === "string" &&
   typeof credit[3] === "string" &&
-  typeof credit[4] === "string";
+  typeof credit[4] === "string" &&
+  typeof credit[5] === "string";
 
 const toKnownFor = (value: string | null): KnownForCredit[] => {
   if (value === null) return [];
@@ -40,11 +41,12 @@ const toKnownFor = (value: string | null): KnownForCredit[] => {
 
   return credits
     .filter(isKnownForTuple)
-    .map(([popularity, id, kind, character, name]) => ({
-      character,
+    .map(([popularity, id, kind, character, name, network]) => ({
+      character: emptyToNull(character.trim()),
       id,
       kind,
       name,
+      network: emptyToNull(network.trim()),
       popularity,
     }));
 };

@@ -20,6 +20,12 @@ describe("buildClientOptions", () => {
     );
   });
 
+  it("applies caller-provided ClickHouse settings", () => {
+    expect(buildClientOptions(testConfig, { readonly: "2" })).toMatchObject({
+      clickhouse_settings: { readonly: "2" },
+    });
+  });
+
   it("never pins a database — queries use fully-qualified names", () => {
     expect(options).not.toHaveProperty("database");
   });

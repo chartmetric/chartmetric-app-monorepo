@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. A known-for acting credit: the title and the character played
-#: src/pages/tv/actors/components/ActorCells/KnownForCell.tsx:30
+#: src/pages/tv/actors/components/ActorCells/KnownForCell.tsx:32
 msgid "{title} as {character}"
 msgstr "{title} as {character}"
 
