@@ -258,8 +258,10 @@ athletes page established so the two pages behave consistently.
 
 **Verification**
 
-- Any phase touching the query carries a `smoke_cmd` that executes it
-  against real ClickHouse — asserted SQL strings prove nothing (ADR-005).
+- Any phase touching the query has its matrix executed through the
+  read-only ClickHouse MCP, with the row counts recorded in the phase
+  notes — asserted SQL strings prove nothing (ADR-005), and a committed
+  runner to execute them is explicitly not the answer.
 - Re-run `pnpm --filter api generate:ch-schema` (the generator discovers
   `creator_profile_cache` by scanning `.table()` calls) and
   `pnpm generate:api-client`, committing both in the same change.

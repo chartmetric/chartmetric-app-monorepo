@@ -136,6 +136,11 @@ phase's retry loop or review cycle exhausts.
   snapshot: read it through the ClickHouse MCP (`SHOW CREATE TABLE`).
   Either teach the generator to emit the sorting key, or fold the check
   into the schema-drift gate above.
+- P2: `docs/EXAMPLE_PHASE.md` shows `"smoke_cmd": null`, which
+  `scripts/harness/lint.py` rejects — it requires a string when the key is
+  present, while `runner.py` treats an _absent_ key as the documented-skip
+  path. A phase copied from the worked example fails lint before it starts.
+  Either accept `null` in the linter or change the example to omit the key.
 - P2: Stop recommending `pnpm check:generated` as a phase gate.
   `docs/HARNESS_GUIDE.md`'s phase-schema example lists it, and
   `docs/EXAMPLE_PHASE.md` justifies it precisely for contract-changing

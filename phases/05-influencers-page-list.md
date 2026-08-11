@@ -59,4 +59,4 @@ Follow the file layout of `apps/web/src/pages/music/artists/`:
 - CI enforces i18n twice: `pnpm --filter web extract` must leave no diff, and `lingui compile --strict` must find no untranslated message. Run extract and fill all seven locales before finishing, or the gate fails.
 - Never call `vi.unstubAllGlobals()` in `apps/web` tests — it removes the `matchMedia` stub installed by the suite setup. Restore globals individually with `vi.stubGlobal`.
 - If a test renders a Mantine popover or dropdown, wrap it in `MantineProvider env="test"`; those components self-hide under jsdom otherwise.
-- No `smoke_cmd`: this phase adds no ClickHouse query and wires no cross-process orchestration. It consumes a route that phase 03 already smoke-tested.
+- No `smoke_cmd`: this phase adds no ClickHouse query and wires no cross-process orchestration. It consumes a route whose query phase 03 already executed through the ClickHouse MCP.

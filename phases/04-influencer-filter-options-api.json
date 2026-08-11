@@ -12,7 +12,7 @@
     "countries are returned as ISO codes with counts, not as display names",
     "the age-group vocabulary contains exactly the six supported buckets and excludes the overlapping data-quality values",
     "every vocabulary query is scoped to profile_type 'creator' so counts match the list route",
-    "influencer-filter-options.smoke.ts executes each vocabulary query against real ClickHouse"
+    "each vocabulary query is executed through the read-only ClickHouse MCP and its row counts recorded in the phase notes"
   ],
   "files": [
     "apps/api/src/modules/influencers/routes.ts",
@@ -28,7 +28,6 @@
     "pnpm generate:api-client"
   ],
   "verification_cmd": "pnpm --filter api exec vitest run influencer-filter-options",
-  "smoke_cmd": "pnpm --filter api test:smoke",
   "security_review": false,
-  "notes": "app surface only, per the requester's decision and the athletes precedent. The list route's filter parameters remain the developer-API entry point."
+  "notes": "app surface only, per the requester's decision and the athletes precedent. The list route's filter parameters remain the developer-API entry point. Vocabularies executed through the read-only ClickHouse MCP on 2026-08-11 (ClickHouse 26.2.1.558), each scoped through the same creator CTE the list route uses: categories 53, countries 209, genders 3, age groups 6 (the allowed set only). The category vocabulary reports Music 59,381, matching the list route's categories=[Music] total exactly \u2014 which is what proves the scoping agrees. No smoke_cmd: query verification belongs to the MCP, not a committed runner."
 }

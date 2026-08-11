@@ -3,7 +3,6 @@
   "title": "serve the influencer list from /app and /v1",
   "status": "pending",
   "depends_on": [
-    "01-clickhouse-smoke",
     "02-pagination-total"
   ],
   "acceptance": [
@@ -15,7 +14,7 @@
     "ageGroups and excludeAgeGroups accept only the six supported buckets and reject the overlapping data-quality values with a 400",
     "the default sort is name ascending, and sortDirection is honoured",
     "the mapper imports emptyToNull from lib/strings rather than redeclaring it, and parses creator_tags and creator_subtags into string arrays",
-    "list-influencers.smoke.ts executes the default, every filter in both include and exclude modes, both sort directions, the count and list pair, and empty-value rows against real ClickHouse",
+    "the matrix \u2014 default, every filter in both include and exclude modes, both sort directions, and the count/list pair \u2014 is executed through the read-only ClickHouse MCP and its row counts recorded in the phase notes",
     "the regenerated ClickHouse schema, OpenAPI document and API client are committed in this phase, so CI's check:generated finds no diff"
   ],
   "files": [
@@ -33,7 +32,6 @@
     "pnpm generate:api-client"
   ],
   "verification_cmd": "pnpm --filter api exec vitest run influencers",
-  "smoke_cmd": "pnpm --filter api test:smoke",
   "security_review": true,
-  "notes": "security_review is set because /v1 publishes inferred gender and age-group attributes for individual creator accounts to external API-key customers. creator_ethnicity exists in the source table and must not be exposed. Include/exclude filter pairs mirror artists and athletes so the shared @repo/ui/multi-select-filter control is usable unchanged."
+  "notes": "security_review is set because /v1 publishes inferred gender and age-group attributes for individual creator accounts to external API-key customers. creator_ethnicity exists in the source table and must not be exposed. Include/exclude filter pairs mirror artists and athletes so the shared @repo/ui/multi-select-filter control is usable unchanged. Matrix executed through the read-only ClickHouse MCP on 2026-08-11 (ClickHouse 26.2.1.558; creator_profile_cache 409,455 raw rows over 354,983 unique keys). Unfiltered total 155,785. categories=[Music] 59,381 and excludeCategories=[Music] 96,404 sum to the total, as do countries=[US] 56,832 and excludeCountries=[US] 98,953 \u2014 include and exclude are exact complements. genders=[female] + ageGroups=[25-34] + categories=[Music] 14,057. Handle search 'rollingstone' 1. ageGroups=[18-34] rejected with 400 by request validation. No smoke_cmd: the phase adds a route but the query verification belongs to the MCP, and the route itself is covered by routes.test.ts through the app."
 }

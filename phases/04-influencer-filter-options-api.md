@@ -17,11 +17,11 @@ not a discoverable vocabulary endpoint. That mirrors athletes, where
 - countries are returned as ISO codes with counts, not as display names
 - the age-group vocabulary contains exactly the six supported buckets and excludes the overlapping data-quality values
 - every vocabulary query is scoped to `profile_type` `'creator'` so counts match the list route
-- `influencer-filter-options.smoke.ts` executes each vocabulary query against real ClickHouse
+- each vocabulary query is executed through the read-only ClickHouse MCP and its row counts recorded in the phase notes
 
 ## In scope
 
-- `apps/api/src/modules/influencers/routes/influencer-filter-options/` — `route.ts` (path `/influencers/filter-options`), `schemas.ts`, `queries.ts`, `mapper.ts`, `tests/`, and the smoke matrix.
+- `apps/api/src/modules/influencers/routes/influencer-filter-options/` — `route.ts` (path `/influencers/filter-options`), `schemas.ts`, `queries.ts`, `mapper.ts`, and `tests/`.
 - `apps/api/src/modules/influencers/routes.ts` — register the new plugin with `surfaces: ["app"]`.
 - `apps/api/src/modules/influencers/routes.test.ts` — extend to assert the surface split.
 - Regenerated `openapi.generated.json` and `packages/api-client/src/schema.generated.ts`.
