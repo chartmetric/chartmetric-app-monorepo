@@ -8,7 +8,7 @@ import type {
   ListInfluencersQueryFactory,
 } from "./types.ts";
 
-const listSettings = {
+const LIST_SETTINGS = {
   max_execution_time: 30,
   max_rows_to_read: 50_000_000,
 } as const;
@@ -48,8 +48,8 @@ const influencerSource = ((database) =>
 
 type InfluencerBuilder = ReturnType<typeof influencerSource>;
 
-const jsonCategoriesColumn = "creators.creator_tags";
-const handleColumns = [
+const JSON_CATEGORIES_COLUMN = "creators.creator_tags";
+const HANDLE_COLUMNS = [
   "creators.tiktok_handle",
   "creators.instagram_handle",
   "creators.youtube_handle",
@@ -67,7 +67,7 @@ const whereMatchingCategories = (
       "hasAny",
       predicate.fn(
         "JSONExtract",
-        predicate.col(jsonCategoriesColumn),
+        predicate.col(JSON_CATEGORIES_COLUMN),
         predicate.value("Array(String)"),
       ),
       predicate.array(values),
@@ -82,7 +82,7 @@ const whereMatchingHandle = (
 ): InfluencerBuilder =>
   base.where((predicate) =>
     predicate.or(
-      handleColumns.map((column) =>
+      HANDLE_COLUMNS.map((column) =>
         predicate.fn<boolean>(
           "notEquals",
           predicate.fn<number>(
@@ -153,7 +153,7 @@ const applyInfluencerFilters = (
   return builder;
 };
 
-const selectedColumns = [
+const SELECTED_COLUMNS = [
   "id",
   "name",
   "creators.creator_tags",
@@ -171,18 +171,18 @@ const listInfluencers = ((database, query) => {
   const sortDirection = query.sortDirection ?? "asc";
 
   return applyInfluencerFilters(influencerSource(database), query)
-    .select([...selectedColumns])
+    .select([...SELECTED_COLUMNS])
     .orderBy("name", sortDirection.toUpperCase() as "ASC" | "DESC")
     .orderBy("id", "ASC")
     .limit(query.limit)
     .offset(query.offset)
-    .settings(listSettings);
+    .settings(LIST_SETTINGS);
 }) satisfies ListInfluencersQueryFactory;
 
 const countInfluencers = ((database, query) =>
   applyInfluencerFilters(influencerSource(database), query)
     .count("id", "total")
-    .settings(listSettings)) satisfies ListInfluencersQueryFactory;
+    .settings(LIST_SETTINGS)) satisfies ListInfluencersQueryFactory;
 
 export const createListInfluencersQueries = ((database) => {
   const influencerDatabase = database as unknown as InfluencerDatabase;
