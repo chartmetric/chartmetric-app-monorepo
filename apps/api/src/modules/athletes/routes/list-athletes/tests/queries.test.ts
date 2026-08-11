@@ -29,6 +29,29 @@ describe("listAthletes", () => {
     expect(rankCte).not.toContain("ig_verified");
   });
 
+  it("prunes the snapshot scan to the roster and declares that CTE first", () => {
+    const sql = queries.listAthletes(PAGE).toSQL();
+    const tiktokCte = /tiktok_latest AS \((.*?)\)\s*,/s.exec(sql)?.[1] ?? "";
+
+    expect(tiktokCte).toContain("in(profile_id, roster_ids)");
+    expect(sql.indexOf("roster_ids AS (")).toBeGreaterThan(-1);
+    expect(sql.indexOf("roster_ids AS (")).toBeLessThan(
+      sql.indexOf("tiktok_latest AS ("),
+    );
+  });
+
+  it("declares roster_ids as a scan filter, never as a joined source", () => {
+    const sql = queries.listAthletes(PAGE).toSQL();
+
+    expect(sql).not.toContain("LEFT ANY JOIN roster_ids ON");
+  });
+
+  it("omits roster_ids from a count that never reads the snapshots", () => {
+    const sql = queries.countAthletes(PAGE).toSQL();
+
+    expect(sql).not.toContain("roster_ids");
+  });
+
   it("joins every enrichment source without fanning out rows", () => {
     const sql = queries.listAthletes(PAGE).toSQL();
 

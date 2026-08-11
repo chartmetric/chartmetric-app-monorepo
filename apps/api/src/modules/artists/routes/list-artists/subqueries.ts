@@ -35,6 +35,10 @@ export const latestInstagramSnapshots = ((database, periodDays) =>
         pastValueExpression("followers", "snapshot_date", periodDays),
         "instagram_followers_past",
       ),
+      rawAs<number, "instagram_verified">(
+        "max(is_verified)",
+        "instagram_verified",
+      ),
     ])
     .argMax("followers", "snapshot_date", "instagram_followers")
     .groupBy("account_id")) satisfies PeriodQueryFactory;
@@ -52,6 +56,7 @@ export const latestTiktokSnapshots = ((database, periodDays) =>
         pastValueExpression("follower_count", "snapshot_date", periodDays),
         "tiktok_followers_past",
       ),
+      rawAs<number, "tiktok_verified">("max(is_verified)", "tiktok_verified"),
     ])
     .argMax("follower_count", "snapshot_date", "tiktok_followers")
     .groupBy("account_id")) satisfies PeriodQueryFactory;
@@ -73,6 +78,7 @@ export const instagramFollowersByProfile = ((database) =>
       "latest_ig.instagram_followers",
       "instagram_has_past",
     )
+    .max("latest_ig.instagram_verified", "instagram_verified")
     .whereNull("disconnected_at")
     .groupBy("profile_id")) satisfies MetricsQueryFactory;
 
@@ -93,6 +99,7 @@ export const tiktokFollowersByProfile = ((database) =>
       "latest_tt.tiktok_followers",
       "tiktok_has_past",
     )
+    .max("latest_tt.tiktok_verified", "tiktok_verified")
     .whereNull("disconnected_at")
     .groupBy("profile_id")) satisfies MetricsQueryFactory;
 
@@ -115,18 +122,15 @@ export const latestCmScores = ((database, periodDays) =>
     .where("profile_type", "eq", "musician")
     .groupBy("profile_id")) satisfies PeriodQueryFactory;
 
-// A profile counts as verified when any of its snapshots says so: the table
-// mixes several accounts per (profile, platform, snapshot_date), so
-// latest-snapshot semantics would arbitrarily pick an unverified fan account.
-export const verifiedByProfile = ((database) =>
-  database
-    .table("new_vertical.profile_snapshots")
-    .select([
-      "profile_id",
-      rawAs<number, "is_verified">("max(verified = 'true')", "is_verified"),
-    ])
-    .where("platform", "in", ["instagram", "tiktok"])
-    .groupBy("profile_id")) satisfies MetricsQueryFactory;
+// A profile counts as verified when any of its accounts says so: one profile
+// can carry several accounts per platform, so latest-snapshot semantics would
+// arbitrarily pick an unverified fan account.
+//
+// Read from the two platform caches rather than `profile_snapshots`, which
+// holds five platforms of full history and cannot prune on `platform` — the
+// caches are already scanned for follower counts, so this costs nothing.
+const VERIFIED_EXPRESSION =
+  "greatest(ifNull(profile_ig.instagram_verified, 0), ifNull(profile_tt.tiktok_verified, 0))";
 
 const changeExpression = (
   cte: string,
@@ -151,7 +155,6 @@ export const artistMetrics = ((database) =>
     .leftAnyJoin("latest_score", "id", "latest_score.profile_id")
     .leftAnyJoin("profile_ig", "id", "profile_ig.profile_id")
     .leftAnyJoin("profile_tt", "id", "profile_tt.profile_id")
-    .leftAnyJoin("profile_verified", "id", "profile_verified.profile_id")
     .select([
       // ClickHouse cannot join UInt64 and Int32 keys (no common supertype),
       // so the profile-side key is cast down to cm_artist's Int32 id type.
@@ -218,7 +221,7 @@ export const artistMetrics = ((database) =>
         ),
         "tiktok_followers_change_percent",
       ),
-      "profile_verified.is_verified",
+      rawAs<number, "is_verified">(VERIFIED_EXPRESSION, "is_verified"),
     ])
     .where("profile_type", "eq", "musician")
     .where("vertical", "eq", "music")
