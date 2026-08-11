@@ -66,6 +66,13 @@ export interface IntrospectedSchema {
     image_url: "Nullable(String)";
     deleted_at: "Nullable(DateTime)";
     football_team_id: "Nullable(UInt32)";
+    football_team_logo: "Nullable(String)";
+    football_league: "Nullable(String)";
+    basketball_team: "Nullable(String)";
+    basketball_league: "Nullable(String)";
+    basketball_position: "Nullable(String)";
+    college_school: "Nullable(String)";
+    college_level: "Nullable(String)";
   };
   athletes_football_fixture_player_stats_apifootball: {
     id: "UInt32";
@@ -355,17 +362,18 @@ export interface IntrospectedSchema {
     id: "UInt64";
     profile_id: "UInt32";
     platform: "String";
-    snapshot_date: "String";
+    snapshot_date: "Date";
     followers: "Nullable(Int64)";
     following: "Nullable(Int64)";
     posts: "Nullable(Int64)";
     likes: "Nullable(Int64)";
-    engagement_rate: "Nullable(String)";
-    verified: "Nullable(String)";
+    engagement_rate: "Nullable(Float64)";
+    verified: "Nullable(UInt8)";
     bio: "Nullable(String)";
     display_name: "Nullable(String)";
     profile_pic_url: "Nullable(String)";
     raw_data: "Nullable(String)";
+    job_id: "Nullable(String)";
     created_at: "DateTime";
     updated_at: "DateTime";
   };
@@ -471,6 +479,13 @@ export interface Athletes_cacheRecord {
   image_url: string | null;
   deleted_at: string | null;
   football_team_id: number | null;
+  football_team_logo: string | null;
+  football_league: string | null;
+  basketball_team: string | null;
+  basketball_league: string | null;
+  basketball_position: string | null;
+  college_school: string | null;
+  college_level: string | null;
 }
 
 export interface Athletes_football_fixture_player_stats_apifootballRecord {
@@ -777,12 +792,13 @@ export interface Profile_snapshotsRecord {
   following: string | null;
   posts: string | null;
   likes: string | null;
-  engagement_rate: string | null;
-  verified: string | null;
+  engagement_rate: number | null;
+  verified: number | null;
   bio: string | null;
   display_name: string | null;
   profile_pic_url: string | null;
   raw_data: string | null;
+  job_id: string | null;
   created_at: string;
   updated_at: string;
 }

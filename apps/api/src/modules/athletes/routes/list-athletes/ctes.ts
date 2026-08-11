@@ -3,9 +3,25 @@ import { rawAs } from "@hypequery/clickhouse";
 import type { DatabaseQueryFactory } from "../../../../lib/database.ts";
 
 // Each subquery is a governed builder, so `generate:ch-schema` discovers its
-// table. Two expressions have no builder form and stay raw — the ranking window
-// function, and `argMax` over a JSON extraction, which takes a column rather than
-// an expression. Both are constant SQL that no request value reaches.
+// table. Three expressions have no builder form and stay raw — the ranking window
+// function, `argMax` over a JSON extraction, which takes a column rather than an
+// expression, and the CTE alias on the right of an `IN`, which the builder cannot
+// type. All are constant SQL that no request value reaches.
+
+export const ROSTER_PROFILE_IDS = "roster_ids";
+
+// `profile_snapshots` is sorted by `(profile_id, platform, snapshot_date)`, so a
+// `platform` filter alone prunes nothing and the CTE below scans all 374M rows.
+// Restricting to the roster's ids lets the primary key skip granules, which is
+// the difference between reading 374M rows and 760k. Declared as its own CTE
+// because it is a prerequisite of `tiktok_latest`, not something to join.
+export const selectRosterProfileIds = ((database) =>
+  database
+    .table("new_vertical.athletes_cache")
+    .final()
+    .where("is_active", "eq", 1)
+    .where((predicate) => predicate.fn<boolean>("isNull", "deleted_at"))
+    .select(["profile_id"])) satisfies DatabaseQueryFactory;
 
 // `rank` mirrors the athlete's standing across the whole active roster, so it is
 // computed before any request filter narrows the set — a filtered page shows
@@ -34,6 +50,13 @@ export const selectTiktokLatest = ((database) =>
     .table("new_vertical.profile_snapshots")
     .final()
     .where("platform", "eq", "tiktok")
+    .where((predicate) =>
+      predicate.fn<boolean>(
+        "in",
+        predicate.col("profile_id"),
+        predicate.raw(ROSTER_PROFILE_IDS),
+      ),
+    )
     .groupBy("profile_id")
     .select(["profile_id"])
     .argMax("posts", "snapshot_date", "tiktok_posts")

@@ -7,7 +7,6 @@ type ArtistTag = Database["new_vertical.l_cm_artist_tag"];
 type IgCache = Database["new_vertical.instagram_cache"];
 type Profile = Database["new_vertical.profile"];
 type ProfileAccount = Database["new_vertical.l_profile_account"];
-type ProfileSnapshot = Database["new_vertical.profile_snapshots"];
 type Scores = Database["new_vertical.cm_scores"];
 type TtCache = Database["new_vertical.tiktok_cache"];
 
@@ -43,6 +42,7 @@ export interface ArtistMetricCtes {
     instagram_followers: IgCache["followers"];
     instagram_followers_past: IgCache["followers"];
     instagram_has_past: "UInt8";
+    instagram_verified: IgCache["is_verified"];
   };
   latest_score: {
     cm_has_past: "UInt8";
@@ -55,11 +55,13 @@ export interface ArtistMetricCtes {
     tiktok_followers: TtCache["follower_count"];
     tiktok_followers_past: TtCache["follower_count"];
     tiktok_has_past: "UInt8";
+    tiktok_verified: TtCache["is_verified"];
   };
   profile_ig: {
     instagram_followers: IgCache["followers"];
     instagram_followers_past: IgCache["followers"];
     instagram_has_past: "UInt8";
+    instagram_verified: IgCache["is_verified"];
     profile_id: ProfileAccount["profile_id"];
   };
   profile_tt: {
@@ -67,10 +69,7 @@ export interface ArtistMetricCtes {
     tiktok_followers: TtCache["follower_count"];
     tiktok_followers_past: TtCache["follower_count"];
     tiktok_has_past: "UInt8";
-  };
-  profile_verified: {
-    is_verified: "UInt8";
-    profile_id: ProfileSnapshot["profile_id"];
+    tiktok_verified: TtCache["is_verified"];
   };
 }
 

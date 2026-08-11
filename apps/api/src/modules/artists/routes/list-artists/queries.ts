@@ -10,7 +10,6 @@ import {
   latestInstagramSnapshots,
   latestTiktokSnapshots,
   tiktokFollowersByProfile,
-  verifiedByProfile,
 } from "./subqueries.ts";
 
 const sortColumns = {
@@ -39,7 +38,6 @@ const selectArtists = ((database, query) => {
     .withCTE("profile_ig", instagramFollowersByProfile(database))
     .withCTE("profile_tt", tiktokFollowersByProfile(database))
     .withCTE("latest_score", latestCmScores(database, periodDays))
-    .withCTE("profile_verified", verifiedByProfile(database))
     .withCTE("artist_metrics", artistMetrics(database))
     .withCTE("genre_match", genreArtists(database, query.genres ?? []))
     .withCTE("genre_exclude", genreArtists(database, query.excludeGenres ?? []))
