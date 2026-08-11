@@ -20,13 +20,13 @@ consume.
 - `ageGroups` and `excludeAgeGroups` accept only the six supported buckets and reject the overlapping data-quality values with a 400
 - the default sort is `name` ascending, and `sortDirection` is honoured
 - the mapper imports `emptyToNull` from `lib/strings` rather than redeclaring it, and parses `creator_tags` and `creator_subtags` into string arrays
-- `list-influencers.smoke.ts` executes the default, every filter in both include and exclude modes, both sort directions, the count and list pair, and empty-value rows against real ClickHouse
+- the matrix — default, every filter in both include and exclude modes, both sort directions, and the count/list pair — is executed through the read-only ClickHouse MCP and its row counts recorded in the phase notes
 - the regenerated ClickHouse schema, OpenAPI document and API client are committed in this phase, so CI's `check:generated` finds no diff
 
 ## In scope
 
 - `apps/api/src/modules/influencers/routes.ts` and `routes.test.ts`.
-- `apps/api/src/modules/influencers/routes/list-influencers/` — `route.ts`, `schemas.ts`, `queries.ts`, `mapper.ts`, `tests/`, and `list-influencers.smoke.ts`.
+- `apps/api/src/modules/influencers/routes/list-influencers/` — `route.ts`, `schemas.ts`, `queries.ts`, `mapper.ts`, `tests/`.
 - `apps/api/src/routes/app-surface.ts` and `v1-surface.ts` — registration.
 - Regenerated `schema.generated.ts`, `openapi.generated.json`, `packages/api-client/src/schema.generated.ts`.
 
