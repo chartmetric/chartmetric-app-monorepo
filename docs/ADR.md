@@ -87,7 +87,8 @@ code and existing contracts, so their dates are approximate.
 - **Consequences**: ESLint blocks the raw `@clickhouse/client` import
   and SQL-shaped template literals under `apps/api/src/modules/**`.
   Generated SQL still proves nothing until it executes against a real
-  ClickHouse schema, so query phases carry a `smoke_cmd`. Operational
+  ClickHouse schema, so query changes are executed through the
+  read-only ClickHouse MCP rather than a committed runner. Operational
   statement in the `## Learned rules` section of `AGENTS.md` and
   `apps/api/AGENTS.md`.
 

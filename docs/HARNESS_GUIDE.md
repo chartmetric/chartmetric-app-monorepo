@@ -150,17 +150,23 @@ A phase is a JSON file under `phases/` plus a markdown spec:
   orchestration. File-existence checks in `verification_cmd` are NOT a
   substitute — unwired orchestration passes them cleanly.
 
-  **A phase that changes a ClickHouse query always needs one**, even
-  when it adds no route and wires nothing new. Unit tests here assert
-  the SQL the builder emits; they cannot tell whether ClickHouse
+  **A phase that changes a ClickHouse query does not need one** — it
+  needs its SQL executed, which is a different thing. Unit tests here
+  assert the SQL the builder emits; they cannot tell whether ClickHouse
   accepts it. Ambiguous identifiers, ambiguous join keys, and
   `Replacing*` reads missing `FINAL` all pass a string assertion and
-  fail against a real schema. Execute a matrix — every filter, every
+  fail against a real schema. Run the matrix — every filter, every
   sort, the count/list sibling pair, empty values, include/exclude
-  modes, joined enrichment paths — and record the ClickHouse version
-  and schema snapshot used. Assert deltas against a baseline captured
-  through the same reader, never absolute counts: warehouse population
-  changes underneath you, and a test pinned to today's match rate is a
+  modes, joined enrichment paths — through the read-only ClickHouse
+  MCP, and record in the phase notes the row counts, timings, and the
+  schema snapshot used. Do not write a script for this; the MCP is
+  connected and read-only, and a committed runner duplicates it.
+  Reserve `smoke_cmd` for orchestration the MCP cannot reach — consume
+  loops, HTTP routes wired to deps, cross-process flows.
+
+  When you do record numbers, compare deltas against a baseline read
+  through the same path, never absolute counts: warehouse population
+  changes underneath you, and a check pinned to today's match rate is a
   flake waiting to happen.
 
 - `security_review: true` adds a threat-model addendum to the review
