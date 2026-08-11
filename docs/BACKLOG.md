@@ -35,18 +35,6 @@ phase's retry loop or review cycle exhausts.
   `(value: number) => string` formatter so the actors popularity column
   reuses the null→EMPTY_CELL rule instead of re-inlining it. Source:
   phase 02 retro, 2026-08-10.
-- P1: Compose `ActorListRow` from `Pick<Test_tv_personsRecord, ...>`
-  plus the alias/aggregate fields instead of restating generated
-  columns by hand, so a generated column change breaks the build.
-  Flagged by the phase 01 review against the type-derivation learned
-  rule. Source: phase 01 retro, 2026-08-10.
-- P2: Bring the actors ClickHouse matrix up to the three smoke rules
-  landed from the phase 01 retro: execute every sort column (name,
-  popularity, roleCount, plus their `IS NULL` companions), build the
-  smoke client with `clickhouse_settings: { readonly: 2 }`, and drop
-  the population-pinned non-null `instagram_followers` assertion in
-  favor of the null-last ordering property. Source: phase 01 retro,
-  2026-08-10.
 - P2: `/actors` aggregates the full credits×titles join twice per
   request (list + count) with no push-down or cache; add a persisted
   actor summary table or cache the count. Source: phase 01 retro,
@@ -89,6 +77,18 @@ phase's retry loop or review cycle exhausts.
 
 ## Resolved
 
+- P1: Compose `ActorListRow` from `Pick<Test_tv_personsRecord, ...>`
+  plus the alias/aggregate fields instead of restating generated
+  columns by hand, so a generated column change breaks the build.
+  Flagged by the phase 01 review against the type-derivation learned
+  rule. Resolved 2026-08-11 by `fix: complete actors known-for credits`. Source: phase 01 retro, 2026-08-10.
+- P2: Bring the actors ClickHouse matrix up to the three smoke rules
+  landed from the phase 01 retro: execute every sort column (name,
+  popularity, roleCount, plus their `IS NULL` companions), build the
+  smoke client with `clickhouse_settings: { readonly: 2 }`, and drop
+  the population-pinned non-null `instagram_followers` assertion in
+  favor of the null-last ordering property. Resolved 2026-08-11 by `fix: complete actors known-for credits`. Source: phase 01 retro,
+  2026-08-10.
 - P1: Add a `test:clickhouse` script to `apps/api` so query phases have
   a real `smoke_cmd` to point at. Resolved 2026-08-10 by phase
   01-actors-api: `apps/api` now has a reusable read-only
