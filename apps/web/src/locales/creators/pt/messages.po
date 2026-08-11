@@ -17,13 +17,13 @@ msgstr ""
 msgid "{total, plural, one {# influencer} other {# influencers}}"
 msgstr "{total, plural, one {# influenciador} other {# influenciadores}}"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:97
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:51
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:51
 #: src/pages/creators/influencers/components/InfluencersTable.tsx:185
 msgid "Age"
 msgstr "Idade"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:200
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:223
 msgid "All filters"
 msgstr "Todos os filtros"
 
@@ -31,7 +31,7 @@ msgstr "Todos os filtros"
 msgid "Categories"
 msgstr "Categorias"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:94
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:36
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:33
 msgid "Category"
 msgstr "Categoria"
@@ -40,11 +40,11 @@ msgstr "Categoria"
 msgid "Category, country, gender and age filters are temporarily unavailable."
 msgstr "Os filtros de categoria, país, gênero e idade estão temporariamente indisponíveis."
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:177
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:200
 msgid "Clear filters"
 msgstr "Limpar filtros"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:95
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:41
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:39
 msgid "Country"
 msgstr "País"
@@ -53,7 +53,7 @@ msgstr "País"
 msgid "Dismiss filter warning"
 msgstr "Dispensar o aviso de filtros"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:103
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:126
 msgid "Exclude"
 msgstr "Excluir"
 
@@ -61,16 +61,16 @@ msgstr "Excluir"
 msgid "Explore influencers across social platforms."
 msgstr "Explore influenciadores nas plataformas sociais."
 
-#: src/pages/creators/influencers/use-influencer-value-labels.ts:14
+#: src/pages/creators/influencers/hooks/use-influencer-value-labels.ts:14
 msgid "Female"
 msgstr "Feminino"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:178
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:207
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:201
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:230
 msgid "Filters"
 msgstr "Filtros"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:96
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:46
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:45
 #: src/pages/creators/influencers/components/InfluencersTable.tsx:177
 msgid "Gender"
@@ -80,7 +80,7 @@ msgstr "Gênero"
 msgid "Handles"
 msgstr "Usuários"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:104
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:127
 msgid "Include"
 msgstr "Incluir"
 
@@ -109,7 +109,7 @@ msgstr "Carregando influenciadores…"
 msgid "Location"
 msgstr "Localização"
 
-#: src/pages/creators/influencers/use-influencer-value-labels.ts:15
+#: src/pages/creators/influencers/hooks/use-influencer-value-labels.ts:15
 msgid "Male"
 msgstr "Masculino"
 
@@ -121,12 +121,12 @@ msgstr "Próxima"
 msgid "No influencers found"
 msgstr "Nenhum influenciador encontrado"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:102
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:125
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:62
 msgid "No matching options"
 msgstr "Nenhuma opção correspondente"
 
-#: src/pages/creators/influencers/use-influencer-value-labels.ts:16
+#: src/pages/creators/influencers/hooks/use-influencer-value-labels.ts:16
 msgid "Non-binary"
 msgstr "Não binário"
 
@@ -148,31 +148,31 @@ msgstr "Anterior"
 msgid "Retry filter options"
 msgstr "Tentar novamente as opções de filtro"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:97
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:52
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:53
 msgid "Search age groups…"
 msgstr "Pesquisar faixas etárias…"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:131
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:154
 msgid "Search by handle"
 msgstr "Pesquisar por handle"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:94
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:37
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:35
 msgid "Search categories…"
 msgstr "Pesquisar categorias…"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:95
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:42
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:41
 msgid "Search countries…"
 msgstr "Pesquisar países…"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:96
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:47
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:47
 msgid "Search genders…"
 msgstr "Pesquisar gêneros…"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:141
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:164
 msgid "Search handles…"
 msgstr "Pesquisar handles…"
 
@@ -206,7 +206,7 @@ msgstr "Não foi possível carregar as opções de filtro"
 msgid "Unable to load influencers"
 msgstr "Não foi possível carregar os influenciadores"
 
-#: src/pages/creators/influencers/use-influencer-value-labels.ts:21
+#: src/pages/creators/influencers/hooks/use-influencer-value-labels.ts:21
 msgid "Under 18"
 msgstr "Menores de 18"
 

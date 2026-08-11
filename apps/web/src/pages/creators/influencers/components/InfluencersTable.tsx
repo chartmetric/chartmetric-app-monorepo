@@ -23,7 +23,7 @@ import type { Influencer, InfluencerSortBy } from "../types";
 import { useCountryName } from "../../../../lib/country-names";
 import { EMPTY_CELL } from "../../../../lib/formatting";
 import { DEFAULT_INFLUENCER_SORT_BY, INFLUENCER_PAGE_SIZE } from "../constants";
-import { useInfluencerValueLabels } from "../use-influencer-value-labels";
+import { useInfluencerValueLabels } from "../hooks/use-influencer-value-labels";
 import { InfluencerIdentity } from "./InfluencerIdentity";
 
 interface InfluencersTableProps {

@@ -17,13 +17,13 @@ msgstr ""
 msgid "{total, plural, one {# influencer} other {# influencers}}"
 msgstr "{total, plural, one {#人のインフルエンサー} other {#人のインフルエンサー}}"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:97
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:51
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:51
 #: src/pages/creators/influencers/components/InfluencersTable.tsx:185
 msgid "Age"
 msgstr "年齢"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:200
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:223
 msgid "All filters"
 msgstr "すべてのフィルター"
 
@@ -31,7 +31,7 @@ msgstr "すべてのフィルター"
 msgid "Categories"
 msgstr "カテゴリー"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:94
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:36
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:33
 msgid "Category"
 msgstr "カテゴリー"
@@ -40,11 +40,11 @@ msgstr "カテゴリー"
 msgid "Category, country, gender and age filters are temporarily unavailable."
 msgstr "カテゴリー、国、性別、年齢のフィルターは一時的に利用できません。"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:177
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:200
 msgid "Clear filters"
 msgstr "フィルターをクリア"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:95
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:41
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:39
 msgid "Country"
 msgstr "国"
@@ -53,7 +53,7 @@ msgstr "国"
 msgid "Dismiss filter warning"
 msgstr "フィルター警告を閉じる"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:103
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:126
 msgid "Exclude"
 msgstr "除外"
 
@@ -61,16 +61,16 @@ msgstr "除外"
 msgid "Explore influencers across social platforms."
 msgstr "ソーシャルプラットフォーム全体のインフルエンサーを探索します。"
 
-#: src/pages/creators/influencers/use-influencer-value-labels.ts:14
+#: src/pages/creators/influencers/hooks/use-influencer-value-labels.ts:14
 msgid "Female"
 msgstr "女性"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:178
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:207
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:201
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:230
 msgid "Filters"
 msgstr "フィルター"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:96
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:46
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:45
 #: src/pages/creators/influencers/components/InfluencersTable.tsx:177
 msgid "Gender"
@@ -80,7 +80,7 @@ msgstr "性別"
 msgid "Handles"
 msgstr "ハンドル"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:104
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:127
 msgid "Include"
 msgstr "含める"
 
@@ -109,7 +109,7 @@ msgstr "インフルエンサーを読み込み中…"
 msgid "Location"
 msgstr "所在地"
 
-#: src/pages/creators/influencers/use-influencer-value-labels.ts:15
+#: src/pages/creators/influencers/hooks/use-influencer-value-labels.ts:15
 msgid "Male"
 msgstr "男性"
 
@@ -121,12 +121,12 @@ msgstr "次へ"
 msgid "No influencers found"
 msgstr "インフルエンサーが見つかりません"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:102
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:125
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:62
 msgid "No matching options"
 msgstr "一致するオプションがありません"
 
-#: src/pages/creators/influencers/use-influencer-value-labels.ts:16
+#: src/pages/creators/influencers/hooks/use-influencer-value-labels.ts:16
 msgid "Non-binary"
 msgstr "ノンバイナリー"
 
@@ -148,31 +148,31 @@ msgstr "前へ"
 msgid "Retry filter options"
 msgstr "フィルターオプションを再試行"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:97
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:52
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:53
 msgid "Search age groups…"
 msgstr "年齢層を検索…"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:131
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:154
 msgid "Search by handle"
 msgstr "ハンドルで検索"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:94
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:37
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:35
 msgid "Search categories…"
 msgstr "カテゴリーを検索…"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:95
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:42
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:41
 msgid "Search countries…"
 msgstr "国を検索…"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:96
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:47
 #: src/pages/creators/influencers/components/filters/InfluencerFiltersDrawer.tsx:47
 msgid "Search genders…"
 msgstr "性別を検索…"
 
-#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:141
+#: src/pages/creators/influencers/components/filters/InfluencerFilters.tsx:164
 msgid "Search handles…"
 msgstr "ハンドルを検索…"
 
@@ -206,7 +206,7 @@ msgstr "フィルターオプションを読み込めません"
 msgid "Unable to load influencers"
 msgstr "インフルエンサーを読み込めません"
 
-#: src/pages/creators/influencers/use-influencer-value-labels.ts:21
+#: src/pages/creators/influencers/hooks/use-influencer-value-labels.ts:21
 msgid "Under 18"
 msgstr "18歳未満"
 

@@ -1,3 +1,6 @@
+import type { MessageDescriptor } from "@lingui/core";
+
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { Button, Drawer, TextInput } from "@mantine/core";
 import { useDebouncedCallback, useDisclosure } from "@mantine/hooks";
@@ -16,7 +19,7 @@ import type {
 
 import { useAbbreviatedNumber } from "../../../../../hooks/use-abbreviated-number";
 import { useCountryName } from "../../../../../lib/country-names";
-import { useInfluencerValueLabels } from "../../use-influencer-value-labels";
+import { useInfluencerValueLabels } from "../../hooks/use-influencer-value-labels";
 import {
   createFilterDraft,
   type InfluencerFilterDraft,
@@ -26,6 +29,33 @@ import { InfluencerFiltersDrawerContent } from "./InfluencerFiltersDrawer";
 
 type CategoricalFilterKey =
   "ageGroups" | "categories" | "countries" | "genders";
+
+const CATEGORICAL_FILTER_FIELDS = [
+  {
+    key: "categories",
+    label: msg`Category`,
+    searchPlaceholder: msg`Search categories…`,
+  },
+  {
+    key: "countries",
+    label: msg`Country`,
+    searchPlaceholder: msg`Search countries…`,
+  },
+  {
+    key: "genders",
+    label: msg`Gender`,
+    searchPlaceholder: msg`Search genders…`,
+  },
+  {
+    key: "ageGroups",
+    label: msg`Age`,
+    searchPlaceholder: msg`Search age groups…`,
+  },
+] as const satisfies readonly {
+  key: CategoricalFilterKey;
+  label: MessageDescriptor;
+  searchPlaceholder: MessageDescriptor;
+}[];
 
 interface InfluencerFiltersProps {
   isLoading: boolean;
@@ -89,26 +119,19 @@ const CategoricalFilters: FC<CategoricalFiltersProps> = ({
 
   return (
     <>
-      {(
-        [
-          ["categories", t`Category`, t`Search categories…`],
-          ["countries", t`Country`, t`Search countries…`],
-          ["genders", t`Gender`, t`Search genders…`],
-          ["ageGroups", t`Age`, t`Search age groups…`],
-        ] as const
-      ).map(([key, label, searchPlaceholder]) => (
+      {CATEGORICAL_FILTER_FIELDS.map(({ key, label, searchPlaceholder }) => (
         <MultiSelectFilter
           disabled={disabled}
           emptyMessage={t`No matching options`}
           excludeLabel={t`Exclude`}
           includeLabel={t`Include`}
           key={key}
-          label={label}
+          label={t(label)}
           onChange={(value) => {
             onChange(key, value);
           }}
           options={optionLists[key]}
-          searchPlaceholder={searchPlaceholder}
+          searchPlaceholder={t(searchPlaceholder)}
           value={draft[key]}
         />
       ))}
