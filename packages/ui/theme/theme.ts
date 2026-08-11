@@ -49,6 +49,16 @@ export const baseTheme = createTheme({
     lg: "0.75rem",
     xl: "1rem",
   },
+  // Roughly 25% tighter than Mantine's default scale (10/12/16/20/32px). The
+  // product is data-dense — ranked tables, filter bars, stat rows — so the
+  // default padding pushes too few rows above the fold.
+  spacing: {
+    xs: "0.375rem",
+    sm: "0.5rem",
+    md: "0.75rem",
+    lg: "1rem",
+    xl: "1.5rem",
+  },
 });
 
 export const createVerticalTheme = (
