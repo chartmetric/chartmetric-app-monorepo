@@ -1,0 +1,37 @@
+{
+  "id": "01-ch-schema-drift-gate",
+  "title": "clickhouse schema-drift gate",
+  "status": "completed",
+  "depends_on": [],
+  "acceptance": [
+    "pnpm --filter api check:ch-schema-drift is a package script that exits non-zero when a table or column present in schema.generated.ts is missing from live system.columns or has a different type, and exits 0 when the snapshot matches",
+    "The parse and diff logic is pure, lives in apps/api/src/db/clickhouse/schema-drift.ts, and has unit tests covering: identical schemas clean, changed column type breaking, vanished column breaking, vanished table breaking, live-only added column non-breaking",
+    "The snapshot's tables, columns, and types are parsed from schema.generated.ts itself; the new code contains no hand-maintained list of table or column names",
+    "The entry script requires the same env vars as generate-ch-schema.mjs (CLICKHOUSE_HOST, CLICKHOUSE_USER, CLICKHOUSE_PASSWORD), exits non-zero with a clear message when one is missing, and never passes credentials via argv",
+    "pnpm --filter api lint, pnpm --filter api typecheck, and pnpm --filter api test all pass"
+  ],
+  "files": [
+    "apps/api/scripts/**",
+    "apps/api/src/db/clickhouse/**",
+    "apps/api/package.json"
+  ],
+  "gates": [
+    "pnpm --filter api lint",
+    "pnpm --filter api typecheck",
+    "pnpm --filter api test"
+  ],
+  "verification_cmd": "pnpm --filter api test schema-drift",
+  "smoke_cmd": "pnpm --filter api check:ch-schema-drift",
+  "security_review": false,
+  "notes": "Pilot phase for the harness (BACKLOG item: tune max_attempts / max_review_cycles from this retro \u2014 deliberately runs on config defaults). Motivated by the 2026-08-10 incident: an upstream RENAME TABLE swapped profile_snapshots for profile_snapshots_v4 with three column-type changes; both list endpoints 500'd while every unit test stayed green. ADR-005 gives the schema-types-as-safety context.",
+  "attempts": 1,
+  "run_started_at": "2026-08-17T17:55:01+00:00",
+  "stage": "commit",
+  "smoke_result": {
+    "ts": "2026-08-17T18:04:31+00:00",
+    "result": "pass",
+    "cmd": "pnpm --filter api check:ch-schema-drift"
+  },
+  "out_of_scope_files": [],
+  "review_findings": "SHOULD_FIX:\n- apps/api/src/db/clickhouse/schema-drift.ts:41 \u2014 normalizeType only collapses whitespace runs, so it cannot reconcile the multi-line type literals the phase notes single out. generate-ch-schema.mjs collapses `\\s*\\n\\s*` to one space, turning DDL-formatted `Tuple(\\n  a String,\\n  b String\\n)` into `Tuple( a String, b String )`, while system.columns returns `Tuple(a String, b String)` \u2014 normalized they still differ, so the gate reports false-positive breaking drift. Unreachable today (all 17 snapshot tables use only Nullable/LowCardinality scalars) but live the first time a nested Tuple/Map/Nested/AggregateFunction column enters the snapshot. Also strip whitespace adjacent to `(`, `)`, and `,` on both sides before comparing, and add a unit test for a collapsed multi-line literal.\n- apps/api/scripts/check-ch-schema-drift.mjs:54 \u2014 try/finally with no catch: a wrong password, unreachable host, or missing grant on system.columns surfaces as a raw unhandled top-level-await rejection stack, not the clear operator message the env-var branch takes care to give. It still exits non-zero, so the gate fails closed, but the failure reads as a crash rather than a connection problem. Catch, console.error a one-line cause, and process.exit(1).\n- apps/api/scripts/check-ch-schema-drift.mjs:45 \u2014 the `// Credentials come from env, never argv` comment is copied from generate-ch-schema.mjs, where it justifies a real execFileSync argv decision. This script never builds an argv, so the comment explains an absence \u2014 narration under the comment-discipline policy. Delete it; the createClient call below already shows only env reads.\n\nBACKLOG_WORTHY:\n- low \u2014 schema-drift.ts sits under src/ so tsconfig.build.json compiles it into production dist/ (confirmed via tsc --listFiles) though only a dev-time script imports it; decide whether dev-only pure modules belong outside the build rootDir\n- low \u2014 describeFinding's missing_table branch has no formatDrift assertion, and the missing_column branch is asserted only by header count, not by its rendered line\n- low \u2014 apps/api/eslint.config.mjs ignores scripts/ wholesale, so check-ch-schema-drift.mjs is unlinted (pre-existing, shared with generate-ch-schema.mjs); consider a flat-config block giving scripts/ untyped linting"
+}

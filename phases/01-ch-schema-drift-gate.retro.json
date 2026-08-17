@@ -1,0 +1,44 @@
+{
+  "phase_id": "01-ch-schema-drift-gate",
+  "duration_min": 13,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "1 file changed, 1 insertion(+)\n       6",
+  "tests_added": 16,
+  "tests_passing_total": 223,
+  "drafted_by": "agent",
+  "surprises": [
+    "The two sides of the comparison normalize differently: generate-ch-schema.mjs collapses `\\s*\\n\\s*` to a single space, so a DDL-formatted multi-line literal keeps spaces inside the parentheses that system.columns never emits, and normalizeType's whitespace-run collapse cannot reconcile them.",
+    "That defect is invisible today only because all 17 snapshot tables use scalar Nullable/LowCardinality types — the gate would report false-positive breaking drift the first time a Tuple, Map, Nested, or AggregateFunction column enters the snapshot.",
+    "The phase's lint gate passed while the new entry script was never linted at all: apps/api/eslint.config.mjs ignores scripts/ wholesale, so a green lint gate said nothing about the file the phase's smoke command actually runs."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **Compare a generated snapshot to a live source through one shared normalizer, and unit-test the hardest literal the source can emit.** Two normalizers written against the same intent still disagree: the generator collapsing `\\s*\\n\\s*` to a space and the reader collapsing whitespace runs produce different strings for the same multi-line `Tuple(...)`, and the diff reports drift that does not exist. Test the nested and multi-line forms, not only the scalar shapes the snapshot happens to hold today — a comparator validated solely on the easy case is validated on the case that was never going to fail."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **A script under `apps/*/scripts/` catches its own I/O failures and exits with a one-line cause.** Top-level `await` on an unreachable host, a wrong password, or a missing grant rejects into an unhandled-rejection stack. The exit code is still non-zero, so the gate fails closed and the bug hides — but the operator reads a crash instead of a connection problem, and these scripts are unlinted (`scripts/` is ignored by the ESLint flat config), so nothing else will catch it."
+    }
+  ],
+  "followups": [
+    "P1: Fix normalizeType in apps/api/src/db/clickhouse/schema-drift.ts:41 to strip whitespace adjacent to `(`, `)`, and `,` on both sides before comparing, with a unit test for a collapsed multi-line Tuple literal — the gate currently reports false-positive breaking drift for any nested type.",
+    "P2: Wrap the query in apps/api/scripts/check-ch-schema-drift.mjs:54 in a catch that console.errors a one-line cause and calls process.exit(1), so connection and permission failures read as such rather than as an unhandled rejection.",
+    "P2: Delete the `// Credentials come from env, never argv` comment at apps/api/scripts/check-ch-schema-drift.mjs:45 — copied from generate-ch-schema.mjs, where it justifies a real execFileSync argv decision this script never makes.",
+    "P3: Decide whether dev-only pure modules belong under the build rootDir — schema-drift.ts sits in src/ and tsconfig.build.json compiles it into production dist/ though only a dev-time script imports it.",
+    "P3: Assert describeFinding's missing_table branch through formatDrift, and assert the missing_column branch by its rendered line rather than by header count.",
+    "P3: Give apps/api/scripts/ untyped linting via an ESLint flat-config block; the directory is ignored wholesale today, leaving both entry scripts unlinted."
+  ],
+  "smoke_run": {
+    "ts": "2026-08-17T18:04:31+00:00",
+    "result": "pass",
+    "cmd": "pnpm --filter api check:ch-schema-drift"
+  }
+}
