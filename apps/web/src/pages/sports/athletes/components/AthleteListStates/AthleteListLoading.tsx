@@ -1,16 +1,108 @@
 import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
-import { Skeleton, Stack } from "@mantine/core";
+import { Group, Paper, Skeleton, Stack, Table } from "@mantine/core";
+
+const SKELETON_ROWS = 8;
+
+const SkeletonHeaderRow: FC = () => (
+  <Table.Tr>
+    <Table.Th w={64}>
+      <Skeleton height={12} w={32} />
+    </Table.Th>
+    <Table.Th w={240}>
+      <Skeleton height={12} w={120} />
+    </Table.Th>
+    <Table.Th miw={70}>
+      <Skeleton height={12} w={28} />
+    </Table.Th>
+    <Table.Th miw={140}>
+      <Skeleton height={12} w={72} />
+    </Table.Th>
+    <Table.Th miw={150}>
+      <Skeleton height={12} w={90} />
+    </Table.Th>
+    <Table.Th miw={100}>
+      <Skeleton height={12} w={68} />
+    </Table.Th>
+    <Table.Th miw={60}>
+      <Skeleton height={12} w={26} />
+    </Table.Th>
+    <Table.Th miw={110}>
+      <Skeleton height={12} w={58} />
+    </Table.Th>
+    <Table.Th miw={110}>
+      <Skeleton height={12} w={62} />
+    </Table.Th>
+    <Table.Th miw={80}>
+      <Skeleton height={12} w={36} />
+    </Table.Th>
+  </Table.Tr>
+);
+
+const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
+  <Table.Tr key={index}>
+    <Table.Td w={64}>
+      <Skeleton height={12} w={20} />
+    </Table.Td>
+    <Table.Td w={240}>
+      <Group gap="sm" wrap="nowrap">
+        <Skeleton circle height={32} />
+        <Stack gap={4} style={{ flex: 1 }}>
+          <Skeleton height={12} w="75%" />
+          <Skeleton height={10} w="45%" />
+        </Stack>
+      </Group>
+    </Table.Td>
+    <Table.Td miw={70}>
+      <Skeleton height={12} w={24} />
+    </Table.Td>
+    <Table.Td miw={140}>
+      <Skeleton height={12} w={90} />
+    </Table.Td>
+    <Table.Td miw={150}>
+      <Skeleton height={12} w={110} />
+    </Table.Td>
+    <Table.Td miw={100}>
+      <Skeleton height={12} w={76} />
+    </Table.Td>
+    <Table.Td miw={60}>
+      <Skeleton height={12} w={22} />
+    </Table.Td>
+    <Table.Td miw={110}>
+      <Skeleton height={12} w={70} />
+    </Table.Td>
+    <Table.Td miw={110}>
+      <Skeleton height={12} w={52} />
+    </Table.Td>
+    <Table.Td miw={80}>
+      <Skeleton height={12} w={34} />
+    </Table.Td>
+  </Table.Tr>
+);
 
 export const AthleteListLoading: FC = () => {
   const { t } = useLingui();
 
   return (
-    <Stack aria-label={t`Loading athletes`} gap={1} role="status">
-      {Array.from({ length: 5 }, (_, index) => (
-        <Skeleton animate height={48} key={index} radius="sm" />
-      ))}
-    </Stack>
+    <Paper
+      aria-label={t`Loading athletes`}
+      radius="md"
+      role="status"
+      shadow="sm"
+    >
+      <Table.ScrollContainer minWidth={944}>
+        <Table verticalSpacing="md">
+          <Table.Thead>
+            <SkeletonHeaderRow />
+          </Table.Thead>
+          <Table.Tbody>
+            {Array.from({ length: SKELETON_ROWS }, (_, index) => (
+              <SkeletonDataRow index={index} key={index} />
+            ))}
+          </Table.Tbody>
+        </Table>
+      </Table.ScrollContainer>
+    </Paper>
   );
 };
