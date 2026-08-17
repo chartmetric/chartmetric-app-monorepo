@@ -1,0 +1,28 @@
+{
+  "id": "01-athletes-page-design",
+  "title": "Athletes page design overhaul",
+  "status": "pending",
+  "depends_on": [],
+  "acceptance": [
+    "AthletesTable renders a LoadingOverlay with overlayProps blur:1 while isFetching is true",
+    "AthletesTable uses Paper shadow='sm' without withBorder",
+    "LevelCell renders professional athletes with color='teal'",
+    "MomentumCell uses FontAwesome faArrowUp/faArrowDown/faMinus icons instead of Unicode characters",
+    "AthleteListLoading renders five Skeleton rows in a Stack instead of a centered Loader",
+    "AthleteIdentity renders a round avatar with a border ring and sport as a Badge variant='dot'",
+    "AthletesPage renders a named AthletesHeader sub-component and a controls row containing AthleteColumnPicker between filters and the table",
+    "Component tests exist for AthletesTable, AthleteIdentity, and AthleteListLoading covering the above criteria"
+  ],
+  "files": [
+    "apps/web/src/pages/sports/athletes/**"
+  ],
+  "gates": [
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build"
+  ],
+  "verification_cmd": "pnpm --filter web test -- src/pages/sports/athletes",
+  "smoke_cmd": "",
+  "security_review": false,
+  "notes": "Pure frontend design phase — no API changes, no new permissions (docs/architecture/access-and-feature-gating.md §5 explicitly covers redesigned pages). Uses Mantine style props and existing @fortawesome/pro-solid-svg-icons — no new dependencies. The verification_cmd is RED today because no test files exist under apps/web/src/pages/sports/athletes/. Writer must add test files first so the RED precondition is satisfied before implementing."
+}
