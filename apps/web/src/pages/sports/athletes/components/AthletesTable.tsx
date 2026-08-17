@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
-import { Group, Paper, Text } from "@mantine/core";
+import { Box, Group, LoadingOverlay, Paper, Text } from "@mantine/core";
 import { DataTable } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
 
@@ -56,52 +56,62 @@ export const AthletesTable: FC<AthletesTableProps> = ({
   const pageCount = String(Math.max(1, Math.ceil(total / ATHLETE_PAGE_SIZE)));
 
   return (
-    <Paper radius="md" withBorder>
-      <DataTable
-        ariaLabel={t`Athletes`}
-        columns={columns}
-        getRowKey={(athlete) => athlete.id}
-        minWidth={
-          RANK_COLUMN_WIDTH + ATHLETE_COLUMN_WIDTH + SCROLLING_COLUMNS_MIN_WIDTH
-        }
-        onSort={onSort}
-        rows={athletes}
-        sortBy={sortBy}
-        sortDirection={sortDirection}
-        sortLabel={(label) =>
-          t({
-            comment: "Accessible label for a sortable athletes table column",
-            message: `Sort by ${label}`,
-          })
-        }
-        stickyHeader
-      />
-      <Group justify="flex-start" pt="sm" px="md">
+    <Paper radius="md" shadow="sm">
+      <Box pos="relative">
+        <LoadingOverlay
+          loaderProps={{ "aria-label": t`Updating athletes` }}
+          overlayProps={{ blur: 1 }}
+          visible={isFetching}
+          zIndex={2}
+        />
+        <DataTable
+          ariaLabel={t`Athletes`}
+          columns={columns}
+          getRowKey={(athlete) => athlete.id}
+          minWidth={
+            RANK_COLUMN_WIDTH +
+            ATHLETE_COLUMN_WIDTH +
+            SCROLLING_COLUMNS_MIN_WIDTH
+          }
+          onSort={onSort}
+          rows={athletes}
+          sortBy={sortBy}
+          sortDirection={sortDirection}
+          sortLabel={(label) =>
+            t({
+              comment: "Accessible label for a sortable athletes table column",
+              message: `Sort by ${label}`,
+            })
+          }
+          stickyHeader
+        />
+      </Box>
+      <Group justify="space-between" px="md" py="sm">
         <Text c="dimmed" size="sm">
           {t({
             comment: "Range of athletes shown out of the filtered total",
             message: `Showing ${firstRow}–${lastRow} of ${totalRows} athletes`,
           })}
         </Text>
-      </Group>
-      <TablePagination
-        hasNextPage={offset + ATHLETE_PAGE_SIZE < total}
-        isLoading={isFetching}
-        loadingLabel={t`Updating athletes`}
-        nextLabel={t`Next`}
-        offset={offset}
-        onPageChange={onPageChange}
-        pageLabel={(page) => {
-          const current = String(page);
+        <TablePagination
+          hasNextPage={offset + ATHLETE_PAGE_SIZE < total}
+          isLoading={isFetching}
+          loadingLabel={t`Updating athletes`}
+          nextLabel={t`Next`}
+          offset={offset}
+          onPageChange={onPageChange}
+          pageLabel={(page) => {
+            const current = String(page);
 
-          return t({
-            comment: "Current page number in the athletes list",
-            message: `Page ${current} of ${pageCount}`,
-          });
-        }}
-        pageSize={ATHLETE_PAGE_SIZE}
-        previousLabel={t`Previous`}
-      />
+            return t({
+              comment: "Current page number in the athletes list",
+              message: `Page ${current} of ${pageCount}`,
+            });
+          }}
+          pageSize={ATHLETE_PAGE_SIZE}
+          previousLabel={t`Previous`}
+        />
+      </Group>
     </Paper>
   );
 };

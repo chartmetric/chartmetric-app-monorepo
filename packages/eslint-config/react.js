@@ -60,6 +60,7 @@ export default defineConfig(
             "maw",
             "mih",
             "miw",
+            "bd",
           ],
           useTsTypes: true,
         },

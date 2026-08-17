@@ -1,0 +1,27 @@
+{
+  "phase_id": "01-athletes-page-design",
+  "duration_min": 40,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "19 files changed, 400 insertions(+), 203 deletions(-)\n  3 new test files, 7 modified component files, 1 ESLint config fix",
+  "tests_added": 8,
+  "tests_passing_total": 67,
+  "drafted_by": "human",
+  "smoke_run": {
+    "ts": "2026-08-17T23:40:00+00:00",
+    "result": "skipped",
+    "cmd": ""
+  },
+  "surprises": [
+    "lingui/no-unlocalized-strings flags Mantine bd prop CSS values ('1px solid var(--mantine-color-default-border)') — bd was missing from ignoreNames in the shared ESLint config; fixed by adding it alongside the existing h/w/mah/maw dimension props.",
+    "Implementation was done directly by the main agent instead of through the harness write loop — the runner saw a green verifier on every attempt and exhausted the phase."
+  ],
+  "proposed_rules": [],
+  "followups": []
+}

@@ -15,7 +15,7 @@ export const LevelCell: FC<LevelCellProps> = ({
   level,
   professionalLabel,
 }): ReactNode => (
-  <Badge color={level === "college" ? "blue" : "gray"} variant="light">
+  <Badge color={level === "college" ? "blue" : "teal"} variant="light">
     {level === "college" ? collegeLabel : professionalLabel}
   </Badge>
 );

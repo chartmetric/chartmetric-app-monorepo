@@ -26,6 +26,17 @@ const FILTER_OPTIONS_STALE_TIME_MS = 5 * 60 * 1000;
 
 const EMPTY_PRESETS: AthleteColumnPreset[] = [];
 
+const AthletesHeader: FC = () => (
+  <div>
+    <Title order={1}>
+      <Trans>Athletes</Trans>
+    </Title>
+    <Text c="dimmed" mt={4}>
+      <Trans>Explore active athletes across sports.</Trans>
+    </Text>
+  </div>
+);
+
 export const AthletesPage: FC = () => {
   const [query, setQuery] = useState<AthleteListQuery>(DEFAULT_ATHLETE_QUERY);
   const [visibleColumns, setVisibleColumns] = usePersistentState<
@@ -55,22 +66,7 @@ export const AthletesPage: FC = () => {
 
   return (
     <Stack gap="lg">
-      <Group align="flex-start" justify="space-between" wrap="wrap">
-        <div>
-          <Title order={1}>
-            <Trans>Athletes</Trans>
-          </Title>
-          <Text c="dimmed" mt={4}>
-            <Trans>Explore active athletes across sports.</Trans>
-          </Text>
-        </div>
-        <AthleteColumnPicker
-          customPresets={customPresets}
-          onChange={setVisibleColumns}
-          onCustomPresetsChange={setCustomPresets}
-          value={visibleColumns}
-        />
-      </Group>
+      <AthletesHeader />
       {filterOptionsQuery.isError ? (
         <AthleteFilterOptionsError
           retry={() => {
@@ -85,6 +81,14 @@ export const AthletesPage: FC = () => {
         }}
         options={filterOptionsQuery.data}
       />
+      <Group justify="flex-end">
+        <AthleteColumnPicker
+          customPresets={customPresets}
+          onChange={setVisibleColumns}
+          onCustomPresetsChange={setCustomPresets}
+          value={visibleColumns}
+        />
+      </Group>
       <AthleteListContent
         offset={query.offset}
         onPageChange={(offset) => {
