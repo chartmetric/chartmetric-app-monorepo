@@ -15,7 +15,8 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     server: {
-      allowedHosts: ["0.0.0.0", "new-app.chartmetric.com"],
+      allowedHosts: true,
+      host: true,
       proxy: {
         "/app": {
           changeOrigin: true,
