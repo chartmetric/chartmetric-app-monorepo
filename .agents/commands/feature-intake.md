@@ -73,6 +73,6 @@ it stops and asks the human, instead of picking for them.
   says it supersedes the old one, never an edit to a past entry.
 - This command does not create phases or touch `phases/` — that is
   `/harness`'s job.
-- Do not invoke `/harness` (or any other slash command) from inside
-  this command's execution — slash commands recurse. Tell the user to
-  run it themselves.
+- Do not invoke `/harness` (or any other agent command) from inside
+  this command's execution. Tell the user to run it themselves as a
+  separate top-level prompt.

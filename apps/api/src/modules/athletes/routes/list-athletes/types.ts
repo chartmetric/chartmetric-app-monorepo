@@ -69,6 +69,7 @@ export type CteAlias =
   | "last_match"
   | "momentum_scores"
   | "on3_school"
+  | "roster_ids"
   | "roster_rank"
   | "tiktok_latest";
 

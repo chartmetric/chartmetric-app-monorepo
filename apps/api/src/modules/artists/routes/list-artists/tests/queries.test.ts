@@ -26,10 +26,10 @@ describe("listArtists", () => {
     const sql = queries.listArtists({ limit: 1, offset: 0 }).toSQL();
 
     expect(sql).toContain(
-      "WITH latest_ig AS (SELECT account_id, max(snapshot_date <= today() - 7) AS instagram_has_past, argMax(if(snapshot_date <= today() - 7, followers, 0), if(snapshot_date <= today() - 7, snapshot_date, toDate(0))) AS instagram_followers_past, argMax(followers, snapshot_date) AS instagram_followers FROM new_vertical.instagram_cache GROUP BY account_id)",
+      "WITH latest_ig AS (SELECT account_id, max(snapshot_date <= today() - 7) AS instagram_has_past, argMax(if(snapshot_date <= today() - 7, followers, 0), if(snapshot_date <= today() - 7, snapshot_date, toDate(0))) AS instagram_followers_past, argMax(followers, snapshot_date) AS instagram_followers, MAX(is_verified) AS instagram_verified FROM new_vertical.instagram_cache GROUP BY account_id)",
     );
     expect(sql).toContain(
-      "latest_tt AS (SELECT account_id, max(snapshot_date <= today() - 7) AS tiktok_has_past, argMax(if(snapshot_date <= today() - 7, follower_count, 0), if(snapshot_date <= today() - 7, snapshot_date, toDate(0))) AS tiktok_followers_past, argMax(follower_count, snapshot_date) AS tiktok_followers FROM new_vertical.tiktok_cache GROUP BY account_id)",
+      "latest_tt AS (SELECT account_id, max(snapshot_date <= today() - 7) AS tiktok_has_past, argMax(if(snapshot_date <= today() - 7, follower_count, 0), if(snapshot_date <= today() - 7, snapshot_date, toDate(0))) AS tiktok_followers_past, argMax(follower_count, snapshot_date) AS tiktok_followers, MAX(is_verified) AS tiktok_verified FROM new_vertical.tiktok_cache GROUP BY account_id)",
     );
     expect(sql).toContain("FROM new_vertical.l_profile_account FINAL");
     expect(sql).toContain("disconnected_at IS NULL");
@@ -42,11 +42,21 @@ describe("listArtists", () => {
     );
     expect(sql).toContain("accurateCastOrNull(cm_source_id, 'Int32')");
     expect(sql).toContain(
-      "profile_verified AS (SELECT profile_id, max(verified = 'true') AS is_verified FROM new_vertical.profile_snapshots WHERE platform IN ('instagram', 'tiktok') GROUP BY profile_id)",
-    );
-    expect(sql).toContain(
       "LEFT ANY JOIN artist_metrics ON id = artist_metrics.artist_id",
     );
+  });
+
+  it("derives verification from the account caches, not profile_snapshots", () => {
+    const sql = queries.listArtists({ limit: 1, offset: 0 }).toSQL();
+
+    expect(sql).toContain(
+      "greatest(ifNull(profile_ig.instagram_verified, 0), ifNull(profile_tt.tiktok_verified, 0)) AS is_verified",
+    );
+    expect(sql).toContain(
+      "MAX(latest_ig.instagram_verified) AS instagram_verified",
+    );
+    expect(sql).toContain("MAX(latest_tt.tiktok_verified) AS tiktok_verified");
+    expect(sql).not.toContain("profile_snapshots");
   });
 
   it("selects the base columns and joined metrics", () => {

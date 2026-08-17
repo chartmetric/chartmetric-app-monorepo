@@ -50,6 +50,17 @@ phase's retry loop or review cycle exhausts.
 - P3: `max_rows_to_read: 100_000_000` in the actors query settings will
   start returning 500s once `test_tv_credits` outgrows it; revisit the
   cap with a bounded pre-aggregate. Source: phase 01 retro, 2026-08-10.
+- P2: Add a schema-drift gate comparing `schema.generated.ts` to
+  `system.columns`, failing when a column the code reads changed type
+  or vanished. On 2026-08-10 an upstream `RENAME TABLE` swapped
+  `profile_snapshots` for a 2,029×-larger `profile_snapshots_v4`,
+  changing `verified` to `UInt8`, `snapshot_date` to `Date`, and
+  `engagement_rate` to `Float64`; both list endpoints 500'd in
+  production while every unit test stayed green. A rename is
+  announceable and this one was announced — a silent type change is
+  not, so the guard has to be mechanical. Neither `rawAs` strings nor
+  hand-declared CTE types can fail at compile time, which is why
+  regenerating alone would not have caught it.
 - P2: Run the first pilot phase against an `apps/api` module and tune
   `max_attempts` / `max_review_cycles` from the resulting retro.
 - P2: When the athlete implementation branch lands: both athlete routes

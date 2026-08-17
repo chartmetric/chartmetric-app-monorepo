@@ -14,9 +14,11 @@ The harness has four moving parts:
 2. **`harness.config.json`** — every project-tunable knob: doc gates,
    test filename conventions, retry/review budgets, commit format.
    Defaults live in `scripts/_config.py`.
-3. **`.agents/`** — slash commands and `settings.json` with the
-   per-Bash hook. Claude Code sees these through the `.claude`
-   symlink; `.agents/` is the tracked location.
+3. **`.agents/`** — portable agent command definitions and
+   `settings.json` with the per-Bash hook. Repository-aware agents
+   dispatch the commands through the rules in `AGENTS.md`; Claude Code
+   also exposes them through its native slash-command menu via the
+   `.claude` symlink. `.agents/` is the tracked location.
 4. **`scripts/`** — the Python phase runner (`execute.py`, a thin entry
    over the `scripts/harness/` package — one module per concern) and
    the hook script `hooks/dangerous_cmd_guard.py`.
@@ -44,7 +46,7 @@ A worked example of a complete phase (JSON + md + retro) lives in
 
 ```
 ┌───────────────────────────────────────────────────────────────────────┐
-│  HUMAN + interactive Claude Code session (the "driver")               │
+│  HUMAN + interactive repository-aware agent session (the "driver")    │
 │                                                                       │
 │   /feature-intake  plain-language ask → ADR-grounded PRD entry       │
 │   /harness       propose + lint phases, confirm, trigger runs        │
@@ -148,17 +150,23 @@ A phase is a JSON file under `phases/` plus a markdown spec:
   orchestration. File-existence checks in `verification_cmd` are NOT a
   substitute — unwired orchestration passes them cleanly.
 
-  **A phase that changes a ClickHouse query always needs one**, even
-  when it adds no route and wires nothing new. Unit tests here assert
-  the SQL the builder emits; they cannot tell whether ClickHouse
+  **A phase that changes a ClickHouse query does not need one** — it
+  needs its SQL executed, which is a different thing. Unit tests here
+  assert the SQL the builder emits; they cannot tell whether ClickHouse
   accepts it. Ambiguous identifiers, ambiguous join keys, and
   `Replacing*` reads missing `FINAL` all pass a string assertion and
-  fail against a real schema. Execute a matrix — every filter, every
+  fail against a real schema. Run the matrix — every filter, every
   sort, the count/list sibling pair, empty values, include/exclude
-  modes, joined enrichment paths — and record the ClickHouse version
-  and schema snapshot used. Assert deltas against a baseline captured
-  through the same reader, never absolute counts: warehouse population
-  changes underneath you, and a test pinned to today's match rate is a
+  modes, joined enrichment paths — through the read-only ClickHouse
+  MCP, and record in the phase notes the row counts, timings, and the
+  schema snapshot used. Do not write a script for this; the MCP is
+  connected and read-only, and a committed runner duplicates it.
+  Reserve `smoke_cmd` for orchestration the MCP cannot reach — consume
+  loops, HTTP routes wired to deps, cross-process flows.
+
+  When you do record numbers, compare deltas against a baseline read
+  through the same path, never absolute counts: warehouse population
+  changes underneath you, and a check pinned to today's match rate is a
   flake waiting to happen.
 
 - `security_review: true` adds a threat-model addendum to the review
@@ -329,6 +337,15 @@ command cannot hang the pipeline.
 ## The operator loop (day-to-day usage)
 
 What actually happens per phase, for someone new to the harness:
+
+Run the agent from the repository root, then send `/feature-intake ...`,
+`/harness`, or another command as a top-level chat prompt. Claude Code
+discovers these names natively through `.claude/commands/`. Other agents,
+including Codex, discover and dispatch the same Markdown definitions by
+reading the command rules in `AGENTS.md`; their UI does not need to show a
+slash-command menu. An LLM or chat client that does not load this repository's
+`AGENTS.md` cannot discover the commands automatically, so give it the
+relevant `.agents/commands/<name>.md` file explicitly.
 
 1. **Plan** — if the ask arrived as a plain-language description rather
    than a technical PRD (a PM or designer's request, for example), run
@@ -529,7 +546,7 @@ the user explicitly invokes `/backlog` or references them.
 | ----------------------------------------------------- | ------------------------------------------------------ |
 | Change doc gates, budgets, conventions, commit format | `harness.config.json`                                  |
 | Add a dangerous-command pattern                       | `scripts/hooks/dangerous_cmd_guard.py` (`DENYLIST`)    |
-| Add a slash command                                   | new file in `.agents/commands/`                        |
+| Add a portable agent command                          | `.agents/commands/` file and `AGENTS.md` dispatch name |
 | Add a phase-level gate                                | the phase JSON's `gates` array                         |
 | Change the review contract                            | `REVIEW_BRIEF_TEMPLATE` in `scripts/harness/review.py` |
 | Add a doctor check                                    | `scripts/harness/doctor.py`                            |

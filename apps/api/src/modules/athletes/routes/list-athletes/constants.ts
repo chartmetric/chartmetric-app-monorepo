@@ -4,10 +4,12 @@ import type { CteAlias } from "./types.ts";
 import { selectBasketballRoster } from "../../basketball/roster.ts";
 import { selectOn3School } from "../../college/school.ts";
 import {
+  ROSTER_PROFILE_IDS,
   selectEspnBasketball,
   selectGpsScores,
   selectLastMatch,
   selectMomentum,
+  selectRosterProfileIds,
   selectRosterRank,
   selectTiktokLatest,
 } from "./ctes.ts";
@@ -37,6 +39,13 @@ export const ENRICHMENT_JOINS = [
 
 export const CACHE_PROFILE_ID = "new_vertical.athletes_cache.profile_id";
 
-export const CTE_FACTORIES = new Map<string, DatabaseQueryFactory>(
-  ENRICHMENT_CTES,
-);
+// Absent from ENRICHMENT_JOINS on purpose: a prerequisite narrows its dependant's
+// scan rather than carrying a column onto the row, so it is declared, never joined.
+export const CTE_PREREQUISITES = new Map<CteAlias, readonly CteAlias[]>([
+  ["tiktok_latest", [ROSTER_PROFILE_IDS]],
+]);
+
+export const CTE_FACTORIES = new Map<string, DatabaseQueryFactory>([
+  [ROSTER_PROFILE_IDS, selectRosterProfileIds],
+  ...ENRICHMENT_CTES,
+]);
