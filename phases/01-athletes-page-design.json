@@ -1,7 +1,7 @@
 {
   "id": "01-athletes-page-design",
   "title": "Athletes page design overhaul",
-  "status": "pending",
+  "status": "completed",
   "depends_on": [],
   "acceptance": [
     "AthletesTable renders a LoadingOverlay with overlayProps blur:1 while isFetching is true",
@@ -24,5 +24,8 @@
   "verification_cmd": "pnpm --filter web test -- src/pages/sports/athletes",
   "smoke_cmd": "",
   "security_review": false,
-  "notes": "Pure frontend design phase — no API changes, no new permissions (docs/architecture/access-and-feature-gating.md §5 explicitly covers redesigned pages). Uses Mantine style props and existing @fortawesome/pro-solid-svg-icons — no new dependencies. The verification_cmd is RED today because no test files exist under apps/web/src/pages/sports/athletes/. Writer must add test files first so the RED precondition is satisfied before implementing."
+  "notes": "Pure frontend design phase \u2014 no API changes, no new permissions (docs/architecture/access-and-feature-gating.md \u00a75 explicitly covers redesigned pages). Uses Mantine style props and existing @fortawesome/pro-solid-svg-icons \u2014 no new dependencies. The verification_cmd is RED today because no test files exist under apps/web/src/pages/sports/athletes/. Writer must add test files first so the RED precondition is satisfied before implementing.",
+  "attempts": 4,
+  "run_started_at": "2026-08-17T23:24:03+00:00",
+  "stage": "lint"
 }

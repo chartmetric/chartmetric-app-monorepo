@@ -46,8 +46,8 @@ msgstr "Edad"
 msgid "Athlete"
 msgstr "Deportista"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:61
-#: src/pages/sports/athletes/components/AthletesTable.tsx:61
+#: src/pages/sports/athletes/AthletesPage.tsx:32
+#: src/pages/sports/athletes/components/AthletesTable.tsx:68
 msgid "Athletes"
 msgstr "Deportistas"
 
@@ -102,7 +102,7 @@ msgstr "Interacción"
 msgid "Exclude"
 msgstr "Excluir"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:64
+#: src/pages/sports/athletes/AthletesPage.tsx:35
 msgid "Explore active athletes across sports."
 msgstr "Explora deportistas activos de distintos deportes."
 
@@ -186,13 +186,9 @@ msgstr "Nivel"
 msgid "Likes"
 msgstr "Me gusta"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:12
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:10
 msgid "Loading athletes"
 msgstr "Cargando deportistas"
-
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:14
-msgid "Loading athletes…"
-msgstr "Cargando deportistas…"
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteScoreFilter.tsx:35
 msgid "Maximum CM score"
@@ -227,7 +223,7 @@ msgstr "Nacionalidad"
 msgid "New group name…"
 msgstr "Nombre del nuevo grupo…"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:91
+#: src/pages/sports/athletes/components/AthletesTable.tsx:100
 msgid "Next"
 msgstr "Siguiente"
 
@@ -244,7 +240,7 @@ msgid "No matching options"
 msgstr "No hay opciones coincidentes"
 
 #. Current page number in the athletes list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:97
+#: src/pages/sports/athletes/components/AthletesTable.tsx:106
 msgid "Page {current} of {pageCount}"
 msgstr "Página {current} de {pageCount}"
 
@@ -261,7 +257,7 @@ msgstr "Posición"
 msgid "Posts"
 msgstr "Publicaciones"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:103
+#: src/pages/sports/athletes/components/AthletesTable.tsx:112
 msgid "Previous"
 msgstr "Anterior"
 
@@ -308,12 +304,12 @@ msgid "Search columns…"
 msgstr "Buscar columnas…"
 
 #. Range of athletes shown out of the filtered total
-#: src/pages/sports/athletes/components/AthletesTable.tsx:81
+#: src/pages/sports/athletes/components/AthletesTable.tsx:91
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "Mostrando {firstRow}–{lastRow} de {totalRows} atletas"
 
 #. Accessible label for a sortable athletes table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:72
+#: src/pages/sports/athletes/components/AthletesTable.tsx:81
 msgid "Sort by {label}"
 msgstr "Ordenar por {label}"
 
@@ -374,11 +370,12 @@ msgid "Unable to load filter options"
 msgstr "No se pudieron cargar las opciones de filtro"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:22
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:21
 msgid "Unnamed athlete"
 msgstr "Deportista sin nombre"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:90
+#: src/pages/sports/athletes/components/AthletesTable.tsx:62
+#: src/pages/sports/athletes/components/AthletesTable.tsx:99
 msgid "Updating athletes"
 msgstr "Actualizando deportistas"
 
@@ -387,8 +384,8 @@ msgstr "Actualizando deportistas"
 msgid "Verified"
 msgstr "Verificado"
 
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:37
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:39
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:42
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:44
 msgid "Verified on Instagram"
 msgstr "Verificado en Instagram"
 

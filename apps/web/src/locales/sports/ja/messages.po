@@ -46,8 +46,8 @@ msgstr "年齢"
 msgid "Athlete"
 msgstr "選手"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:61
-#: src/pages/sports/athletes/components/AthletesTable.tsx:61
+#: src/pages/sports/athletes/AthletesPage.tsx:32
+#: src/pages/sports/athletes/components/AthletesTable.tsx:68
 msgid "Athletes"
 msgstr "選手"
 
@@ -102,7 +102,7 @@ msgstr "エンゲージメント"
 msgid "Exclude"
 msgstr "除外"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:64
+#: src/pages/sports/athletes/AthletesPage.tsx:35
 msgid "Explore active athletes across sports."
 msgstr "さまざまなスポーツの現役選手を探しましょう。"
 
@@ -186,13 +186,9 @@ msgstr "レベル"
 msgid "Likes"
 msgstr "いいね"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:12
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:10
 msgid "Loading athletes"
 msgstr "選手を読み込み中"
-
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:14
-msgid "Loading athletes…"
-msgstr "選手を読み込み中…"
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteScoreFilter.tsx:35
 msgid "Maximum CM score"
@@ -227,7 +223,7 @@ msgstr "国籍"
 msgid "New group name…"
 msgstr "新しいグループ名…"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:91
+#: src/pages/sports/athletes/components/AthletesTable.tsx:100
 msgid "Next"
 msgstr "次へ"
 
@@ -244,7 +240,7 @@ msgid "No matching options"
 msgstr "一致する選択肢がありません"
 
 #. Current page number in the athletes list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:97
+#: src/pages/sports/athletes/components/AthletesTable.tsx:106
 msgid "Page {current} of {pageCount}"
 msgstr "{pageCount} ページ中 {current} ページ"
 
@@ -261,7 +257,7 @@ msgstr "ポジション"
 msgid "Posts"
 msgstr "投稿"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:103
+#: src/pages/sports/athletes/components/AthletesTable.tsx:112
 msgid "Previous"
 msgstr "前へ"
 
@@ -308,12 +304,12 @@ msgid "Search columns…"
 msgstr "列を検索…"
 
 #. Range of athletes shown out of the filtered total
-#: src/pages/sports/athletes/components/AthletesTable.tsx:81
+#: src/pages/sports/athletes/components/AthletesTable.tsx:91
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "{totalRows} 人中 {firstRow}–{lastRow} 人を表示"
 
 #. Accessible label for a sortable athletes table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:72
+#: src/pages/sports/athletes/components/AthletesTable.tsx:81
 msgid "Sort by {label}"
 msgstr "{label}で並べ替え"
 
@@ -374,11 +370,12 @@ msgid "Unable to load filter options"
 msgstr "フィルターオプションを読み込めません"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:22
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:21
 msgid "Unnamed athlete"
 msgstr "名前未設定の選手"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:90
+#: src/pages/sports/athletes/components/AthletesTable.tsx:62
+#: src/pages/sports/athletes/components/AthletesTable.tsx:99
 msgid "Updating athletes"
 msgstr "選手情報を更新中"
 
@@ -387,8 +384,8 @@ msgstr "選手情報を更新中"
 msgid "Verified"
 msgstr "認証済み"
 
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:37
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:39
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:42
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:44
 msgid "Verified on Instagram"
 msgstr "Instagramで認証済み"
 

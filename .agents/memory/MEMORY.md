@@ -1,0 +1,1 @@
+- [No-verify rule](no-verify-rule.md) — never use --no-verify or any hook-bypass flag; strictly forbidden by the user.

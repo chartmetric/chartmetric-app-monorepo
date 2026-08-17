@@ -1,5 +1,10 @@
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { FC } from "react";
 
+import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
+import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
+import { faMinus } from "@fortawesome/pro-solid-svg-icons/faMinus";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Badge, Group, Text } from "@mantine/core";
 
 import { EMPTY_CELL } from "../../../../../lib/formatting";
@@ -22,10 +27,10 @@ const MOMENTUM_COLORS: Readonly<Record<MomentumTrend, string>> = {
   steady: "gray",
 };
 
-const MOMENTUM_INDICATORS: Readonly<Record<MomentumTrend, string>> = {
-  cold: "▼",
-  hot: "▲",
-  steady: "—",
+const MOMENTUM_ICONS: Readonly<Record<MomentumTrend, IconDefinition>> = {
+  cold: faArrowDown,
+  hot: faArrowUp,
+  steady: faMinus,
 };
 
 const momentumTrend = (
@@ -60,12 +65,12 @@ export const MomentumCell: FC<MomentumCellProps> = ({
 
   const trend = momentumTrend(label, score);
   const color = MOMENTUM_COLORS[trend];
-  const indicator = MOMENTUM_INDICATORS[trend];
+  const icon = MOMENTUM_ICONS[trend];
 
   return (
     <Badge color={color} variant="light">
       <Group component="span" gap={4} wrap="nowrap">
-        <span aria-hidden="true">{indicator}</span>
+        <FontAwesomeIcon aria-hidden icon={icon} />
         {label ?? steadyLabel}
       </Group>
     </Badge>

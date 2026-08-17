@@ -40,7 +40,7 @@ export const SocialLinks: FC<SocialLinksProps> = ({ athlete }) => {
   if (athlete.socialLinks.length === 0) return null;
 
   return (
-    <Group gap={6} mt={2} wrap="nowrap">
+    <Group gap={4} mt={2} wrap="nowrap">
       {athlete.socialLinks.map((link) => {
         const platform = SOCIAL_LABELS[link.platform] ?? link.platform;
         const handle = link.handle;

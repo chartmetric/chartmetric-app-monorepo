@@ -7,7 +7,6 @@ import { Avatar, Group, Stack, Text, Tooltip } from "@mantine/core";
 
 import type { Athlete } from "../../api/types";
 
-import { EMPTY_CELL } from "../../../../../lib/formatting";
 import { CountryFlag } from "./CountryFlag";
 import { SocialLinks } from "./SocialLinks";
 
@@ -26,11 +25,17 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
 
   return (
     <Group gap="sm" wrap="nowrap">
-      <Avatar alt={athleteName} name={athleteName} src={athlete.imageUrl} />
-      <Stack gap={0} miw={0}>
+      <Avatar
+        alt={athleteName}
+        bd="1px solid var(--mantine-color-default-border)"
+        name={athleteName}
+        radius="xl"
+        size={40}
+        src={athlete.imageUrl}
+      />
+      <Stack gap={2} miw={0}>
         <Group gap={6} wrap="nowrap">
-          <CountryFlag nationality={athlete.nationality} />
-          <Text fw={600} truncate>
+          <Text fw={600} size="sm" truncate>
             {athleteName}
           </Text>
           {athlete.igVerified ? (
@@ -46,9 +51,14 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
             </Tooltip>
           ) : null}
         </Group>
-        <Text c="dimmed" size="xs">
-          {athlete.sport ?? EMPTY_CELL}
-        </Text>
+        <Group align="center" gap={4} wrap="nowrap">
+          <CountryFlag nationality={athlete.nationality} />
+          {athlete.sport !== null && (
+            <Text c="dimmed" size="xs" truncate>
+              {athlete.sport}
+            </Text>
+          )}
+        </Group>
         <SocialLinks athlete={athlete} />
       </Stack>
     </Group>
