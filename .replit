@@ -1,0 +1,57 @@
+modules = ["nodejs-24", "python-base-3.13"]
+
+[userenv]
+
+[userenv.shared]
+API_PROXY_TARGET = "http://127.0.0.1:8008"
+VITE_API_URL = "http://localhost:8008"
+CORS_ORIGIN = "https://localhost:5173"
+PORT = "8008"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Web (frontend)"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "API (backend)"
+
+[[workflows.workflow]]
+name = "Web (frontend)"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter web dev"
+waitForPort = 5173
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "API (backend)"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter api dev"
+waitForPort = 8008
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[ports]]
+localPort = 5173
+externalPort = 80
+
+[[ports]]
+localPort = 8008
+externalPort = 8008
