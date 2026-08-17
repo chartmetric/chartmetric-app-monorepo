@@ -2,6 +2,9 @@ packages:
   - "apps/*"
   - "packages/*"
 allowBuilds:
+  # Postinstall downloads the platform's native claude binary; without it the
+  # harness's spawned agents (writer/fixer/reviewer/retro) have no CLI to run.
+  "@anthropic-ai/claude-code": true
   unrs-resolver: true
 packageExtensions:
   # Upstream bug: the plugin's .d.ts does `import("fastify")` but the package

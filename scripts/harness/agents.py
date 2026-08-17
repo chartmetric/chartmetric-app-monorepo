@@ -49,7 +49,13 @@ def resolve_agent_cmd(role: str, phase: dict | None = None) -> list[str]:
         cmd = source.get(role)
         if cmd:
             return shlex.split(cmd)
-    return shlex.split(DEFAULT_AGENT_CMD)
+    argv = shlex.split(DEFAULT_AGENT_CMD)
+    # The repo provisions the CLI as a devDependency, and node_modules/.bin
+    # is not on PATH when the runner is invoked directly.
+    workspace_claude = REPO_ROOT / "node_modules" / ".bin" / "claude"
+    if workspace_claude.exists():
+        argv[0] = str(workspace_claude)
+    return argv
 
 
 def _write_transcript(phase: dict | None, role: str, task: str, output: str) -> None:
