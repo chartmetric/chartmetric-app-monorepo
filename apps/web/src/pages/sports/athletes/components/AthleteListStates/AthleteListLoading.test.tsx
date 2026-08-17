@@ -22,12 +22,12 @@ const renderComponent = (): ReturnType<typeof render> =>
   );
 
 describe("AthleteListLoading", () => {
-  it("renders five Skeleton rows instead of a centered Loader", () => {
+  it("renders a table-shaped skeleton instead of a centered Loader", () => {
     const { container } = renderComponent();
 
-    expect(container.querySelectorAll("[class*='Skeleton-root']")).toHaveLength(
-      5,
-    );
+    expect(container.querySelector("table")).not.toBeNull();
+    expect(container.querySelectorAll(":scope thead tr")).toHaveLength(1);
+    expect(container.querySelectorAll(":scope tbody tr")).toHaveLength(8);
     expect(screen.queryByRole("progressbar")).toBeNull();
   });
 
