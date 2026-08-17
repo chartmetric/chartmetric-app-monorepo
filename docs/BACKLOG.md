@@ -20,12 +20,6 @@ phase's retry loop or review cycle exhausts.
   regenerating alone would not have caught it.
 - P2: Run the first pilot phase against an `apps/api` module and tune
   `max_attempts` / `max_review_cycles` from the resulting retro.
-- P2: When the athlete implementation branch lands: both athlete routes
-  reportedly instantiate their own five-minute club-catalog cache over
-  the same warehouse queries (`createClubCatalog` in
-  `list-athletes/route.ts` and `athlete-filter-options/route.ts`).
-  Create the shared cache once in the module registrar and inject it.
-  Not reproducible on this branch — verify against the merged code.
 - P3: When the athlete implementation branch lands: add direct unit
   tests for its pure feature logic (filter facet flattening,
   filter-state conversion, sort defaults, column-storage validation),
@@ -45,6 +39,13 @@ phase's retry loop or review cycle exhausts.
 
 ## Resolved
 
+- P2: Both athlete routes reportedly instantiate their own five-minute
+  club-catalog cache over the same warehouse queries. Resolved
+  2026-08-17: verified against merged code — not reproducible. Both
+  routes obtain the catalog through `clubCatalogFor` in
+  `modules/athletes/club/catalog.ts`, which memoizes one catalog per
+  ClickHouse client (WeakMap) with a promise-cached five-minute TTL,
+  covered by `catalog.test.ts`. No code change needed.
 - P2: Converge the agent-improvement-candidates log with the retro
   loop. Resolved 2026-08-07: the AIC log from the athlete
   implementation was harvested in full — decisions to `docs/ADR.md`
