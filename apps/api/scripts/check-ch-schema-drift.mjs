@@ -36,14 +36,15 @@ if (missing.length > 0) {
 }
 
 const snapshot = parseSnapshotSchema(readFileSync(snapshotPath, "utf8"));
-const tables = [...snapshot.keys()].sort();
+const tables = snapshot
+  .keys()
+  .toArray()
+  .toSorted((a, b) => a.localeCompare(b));
 
 console.log(
   `Checking ${tables.length} tables in ${DATABASE} against the snapshot`,
 );
 
-// Credentials come from env, never argv — argv is visible to every local
-// process via `ps`.
 const client = createClient({
   application: "chartmetric-app-api-schema-drift",
   password: process.env.CLICKHOUSE_PASSWORD,
@@ -63,8 +64,19 @@ try {
     query_params: { db: DATABASE, tables },
   });
   rows = await result.json();
+} catch (error) {
+  console.error(
+    `Could not read system.columns from ${DATABASE}: ${
+      error instanceof Error ? error.message : String(error)
+    }`,
+  );
+  process.exitCode = 1;
 } finally {
   await client.close();
+}
+
+if (rows === undefined) {
+  process.exit(1);
 }
 
 const drift = diffSchema(snapshot, buildLiveSchema(rows));

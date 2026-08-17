@@ -38,8 +38,15 @@ const SNAPSHOT_INTERFACE = "IntrospectedSchema";
 const TABLE_OPENING = /^"?(\w+)"?: \{$/;
 const COLUMN_ENTRY = /^"?(\w+)"?: "([^"]+)";$/;
 
+// The two sides format nested types differently: generate-ch-schema.mjs
+// collapses multi-line literals to `Tuple( a String, b String )` while
+// system.columns emits `Tuple(a String, b String)`. Whitespace adjacent to
+// punctuation carries no meaning, so both sides drop it before comparing.
 const normalizeType = (type: string): string =>
-  type.replaceAll(/\s+/g, " ").trim();
+  type
+    .replaceAll(/\s+/g, " ")
+    .replaceAll(/ ?([(),]) ?/g, "$1")
+    .trim();
 
 const interfaceBody = (source: string): string[] => {
   const lines = source.split("\n");

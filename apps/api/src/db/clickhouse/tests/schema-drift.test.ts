@@ -79,7 +79,18 @@ describe("parseSnapshotSchema", () => {
       'export interface IntrospectedSchema {\n  t: {\n    amount: "Decimal(18,   2)";\n  };\n}\n',
     );
 
-    expect(parsed.get("t")?.get("amount")).toBe("Decimal(18, 2)");
+    expect(parsed.get("t")?.get("amount")).toBe("Decimal(18,2)");
+  });
+
+  it("reconciles a collapsed multi-line literal with the warehouse form", () => {
+    const parsed = parseSnapshotSchema(
+      'export interface IntrospectedSchema {\n  t: {\n    pair: "Tuple( label String, value UInt32 )";\n  };\n}\n',
+    );
+    const live = buildLiveSchema([
+      { name: "pair", table: "t", type: "Tuple(label String, value UInt32)" },
+    ]);
+
+    expect(diffSchema(parsed, live)).toEqual({ additions: [], breaking: [] });
   });
 
   it("rejects a source that declares no snapshot interface", () => {
@@ -213,6 +224,23 @@ describe("formatDrift", () => {
     expect(report).toContain(
       `${SNAPSHOTS}.${FOLLOWERS} — snapshot ${FOLLOWERS_TYPE}, warehouse Int64`,
     );
+  });
+
+  it("names the snapshot type of a vanished column", () => {
+    const report = formatDrift(
+      driftAgainst(withoutColumn(SNAPSHOTS, FOLLOWERS)),
+    );
+
+    expect(report).toContain(
+      `${SNAPSHOTS}.${FOLLOWERS} — gone from the warehouse (snapshot ${FOLLOWERS_TYPE})`,
+    );
+  });
+
+  it("names a vanished table", () => {
+    const rows = LIVE_ROWS.filter((row) => row.table !== SNAPSHOTS);
+    const report = formatDrift(driftAgainst(rows));
+
+    expect(report).toContain(`${SNAPSHOTS} — table gone from the warehouse`);
   });
 
   it("separates warehouse-only columns from breaking drift", () => {
