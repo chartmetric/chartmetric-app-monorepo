@@ -106,7 +106,10 @@ phase's retry loop or review cycle exhausts.
   `test:clickhouse` command with an actors execution matrix. The
   join-key-vs-sorting-key prefix check remains prose-only — see the
   active item on emitting `engine`/`sorting_key` from
-  `generate:ch-schema`.
+  `generate:ch-schema`. Superseded 2026-08-17: the team adopted the
+  MCP-only verification convention from the parallel harness and the
+  runner was removed; query matrices execute through the read-only
+  ClickHouse MCP instead.
 - P2: Converge the agent-improvement-candidates log with the retro
   loop. Resolved 2026-08-07: the AIC log from the athlete
   implementation was harvested in full — decisions to `docs/ADR.md`

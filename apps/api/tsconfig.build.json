@@ -7,11 +7,5 @@
     "rewriteRelativeImportExtensions": true,
     "sourceMap": true
   },
-  "exclude": [
-    "dist",
-    "*.config.ts",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/tests/**"
-  ]
+  "exclude": ["dist", "**/*.test.ts", "**/*.spec.ts", "**/tests/**"]
 }
