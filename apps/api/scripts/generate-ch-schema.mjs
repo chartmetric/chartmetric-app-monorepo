@@ -14,9 +14,12 @@ import { fileURLToPath } from "node:url";
 const DATABASE = "new_vertical";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const repositoryRoot = path.resolve(root, "../..");
-const sourceDir = path.join(root, "src");
-const outputPath = path.join(sourceDir, "db/clickhouse/schema.generated.ts");
+const repoRoot = path.resolve(root, "../..");
+const sourceDirectory = path.join(root, "src");
+const outputPath = path.join(
+  sourceDirectory,
+  "db/clickhouse/schema.generated.ts",
+);
 
 /**
  * Any qualified reference counts, not just `.table()`: queries also reach tables
@@ -34,12 +37,14 @@ const tablePattern = new RegExp(String.raw`["'\`]${DATABASE}\.(\w+)`, "g");
 // Tests name tables in assertions about generated SQL. Those tables are already
 // referenced by the code under test, so reading tests can only add one that no
 // query uses.
-const isTest = (entry) => /(^|[/\\])tests?[/\\]|\.test\.ts$/.test(entry);
+const isTest = (entry) =>
+  /(?:(?:^|[/\\])tests?[/\\])|(?:\.test\.ts$)/.test(entry);
 
-for (const entry of readdirSync(sourceDir, { recursive: true })) {
+const entries = readdirSync(sourceDirectory, { recursive: true });
+for (const entry of entries) {
   if (!entry.endsWith(".ts") || entry.endsWith(".generated.ts")) continue;
   if (isTest(entry)) continue;
-  const content = readFileSync(path.join(sourceDir, entry), "utf8");
+  const content = readFileSync(path.join(sourceDirectory, entry), "utf8");
   for (const match of content.matchAll(tablePattern)) tables.add(match[1]);
 }
 
@@ -61,7 +66,9 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-const includeTables = [...tables].sort().join(",");
+const includeTables = [...tables]
+  .toSorted((a, b) => a.localeCompare(b))
+  .join(",");
 console.log(`Generating types for: ${includeTables}`);
 
 // Credentials go via env (which the CLI reads natively), not argv — argv is
@@ -84,7 +91,7 @@ const generated = readFileSync(outputPath, "utf8");
 // hypequery drops a table it cannot find and still reports success, so a name
 // that never reaches the snapshot has to be caught here or not at all.
 const absent = [...tables]
-  .sort()
+  .toSorted((a, b) => a.localeCompare(b))
   .filter(
     (table) => !new RegExp(String.raw`^\s+${table}:`, "m").test(generated),
   );
@@ -97,12 +104,13 @@ if (absent.length > 0) {
   process.exit(1);
 }
 
+const collapseRunsWithNewlines = (literal) =>
+  literal.replaceAll(/\s+/g, (run) => (run.includes("\n") ? " " : run));
+
 const fixed = generated.replaceAll(
   /: '((?:\\.|[^'\\])*)'/gs,
   (match, literal) =>
-    literal.includes("\n")
-      ? `: '${literal.replaceAll(/\s*\n\s*/g, " ")}'`
-      : match,
+    literal.includes("\n") ? `: '${collapseRunsWithNewlines(literal)}'` : match,
 );
 
 if (fixed !== generated) {
@@ -111,7 +119,7 @@ if (fixed !== generated) {
 }
 
 execFileSync(
-  path.join(repositoryRoot, "node_modules/.bin/prettier"),
+  path.join(repoRoot, "node_modules/.bin/prettier"),
   ["--write", outputPath],
   { stdio: "inherit" },
 );

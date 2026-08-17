@@ -29,12 +29,7 @@
     }
   ],
   "followups": [
-    "P1: Fix normalizeType in apps/api/src/db/clickhouse/schema-drift.ts:41 to strip whitespace adjacent to `(`, `)`, and `,` on both sides before comparing, with a unit test for a collapsed multi-line Tuple literal — the gate currently reports false-positive breaking drift for any nested type.",
-    "P2: Wrap the query in apps/api/scripts/check-ch-schema-drift.mjs:54 in a catch that console.errors a one-line cause and calls process.exit(1), so connection and permission failures read as such rather than as an unhandled rejection.",
-    "P2: Delete the `// Credentials come from env, never argv` comment at apps/api/scripts/check-ch-schema-drift.mjs:45 — copied from generate-ch-schema.mjs, where it justifies a real execFileSync argv decision this script never makes.",
-    "P3: Decide whether dev-only pure modules belong under the build rootDir — schema-drift.ts sits in src/ and tsconfig.build.json compiles it into production dist/ though only a dev-time script imports it.",
-    "P3: Assert describeFinding's missing_table branch through formatDrift, and assert the missing_column branch by its rendered line rather than by header count.",
-    "P3: Give apps/api/scripts/ untyped linting via an ESLint flat-config block; the directory is ignored wholesale today, leaving both entry scripts unlinted."
+    "All six followups were addressed on the branch immediately after the phase commit, before push: normalizeType strips whitespace adjacent to punctuation (with a collapsed multi-line Tuple test); the drift script catches query failures and reports a one-line cause; the copied argv comment is gone; schema-drift.ts is excluded from tsconfig.build.json so production dist/ omits it; describeFinding's missing_table and missing_column branches are asserted through formatDrift; and apps/api/scripts/ gets untyped ESLint coverage (both entry scripts brought to green, including a super-linear regex in generate-ch-schema.mjs)."
   ],
   "smoke_run": {
     "ts": "2026-08-17T18:04:31+00:00",

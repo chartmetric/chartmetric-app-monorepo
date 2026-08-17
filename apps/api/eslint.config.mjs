@@ -1,12 +1,26 @@
 import node from "@repo/eslint-config/node";
 import { defineConfig } from "eslint/config";
+import { configs as tseslintConfigs } from "typescript-eslint";
 
 export default defineConfig(
   node,
   // Generated schemas are regenerated, never hand-edited.
-  // scripts/ holds codegen utilities outside the typed-lint TS project.
   {
-    ignores: ["src/db/clickhouse/schema.generated.ts", "scripts/"],
+    ignores: ["src/db/clickhouse/schema.generated.ts"],
+  },
+  // CLI entry scripts sit outside the typed-lint TS project; sync I/O,
+  // process.exit, stdout reporting, and env lookups by name are their
+  // normal shape.
+  {
+    extends: [tseslintConfigs.disableTypeChecked],
+    files: ["scripts/**/*.mjs"],
+    rules: {
+      "n/no-process-exit": "off",
+      "n/no-sync": "off",
+      "no-console": "off",
+      "unicorn/no-computed-property-existence-check": "off",
+      "unicorn/no-process-exit": "off",
+    },
   },
   {
     languageOptions: {
