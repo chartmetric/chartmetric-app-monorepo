@@ -1,0 +1,23 @@
+{
+  "id": "02-design-language-docs",
+  "title": "Design language documentation",
+  "status": "pending",
+  "depends_on": ["01-athletes-page-design"],
+  "acceptance": [
+    "docs/design/DESIGN_LANGUAGE.md exists and contains sections: Color semantics, Surface hierarchy, Categorical data display, Identity cell composition, Table loading states, Anti-patterns",
+    "apps/web/AGENTS.md contains a ## Design language section with 6-8 decision rules (Mantine API explicit) and a pointer to docs/design/DESIGN_LANGUAGE.md",
+    "packages/ui/AGENTS.md contains a one-line pointer to docs/design/DESIGN_LANGUAGE.md",
+    ".agents/skills/web-design-guidelines/SKILL.md instructs agents to read docs/design/DESIGN_LANGUAGE.md before any UI work in apps/web/"
+  ],
+  "files": [
+    "docs/design/DESIGN_LANGUAGE.md",
+    "apps/web/AGENTS.md",
+    "packages/ui/AGENTS.md",
+    ".agents/skills/web-design-guidelines/SKILL.md"
+  ],
+  "gates": [],
+  "verification_cmd": "grep -q '## Color semantics' docs/design/DESIGN_LANGUAGE.md",
+  "smoke_cmd": "",
+  "security_review": false,
+  "notes": "Documentation-only phase — no product code changes. Writer must read the Phase 01 implementation (apps/web/src/pages/sports/athletes/) to capture decisions as they landed, not as planned. All rules must be agent-executable: no aesthetic adjectives, concrete Mantine API examples, explicit decision conditions. docs/design/DESIGN_LANGUAGE.md is the single source of truth; AGENTS.md and the skill are pointers only — no duplication."
+}
