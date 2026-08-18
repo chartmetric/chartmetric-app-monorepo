@@ -49,9 +49,13 @@ const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
       <Group gap="sm" wrap="nowrap">
         <Skeleton circle height={40} />
         <Stack gap={2} style={{ flex: 1 }}>
-          <Skeleton height={22} w="75%" />
-          <Skeleton height={22} w="45%" />
-          <Skeleton height={19} mt={2} w={72} />
+          <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w="75%" />
+          <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w="45%" />
+          <Skeleton
+            height="calc(var(--mantine-font-size-xs) * 1.55)"
+            mt={2}
+            w={72}
+          />
         </Stack>
       </Group>
     </Table.Td>
