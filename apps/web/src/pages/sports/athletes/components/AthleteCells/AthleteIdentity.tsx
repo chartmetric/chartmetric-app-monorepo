@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { faBadgeCheck } from "@fortawesome/pro-solid-svg-icons/faBadgeCheck";
+import { faBadgeCheck } from "@fortawesome/pro-regular-svg-icons/faBadgeCheck";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Avatar, Group, Stack, Text, Tooltip } from "@mantine/core";
