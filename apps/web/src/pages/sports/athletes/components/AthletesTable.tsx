@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 
 import { useLingui } from "@lingui/react/macro";
 import { Box, Group, LoadingOverlay, Paper, Text } from "@mantine/core";
@@ -28,6 +28,7 @@ interface AthletesTableProps {
   onSort: (sortBy: AthleteSortBy) => void;
   sortBy: AthleteSortBy;
   sortDirection: AthleteSortDirection;
+  toolbar?: ReactNode;
   total: number;
   visibleColumns: readonly AthleteColumnKey[];
 }
@@ -94,6 +95,7 @@ export const AthletesTable: FC<AthletesTableProps> = ({
   onSort,
   sortBy,
   sortDirection,
+  toolbar,
   total,
   visibleColumns,
 }) => {
@@ -113,6 +115,9 @@ export const AthletesTable: FC<AthletesTableProps> = ({
 
   return (
     <Paper radius="md" shadow="sm" style={TEAL_HOVER_STYLE}>
+      <Group justify="flex-end" px="md" py="xs">
+        {toolbar}
+      </Group>
       <Box pos="relative">
         <LoadingOverlay
           loaderProps={{ "aria-label": t`Updating athletes` }}

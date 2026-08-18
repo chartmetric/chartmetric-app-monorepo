@@ -4,7 +4,7 @@ import { Trans } from "@lingui/react/macro";
 import { Center, Paper, Stack, Text, Title } from "@mantine/core";
 
 export const AthleteListEmpty: FC = () => (
-  <Paper p="xl" radius="md" withBorder>
+  <Paper p="xl" radius="md" shadow="sm">
     <Center mih={180}>
       <Stack align="center" gap="xs">
         <Title order={2} size="h3">

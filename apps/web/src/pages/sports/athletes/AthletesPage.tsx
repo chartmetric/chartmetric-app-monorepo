@@ -1,5 +1,4 @@
-import { Trans } from "@lingui/react/macro";
-import { Group, Stack, Text, Title } from "@mantine/core";
+import { Stack } from "@mantine/core";
 import { usePersistentState } from "@repo/ui/use-persistent-state";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { type FC, useState } from "react";
@@ -25,17 +24,6 @@ import { changeQuerySort, replaceFilters } from "./filters/sort-state";
 const FILTER_OPTIONS_STALE_TIME_MS = 5 * 60 * 1000;
 
 const EMPTY_PRESETS: AthleteColumnPreset[] = [];
-
-const AthletesHeader: FC = () => (
-  <div>
-    <Title order={1}>
-      <Trans>Athletes</Trans>
-    </Title>
-    <Text c="dimmed" mt={4}>
-      <Trans>Explore active athletes across sports.</Trans>
-    </Text>
-  </div>
-);
 
 export const AthletesPage: FC = () => {
   const [query, setQuery] = useState<AthleteListQuery>(DEFAULT_ATHLETE_QUERY);
@@ -64,9 +52,17 @@ export const AthletesPage: FC = () => {
     queryKey: ["athletes", query],
   });
 
+  const columnPicker = (
+    <AthleteColumnPicker
+      customPresets={customPresets}
+      onChange={setVisibleColumns}
+      onCustomPresetsChange={setCustomPresets}
+      value={visibleColumns}
+    />
+  );
+
   return (
-    <Stack gap="lg">
-      <AthletesHeader />
+    <Stack gap="md">
       {filterOptionsQuery.isError ? (
         <AthleteFilterOptionsError
           retry={() => {
@@ -81,14 +77,6 @@ export const AthletesPage: FC = () => {
         }}
         options={filterOptionsQuery.data}
       />
-      <Group justify="flex-end">
-        <AthleteColumnPicker
-          customPresets={customPresets}
-          onChange={setVisibleColumns}
-          onCustomPresetsChange={setCustomPresets}
-          value={visibleColumns}
-        />
-      </Group>
       <AthleteListContent
         offset={query.offset}
         onPageChange={(offset) => {
@@ -100,6 +88,7 @@ export const AthletesPage: FC = () => {
         query={athletesQuery}
         sortBy={query.sortBy ?? "rank"}
         sortDirection={query.sortDirection ?? "asc"}
+        toolbar={columnPicker}
         visibleColumns={visibleColumns}
       />
     </Stack>
