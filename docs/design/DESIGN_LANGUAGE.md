@@ -332,3 +332,4 @@ These patterns caused real defects during the athletes page implementation. Each
 | `minWidth` on the scroll container `<div>` instead of on `<Table>`                       | Apply `style={{ minWidth }}` to `<Table>`, not to the wrapper `<div>`                             |
 | A new component library installed alongside Mantine                                      | Mantine props, variants, CSS vars, and `factory()` only                                           |
 | A new `packages/ui` export for a pattern used by only one consumer                       | Colocate in the consuming app until two distinct consumers exist (ADR-006)                        |
+| Two props that always travel together (`isFetching` + `renderSkeletonRow`)               | One prop that carries both the state and the render fn; the prop's presence is the signal         |
