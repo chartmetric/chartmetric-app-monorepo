@@ -61,7 +61,7 @@ const renderComponent = (
   );
 
 describe("AthleteIdentity", () => {
-  it("renders sport on the second line as dimmed text", () => {
+  it("renders sport on the second line as colored text, not a badge", () => {
     renderComponent();
 
     const sportElement = screen.getByText("Football");

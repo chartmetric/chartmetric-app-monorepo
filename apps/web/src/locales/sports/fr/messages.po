@@ -186,7 +186,7 @@ msgstr "Niveau"
 msgid "Likes"
 msgstr "J'aime"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:10
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:89
 msgid "Loading athletes"
 msgstr "Chargement des athlètes"
 
@@ -370,7 +370,7 @@ msgid "Unable to load filter options"
 msgstr "Impossible de charger les options de filtre"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:21
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:22
 msgid "Unnamed athlete"
 msgstr "Athlète sans nom"
 
@@ -384,8 +384,8 @@ msgstr "Mise à jour des athlètes"
 msgid "Verified"
 msgstr "Vérifié"
 
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:42
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:44
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:43
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:45
 msgid "Verified on Instagram"
 msgstr "Vérifié sur Instagram"
 

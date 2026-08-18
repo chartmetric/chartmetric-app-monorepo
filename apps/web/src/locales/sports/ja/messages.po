@@ -186,7 +186,7 @@ msgstr "レベル"
 msgid "Likes"
 msgstr "いいね"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:10
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:89
 msgid "Loading athletes"
 msgstr "選手を読み込み中"
 
@@ -370,7 +370,7 @@ msgid "Unable to load filter options"
 msgstr "フィルターオプションを読み込めません"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:21
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:22
 msgid "Unnamed athlete"
 msgstr "名前未設定の選手"
 
@@ -384,8 +384,8 @@ msgstr "選手情報を更新中"
 msgid "Verified"
 msgstr "認証済み"
 
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:42
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:44
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:43
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:45
 msgid "Verified on Instagram"
 msgstr "Instagramで認証済み"
 

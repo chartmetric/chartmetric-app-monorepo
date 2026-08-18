@@ -1,1 +1,2 @@
 - [No-verify rule](no-verify-rule.md) — never use --no-verify or any hook-bypass flag; strictly forbidden by the user.
+- [Athletes list design](athletes-list-design.md) — reference gaps, sport color mapping, skeleton rules, identity cell layout, phase 02 source material.
