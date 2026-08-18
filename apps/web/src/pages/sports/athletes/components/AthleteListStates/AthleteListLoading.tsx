@@ -56,7 +56,7 @@ const SkeletonHeaderRow: FC = () => (
   </Table.Tr>
 );
 
-const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
+export const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
   <Table.Tr key={index}>
     <Table.Td w={64}>
       <Skeleton height={12} w={20} />

@@ -1,7 +1,7 @@
 import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
 import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Group, Skeleton, Table, Text, UnstyledButton } from "@mantine/core";
+import { Group, Table, Text, UnstyledButton } from "@mantine/core";
 import { type CSSProperties, type Key, type ReactNode } from "react";
 
 import classes from "./DataTable.module.css";
@@ -24,10 +24,10 @@ export interface DataTableProps<Row, SortKey extends string> {
   ariaLabel: string;
   columns: readonly DataTableColumn<Row, SortKey>[];
   getRowKey: (row: Row) => Key;
-  // When true, body cells render skeleton bars instead of data. Use for
-  // refetch/sort transitions where the row count and column layout are known
-  // but data is being replaced. Headers stay real so sort state stays visible.
+  // When true, renders renderSkeletonRow for each body row instead of data.
+  // Use for refetch/sort transitions. Headers stay real so sort state is visible.
   isFetching?: boolean;
+  renderSkeletonRow?: (index: number) => ReactNode;
   minWidth?: number;
   onSort: (sortBy: SortKey) => void;
   rows: readonly Row[];
@@ -179,6 +179,7 @@ export const DataTable = <Row, SortKey extends string>({
   isFetching = false,
   minWidth = 760,
   onSort,
+  renderSkeletonRow,
   rows,
   sortBy,
   sortDirection,
@@ -216,27 +217,25 @@ export const DataTable = <Row, SortKey extends string>({
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {rows.map((row) => (
-            <Table.Tr key={getRowKey(row)}>
-              {columns.map((column) => (
-                <Table.Td
-                  className={stickyClass(
-                    offsets.get(column.key),
-                    column.key === lastStickyKey,
-                  )}
-                  key={column.key}
-                  style={stickyStyle(offsets.get(column.key), false)}
-                  ta={column.align}
-                >
-                  {isFetching ? (
-                    <Skeleton height={12} />
-                  ) : (
-                    column.renderCell(row)
-                  )}
-                </Table.Td>
+          {isFetching && renderSkeletonRow
+            ? Array.from({ length: rows.length }, (_, i) => renderSkeletonRow(i))
+            : rows.map((row) => (
+                <Table.Tr key={getRowKey(row)}>
+                  {columns.map((column) => (
+                    <Table.Td
+                      className={stickyClass(
+                        offsets.get(column.key),
+                        column.key === lastStickyKey,
+                      )}
+                      key={column.key}
+                      style={stickyStyle(offsets.get(column.key), false)}
+                      ta={column.align}
+                    >
+                      {column.renderCell(row)}
+                    </Table.Td>
+                  ))}
+                </Table.Tr>
               ))}
-            </Table.Tr>
-          ))}
         </Table.Tbody>
       </Table>
     </div>

@@ -22,6 +22,7 @@ import {
   RANK_COLUMN_WIDTH,
   useAthleteTableColumns,
 } from "../columns/table-columns";
+import { SkeletonDataRow } from "./AthleteListStates/AthleteListLoading";
 
 interface TableToolbarProps {
   columnLabel: string;
@@ -165,6 +166,7 @@ export const AthletesTable: FC<AthletesTableProps> = ({
           SCROLLING_COLUMNS_MIN_WIDTH
         }
         onSort={onSort}
+        renderSkeletonRow={(index) => <SkeletonDataRow index={index} key={index} />}
         rows={athletes}
         sortBy={sortBy}
         sortDirection={sortDirection}
