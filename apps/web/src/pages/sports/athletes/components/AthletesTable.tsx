@@ -1,5 +1,8 @@
 import type { FC, ReactNode } from "react";
 
+import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
+import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Box, Group, LoadingOverlay, Paper, Text } from "@mantine/core";
 import { DataTable } from "@repo/ui/data-table";
@@ -20,6 +23,33 @@ import {
   useAthleteTableColumns,
 } from "../columns/table-columns";
 
+interface TableToolbarProps {
+  columnLabel: string;
+  direction: AthleteSortDirection;
+  toolbar: ReactNode;
+}
+
+const TableToolbar: FC<TableToolbarProps> = ({
+  columnLabel,
+  direction,
+  toolbar,
+}) => {
+  const { t } = useLingui();
+  return (
+    <Group justify="space-between" px="md" py="xs">
+      <Group c="dimmed" gap={6}>
+        <Text size="xs">{t`Sort:`}</Text>
+        <Text size="xs">{columnLabel}</Text>
+        <FontAwesomeIcon
+          icon={direction === "asc" ? faArrowUp : faArrowDown}
+          size="xs"
+        />
+      </Group>
+      {toolbar}
+    </Group>
+  );
+};
+
 interface AthletesTableProps {
   athletes: Athlete[];
   isFetching: boolean;
@@ -36,7 +66,6 @@ interface AthletesTableProps {
 const SCROLLING_COLUMNS_MIN_WIDTH = 640;
 
 // Teal hover: product accent instead of Mantine's default gray.
-// See design memory: "Principle: row hover color = product accent, not OS default".
 const TEAL_HOVER_STYLE = {
   "--table-highlight-on-hover-color": "var(--mantine-color-teal-light)",
 } as const;
@@ -47,7 +76,6 @@ interface TableFooterProps {
   onPageChange: (offset: number) => void;
   pageCount: string;
   rowRange: string;
-  toolbar: ReactNode;
   total: number;
 }
 
@@ -57,7 +85,6 @@ const TableFooter: FC<TableFooterProps> = ({
   onPageChange,
   pageCount,
   rowRange,
-  toolbar,
   total,
 }) => {
   const { t } = useLingui();
@@ -67,27 +94,24 @@ const TableFooter: FC<TableFooterProps> = ({
       <Text c="dimmed" size="sm">
         {rowRange}
       </Text>
-      <Group gap="sm">
-        {toolbar}
-        <TablePagination
-          hasNextPage={offset + ATHLETE_PAGE_SIZE < total}
-          isLoading={isFetching}
-          loadingLabel={t`Updating athletes`}
-          nextLabel={t`Next`}
-          offset={offset}
-          onPageChange={onPageChange}
-          pageLabel={(page) => {
-            const current = String(page);
+      <TablePagination
+        hasNextPage={offset + ATHLETE_PAGE_SIZE < total}
+        isLoading={isFetching}
+        loadingLabel={t`Updating athletes`}
+        nextLabel={t`Next`}
+        offset={offset}
+        onPageChange={onPageChange}
+        pageLabel={(page) => {
+          const current = String(page);
 
-            return t({
-              comment: "Current page number in the athletes list",
-              message: `Page ${current} of ${pageCount}`,
-            });
-          }}
-          pageSize={ATHLETE_PAGE_SIZE}
-          previousLabel={t`Previous`}
-        />
-      </Group>
+          return t({
+            comment: "Current page number in the athletes list",
+            message: `Page ${current} of ${pageCount}`,
+          });
+        }}
+        pageSize={ATHLETE_PAGE_SIZE}
+        previousLabel={t`Previous`}
+      />
     </Group>
   );
 };
@@ -118,8 +142,18 @@ export const AthletesTable: FC<AthletesTableProps> = ({
     message: `Showing ${firstRow}–${lastRow} of ${totalRows} athletes`,
   });
 
+  const sortedColumn = columns.find(
+    (col) => "sortKey" in col && col.sortKey === sortBy,
+  );
+  const sortColumnLabel = sortedColumn?.label ?? sortBy;
+
   return (
     <Paper radius="md" shadow="sm" style={TEAL_HOVER_STYLE}>
+      <TableToolbar
+        columnLabel={sortColumnLabel}
+        direction={sortDirection}
+        toolbar={toolbar}
+      />
       <Box pos="relative">
         <LoadingOverlay
           loaderProps={{ "aria-label": t`Updating athletes` }}
@@ -155,7 +189,6 @@ export const AthletesTable: FC<AthletesTableProps> = ({
         onPageChange={onPageChange}
         pageCount={pageCount}
         rowRange={rowRange}
-        toolbar={toolbar}
         total={total}
       />
     </Paper>

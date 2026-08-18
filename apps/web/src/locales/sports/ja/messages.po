@@ -46,8 +46,7 @@ msgstr "年齢"
 msgid "Athlete"
 msgstr "選手"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:32
-#: src/pages/sports/athletes/components/AthletesTable.tsx:68
+#: src/pages/sports/athletes/components/AthletesTable.tsx:165
 msgid "Athletes"
 msgstr "選手"
 
@@ -101,10 +100,6 @@ msgstr "エンゲージメント"
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:39
 msgid "Exclude"
 msgstr "除外"
-
-#: src/pages/sports/athletes/AthletesPage.tsx:35
-msgid "Explore active athletes across sports."
-msgstr "さまざまなスポーツの現役選手を探しましょう。"
 
 #: src/pages/sports/athletes/filters/formatters.ts:8
 msgid "Filters"
@@ -223,7 +218,7 @@ msgstr "国籍"
 msgid "New group name…"
 msgstr "新しいグループ名…"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:100
+#: src/pages/sports/athletes/components/AthletesTable.tsx:101
 msgid "Next"
 msgstr "次へ"
 
@@ -240,7 +235,7 @@ msgid "No matching options"
 msgstr "一致する選択肢がありません"
 
 #. Current page number in the athletes list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:106
+#: src/pages/sports/athletes/components/AthletesTable.tsx:107
 msgid "Page {current} of {pageCount}"
 msgstr "{pageCount} ページ中 {current} ページ"
 
@@ -257,7 +252,7 @@ msgstr "ポジション"
 msgid "Posts"
 msgstr "投稿"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:112
+#: src/pages/sports/athletes/components/AthletesTable.tsx:113
 msgid "Previous"
 msgstr "前へ"
 
@@ -304,14 +299,18 @@ msgid "Search columns…"
 msgstr "列を検索…"
 
 #. Range of athletes shown out of the filtered total
-#: src/pages/sports/athletes/components/AthletesTable.tsx:91
+#: src/pages/sports/athletes/components/AthletesTable.tsx:140
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "{totalRows} 人中 {firstRow}–{lastRow} 人を表示"
 
 #. Accessible label for a sortable athletes table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:81
+#: src/pages/sports/athletes/components/AthletesTable.tsx:178
 msgid "Sort by {label}"
 msgstr "{label}で並べ替え"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:41
+msgid "Sort:"
+msgstr "並び順："
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:43
 msgid "Sport"
@@ -374,8 +373,8 @@ msgstr "フィルターオプションを読み込めません"
 msgid "Unnamed athlete"
 msgstr "名前未設定の選手"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:62
-#: src/pages/sports/athletes/components/AthletesTable.tsx:99
+#: src/pages/sports/athletes/components/AthletesTable.tsx:100
+#: src/pages/sports/athletes/components/AthletesTable.tsx:159
 msgid "Updating athletes"
 msgstr "選手情報を更新中"
 

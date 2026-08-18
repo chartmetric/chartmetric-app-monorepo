@@ -46,8 +46,7 @@ msgstr "Idade"
 msgid "Athlete"
 msgstr "Atleta"
 
-#: src/pages/sports/athletes/AthletesPage.tsx:32
-#: src/pages/sports/athletes/components/AthletesTable.tsx:68
+#: src/pages/sports/athletes/components/AthletesTable.tsx:165
 msgid "Athletes"
 msgstr "Atletas"
 
@@ -101,10 +100,6 @@ msgstr "Engajamento"
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:39
 msgid "Exclude"
 msgstr "Excluir"
-
-#: src/pages/sports/athletes/AthletesPage.tsx:35
-msgid "Explore active athletes across sports."
-msgstr "Explore atletas ativos em diferentes esportes."
 
 #: src/pages/sports/athletes/filters/formatters.ts:8
 msgid "Filters"
@@ -223,7 +218,7 @@ msgstr "Nacionalidade"
 msgid "New group name…"
 msgstr "Nome do novo grupo…"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:100
+#: src/pages/sports/athletes/components/AthletesTable.tsx:101
 msgid "Next"
 msgstr "Próxima"
 
@@ -240,7 +235,7 @@ msgid "No matching options"
 msgstr "Nenhuma opção correspondente"
 
 #. Current page number in the athletes list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:106
+#: src/pages/sports/athletes/components/AthletesTable.tsx:107
 msgid "Page {current} of {pageCount}"
 msgstr "Página {current} de {pageCount}"
 
@@ -257,7 +252,7 @@ msgstr "Posição"
 msgid "Posts"
 msgstr "Publicações"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:112
+#: src/pages/sports/athletes/components/AthletesTable.tsx:113
 msgid "Previous"
 msgstr "Anterior"
 
@@ -304,14 +299,18 @@ msgid "Search columns…"
 msgstr "Buscar colunas…"
 
 #. Range of athletes shown out of the filtered total
-#: src/pages/sports/athletes/components/AthletesTable.tsx:91
+#: src/pages/sports/athletes/components/AthletesTable.tsx:140
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "Mostrando {firstRow}–{lastRow} de {totalRows} atletas"
 
 #. Accessible label for a sortable athletes table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:81
+#: src/pages/sports/athletes/components/AthletesTable.tsx:178
 msgid "Sort by {label}"
 msgstr "Ordenar por {label}"
+
+#: src/pages/sports/athletes/components/AthletesTable.tsx:41
+msgid "Sort:"
+msgstr "Ordenar:"
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:43
 msgid "Sport"
@@ -374,8 +373,8 @@ msgstr "Não foi possível carregar as opções de filtro"
 msgid "Unnamed athlete"
 msgstr "Atleta sem nome"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:62
-#: src/pages/sports/athletes/components/AthletesTable.tsx:99
+#: src/pages/sports/athletes/components/AthletesTable.tsx:100
+#: src/pages/sports/athletes/components/AthletesTable.tsx:159
 msgid "Updating athletes"
 msgstr "Atualizando atletas"
 
