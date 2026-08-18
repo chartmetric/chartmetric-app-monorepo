@@ -47,6 +47,7 @@ interface TableFooterProps {
   onPageChange: (offset: number) => void;
   pageCount: string;
   rowRange: string;
+  toolbar: ReactNode;
   total: number;
 }
 
@@ -56,6 +57,7 @@ const TableFooter: FC<TableFooterProps> = ({
   onPageChange,
   pageCount,
   rowRange,
+  toolbar,
   total,
 }) => {
   const { t } = useLingui();
@@ -65,24 +67,27 @@ const TableFooter: FC<TableFooterProps> = ({
       <Text c="dimmed" size="sm">
         {rowRange}
       </Text>
-      <TablePagination
-        hasNextPage={offset + ATHLETE_PAGE_SIZE < total}
-        isLoading={isFetching}
-        loadingLabel={t`Updating athletes`}
-        nextLabel={t`Next`}
-        offset={offset}
-        onPageChange={onPageChange}
-        pageLabel={(page) => {
-          const current = String(page);
+      <Group gap="sm">
+        {toolbar}
+        <TablePagination
+          hasNextPage={offset + ATHLETE_PAGE_SIZE < total}
+          isLoading={isFetching}
+          loadingLabel={t`Updating athletes`}
+          nextLabel={t`Next`}
+          offset={offset}
+          onPageChange={onPageChange}
+          pageLabel={(page) => {
+            const current = String(page);
 
-          return t({
-            comment: "Current page number in the athletes list",
-            message: `Page ${current} of ${pageCount}`,
-          });
-        }}
-        pageSize={ATHLETE_PAGE_SIZE}
-        previousLabel={t`Previous`}
-      />
+            return t({
+              comment: "Current page number in the athletes list",
+              message: `Page ${current} of ${pageCount}`,
+            });
+          }}
+          pageSize={ATHLETE_PAGE_SIZE}
+          previousLabel={t`Previous`}
+        />
+      </Group>
     </Group>
   );
 };
@@ -115,9 +120,6 @@ export const AthletesTable: FC<AthletesTableProps> = ({
 
   return (
     <Paper radius="md" shadow="sm" style={TEAL_HOVER_STYLE}>
-      <Group justify="flex-end" px="md" py="xs">
-        {toolbar}
-      </Group>
       <Box pos="relative">
         <LoadingOverlay
           loaderProps={{ "aria-label": t`Updating athletes` }}
@@ -153,6 +155,7 @@ export const AthletesTable: FC<AthletesTableProps> = ({
         onPageChange={onPageChange}
         pageCount={pageCount}
         rowRange={rowRange}
+        toolbar={toolbar}
         total={total}
       />
     </Paper>

@@ -85,7 +85,7 @@ Right-aligned: Columns picker button + SORT button + current sort label. No page
 1. **Visual disconnection** — the user has to scan between "the button up there" and "the table down there" to understand what the button controls. When the control is inside the card, pointing is self-evident.
 2. **Wasted vertical space** — a single-item row with `justify="flex-end"` burns a full line height plus two gap units just to position one button. Inside the Paper it adds zero extra height — it shares the card's existing padding.
 
-**How to apply:** Any control that modifies the structure or columns of a data view (column picker, density toggle, grouping control) should live in a `Group justify="flex-end" px="md" py="xs"` toolbar row at the TOP of the data card's Paper, not floating outside it. Controls that modify the _data_ (filters, search, sort) stay outside the card — they are upstream of the view, not part of it.
+**How to apply:** Any control that modifies the structure or columns of a data view (column picker, density toggle, grouping control) should live inside the data card's Paper. Co-locate it in the footer row alongside the row-count text and pagination — no dedicated toolbar row unless there are ≥2 controls that together fill the row meaningfully. A single right-aligned button in an otherwise empty row is worse than no dedicated row at all — it signals empty space, not intentional layout. Controls that modify the _data_ (filters, search, sort) stay outside the card — they are upstream of the view, not part of it.
 
 ---
 
