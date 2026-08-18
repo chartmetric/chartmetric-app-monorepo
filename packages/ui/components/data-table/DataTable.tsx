@@ -1,3 +1,7 @@
+import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
+import { faArrowsUpDown } from "@fortawesome/pro-solid-svg-icons/faArrowsUpDown";
+import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Group, Table, Text, UnstyledButton } from "@mantine/core";
 import {
   type CSSProperties,
@@ -85,12 +89,16 @@ const ariaSort = (
   return direction === "asc" ? "ascending" : "descending";
 };
 
-const sortIndicator = (
+const sortIcon = (
   isActive: boolean,
   direction: DataTableSortDirection,
-): "↑" | "↓" | "↕" => {
-  if (!isActive) return "↕";
-  return direction === "asc" ? "↑" : "↓";
+): ReactNode => {
+  if (!isActive) return <FontAwesomeIcon icon={faArrowsUpDown} />;
+  return direction === "asc" ? (
+    <FontAwesomeIcon icon={faArrowUp} />
+  ) : (
+    <FontAwesomeIcon icon={faArrowDown} />
+  );
 };
 
 interface HeaderCellProps<Row, SortKey extends string> {
@@ -156,9 +164,7 @@ const HeaderCell = <Row, SortKey extends string>({
             <Text component="span" fw={600} size="sm">
               {label}
             </Text>
-            <span aria-hidden="true">
-              {sortIndicator(isActive, sortDirection)}
-            </span>
+            <span aria-hidden="true">{sortIcon(isActive, sortDirection)}</span>
           </Group>
         </UnstyledButton>
       )}

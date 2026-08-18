@@ -47,10 +47,11 @@ const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
     </Table.Td>
     <Table.Td w={240}>
       <Group gap="sm" wrap="nowrap">
-        <Skeleton circle height={32} />
-        <Stack gap={4} style={{ flex: 1 }}>
-          <Skeleton height={12} w="75%" />
+        <Skeleton circle height={40} />
+        <Stack gap={2} style={{ flex: 1 }}>
+          <Skeleton height={14} w="75%" />
           <Skeleton height={10} w="45%" />
+          <Skeleton height={10} mt={2} w={72} />
         </Stack>
       </Group>
     </Table.Td>

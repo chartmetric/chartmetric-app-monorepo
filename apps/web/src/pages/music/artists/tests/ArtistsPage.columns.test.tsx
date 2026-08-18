@@ -106,10 +106,10 @@ describe("ArtistsPage columns", () => {
     await screen.findByText("Selena Gomez");
 
     expect(headerTexts()).toEqual([
-      "Artist↕",
-      "CM score↓",
-      "Instagram followers↕",
-      "TikTok followers↕",
+      "Artist",
+      "CM score",
+      "Instagram followers",
+      "TikTok followers",
     ]);
 
     fireEvent.click(screen.getByRole("button", { name: /Columns/ }));
@@ -121,10 +121,10 @@ describe("ArtistsPage columns", () => {
 
     await waitFor(() => {
       expect(headerTexts()).toEqual([
-        "Artist↕",
-        "Instagram followers↕",
-        "CM score↓",
-        "TikTok followers↕",
+        "Artist",
+        "Instagram followers",
+        "CM score",
+        "TikTok followers",
       ]);
     });
   });
