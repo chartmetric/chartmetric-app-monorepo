@@ -1,5 +1,5 @@
 import type { UseQueryResult } from "@tanstack/react-query";
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 
 import type {
   AthleteListReply,
@@ -20,6 +20,7 @@ export interface AthleteListContentProps {
   query: UseQueryResult<AthleteListReply>;
   sortBy: AthleteSortBy;
   sortDirection: AthleteSortDirection;
+  toolbar?: ReactNode;
   visibleColumns: readonly AthleteColumnKey[];
 }
 
@@ -30,6 +31,7 @@ export const AthleteListContent: FC<AthleteListContentProps> = ({
   query,
   sortBy,
   sortDirection,
+  toolbar,
   visibleColumns,
 }) => {
   if (query.isPending) return <AthleteListLoading />;
@@ -55,6 +57,7 @@ export const AthleteListContent: FC<AthleteListContentProps> = ({
       onSort={onSort}
       sortBy={sortBy}
       sortDirection={sortDirection}
+      toolbar={toolbar}
       total={query.data.meta.total}
       visibleColumns={visibleColumns}
     />

@@ -173,7 +173,7 @@ describe("App", () => {
     );
 
     expect(
-      await screen.findByRole("heading", { name: "Athletes" }),
+      await screen.findByRole("textbox", { name: "Search by name" }),
     ).toBeDefined();
     expect(screen.getByRole("link", { name: "Athletes" })).toBeDefined();
     expect(location.pathname).toBe("/sports/athletes");

@@ -76,6 +76,58 @@ Right-aligned: Columns picker button + SORT button + current sort label. No page
 - `getSportColor(sport: string | null): MantineColor` pure function — returns the color for any sport string, defaulting to "dimmed" for unknowns.
 - `Stack gap={2}` on the identity cell inner stack — tighter than `gap={0}` (too cramped) and `gap={4}` (too loose).
 
+## Principle: controls that affect a view belong inside the card they control
+
+**What:** The `AthleteColumnPicker` was a standalone `<Group justify="flex-end">` row floating between the filter bar and the table. It was moved into `AthletesTable` as a `toolbar` prop rendered inside the Paper, above the DataTable.
+
+**Why:** A control that orphans itself above its target creates two problems:
+
+1. **Visual disconnection** — the user has to scan between "the button up there" and "the table down there" to understand what the button controls. When the control is inside the card, pointing is self-evident.
+2. **Wasted vertical space** — a single-item row with `justify="flex-end"` burns a full line height plus two gap units just to position one button. Inside the Paper it adds zero extra height — it shares the card's existing padding.
+
+**How to apply:** Any control that modifies the structure or columns of a data view (column picker, density toggle, grouping control) should live in a `Group justify="flex-end" px="md" py="xs"` toolbar row at the TOP of the data card's Paper, not floating outside it. Controls that modify the _data_ (filters, search, sort) stay outside the card — they are upstream of the view, not part of it.
+
+---
+
+## Principle: page title is redundant when global nav provides context
+
+**What:** `AthletesHeader` (h1 "Athletes" + subtitle "Explore active athletes across sports.") was removed from `AthletesPage`.
+
+**Why:** The global navigation — sidebar, breadcrumb, tab bar — already tells the user where they are. Adding an h1 inside the content area doubles the context signal and costs two line-heights at the most valuable real estate on the page (top of the viewport). The reference implementation has no visible page title in the content area for the athletes list.
+
+**How to apply:**
+
+- Omit the page title in content areas where the sidebar/nav tab is already labelled with the same noun.
+- Keep a page title (`<Title>`) only on detail pages, settings pages, or any page without clear navigation-level context (e.g. a standalone onboarding page).
+- The subtitle ("Explore active athletes…") is doubly redundant — the list itself is the explanation.
+
+---
+
+## Principle: section gaps should reflect logical distance, not visual decoration
+
+**What:** `Stack gap="lg"` between every section in `AthletesPage` was reduced to `gap="md"`. The standalone column picker row was eliminated entirely.
+
+**Why:** `gap="lg"` between the filter bar and the data table implies they are loosely related — two separate things. They are not: the filter bar IS the query that produces the table. Tight `gap="md"` communicates "this filter produces this result immediately below." Using the same large gap for every section flattens the information hierarchy and makes every section feel equally disconnected from every other.
+
+**How to apply:**
+
+- `gap="xl"` / `gap="lg"`: between page-level sections with different purposes (nav → page header → content).
+- `gap="md"`: between a filter/control surface and the result it governs.
+- `gap="sm"` / `gap="xs"`: within a card between related sub-elements.
+- Never use the same gap value for the entire page `Stack` — the spacing should encode the logical relationships.
+
+---
+
+## Principle: empty and error states use the same elevation as the data state
+
+**What:** `AthleteListEmpty` used `withBorder` while `AthletesTable` uses `shadow="sm"`. Fixed to `shadow="sm"`.
+
+**Why:** The empty state occupies the same visual slot as the data table — it's not a different thing, it's the same card in a different state. Using a different elevation (`withBorder` vs `shadow`) makes the page feel like it _changed containers_ when it emptied. The user's eye notices the border appearing where there was a shadow. All states (loading skeleton, data table, empty, error alert) should feel visually consistent in their outer container.
+
+**How to apply:** When defining states (loading, empty, error, data) for a list or table, set the same `Paper` props across all of them. The skeleton `AthleteListLoading` already uses `shadow="sm"`. The empty state now matches.
+
+---
+
 ## Principle: Badge is for status, not inline taxonomy labels
 
 **What:** `Badge variant="dot"` was used for the sport label in the identity cell. It was replaced with `<Text c={getSportColor(sport)} size="xs">`.
