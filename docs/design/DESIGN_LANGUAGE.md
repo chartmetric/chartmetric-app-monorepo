@@ -38,6 +38,66 @@ These are the semantic meanings of Mantine color names in this codebase. The mea
 
 ---
 
+## Spacing
+
+Two-tier system. **Mantine token strings** for structural/container-level spacing where breathing room is the goal. **Raw px integers** for intra-cell dense gaps where tighter control is needed and Mantine's smallest token (`xs` = 8px) is already too much.
+
+### Container padding
+
+Every structural chrome region uses consistent padding so the table edges stay visually aligned across all states (loading, empty, error, data):
+
+| Region | Props | Why |
+|---|---|---|
+| Toolbar row | `px="md" py="xs"` | Medium horizontal keeps content clear of Paper edge; extra-small vertical keeps the toolbar compact above the table |
+| Footer row | `px="md" py="sm"` | Same horizontal alignment as toolbar; slightly taller vertical because pagination controls need more touch target height |
+| Empty / error state | `p="xl"` | Full padding on all sides — the state fills the Paper with nothing else competing for space |
+| Page-level Stack | `gap="md"` | Medium vertical separation between filters, alerts, and the table card |
+
+Skeleton toolbar and footer mirror these values exactly so the container dimensions don't change when data arrives.
+
+### Table density
+
+Set `verticalSpacing="md"` on `<Table>`, never per-row. This is the only spacing prop that controls row height — do not add `py` to `Table.Td` or override it per cell. The medium vertical spacing gives rows enough breathing room for a three-line identity cell without wasting space.
+
+### Intra-cell gap scale
+
+Inside a table cell, use raw px integers. Mantine's `xs` (8px) is the smallest token but is already too wide for tight icon+label pairs in a dense row.
+
+| Value | Use case |
+|---|---|
+| `gap={2}` | Vertical spacing between lines in a multi-line Stack (identity cell text lines) |
+| `gap={4}` | Horizontal spacing in compact icon+label or icon+icon pairs (momentum cell, social links, pill group label+items) |
+| `gap={6}` | Horizontal spacing in a single-row label+badge or label+icon pair (name + verified icon, header label + sort icon, logo + name) |
+| `gap="sm"` | Between a large element (avatar) and its accompanying text block — the larger visual mass needs more breathing room |
+| `gap={0}` | Intentional zero gap: stacked primary/secondary text lines that should read as one unit (e.g. league name above league tier) |
+
+### Overflow and truncation
+
+Every text-containing `Stack` or `Group` inside a table cell must carry `miw={0}` and `wrap="nowrap"`:
+
+```tsx
+// Correct — text truncates cleanly instead of breaking the column width
+<Group gap="sm" wrap="nowrap">
+  <Avatar ... />
+  <Stack gap={2} miw={0}>
+    <Text truncate>...</Text>
+  </Stack>
+</Group>
+
+// Wrong — without miw={0}, flexbox minimum-content width prevents truncation
+<Stack gap={2}>
+  <Text truncate>...</Text>   {/* truncate has no effect */}
+</Stack>
+```
+
+`miw={0}` overrides flexbox's default `min-width: auto`, which otherwise prevents a flex child from shrinking below its content width. Without it, `truncate` is silently ignored. Apply it to every `Stack` or `Group` that sits inside a flex container and contains truncatable text.
+
+### Social/action row separation
+
+The social icon row inside an identity cell uses `mt={2}` in addition to the parent Stack's `gap={2}`, giving 4px total above the social row. This extra separation marks the visual boundary between informational lines (name, category) and actionable links (platform icons) without needing a divider.
+
+---
+
 ## Surface hierarchy
 
 **Data tables and their state siblings:**
