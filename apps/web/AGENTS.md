@@ -4,6 +4,21 @@ This directory contains the authenticated React and Vite SPA.
 
 Also follow `/AGENTS.md`, `/apps/AGENTS.md`, and `/docs/architecture/access-and-feature-gating.md`.
 
+## Design language
+
+Read `docs/design/DESIGN_LANGUAGE.md` before any design-oriented UI work in `apps/web/`. Quick-reference rules:
+
+- **Table surface:** `<Paper shadow="sm" radius="md">` without `withBorder` on plain page backgrounds. All state siblings (loading, empty, error) use the same Paper variant so no visual jump occurs on transition.
+- **Color semantics:** `dimmed`/`gray` = absent or ignorable. `teal` = active/established. `orange` = rising. `red` = declining. `blue` = informational. Never use `dimmed` for a value the user can filter or sort on.
+- **Categorical data:** sport/taxonomy label → `<Text c={getSportColor(sport)}>`. Level (Pro/College) → `<Badge variant="light">`. Momentum direction → FA icon + semantic color. Secondary non-filter text → `<Text c="dimmed" size="xs">`. Never `Badge variant="dot"` inside a dense table cell.
+- **Identity cells:** Avatar `size={40} radius="xl"` with border ring. Three lines: name `fw={600} size="sm"` → classification (flag + sport color) → social icon row. Stack `gap={2}`; social row adds `mt={2}`. Round avatar = person; `radius="sm"` = organisation.
+- **Table loading:** skeleton must mirror the full layout — toolbar row, table, footer row. Bar heights use `height="calc(var(--mantine-font-size-sm) * 1.55)"` not integer px. `isPending` → skeleton; `isFetching && !isPending` → `<LoadingOverlay>`.
+- **Sort icon:** only the active column shows a directional FA icon. Inactive columns return `null`. Wrap icon in `aria-hidden` span; communicate sort state via `aria-sort` on the `<th>`.
+- **Row hover:** set `--table-highlight-on-hover-color: var(--mantine-color-<accent>-light)` on the Paper wrapper, not on DataTable. Accent is vertical-specific (athletes = `teal`).
+- **Icons:** FA (`@fortawesome/pro-solid-svg-icons`, individual path imports) for all status/directional indicators. No Unicode symbols (`▲ ▼ — ↑ ↓`) anywhere.
+
+Full rationale, decision trees, and anti-patterns: `docs/design/DESIGN_LANGUAGE.md`.
+
 ## Skills
 
 Consult the matching skill in `/.agents/skills/` before working in its area:

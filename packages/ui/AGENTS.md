@@ -74,6 +74,10 @@ Do not hard-code vertical colors, logos, or hostnames.
 
 Use Mantine theme values and caller-provided configuration.
 
+## Design language
+
+For visual design direction governing how components in `apps/web/` should look — color semantics, surface hierarchy, cell composition, loading state patterns — read `docs/design/DESIGN_LANGUAGE.md`.
+
 ## Styling
 
 Use Mantine APIs and theme values.
