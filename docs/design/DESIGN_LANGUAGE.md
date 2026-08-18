@@ -2,27 +2,39 @@
 
 Chartmetric-specific design decisions for `apps/web/`. Every rule follows the pattern: **condition → Mantine API call → one-sentence why → exception if any.**
 
-This document is the single source of truth. `apps/web/AGENTS.md` and `packages/ui/AGENTS.md` carry short-form pointers; the `web-design-guidelines` skill prepends a read instruction. Do not duplicate rules across files.
+This document is the single source of truth for all verticals (athletes, music artists, creators, and any future entity type). Rules are derived from real implementation work and apply universally unless a section explicitly marks a rule as vertical-specific. `apps/web/AGENTS.md` and `packages/ui/AGENTS.md` carry short-form pointers; the `web-design-guidelines` skill prepends a read instruction. Do not duplicate rules across files.
 
-Derived from the athletes page implementation (`phases/01-athletes-page-design`). All rules reflect code as shipped, not as planned.
+## Vertical accent colors
+
+Each vertical has one primary Mantine color that repeats across: taxonomy labels, row hover, and level badge tint. The color must carry semantic meaning at product level, not be arbitrary.
+
+| Vertical          | Accent color        | Semantic meaning                                      |
+| ----------------- | ------------------- | ----------------------------------------------------- |
+| Athletes / sports | `teal`              | Active, established, primary-positive                 |
+| Music artists     | `blue`              | Developmental, aspirational                           |
+| _(future)_        | choose per vertical | Must map to a product-level meaning; document it here |
+
+References to "the vertical's accent color" throughout this document mean: look up the current page's vertical in this table.
 
 ---
 
 ## Color semantics
 
-These are the semantic meanings of Mantine color names in this codebase. Only colors that appear in production code are listed.
+These are the semantic meanings of Mantine color names in this codebase. The meaning is fixed regardless of vertical — the same color must carry the same signal everywhere it appears.
 
-| Color             | Semantic meaning                                                                            | Where used                                                             |
-| ----------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `dimmed` / `gray` | Absent, unknown, or unclassified. Also: secondary text the user does NOT filter or sort on. | Fallback sport color; secondary metadata                               |
-| `teal`            | Active, established, primary-positive. The sports-vertical accent color.                    | Football/Soccer sport label; row hover; Pro level badge                |
-| `orange`          | Rising, momentum-up, energetic.                                                             | Basketball sport label; momentum-up indicator                          |
-| `grape`           | Tennis.                                                                                     | Tennis sport label                                                     |
-| `blue`            | Developmental, informational, aspirational.                                                 | Verified badge; College level badge                                    |
-| `red`             | Declining, momentum-down, error-adjacent.                                                   | Momentum-down indicator                                                |
-| `green`           | Positive/steady momentum.                                                                   | Momentum-steady indicator (check `MomentumCell.tsx` for exact mapping) |
+| Color             | Semantic meaning                                                                      | Use for                                                              |
+| ----------------- | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `dimmed` / `gray` | Absent, unknown, or unclassified. Secondary text the user does NOT filter or sort on. | Unknown/fallback category; secondary metadata; social icon links     |
+| `teal`            | Active, established, primary-positive.                                                | Athletes vertical accent; row hover; "Pro" / top-tier level badge    |
+| `orange`          | Rising, momentum-up, energetic.                                                       | Momentum-up indicator; high-energy category labels                   |
+| `grape`           | Niche/specialist.                                                                     | Specialist category labels (e.g. racket sports, niche genres)        |
+| `blue`            | Developmental, informational, aspirational.                                           | Music vertical accent; verified badge; "College" / growth-tier badge |
+| `red`             | Declining, momentum-down, error-adjacent.                                             | Momentum-down indicator; error states                                |
+| `green`           | Positive/steady momentum.                                                             | Momentum-steady indicator                                            |
 
-**Critical rule:** Never use `c="dimmed"` or `color="gray"` for a value the user can filter or sort on. Dimmed communicates "secondary/ignorable." Sport name, level, and momentum are all filter/sort dimensions — they must use semantic color.
+**Critical rule:** Never use `c="dimmed"` or `color="gray"` for a value the user can filter or sort on. Dimmed communicates "secondary/ignorable." Any category, level, or momentum dimension is a filter/sort axis — it must use semantic color.
+
+**Adding a new color:** before using a Mantine color not listed above, add it to this table with a one-line semantic meaning. Never pick a color for aesthetics alone — it must carry the same meaning in every context it appears.
 
 ---
 
@@ -47,8 +59,8 @@ Use `<Paper shadow="sm" radius="md">` without `withBorder` when the Paper sits o
 
 **Decision tree — choose exactly one:**
 
-1. **Sport name, genre, or other taxonomy label** (a dimension the user filters or sorts on, rendered inline in a dense data row):
-   → `<Text c={getSportColor(sport)} size="xs">` (or equivalent color function)
+1. **Taxonomy label** — any categorical dimension the user filters or sorts on, rendered inline in a dense data row (sport name, genre, content type, etc.):
+   → `<Text c={getCategoryColor(item)} size="xs">` where `getCategoryColor` is the vertical's color-mapping function (e.g. `getSportColor`, `getGenreColor`).
    → **Never** `<Badge>` — Badge adds pill geometry (border-radius, padding) that misaligns text in dense rows and visually competes with row borders.
 
 2. **Level or tier** (2–4 discrete status values like Pro/College):
@@ -67,7 +79,7 @@ Use `<Paper shadow="sm" radius="md">` without `withBorder` when the Paper sits o
 
 ## Identity cell composition
 
-The three-line hierarchy for entity identity cells in a data table, as implemented in `AthleteIdentity.tsx`:
+The three-line hierarchy for any entity identity cell in a data table (athlete, artist, creator, or any future entity type). The pattern is fixed; only the specific content of each line varies by vertical:
 
 ```
 <Group gap="sm" wrap="nowrap">
@@ -105,10 +117,10 @@ The three-line hierarchy for entity identity cells in a data table, as implement
 
 ### Two distinct states — do not conflate
 
-| Trigger                                                               | State        | Correct pattern                            |
-| --------------------------------------------------------------------- | ------------ | ------------------------------------------ |
-| `query.isPending` — no data exists yet                                | Initial load | Show `<AthleteListLoading>` skeleton       |
-| `query.isFetching && !query.isPending` — data exists, being refreshed | Refetch      | Show `<LoadingOverlay>` over existing rows |
+| Trigger                                                               | State        | Correct pattern                                   |
+| --------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
+| `query.isPending` — no data exists yet                                | Initial load | Show the full skeleton (toolbar + table + footer) |
+| `query.isFetching && !query.isPending` — data exists, being refreshed | Refetch      | Show `<LoadingOverlay>` over existing rows        |
 
 Swapping these degrades UX: a skeleton on refetch destroys layout stability; an overlay on initial load shows a blank sheet with a spinner that teaches nothing about the incoming layout.
 
@@ -116,11 +128,11 @@ Swapping these degrades UX: a skeleton on refetch destroys layout stability; an 
 
 **The skeleton must mirror the complete loaded layout — every missing structural element causes a layout shift on transition.**
 
-For `AthletesTable`, the skeleton (`AthleteListLoading.tsx`) must contain:
+Every data table skeleton must contain all three structural regions:
 
-1. **Skeleton toolbar** — `<Group justify="space-between" px="md" py="xs">` with placeholder bars at the same padding as `TableToolbar`. If this row is absent from the skeleton, the card starts higher than the loaded card and jumps down when data arrives.
+1. **Skeleton toolbar** — `<Group justify="space-between" px="md" py="xs">` with placeholder bars at the same padding as the real toolbar. If absent, the skeleton card is shorter than the loaded card and jumps down when data arrives.
 2. **Table body** — `<Table.ScrollContainer>` → `<Table>` → `<Thead>`/`<Tbody>` mirroring the real column widths.
-3. **Skeleton footer** — `<Group justify="space-between" px="md" py="sm">` with placeholder bars at the same padding as `TableFooter`. Same layout-shift risk if absent.
+3. **Skeleton footer** — `<Group justify="space-between" px="md" py="sm">` with placeholder bars at the same padding as the real footer. Same layout-shift risk if absent.
 
 **Skeleton bar height — use CSS variables, not integer px:**
 
@@ -183,23 +195,25 @@ if (!isActive) return <FontAwesomeIcon icon={faArrowsUpDown} />; // adds noise t
 ## Row hover accent
 
 ```tsx
-// In AthletesTable.tsx — set on the Paper wrapper, not on DataTable
-const TEAL_HOVER_STYLE = {
-  "--table-highlight-on-hover-color": "var(--mantine-color-teal-light)",
+// Set on the Paper wrapper that owns this table — not on DataTable itself
+const HOVER_STYLE = {
+  "--table-highlight-on-hover-color": "var(--mantine-color-<accent>-light)",
 } as const;
 
-<Paper shadow="sm" radius="md" style={TEAL_HOVER_STYLE}>
+<Paper shadow="sm" radius="md" style={HOVER_STYLE}>
   <DataTable ... />
 </Paper>
 ```
 
-**Why:** `var(--mantine-color-teal-light)` is Mantine's computed soft teal wash (very subtle in light mode, dark-teal tint in dark mode). It repeats the sports accent color on every row hover, reinforcing the vertical's identity at zero extra DOM cost.
+Replace `<accent>` with the vertical's accent color from the [Vertical accent colors](#vertical-accent-colors) table (athletes → `teal`, music → `blue`, etc.).
+
+**Why:** The `-light` variant is Mantine's soft wash (very subtle in light mode, tinted in dark mode). It reinforces the vertical's identity on every row hover at zero extra DOM cost.
 
 **Rules:**
 
-- Set it on the nearest Paper ancestor, not on `DataTable` (shared component — its default should stay neutral).
-- Future verticals use their own accent: music → `var(--mantine-color-blue-light)`, etc.
-- Sticky cells in `DataTable.module.css` inherit this variable in their `tr:hover` rule to maintain consistent hover appearance across frozen and scrollable columns.
+- Set it on the nearest Paper ancestor that owns this specific table. Never on `DataTable` itself — `DataTable` is shared; its default stays neutral.
+- Each vertical sets its own accent. Do not use another vertical's accent color for hover.
+- Sticky cells in `DataTable.module.css` inherit this CSS variable in their `tr:hover` rule to maintain consistent hover appearance across frozen and scrollable columns.
 
 ---
 
@@ -232,16 +246,16 @@ import { faMinus } from "@fortawesome/pro-solid-svg-icons/faMinus";
 
 These patterns caused real defects during the athletes page implementation. Each one has been fixed; this list prevents regression.
 
-| Anti-pattern                                                               | Correct alternative                                                                          |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `c="dimmed"` or `color="gray"` for sport name or any filter/sort dimension | `c={getSportColor(sport)}` or the appropriate semantic color                                 |
-| `<Badge variant="dot">` inside a dense table cell                          | `<Text c={color} size="xs">` for taxonomy labels; `<Badge variant="light">` for status/level |
-| Unicode directional characters (`▲ ▼ — ↑ ↓`)                               | FA icons from `@fortawesome/pro-solid-svg-icons`, imported individually by path              |
-| `<Paper withBorder>` on a plain page background                            | `<Paper shadow="sm" radius="md">`                                                            |
-| Different Paper variants across state siblings (loading/empty/error/data)  | Same `shadow="sm" radius="md"` on all states                                                 |
-| Skeleton that covers only data rows but not toolbar or footer              | Mirror the complete layout including toolbar and footer structural rows                      |
-| Skeleton bar `height={N}` (integer px) for a text row                      | `height="calc(var(--mantine-font-size-sm) * 1.55)"` (or `xs` variant)                        |
-| Sort icon on every sortable column header                                  | `return null` for inactive columns; directional icon only on the active column               |
-| `minWidth` on the scroll container `<div>` instead of on `<Table>`         | Apply `style={{ minWidth }}` to `<Table>`, not to the wrapper `<div>`                        |
-| A new component library installed alongside Mantine                        | Mantine props, variants, CSS vars, and `factory()` only                                      |
-| A new `packages/ui` export for a pattern used by only one consumer         | Colocate in the consuming app until two distinct consumers exist (ADR-006)                   |
+| Anti-pattern                                                                             | Correct alternative                                                                               |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `c="dimmed"` or `color="gray"` for any filter/sort dimension (category, level, momentum) | `c={getCategoryColor(item)}` or the appropriate semantic color from the vertical's color function |
+| `<Badge variant="dot">` inside a dense table cell                                        | `<Text c={color} size="xs">` for taxonomy labels; `<Badge variant="light">` for status/level      |
+| Unicode directional characters (`▲ ▼ — ↑ ↓`)                                             | FA icons from `@fortawesome/pro-solid-svg-icons`, imported individually by path                   |
+| `<Paper withBorder>` on a plain page background                                          | `<Paper shadow="sm" radius="md">`                                                                 |
+| Different Paper variants across state siblings (loading/empty/error/data)                | Same `shadow="sm" radius="md"` on all states                                                      |
+| Skeleton that covers only data rows but not toolbar or footer                            | Mirror the complete layout including toolbar and footer structural rows                           |
+| Skeleton bar `height={N}` (integer px) for a text row                                    | `height="calc(var(--mantine-font-size-sm) * 1.55)"` (or `xs` variant)                             |
+| Sort icon on every sortable column header                                                | `return null` for inactive columns; directional icon only on the active column                    |
+| `minWidth` on the scroll container `<div>` instead of on `<Table>`                       | Apply `style={{ minWidth }}` to `<Table>`, not to the wrapper `<div>`                             |
+| A new component library installed alongside Mantine                                      | Mantine props, variants, CSS vars, and `factory()` only                                           |
+| A new `packages/ui` export for a pattern used by only one consumer                       | Colocate in the consuming app until two distinct consumers exist (ADR-006)                        |
