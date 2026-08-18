@@ -5,6 +5,22 @@ import { Group, Paper, Skeleton, Stack, Table } from "@mantine/core";
 
 const SKELETON_ROWS = 8;
 
+// Mirrors TableToolbar: Group justify="space-between" px="md" py="xs"
+const SkeletonToolbar: FC = () => (
+  <Group justify="space-between" px="md" py="xs">
+    <Skeleton height="calc(var(--mantine-font-size-xs) * 1.55)" w={90} />
+    <Skeleton height={30} radius="sm" w={104} />
+  </Group>
+);
+
+// Mirrors TableFooter: Group justify="space-between" px="md" py="sm"
+const SkeletonFooter: FC = () => (
+  <Group justify="space-between" px="md" py="sm">
+    <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w={180} />
+    <Skeleton height={30} radius="sm" w={120} />
+  </Group>
+);
+
 const SkeletonHeaderRow: FC = () => (
   <Table.Tr>
     <Table.Th w={64}>
@@ -96,6 +112,7 @@ export const AthleteListLoading: FC = () => {
       role="status"
       shadow="sm"
     >
+      <SkeletonToolbar />
       <Table.ScrollContainer minWidth={944}>
         <Table verticalSpacing="md">
           <Table.Thead>
@@ -108,6 +125,7 @@ export const AthleteListLoading: FC = () => {
           </Table.Tbody>
         </Table>
       </Table.ScrollContainer>
+      <SkeletonFooter />
     </Paper>
   );
 };
