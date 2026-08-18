@@ -24,7 +24,7 @@ export const FilterBar: FC<FilterBarProps> = ({
 }) => (
   <Paper aria-label={label} component="section" p="md" radius="md" withBorder>
     <Stack gap="sm">
-      <Group align="flex-end" gap="sm">
+      <Group align="flex-start" gap="sm" wrap="nowrap">
         <Group align="flex-end" flex={1} gap="sm">
           {children}
         </Group>
