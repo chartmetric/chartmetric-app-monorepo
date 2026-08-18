@@ -24,9 +24,8 @@ export interface DataTableProps<Row, SortKey extends string> {
   ariaLabel: string;
   columns: readonly DataTableColumn<Row, SortKey>[];
   getRowKey: (row: Row) => Key;
-  // When true, renders renderSkeletonRow for each body row instead of data.
-  // Use for refetch/sort transitions. Headers stay real so sort state is visible.
-  isFetching?: boolean;
+  // When provided, renders this instead of data rows. Pass during refetch so
+  // headers stay real (sort state visible) and row count stays fixed (no layout shift).
   renderSkeletonRow?: (index: number) => ReactNode;
   minWidth?: number;
   onSort: (sortBy: SortKey) => void;
@@ -176,7 +175,6 @@ export const DataTable = <Row, SortKey extends string>({
   ariaLabel,
   columns,
   getRowKey,
-  isFetching = false,
   minWidth = 760,
   onSort,
   renderSkeletonRow,
@@ -217,7 +215,7 @@ export const DataTable = <Row, SortKey extends string>({
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {isFetching && renderSkeletonRow
+          {renderSkeletonRow
             ? Array.from({ length: rows.length }, (_, i) => renderSkeletonRow(i))
             : rows.map((row) => (
                 <Table.Tr key={getRowKey(row)}>
