@@ -25,7 +25,11 @@ export default defineConfig(
     // User-facing strings must go through Lingui. Options follow the
     // suggested baseline from the rule docs; tests and tooling are exempt.
     files: ["**/src/**/*.{ts,tsx}", "**/components/**/*.{ts,tsx}"],
-    ignores: ["**/*.test.{ts,tsx}", "**/vitest.setup.ts"],
+    ignores: [
+      "**/*.test.{ts,tsx}",
+      "**/*.test.helpers.{ts,tsx}",
+      "**/vitest.setup.ts",
+    ],
     rules: {
       "lingui/no-unlocalized-strings": [
         "error",
