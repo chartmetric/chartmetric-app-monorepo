@@ -1,5 +1,4 @@
 import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
-import { faArrowsUpDown } from "@fortawesome/pro-solid-svg-icons/faArrowsUpDown";
 import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Group, Table, Text, UnstyledButton } from "@mantine/core";
@@ -93,7 +92,7 @@ const sortIcon = (
   isActive: boolean,
   direction: DataTableSortDirection,
 ): ReactNode => {
-  if (!isActive) return <FontAwesomeIcon icon={faArrowsUpDown} />;
+  if (!isActive) return null;
   return direction === "asc" ? (
     <FontAwesomeIcon icon={faArrowUp} />
   ) : (
