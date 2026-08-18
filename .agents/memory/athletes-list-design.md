@@ -268,6 +268,33 @@ Swapping these degrades UX in both directions: a skeleton on refetch destroys la
 
 **Scope:** Athletes table uses teal. If a future vertical has a different accent (e.g. music = blue), apply the same pattern with that vertical's `--mantine-color-<accent>-light`. Do not change the shared DataTable component's default.
 
+## Principle: sticky column header background must be uniform across the full header row
+
+**What:** In the screenshot, the sticky columns (Rank, Athlete) show a teal/dark-teal header background, but the non-sticky column headers (Nationality, Age, Last game) show the plain dark background. This creates a two-tone header — half colored, half not — that looks broken rather than intentional.
+
+**Why:** The header row is one visual band. When its left portion (sticky area) has a different background than its right portion (scrollable area), the header appears "split" — it reads as two separate UI regions rather than one row of column labels. The accent color on only the sticky portion is a CSS artifact (the sticky header background being set without extending it across the full row), not a design intent.
+
+**How to apply:**
+- The `thead tr th` background for sticky cells and non-sticky cells must use the same value.
+- If a sticky cell needs a background to prevent content bleeding through during horizontal scroll, set that background on ALL `thead th` cells (via a shared CSS variable or class), not only the sticky ones.
+- The visual distinction between sticky and scrollable columns in the header should come from the **scroll-state shadow** (see next principle), not from differing background colors.
+
+---
+
+## Principle: sticky columns communicate their frozen state via a scroll-shadow, not a background color difference
+
+**What:** When the user scrolls a wide table horizontally, the sticky columns (Rank, Athlete) remain fixed while other columns pass beneath them. Without a visual cue, the boundary between fixed and scrolling content is invisible. The correct cue is a subtle shadow or right-edge fade on the sticky columns that appears **only when the table is scrolled** (i.e. when there is scrolled-under content).
+
+**Why:** A persistent background color difference (always visible, regardless of scroll position) creates the two-tone header problem above. A scroll-state shadow appears only when it is meaningful — when content is actually passing under the sticky columns — so it carries semantic weight: "there is content hidden to the left under here." When the table is at its leftmost position, no shadow is needed and none should appear.
+
+**How to apply:**
+- Use a CSS `box-shadow` or `::after` pseudo-element on sticky cells that is only visible when the scroll container is not at its leftmost position.
+- The standard implementation: a `box-shadow: inset -8px 0 8px -8px rgba(0,0,0,0.3)` on the right edge of the rightmost sticky cell, toggled via a scroll-position class on the scroll container.
+- In Mantine's `Table.ScrollContainer`, this can be achieved by listening to the container's `scroll` event and toggling a CSS class that enables the shadow rule.
+- The shadow should be subtle in light mode and slightly stronger in dark mode (where there is less contrast between the card background and the shadow).
+
+---
+
 ## Phase 02 scope
 
 Phase 02 is a design-language doc / skill. It should codify:
