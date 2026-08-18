@@ -228,6 +228,21 @@ Swapping these degrades UX in both directions: a skeleton on refetch destroys la
 
 ---
 
+## Principle: reset actions must have a fixed, predictable position — never flex-end on a wrapping row
+
+**What:** `FilterBar` outer Group used `align="flex-end"`, so "Clear filters" aligned to the _bottom_ of the inner filter Group. When the inner Group wrapped to 2 rows, "Clear filters" drifted to the right of the last row instead of staying top-right.
+
+**Why:** Users expect "Clear filters" (and any destructive/reset action) at a consistent, findable location — always top-right of the filter card. `align="flex-end"` in a flex row means "align to the bottom of the cross axis of this row." When the sibling has wrapped content and grown taller, the button floats to the bottom of the multi-row block — a completely different visual position depending on how many filters are active.
+
+**The fix:** `align="flex-start"` on the outer Group + `wrap="nowrap"` so the button stays pinned to the top-right corner regardless of how many filter rows the inner Group wraps to.
+
+**How to apply:**
+
+- Any action button (Clear, Reset, Apply) that sits alongside a wrapping filter group must use `align="flex-start"` on the outer flex container, with `wrap="nowrap"` so the button cannot itself wrap.
+- Never use `align="flex-end"` on the outer container when the inner content can wrap — the button's position becomes unpredictable.
+
+---
+
 ## Principle: icon-row gap is tighter than text-row gap
 
 **What:** `SocialLinks` gap changed from 6 → 4 px.
