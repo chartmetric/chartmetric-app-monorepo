@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Skeleton, Stack, Table } from "@mantine/core";
 
-const SKELETON_ROWS = 8;
+import { ATHLETE_PAGE_SIZE } from "../../api/athlete-list";
 
 // Mirrors TableToolbar: Group justify="space-between" px="md" py="xs"
 const SkeletonToolbar: FC = () => (
@@ -119,7 +119,7 @@ export const AthleteListLoading: FC = () => {
             <SkeletonHeaderRow />
           </Table.Thead>
           <Table.Tbody>
-            {Array.from({ length: SKELETON_ROWS }, (_, index) => (
+            {Array.from({ length: ATHLETE_PAGE_SIZE }, (_, index) => (
               <SkeletonDataRow index={index} key={index} />
             ))}
           </Table.Tbody>
