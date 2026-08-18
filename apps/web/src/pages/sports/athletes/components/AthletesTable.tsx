@@ -159,14 +159,17 @@ export const AthletesTable: FC<AthletesTableProps> = ({
         ariaLabel={t`Athletes`}
         columns={columns}
         getRowKey={(athlete) => athlete.id}
-        isFetching={isFetching}
         minWidth={
           RANK_COLUMN_WIDTH +
           ATHLETE_COLUMN_WIDTH +
           SCROLLING_COLUMNS_MIN_WIDTH
         }
         onSort={onSort}
-        renderSkeletonRow={(index) => <SkeletonDataRow index={index} key={index} />}
+        renderSkeletonRow={
+          isFetching
+            ? (index) => <SkeletonDataRow index={index} key={index} />
+            : undefined
+        }
         rows={athletes}
         sortBy={sortBy}
         sortDirection={sortDirection}
