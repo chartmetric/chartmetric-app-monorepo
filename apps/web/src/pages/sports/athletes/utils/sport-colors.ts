@@ -1,11 +1,5 @@
 import type { MantineColor } from "@mantine/core";
 
-/**
- * Maps a sport name to a Mantine color so every surface that displays
- * a sport (identity cell, filter chips, etc.) stays consistent.
- * Unknown or null sports fall back to "dimmed" so they don't compete
- * visually with the athlete name.
- */
 const SPORT_COLORS: Readonly<Record<string, MantineColor>> = {
   american_football: "orange",
   athletics: "yellow",
@@ -23,7 +17,9 @@ const SPORT_COLORS: Readonly<Record<string, MantineColor>> = {
 };
 
 export const getSportColor = (sport: string | null): MantineColor => {
-  const key = sport?.toLowerCase().replaceAll(" ", "_") ?? "";
+  if (sport === null) return "gray";
 
-  return SPORT_COLORS[key] ?? "gray";
+  const key = sport.toLowerCase().replaceAll(" ", "_");
+
+  return SPORT_COLORS[key] ?? "violet";
 };
