@@ -1,52 +1,41 @@
 /*
- * A pinned cell has to paint its own background, or the scrolled-under columns
- * show through it. That opaque background sits on the `td`, while
- * `highlightOnHover` paints the `tr`, so the pinned columns would stay
- * body-coloured on a row the reader is pointing at. The hover colour has to be
- * repeated here — an inline style cannot express `tr:hover td`.
+ * Pinned (sticky) cells paint their own background to prevent scrolled-under
+ * columns from showing through. The pinned background is intentionally
+ * distinct from the scrollable area — a shade darker in dark mode, a shade
+ * off-white in light mode — so readers instantly see which columns are frozen.
+ *
+ * Consumers can override via --dt-pinned-bg on the wrapper element.
  */
 .stickyCell {
-  background-color: var(--mantine-color-body);
+  background-color: var(
+    --dt-pinned-bg,
+    light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-8))
+  );
   position: sticky;
 }
 
 /*
- * All header cells get the same background so sticky and non-sticky `th`
- * look identical. Without this, Mantine's thead background and the body-colour
- * override on sticky cells diverge in dark mode, producing a two-tone header.
+ * Non-sticky header cells are normalised to the scrollable-area background so
+ * the body colour and header colour stay consistent within each zone.
+ * Sticky header cells pick up .stickyCell instead — this class must only be
+ * applied to non-sticky th elements (see DataTable.tsx HeaderCell).
  */
 .headerCell {
-  background-color: var(--mantine-color-body) !important;
+  background-color: var(--mantine-color-body);
 }
 
 tr:hover .stickyCell {
   background-color: var(
     --table-highlight-on-hover-color,
-    var(--table-hover-color, var(--mantine-color-body))
+    var(--table-hover-color, var(--dt-pinned-bg, light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-8))))
   );
 }
 
 /*
- * Scroll shadow: a right-edge gradient on the rightmost sticky column that
- * fades in only when the table has been scrolled horizontally. It signals
- * "content is hidden to the left beneath this fixed column".
- *
- * The shadow lives on ::after so it sits above scrolled-under body cells
- * without changing the cell's own background or dimensions.
+ * Hard 1px separator between the pinned and scrollable areas.
+ * Always visible — the background-colour difference signals "frozen",
+ * the line sharpens the boundary at the exact column edge.
  */
-.lastStickyCell::after {
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.18), transparent);
-  bottom: 0;
-  content: "";
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  right: -12px;
-  top: 0;
-  transition: opacity 150ms ease;
-  width: 12px;
-}
-
-.scrolled .lastStickyCell::after {
-  opacity: 1;
+.lastStickyCell {
+  border-right: 1px solid var(--mantine-color-default-border);
 }
