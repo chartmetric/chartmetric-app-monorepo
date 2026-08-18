@@ -219,8 +219,9 @@ Every data table skeleton must contain all three structural regions:
 
 1. Identify every structural region of the loaded component (header, toolbar, table, footer, pagination).
 2. For each region: is it rendered while `isPending`? If not, add a placeholder with matching `px`/`py` padding.
-3. Confirm bar heights use the CSS variable formula, not integer px.
-4. Confirm avatar placeholder uses `<Skeleton circle height={avatarSize}>` (not a rectangle).
+3. **Row count must equal the page size** — import the page-size constant and drive `Array.from({ length: PAGE_SIZE })` directly from it. Never hardcode a row count. A number that doesn't match the real page size produces a skeleton taller or shorter than the loaded table, which is a layout shift.
+4. Confirm bar heights use the CSS variable formula, not integer px.
+5. Confirm avatar placeholder uses `<Skeleton circle height={avatarSize}>` (not a rectangle).
 
 ---
 
@@ -314,6 +315,7 @@ These patterns caused real defects during the athletes page implementation. Each
 | `<Paper withBorder>` on a plain page background                                          | `<Paper shadow="sm" radius="md">`                                                                 |
 | Different Paper variants across state siblings (loading/empty/error/data)                | Same `shadow="sm" radius="md"` on all states                                                      |
 | Skeleton that covers only data rows but not toolbar or footer                            | Mirror the complete layout including toolbar and footer structural rows                           |
+| Hardcoded skeleton row count that doesn't match the page size                            | Import the page-size constant; drive `Array.from({ length: PAGE_SIZE })` directly from it        |
 | Skeleton bar `height={N}` (integer px) for a text row                                    | `height="calc(var(--mantine-font-size-sm) * 1.55)"` (or `xs` variant)                             |
 | Sort icon on every sortable column header                                                | `return null` for inactive columns; directional icon only on the active column                    |
 | `minWidth` on the scroll container `<div>` instead of on `<Table>`                       | Apply `style={{ minWidth }}` to `<Table>`, not to the wrapper `<div>`                             |
