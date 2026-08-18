@@ -34,6 +34,58 @@ interface AthletesTableProps {
 
 const SCROLLING_COLUMNS_MIN_WIDTH = 640;
 
+// Teal hover: product accent instead of Mantine's default gray.
+// See design memory: "Principle: row hover color = product accent, not OS default".
+const TEAL_HOVER_STYLE = {
+  "--table-highlight-on-hover-color": "var(--mantine-color-teal-light)",
+} as const;
+
+interface TableFooterProps {
+  isFetching: boolean;
+  offset: number;
+  onPageChange: (offset: number) => void;
+  pageCount: string;
+  rowRange: string;
+  total: number;
+}
+
+const TableFooter: FC<TableFooterProps> = ({
+  isFetching,
+  offset,
+  onPageChange,
+  pageCount,
+  rowRange,
+  total,
+}) => {
+  const { t } = useLingui();
+
+  return (
+    <Group justify="space-between" px="md" py="sm">
+      <Text c="dimmed" size="sm">
+        {rowRange}
+      </Text>
+      <TablePagination
+        hasNextPage={offset + ATHLETE_PAGE_SIZE < total}
+        isLoading={isFetching}
+        loadingLabel={t`Updating athletes`}
+        nextLabel={t`Next`}
+        offset={offset}
+        onPageChange={onPageChange}
+        pageLabel={(page) => {
+          const current = String(page);
+
+          return t({
+            comment: "Current page number in the athletes list",
+            message: `Page ${current} of ${pageCount}`,
+          });
+        }}
+        pageSize={ATHLETE_PAGE_SIZE}
+        previousLabel={t`Previous`}
+      />
+    </Group>
+  );
+};
+
 export const AthletesTable: FC<AthletesTableProps> = ({
   athletes,
   isFetching,
@@ -54,9 +106,13 @@ export const AthletesTable: FC<AthletesTableProps> = ({
   );
   const totalRows = formatters.plain.format(total);
   const pageCount = String(Math.max(1, Math.ceil(total / ATHLETE_PAGE_SIZE)));
+  const rowRange = t({
+    comment: "Range of athletes shown out of the filtered total",
+    message: `Showing ${firstRow}–${lastRow} of ${totalRows} athletes`,
+  });
 
   return (
-    <Paper radius="md" shadow="sm">
+    <Paper radius="md" shadow="sm" style={TEAL_HOVER_STYLE}>
       <Box pos="relative">
         <LoadingOverlay
           loaderProps={{ "aria-label": t`Updating athletes` }}
@@ -86,32 +142,14 @@ export const AthletesTable: FC<AthletesTableProps> = ({
           stickyHeader
         />
       </Box>
-      <Group justify="space-between" px="md" py="sm">
-        <Text c="dimmed" size="sm">
-          {t({
-            comment: "Range of athletes shown out of the filtered total",
-            message: `Showing ${firstRow}–${lastRow} of ${totalRows} athletes`,
-          })}
-        </Text>
-        <TablePagination
-          hasNextPage={offset + ATHLETE_PAGE_SIZE < total}
-          isLoading={isFetching}
-          loadingLabel={t`Updating athletes`}
-          nextLabel={t`Next`}
-          offset={offset}
-          onPageChange={onPageChange}
-          pageLabel={(page) => {
-            const current = String(page);
-
-            return t({
-              comment: "Current page number in the athletes list",
-              message: `Page ${current} of ${pageCount}`,
-            });
-          }}
-          pageSize={ATHLETE_PAGE_SIZE}
-          previousLabel={t`Previous`}
-        />
-      </Group>
+      <TableFooter
+        isFetching={isFetching}
+        offset={offset}
+        onPageChange={onPageChange}
+        pageCount={pageCount}
+        rowRange={rowRange}
+        total={total}
+      />
     </Paper>
   );
 };
