@@ -4,7 +4,7 @@ import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
 import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
-import { Box, Group, LoadingOverlay, Paper, Text } from "@mantine/core";
+import { Group, Paper, Text } from "@mantine/core";
 import { DataTable } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
 
@@ -154,35 +154,28 @@ export const AthletesTable: FC<AthletesTableProps> = ({
         direction={sortDirection}
         toolbar={toolbar}
       />
-      <Box pos="relative">
-        <LoadingOverlay
-          loaderProps={{ "aria-label": t`Updating athletes` }}
-          overlayProps={{ blur: 1 }}
-          visible={isFetching}
-          zIndex={2}
-        />
-        <DataTable
-          ariaLabel={t`Athletes`}
-          columns={columns}
-          getRowKey={(athlete) => athlete.id}
-          minWidth={
-            RANK_COLUMN_WIDTH +
-            ATHLETE_COLUMN_WIDTH +
-            SCROLLING_COLUMNS_MIN_WIDTH
-          }
-          onSort={onSort}
-          rows={athletes}
-          sortBy={sortBy}
-          sortDirection={sortDirection}
-          sortLabel={(label) =>
-            t({
-              comment: "Accessible label for a sortable athletes table column",
-              message: `Sort by ${label}`,
-            })
-          }
-          stickyHeader
-        />
-      </Box>
+      <DataTable
+        ariaLabel={t`Athletes`}
+        columns={columns}
+        getRowKey={(athlete) => athlete.id}
+        isFetching={isFetching}
+        minWidth={
+          RANK_COLUMN_WIDTH +
+          ATHLETE_COLUMN_WIDTH +
+          SCROLLING_COLUMNS_MIN_WIDTH
+        }
+        onSort={onSort}
+        rows={athletes}
+        sortBy={sortBy}
+        sortDirection={sortDirection}
+        sortLabel={(label) =>
+          t({
+            comment: "Accessible label for a sortable athletes table column",
+            message: `Sort by ${label}`,
+          })
+        }
+        stickyHeader
+      />
       <TableFooter
         isFetching={isFetching}
         offset={offset}
