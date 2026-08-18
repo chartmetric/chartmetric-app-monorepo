@@ -177,12 +177,22 @@ The three-line hierarchy for any entity identity cell in a data table (athlete, 
 
 ### Two distinct states — do not conflate
 
-| Trigger                                                               | State        | Correct pattern                                   |
-| --------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| `query.isPending` — no data exists yet                                | Initial load | Show the full skeleton (toolbar + table + footer) |
-| `query.isFetching && !query.isPending` — data exists, being refreshed | Refetch      | Show `<LoadingOverlay>` over existing rows        |
+| Trigger                                                               | State        | Correct pattern                                                                           |
+| --------------------------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------- |
+| `query.isPending` — no data exists yet                                | Initial load | Show the full skeleton (toolbar + table + footer)                                         |
+| `query.isFetching && !query.isPending` — data exists, being refreshed | Refetch      | Replace body rows with the existing `SkeletonDataRow`; headers stay real                  |
 
-Swapping these degrades UX: a skeleton on refetch destroys layout stability; an overlay on initial load shows a blank sheet with a spinner that teaches nothing about the incoming layout.
+For the refetch state, pass `isFetching` and `renderSkeletonRow` to `DataTable`:
+
+```tsx
+<DataTable
+  isFetching={isFetching}
+  renderSkeletonRow={(index) => <SkeletonDataRow index={index} key={index} />}
+  ...
+/>
+```
+
+Headers stay real so the user can see which column was just sorted. Row count stays fixed (equal to `rows.length`) so there is no layout shift. `LoadingOverlay` (blurred gray sheet + spinner) is not used — it hides the table structure and teaches the user nothing about the incoming layout.
 
 ### Skeleton structure rules
 
@@ -217,11 +227,12 @@ Every data table skeleton must contain all three structural regions:
 
 **Checklist before shipping a skeleton:**
 
-1. Identify every structural region of the loaded component (header, toolbar, table, footer, pagination).
-2. For each region: is it rendered while `isPending`? If not, add a placeholder with matching `px`/`py` padding.
-3. **Row count must equal the page size** — import the page-size constant and drive `Array.from({ length: PAGE_SIZE })` directly from it. Never hardcode a row count. A number that doesn't match the real page size produces a skeleton taller or shorter than the loaded table, which is a layout shift.
-4. Confirm bar heights use the CSS variable formula, not integer px.
-5. Confirm avatar placeholder uses `<Skeleton circle height={avatarSize}>` (not a rectangle).
+1. **Check whether a skeleton row component already exists for this table before writing a new one.** The existing component has correct per-column widths, avatar circles, and text-line bar heights. A generic `<Skeleton height={12} />` dropped into every cell ignores all of that work.
+2. Identify every structural region of the loaded component (header, toolbar, table, footer, pagination).
+3. For each region: is it rendered while `isPending`? If not, add a placeholder with matching `px`/`py` padding.
+4. **Row count must equal the page size** — import the page-size constant and drive `Array.from({ length: PAGE_SIZE })` directly from it. Never hardcode a row count. A number that doesn't match the real page size produces a skeleton taller or shorter than the loaded table, which is a layout shift.
+5. Confirm bar heights use the CSS variable formula, not integer px.
+6. Confirm avatar placeholder uses `<Skeleton circle height={avatarSize}>` (not a rectangle).
 
 ---
 
