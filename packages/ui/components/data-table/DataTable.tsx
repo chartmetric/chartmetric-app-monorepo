@@ -4,7 +4,6 @@ import {
   type Key,
   type ReactNode,
   useCallback,
-  useMemo,
   useRef,
 } from "react";
 
@@ -181,14 +180,8 @@ export const DataTable = <Row, SortKey extends string>({
 }: DataTableProps<Row, SortKey>): ReactNode => {
   const offsets = stickyOffsets(columns);
 
-  const lastStickyKey = useMemo(() => {
-    let last: string | undefined;
-    for (const col of columns) {
-      if (col.sticky !== true) break;
-      last = col.key;
-    }
-    return last;
-  }, [columns]);
+  let lastStickyKey: string | undefined;
+  for (const key of offsets.keys()) lastStickyKey = key;
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -201,15 +194,12 @@ export const DataTable = <Row, SortKey extends string>({
   }, []);
 
   return (
-    <div
-      onScroll={handleScroll}
-      ref={scrollRef}
-      style={{ minWidth, overflowX: "auto" }}
-    >
+    <div onScroll={handleScroll} ref={scrollRef} style={{ overflowX: "auto" }}>
       <Table
         aria-label={ariaLabel}
         highlightOnHover
         stickyHeader={stickyHeader}
+        style={{ minWidth }}
         verticalSpacing="md"
       >
         <Table.Thead>
