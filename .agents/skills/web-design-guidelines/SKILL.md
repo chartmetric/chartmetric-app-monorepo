@@ -7,6 +7,8 @@ metadata:
   argument-hint: <file-or-pattern>
 ---
 
+> **Project-specific rules first:** Before any UI work in `apps/web/`, read `docs/design/DESIGN_LANGUAGE.md` for Chartmetric-specific design decisions (color semantics, surface hierarchy, cell composition, loading states, anti-patterns). The guidance below (Vercel Web Interface Guidelines) applies after those project-specific rules.
+
 # Web Interface Guidelines
 
 Review files for compliance with Web Interface Guidelines.
