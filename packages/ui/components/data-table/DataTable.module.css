@@ -10,9 +10,43 @@
   position: sticky;
 }
 
+/*
+ * All header cells get the same background so sticky and non-sticky `th`
+ * look identical. Without this, Mantine's thead background and the body-colour
+ * override on sticky cells diverge in dark mode, producing a two-tone header.
+ */
+.headerCell {
+  background-color: var(--mantine-color-body) !important;
+}
+
 tr:hover .stickyCell {
   background-color: var(
     --table-highlight-on-hover-color,
     var(--table-hover-color, var(--mantine-color-body))
   );
+}
+
+/*
+ * Scroll shadow: a right-edge gradient on the rightmost sticky column that
+ * fades in only when the table has been scrolled horizontally. It signals
+ * "content is hidden to the left beneath this fixed column".
+ *
+ * The shadow lives on ::after so it sits above scrolled-under body cells
+ * without changing the cell's own background or dimensions.
+ */
+.lastStickyCell::after {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.18), transparent);
+  bottom: 0;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: -12px;
+  top: 0;
+  transition: opacity 150ms ease;
+  width: 12px;
+}
+
+.scrolled .lastStickyCell::after {
+  opacity: 1;
 }

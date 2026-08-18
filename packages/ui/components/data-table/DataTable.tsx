@@ -1,6 +1,12 @@
-import type { CSSProperties, Key, ReactNode } from "react";
-
 import { Group, Table, Text, UnstyledButton } from "@mantine/core";
+import {
+  type CSSProperties,
+  type Key,
+  type ReactNode,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 
 import classes from "./DataTable.module.css";
 
@@ -62,8 +68,15 @@ const stickyStyle = (
         zIndex: isHeader ? STICKY_HEADER_CELL_Z_INDEX : STICKY_CELL_Z_INDEX,
       };
 
-const stickyClass = (left: number | undefined): string | undefined =>
-  left === undefined ? undefined : classes["stickyCell"];
+const stickyClass = (
+  left: number | undefined,
+  isLast = false,
+): string | undefined => {
+  if (left === undefined) return undefined;
+  return [classes["stickyCell"], isLast ? classes["lastStickyCell"] : undefined]
+    .filter(Boolean)
+    .join(" ");
+};
 
 const ariaSort = (
   isActive: boolean,
@@ -83,6 +96,7 @@ const sortIndicator = (
 
 interface HeaderCellProps<Row, SortKey extends string> {
   column: DataTableColumn<Row, SortKey>;
+  isLast: boolean;
   left: number | undefined;
   onSort: (sortBy: SortKey) => void;
   sortBy: SortKey;
@@ -92,6 +106,7 @@ interface HeaderCellProps<Row, SortKey extends string> {
 
 const HeaderCell = <Row, SortKey extends string>({
   column,
+  isLast,
   left,
   onSort,
   sortBy,
@@ -117,7 +132,9 @@ const HeaderCell = <Row, SortKey extends string>({
       aria-sort={
         sortKey === undefined ? undefined : ariaSort(isActive, sortDirection)
       }
-      className={stickyClass(left)}
+      className={[classes["headerCell"], stickyClass(left, isLast)]
+        .filter(Boolean)
+        .join(" ")}
       miw={column.minWidth}
       style={stickyStyle(left, true)}
       ta={column.align}
@@ -164,8 +181,31 @@ export const DataTable = <Row, SortKey extends string>({
 }: DataTableProps<Row, SortKey>): ReactNode => {
   const offsets = stickyOffsets(columns);
 
+  const lastStickyKey = useMemo(() => {
+    let last: string | undefined;
+    for (const col of columns) {
+      if (col.sticky !== true) break;
+      last = col.key;
+    }
+    return last;
+  }, [columns]);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = useCallback(() => {
+    const element = scrollRef.current;
+    const scrolledClass = classes["scrolled"];
+    if (element !== null && scrolledClass !== undefined) {
+      element.classList.toggle(scrolledClass, element.scrollLeft > 0);
+    }
+  }, []);
+
   return (
-    <Table.ScrollContainer minWidth={minWidth}>
+    <div
+      onScroll={handleScroll}
+      ref={scrollRef}
+      style={{ minWidth, overflowX: "auto" }}
+    >
       <Table
         aria-label={ariaLabel}
         highlightOnHover
@@ -177,6 +217,7 @@ export const DataTable = <Row, SortKey extends string>({
             {columns.map((column) => (
               <HeaderCell
                 column={column}
+                isLast={column.key === lastStickyKey}
                 key={column.key}
                 left={offsets.get(column.key)}
                 onSort={onSort}
@@ -192,7 +233,10 @@ export const DataTable = <Row, SortKey extends string>({
             <Table.Tr key={getRowKey(row)}>
               {columns.map((column) => (
                 <Table.Td
-                  className={stickyClass(offsets.get(column.key))}
+                  className={stickyClass(
+                    offsets.get(column.key),
+                    column.key === lastStickyKey,
+                  )}
                   key={column.key}
                   style={stickyStyle(offsets.get(column.key), false)}
                   ta={column.align}
@@ -204,6 +248,6 @@ export const DataTable = <Row, SortKey extends string>({
           ))}
         </Table.Tbody>
       </Table>
-    </Table.ScrollContainer>
+    </div>
   );
 };
