@@ -76,6 +76,21 @@ Right-aligned: Columns picker button + SORT button + current sort label. No page
 - `getSportColor(sport: string | null): MantineColor` pure function — returns the color for any sport string, defaulting to "dimmed" for unknowns.
 - `Stack gap={2}` on the identity cell inner stack — tighter than `gap={0}` (too cramped) and `gap={4}` (too loose).
 
+## Principle: row hover color = product accent, not OS default
+
+**What:** Override `--table-highlight-on-hover-color` with `var(--mantine-color-teal-light)` on the table's Paper wrapper instead of accepting Mantine's default `gray-1` / `dark-5`.
+
+**Why it matters:**
+
+1. **Brand signal at zero cost.** Every row hover repeats the teal accent — the user's eye learns "teal = sports/athletes" without any extra UI element. Generic gray says "you can click this"; teal says "this is a Chartmetric sports product."
+2. **Context-continuity.** Teal already appears in Football sport labels, the Pro level badge, and action buttons. The hover closing that loop means all interactive surfaces share one accent — cohesion across the whole page without any new color introduced.
+3. **Dark mode legibility.** Generic light-gray hover (`dark-5`) reads ambiguously in dark UI — it can look like a selected state or even text. A colored teal tint is unambiguously "pointer is here."
+4. **Adaptive by nature.** `--mantine-color-teal-light` is Mantine's computed light-variant for teal: very soft teal wash in light mode, subtle dark-teal tint in dark mode. The reference screenshot (dark mode) shows exactly this: a near-black teal strip that doesn't compete with cell content.
+
+**How to apply:** Set `--table-highlight-on-hover-color` on the closest Paper ancestor of the DataTable. Never set it on the DataTable itself (it's a shared component). Sticky cells in DataTable.module.css must read this variable before falling back to `--table-hover-color` — keep that cascade in `tr:hover .stickyCell`.
+
+**Scope:** Athletes table uses teal. If a future vertical has a different accent (e.g. music = blue), apply the same pattern with that vertical's `--mantine-color-<accent>-light`. Do not change the shared DataTable component's default.
+
 ## Phase 02 scope
 
 Phase 02 is a design-language doc / skill. It should codify:
