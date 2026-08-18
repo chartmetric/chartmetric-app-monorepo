@@ -4,10 +4,15 @@ import { MantineProvider } from "@mantine/core";
 import { render, screen } from "@testing-library/react";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
-import type { AthleteSortBy, AthleteSortDirection } from "../api/types";
+import type {
+  Athlete,
+  AthleteSortBy,
+  AthleteSortDirection,
+} from "../api/types";
 import type { AthleteColumnKey } from "../columns/types";
 
 import { messages as enSports } from "../../../../locales/sports/en/messages.po";
+import { buildAthlete } from "./athlete.test.helpers";
 import { AthletesTable } from "./AthletesTable";
 
 beforeAll(() => {
@@ -16,7 +21,7 @@ beforeAll(() => {
 });
 
 const DEFAULT_PROPS = {
-  athletes: [],
+  athletes: [] as Athlete[],
   isFetching: false,
   offset: 0,
   onPageChange: vi.fn(),
@@ -50,12 +55,18 @@ describe("AthletesTable", () => {
     expect(paper?.hasAttribute("data-with-border")).toBe(false);
   });
 
-  it("renders a LoadingOverlay while isFetching is true", () => {
-    const { container } = renderTable({ isFetching: true });
+  it("replaces body rows with skeletons while isFetching is true", () => {
+    const { container } = renderTable({
+      athletes: [buildAthlete()],
+      isFetching: true,
+      total: 1,
+    });
 
     expect(
-      container.querySelector("[class*='LoadingOverlay-root']"),
-    ).not.toBeNull();
+      container.querySelectorAll(":scope tbody .mantine-Skeleton-root").length,
+    ).toBeGreaterThan(0);
+    expect(screen.queryByText("Alex Morgan")).toBeNull();
+    expect(container.querySelector("[class*='LoadingOverlay']")).toBeNull();
   });
 
   it("shows the row-count text alongside the pagination controls", () => {

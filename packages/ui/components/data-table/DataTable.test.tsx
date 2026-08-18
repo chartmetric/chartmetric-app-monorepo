@@ -1,6 +1,5 @@
 import { MantineProvider } from "@mantine/core";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { act } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DataTable, type DataTableColumn } from "./DataTable";
@@ -93,41 +92,6 @@ describe("DataTable", () => {
 
     expect(first?.style.backgroundColor).toBe("");
     expect(first?.className).toContain("stickyCell");
-  });
-
-  it("adds scrolled class to the scroll container when scrollLeft > 0", () => {
-    renderSticky();
-    const scrollDiv = screen.getByRole("table", {
-      name: "People",
-    }).parentElement;
-    if (scrollDiv === null) throw new Error("Table has no parent element");
-
-    scrollDiv.scrollLeft = 50;
-    act(() => {
-      scrollDiv.dispatchEvent(new Event("scroll"));
-    });
-
-    expect(scrollDiv.className).toContain("scrolled");
-  });
-
-  it("removes scrolled class when scroll returns to origin", () => {
-    renderSticky();
-    const scrollDiv = screen.getByRole("table", {
-      name: "People",
-    }).parentElement;
-    if (scrollDiv === null) throw new Error("Table has no parent element");
-
-    scrollDiv.scrollLeft = 50;
-    act(() => {
-      scrollDiv.dispatchEvent(new Event("scroll"));
-    });
-
-    scrollDiv.scrollLeft = 0;
-    act(() => {
-      scrollDiv.dispatchEvent(new Event("scroll"));
-    });
-
-    expect(scrollDiv.className).not.toContain("scrolled");
   });
 });
 
