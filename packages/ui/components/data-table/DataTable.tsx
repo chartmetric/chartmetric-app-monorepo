@@ -2,13 +2,7 @@ import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
 import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Group, Table, Text, UnstyledButton } from "@mantine/core";
-import {
-  type CSSProperties,
-  type Key,
-  type ReactNode,
-  useCallback,
-  useRef,
-} from "react";
+import { type CSSProperties, type Key, type ReactNode } from "react";
 
 import classes from "./DataTable.module.css";
 
@@ -138,7 +132,10 @@ const HeaderCell = <Row, SortKey extends string>({
       aria-sort={
         sortKey === undefined ? undefined : ariaSort(isActive, sortDirection)
       }
-      className={[classes["headerCell"], stickyClass(left, isLast)]
+      className={[
+        left === undefined ? classes["headerCell"] : undefined,
+        stickyClass(left, isLast),
+      ]
         .filter(Boolean)
         .join(" ")}
       miw={column.minWidth}
@@ -188,18 +185,8 @@ export const DataTable = <Row, SortKey extends string>({
   let lastStickyKey: string | undefined;
   for (const key of offsets.keys()) lastStickyKey = key;
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const handleScroll = useCallback(() => {
-    const element = scrollRef.current;
-    const scrolledClass = classes["scrolled"];
-    if (element !== null && scrolledClass !== undefined) {
-      element.classList.toggle(scrolledClass, element.scrollLeft > 0);
-    }
-  }, []);
-
   return (
-    <div onScroll={handleScroll} ref={scrollRef} style={{ overflowX: "auto" }}>
+    <div style={{ overflowX: "auto" }}>
       <Table
         aria-label={ariaLabel}
         highlightOnHover
