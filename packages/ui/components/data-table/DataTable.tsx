@@ -1,7 +1,7 @@
 import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
 import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Group, Table, Text, UnstyledButton } from "@mantine/core";
+import { Group, Skeleton, Table, Text, UnstyledButton } from "@mantine/core";
 import { type CSSProperties, type Key, type ReactNode } from "react";
 
 import classes from "./DataTable.module.css";
@@ -24,6 +24,10 @@ export interface DataTableProps<Row, SortKey extends string> {
   ariaLabel: string;
   columns: readonly DataTableColumn<Row, SortKey>[];
   getRowKey: (row: Row) => Key;
+  // When true, body cells render skeleton bars instead of data. Use for
+  // refetch/sort transitions where the row count and column layout are known
+  // but data is being replaced. Headers stay real so sort state stays visible.
+  isFetching?: boolean;
   minWidth?: number;
   onSort: (sortBy: SortKey) => void;
   rows: readonly Row[];
@@ -172,6 +176,7 @@ export const DataTable = <Row, SortKey extends string>({
   ariaLabel,
   columns,
   getRowKey,
+  isFetching = false,
   minWidth = 760,
   onSort,
   rows,
@@ -223,7 +228,11 @@ export const DataTable = <Row, SortKey extends string>({
                   style={stickyStyle(offsets.get(column.key), false)}
                   ta={column.align}
                 >
-                  {column.renderCell(row)}
+                  {isFetching ? (
+                    <Skeleton height={12} />
+                  ) : (
+                    column.renderCell(row)
+                  )}
                 </Table.Td>
               ))}
             </Table.Tr>
