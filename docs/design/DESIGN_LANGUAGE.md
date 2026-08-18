@@ -10,11 +10,11 @@ Each vertical has one primary Mantine color that repeats across: taxonomy labels
 
 | Vertical          | Accent color        | Semantic meaning                                      |
 | ----------------- | ------------------- | ----------------------------------------------------- |
-| Athletes / sports | `teal`              | Active, established, primary-positive                 |
-| Music artists     | `blue`              | Developmental, aspirational                           |
-| _(future)_        | choose per vertical | Must map to a product-level meaning; document it here |
+| Athletes / sports | `teal`                                                     | Active, established, primary-positive |
+| Music artists     | `teal`                                                     | Active, established, primary-positive |
+| *(future)*        | `teal` until a distinct semantic meaning is established    | Add a row here with rationale before switching to a different color |
 
-References to "the vertical's accent color" throughout this document mean: look up the current page's vertical in this table.
+References to "the vertical's accent color" throughout this document mean: look up the current page's vertical in this table. All current verticals use `teal`.
 
 ---
 
@@ -25,10 +25,10 @@ These are the semantic meanings of Mantine color names in this codebase. The mea
 | Color             | Semantic meaning                                                                      | Use for                                                              |
 | ----------------- | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | `dimmed` / `gray` | Absent, unknown, or unclassified. Secondary text the user does NOT filter or sort on. | Unknown/fallback category; secondary metadata; social icon links     |
-| `teal`            | Active, established, primary-positive.                                                | Athletes vertical accent; row hover; "Pro" / top-tier level badge    |
+| `teal`            | Active, established, primary-positive. The shared accent color across all verticals.  | Row hover; "Pro" / top-tier level badge; taxonomy labels             |
 | `orange`          | Rising, momentum-up, energetic.                                                       | Momentum-up indicator; high-energy category labels                   |
 | `grape`           | Niche/specialist.                                                                     | Specialist category labels (e.g. racket sports, niche genres)        |
-| `blue`            | Developmental, informational, aspirational.                                           | Music vertical accent; verified badge; "College" / growth-tier badge |
+| `blue`            | Developmental, informational, aspirational.                                           | Verified badge; "College" / growth-tier badge                        |
 | `red`             | Declining, momentum-down, error-adjacent.                                             | Momentum-down indicator; error states                                |
 | `green`           | Positive/steady momentum.                                                             | Momentum-steady indicator                                            |
 
@@ -265,14 +265,14 @@ const HOVER_STYLE = {
 </Paper>
 ```
 
-Replace `<accent>` with the vertical's accent color from the [Vertical accent colors](#vertical-accent-colors) table (athletes → `teal`, music → `blue`, etc.).
+Replace `<accent>` with the vertical's accent color from the [Vertical accent colors](#vertical-accent-colors) table. All current verticals use `teal`.
 
 **Why:** The `-light` variant is Mantine's soft wash (very subtle in light mode, tinted in dark mode). It reinforces the vertical's identity on every row hover at zero extra DOM cost.
 
 **Rules:**
 
 - Set it on the nearest Paper ancestor that owns this specific table. Never on `DataTable` itself — `DataTable` is shared; its default stays neutral.
-- Each vertical sets its own accent. Do not use another vertical's accent color for hover.
+- All current verticals use `teal`. If a future vertical adopts a different accent, update the [Vertical accent colors](#vertical-accent-colors) table first, then set the corresponding `-light` token here.
 - Sticky cells in `DataTable.module.css` inherit this CSS variable in their `tr:hover` rule to maintain consistent hover appearance across frozen and scrollable columns.
 
 ---
