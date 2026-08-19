@@ -107,3 +107,21 @@
 
 - Whether the REACH pills should survive at all given no reach number is ever displayed (current resolution: keep as filter-only).
 - Exact disabled-nav presentation (tooltip "Coming soon" vs. plain muted) — implementation detail for the phase.
+
+### Amendment — design review notes (2026-08-19)
+
+User design review of the shipped page produced five rules (now in
+`docs/design/DESIGN_LANGUAGE.md` under "Data display integrity") and a
+scope change executed as phase 06:
+
+- Sport labels capitalized everywhere (cells and pills).
+- Peer-column type-scale consistency; themed tooltips; overflow
+  tooltips capped — never enumerate 42 items.
+- REACH pills renamed IG Reach (platform transparency).
+- Filter–column parity: Athletes and IG Reach become visible, sortable
+  columns. **This supersedes the earlier "no displayed reach metrics"
+  resolution**: the sum is displayed, labeled as what it is (sum of
+  tracked athletes' IG followers), with the definition in the column
+  tooltip. Requires exposing the aggregate in the reply plus `sortBy`
+  additions and a `sortDirection` param (also fixing the phase-05 P1:
+  the league column's sort control was inert without it).

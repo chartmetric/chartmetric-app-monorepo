@@ -8,11 +8,11 @@ This document is the single source of truth for all verticals (athletes, music a
 
 Each vertical has one primary Mantine color that repeats across: taxonomy labels, row hover, and level badge tint. The color must carry semantic meaning at product level, not be arbitrary.
 
-| Vertical          | Accent color        | Semantic meaning                                      |
-| ----------------- | ------------------- | ----------------------------------------------------- |
-| Athletes / sports | `teal`                                                     | Active, established, primary-positive |
-| Music artists     | `teal`                                                     | Active, established, primary-positive |
-| *(future)*        | `teal` until a distinct semantic meaning is established    | Add a row here with rationale before switching to a different color |
+| Vertical          | Accent color                                            | Semantic meaning                                                    |
+| ----------------- | ------------------------------------------------------- | ------------------------------------------------------------------- |
+| Athletes / sports | `teal`                                                  | Active, established, primary-positive                               |
+| Music artists     | `teal`                                                  | Active, established, primary-positive                               |
+| _(future)_        | `teal` until a distinct semantic meaning is established | Add a row here with rationale before switching to a different color |
 
 References to "the vertical's accent color" throughout this document mean: look up the current page's vertical in this table. All current verticals use `teal`.
 
@@ -22,15 +22,15 @@ References to "the vertical's accent color" throughout this document mean: look 
 
 These are the semantic meanings of Mantine color names in this codebase. The meaning is fixed regardless of vertical — the same color must carry the same signal everywhere it appears.
 
-| Color             | Semantic meaning                                                                      | Use for                                                              |
-| ----------------- | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `dimmed` / `gray` | Absent, unknown, or unclassified. Secondary text the user does NOT filter or sort on. | Unknown/fallback category; secondary metadata; social icon links     |
-| `teal`            | Active, established, primary-positive. The shared accent color across all verticals.  | Row hover; "Pro" / top-tier level badge; taxonomy labels             |
-| `orange`          | Rising, momentum-up, energetic.                                                       | Momentum-up indicator; high-energy category labels                   |
-| `grape`           | Niche/specialist.                                                                     | Specialist category labels (e.g. racket sports, niche genres)        |
-| `blue`            | Developmental, informational, aspirational.                                           | Verified badge; "College" / growth-tier badge                        |
-| `red`             | Declining, momentum-down, error-adjacent.                                             | Momentum-down indicator; error states                                |
-| `green`           | Positive/steady momentum.                                                             | Momentum-steady indicator                                            |
+| Color             | Semantic meaning                                                                      | Use for                                                          |
+| ----------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `dimmed` / `gray` | Absent, unknown, or unclassified. Secondary text the user does NOT filter or sort on. | Unknown/fallback category; secondary metadata; social icon links |
+| `teal`            | Active, established, primary-positive. The shared accent color across all verticals.  | Row hover; "Pro" / top-tier level badge; taxonomy labels         |
+| `orange`          | Rising, momentum-up, energetic.                                                       | Momentum-up indicator; high-energy category labels               |
+| `grape`           | Niche/specialist.                                                                     | Specialist category labels (e.g. racket sports, niche genres)    |
+| `blue`            | Developmental, informational, aspirational.                                           | Verified badge; "College" / growth-tier badge                    |
+| `red`             | Declining, momentum-down, error-adjacent.                                             | Momentum-down indicator; error states                            |
+| `green`           | Positive/steady momentum.                                                             | Momentum-steady indicator                                        |
 
 **Critical rule:** Never use `c="dimmed"` or `color="gray"` for a value the user can filter or sort on. Dimmed communicates "secondary/ignorable." Any category, level, or momentum dimension is a filter/sort axis — it must use semantic color.
 
@@ -46,12 +46,12 @@ Two-tier system. **Mantine token strings** for structural/container-level spacin
 
 Every structural chrome region uses consistent padding so the table edges stay visually aligned across all states (loading, empty, error, data):
 
-| Region | Props | Why |
-|---|---|---|
-| Toolbar row | `px="md" py="xs"` | Medium horizontal keeps content clear of Paper edge; extra-small vertical keeps the toolbar compact above the table |
-| Footer row | `px="md" py="sm"` | Same horizontal alignment as toolbar; slightly taller vertical because pagination controls need more touch target height |
-| Empty / error state | `p="xl"` | Full padding on all sides — the state fills the Paper with nothing else competing for space |
-| Page-level Stack | `gap="md"` | Medium vertical separation between filters, alerts, and the table card |
+| Region              | Props             | Why                                                                                                                      |
+| ------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Toolbar row         | `px="md" py="xs"` | Medium horizontal keeps content clear of Paper edge; extra-small vertical keeps the toolbar compact above the table      |
+| Footer row          | `px="md" py="sm"` | Same horizontal alignment as toolbar; slightly taller vertical because pagination controls need more touch target height |
+| Empty / error state | `p="xl"`          | Full padding on all sides — the state fills the Paper with nothing else competing for space                              |
+| Page-level Stack    | `gap="md"`        | Medium vertical separation between filters, alerts, and the table card                                                   |
 
 Skeleton toolbar and footer mirror these values exactly so the container dimensions don't change when data arrives.
 
@@ -63,13 +63,13 @@ Set `verticalSpacing="md"` on `<Table>`, never per-row. This is the only spacing
 
 Inside a table cell, use raw px integers. Mantine's `xs` (8px) is the smallest token but is already too wide for tight icon+label pairs in a dense row.
 
-| Value | Use case |
-|---|---|
-| `gap={2}` | Vertical spacing between lines in a multi-line Stack (identity cell text lines) |
-| `gap={4}` | Horizontal spacing in compact icon+label or icon+icon pairs (momentum cell, social links, pill group label+items) |
-| `gap={6}` | Horizontal spacing in a single-row label+badge or label+icon pair (name + verified icon, header label + sort icon, logo + name) |
-| `gap="sm"` | Between a large element (avatar) and its accompanying text block — the larger visual mass needs more breathing room |
-| `gap={0}` | Intentional zero gap: stacked primary/secondary text lines that should read as one unit (e.g. league name above league tier) |
+| Value      | Use case                                                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `gap={2}`  | Vertical spacing between lines in a multi-line Stack (identity cell text lines)                                                 |
+| `gap={4}`  | Horizontal spacing in compact icon+label or icon+icon pairs (momentum cell, social links, pill group label+items)               |
+| `gap={6}`  | Horizontal spacing in a single-row label+badge or label+icon pair (name + verified icon, header label + sort icon, logo + name) |
+| `gap="sm"` | Between a large element (avatar) and its accompanying text block — the larger visual mass needs more breathing room             |
+| `gap={0}`  | Intentional zero gap: stacked primary/secondary text lines that should read as one unit (e.g. league name above league tier)    |
 
 ### Overflow and truncation
 
@@ -177,10 +177,10 @@ The three-line hierarchy for any entity identity cell in a data table (athlete, 
 
 ### Two distinct states — do not conflate
 
-| Trigger                                                               | State        | Correct pattern                                                                           |
-| --------------------------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------- |
-| `query.isPending` — no data exists yet                                | Initial load | Show the full skeleton (toolbar + table + footer)                                         |
-| `query.isFetching && !query.isPending` — data exists, being refreshed | Refetch      | Replace body rows with the existing `SkeletonDataRow`; headers stay real                  |
+| Trigger                                                               | State        | Correct pattern                                                          |
+| --------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------ |
+| `query.isPending` — no data exists yet                                | Initial load | Show the full skeleton (toolbar + table + footer)                        |
+| `query.isFetching && !query.isPending` — data exists, being refreshed | Refetch      | Replace body rows with the existing `SkeletonDataRow`; headers stay real |
 
 For the refetch state, pass `isFetching` and `renderSkeletonRow` to `DataTable`:
 
@@ -314,6 +314,45 @@ import { faMinus } from "@fortawesome/pro-solid-svg-icons/faMinus";
 
 ---
 
+## Data display integrity
+
+Rules harvested from the leagues page design review (2026-08-19). Each
+came from a real defect visible in the shipped page.
+
+**Display labels are never raw data values.** A warehouse enum arrives
+in whatever casing the pipeline stored (`football`, `tennis`); render it
+through a label formatter that capitalizes (`toDisplayLabel` /
+`toSportLabel`), in every surface that shows it — table cells and filter
+pills alike. A page that renders one casing in the cell and another in
+the pill is showing the user the database, not the product.
+
+**Peer columns share one type scale.** Cells that sit side by side in
+the same row band use the same Mantine text size; a column whose text is
+visibly larger than its neighbours reads as emphasis the data does not
+justify. When two columns genuinely need different weights, vary `fw` or
+color, not `size`.
+
+**Tooltips are themed surfaces, and overflow affordances summarize —
+they never enumerate.** A tooltip uses the Mantine `Tooltip` surface so
+it adapts to the color scheme; a default-styled floating box reads as
+foreign chrome. And a "+N" affordance may expand to a _few_ more items
+(cap ~10 with an ellipsis) or simply explain what N counts — a tooltip
+listing 42 entries is a wall of text nobody can scan. If the full set
+matters, it belongs on a detail surface, not in a hover.
+
+**Platform-specific metrics name their platform.** A filter or column
+called "Reach" hides which platform it measures; label it "IG Reach"
+(and define the aggregation in the column tooltip: sum of tracked
+athletes' Instagram followers, not a deduplicated audience). Users make
+decisions on these numbers — ambiguity about the source is a data bug,
+not a copy nit.
+
+**Filter–column parity.** Every metric dimension offered as a filter
+exists as a visible, sortable column. Filtering by a value the user
+cannot see or rank by makes the filter's effect unverifiable ("why did
+this league disappear?"). When a filter is added, its column lands in
+the same change.
+
 ## Anti-patterns
 
 These patterns caused real defects during the athletes page implementation. Each one has been fixed; this list prevents regression.
@@ -326,7 +365,7 @@ These patterns caused real defects during the athletes page implementation. Each
 | `<Paper withBorder>` on a plain page background                                          | `<Paper shadow="sm" radius="md">`                                                                 |
 | Different Paper variants across state siblings (loading/empty/error/data)                | Same `shadow="sm" radius="md"` on all states                                                      |
 | Skeleton that covers only data rows but not toolbar or footer                            | Mirror the complete layout including toolbar and footer structural rows                           |
-| Hardcoded skeleton row count that doesn't match the page size                            | Import the page-size constant; drive `Array.from({ length: PAGE_SIZE })` directly from it        |
+| Hardcoded skeleton row count that doesn't match the page size                            | Import the page-size constant; drive `Array.from({ length: PAGE_SIZE })` directly from it         |
 | Skeleton bar `height={N}` (integer px) for a text row                                    | `height="calc(var(--mantine-font-size-sm) * 1.55)"` (or `xs` variant)                             |
 | Sort icon on every sortable column header                                                | `return null` for inactive columns; directional icon only on the active column                    |
 | `minWidth` on the scroll container `<div>` instead of on `<Table>`                       | Apply `style={{ minWidth }}` to `<Table>`, not to the wrapper `<div>`                             |
