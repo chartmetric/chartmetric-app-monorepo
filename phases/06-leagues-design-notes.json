@@ -1,0 +1,34 @@
+{
+  "id": "06-leagues-design-notes",
+  "title": "leagues design-review amendments",
+  "status": "pending",
+  "depends_on": ["05-leagues-page"],
+  "acceptance": [
+    "GET /leagues accepts sortDirection (asc|desc) and sortBy gains igReach; the reply row gains igReach (sum of tracked athletes' IG followers) with a schema description stating it is not a deduplicated audience; OpenAPI snapshot, api-client, and module tests updated; api lint/typecheck/test pass",
+    "The leagues table shows two new right-aligned sortable columns - Athletes (trackedAthletes) and IG Reach (igReach, compact-formatted) - and the League/Competition column sorts again; a test clicks each sortable header and asserts aria-sort flips between ascending and descending",
+    "Sport labels are capitalized in every surface: the league identity cell and the sport filter pills render through a shared display-label formatter beside getSportColor in apps/web/src/pages/sports/, never the raw API value",
+    "Key Athletes and Nationalities cells share one text size; the nationalities overflow tooltip is a themed Mantine surface capped at 10 items with a localized ellipsis line stating how many more exist, and a test asserts the cap",
+    "The REACH pill group is labeled IG Reach, and the IG Reach column header carries a tooltip defining the aggregation; all new or changed strings go through Lingui and are translated in all 7 locales",
+    "pnpm typecheck, pnpm test, and pnpm build pass; pnpm generate:api-client artifacts are regenerated in this change"
+  ],
+  "files": [
+    "apps/api/src/modules/leagues/**",
+    "apps/api/openapi.generated.json",
+    "packages/api-client/src/schema.generated.ts",
+    "apps/web/src/pages/sports/**",
+    "apps/web/src/locales/sports/**",
+    "apps/web/src/locales/common/**"
+  ],
+  "gates": [
+    "pnpm --filter api lint",
+    "pnpm --filter web lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build",
+    "pnpm generate:api-client"
+  ],
+  "verification_cmd": "grep -q 'igReach' packages/api-client/src/schema.generated.ts",
+  "smoke_cmd": "",
+  "security_review": false,
+  "notes": "Executes the PRD amendment 'design review notes (2026-08-19)' and the phase-05 P1 (sortDirection missing left the league sort header inert). Read docs/design/DESIGN_LANGUAGE.md 'Data display integrity' - these five rules ARE the acceptance intent. Model sortDirection on athletes (ASCENDING_FIRST set, no schema default, per-column resolution); asc-first: name, sport; desc-first: trackedAthletes, igReach. The igReach aggregate already exists query-side for the REACH threshold filter - expose it in the SELECT and reply rather than recomputing. Column tooltip copy: 'Sum of tracked athletes' Instagram followers - not a deduplicated audience.' The design-language learned rule applies: a test for a sortable header must click it and assert aria-sort changes, not assert the rest state. SQL for the new sort and the widened SELECT must be executed against real ClickHouse via the read-only MCP after the phase by the driver session (writers have no MCP access); do not add a script."
+}
