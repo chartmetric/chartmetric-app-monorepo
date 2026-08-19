@@ -1,6 +1,6 @@
 {
   "id": "05-leagues-page",
-  "title": "Leagues list page",
+  "title": "leagues list page",
   "status": "pending",
   "depends_on": [
     "03-leagues-api",

@@ -420,6 +420,109 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/app/leagues/filter-options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            sports: string[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/app/leagues": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    limit: number;
+                    offset: number;
+                    /** @description Keep only leagues with at least one tracked athlete above 100M Instagram followers. */
+                    megaOnly?: boolean;
+                    minAggregatedIgFollowers?: number;
+                    minTrackedAthletes?: number;
+                    name?: string;
+                    sortBy?: "name" | "sport" | "trackedAthletes";
+                    sports?: string[];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                country: string | null;
+                                countryFlagUrl: string | null;
+                                id: string;
+                                keyAthletes: {
+                                    id: number;
+                                    name: string;
+                                }[];
+                                leagueType: string | null;
+                                logoUrl: string | null;
+                                name: string | null;
+                                nationalities: string[];
+                                sport: string | null;
+                                trackedAthletes: number;
+                            }[];
+                            meta: {
+                                limit: number;
+                                offset: number;
+                                total: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/artists": {
         parameters: {
             query?: never;
@@ -571,6 +674,72 @@ export interface paths {
                                 tiktokPosts: number | null;
                                 tiktokVideos: number | null;
                                 turnedPro: number | null;
+                            }[];
+                            meta: {
+                                limit: number;
+                                offset: number;
+                                total: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/leagues": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    limit: number;
+                    offset: number;
+                    /** @description Keep only leagues with at least one tracked athlete above 100M Instagram followers. */
+                    megaOnly?: boolean;
+                    minAggregatedIgFollowers?: number;
+                    minTrackedAthletes?: number;
+                    name?: string;
+                    sortBy?: "name" | "sport" | "trackedAthletes";
+                    sports?: string[];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                country: string | null;
+                                countryFlagUrl: string | null;
+                                id: string;
+                                keyAthletes: {
+                                    id: number;
+                                    name: string;
+                                }[];
+                                leagueType: string | null;
+                                logoUrl: string | null;
+                                name: string | null;
+                                nationalities: string[];
+                                sport: string | null;
+                                trackedAthletes: number;
                             }[];
                             meta: {
                                 limit: number;
