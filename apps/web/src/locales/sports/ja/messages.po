@@ -46,7 +46,7 @@ msgstr "年齢"
 msgid "Athlete"
 msgstr "選手"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:165
+#: src/pages/sports/athletes/components/AthletesTable.tsx:159
 msgid "Athletes"
 msgstr "選手"
 
@@ -181,7 +181,7 @@ msgstr "レベル"
 msgid "Likes"
 msgstr "いいね"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:89
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:110
 msgid "Loading athletes"
 msgstr "選手を読み込み中"
 
@@ -218,7 +218,7 @@ msgstr "国籍"
 msgid "New group name…"
 msgstr "新しいグループ名…"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:101
+#: src/pages/sports/athletes/components/AthletesTable.tsx:102
 msgid "Next"
 msgstr "次へ"
 
@@ -235,7 +235,7 @@ msgid "No matching options"
 msgstr "一致する選択肢がありません"
 
 #. Current page number in the athletes list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:107
+#: src/pages/sports/athletes/components/AthletesTable.tsx:108
 msgid "Page {current} of {pageCount}"
 msgstr "{pageCount} ページ中 {current} ページ"
 
@@ -252,7 +252,7 @@ msgstr "ポジション"
 msgid "Posts"
 msgstr "投稿"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:113
+#: src/pages/sports/athletes/components/AthletesTable.tsx:114
 msgid "Previous"
 msgstr "前へ"
 
@@ -299,16 +299,16 @@ msgid "Search columns…"
 msgstr "列を検索…"
 
 #. Range of athletes shown out of the filtered total
-#: src/pages/sports/athletes/components/AthletesTable.tsx:140
+#: src/pages/sports/athletes/components/AthletesTable.tsx:141
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "{totalRows} 人中 {firstRow}–{lastRow} 人を表示"
 
 #. Accessible label for a sortable athletes table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:178
+#: src/pages/sports/athletes/components/AthletesTable.tsx:175
 msgid "Sort by {label}"
 msgstr "{label}で並べ替え"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:41
+#: src/pages/sports/athletes/components/AthletesTable.tsx:42
 msgid "Sort:"
 msgstr "並び順："
 
@@ -373,8 +373,7 @@ msgstr "フィルターオプションを読み込めません"
 msgid "Unnamed athlete"
 msgstr "名前未設定の選手"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:100
-#: src/pages/sports/athletes/components/AthletesTable.tsx:159
+#: src/pages/sports/athletes/components/AthletesTable.tsx:101
 msgid "Updating athletes"
 msgstr "選手情報を更新中"
 

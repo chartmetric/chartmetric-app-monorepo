@@ -46,7 +46,7 @@ msgstr "나이"
 msgid "Athlete"
 msgstr "선수"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:165
+#: src/pages/sports/athletes/components/AthletesTable.tsx:159
 msgid "Athletes"
 msgstr "선수"
 
@@ -181,7 +181,7 @@ msgstr "레벨"
 msgid "Likes"
 msgstr "좋아요"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:89
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:110
 msgid "Loading athletes"
 msgstr "선수 불러오는 중"
 
@@ -218,7 +218,7 @@ msgstr "국적"
 msgid "New group name…"
 msgstr "새 그룹 이름…"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:101
+#: src/pages/sports/athletes/components/AthletesTable.tsx:102
 msgid "Next"
 msgstr "다음"
 
@@ -235,7 +235,7 @@ msgid "No matching options"
 msgstr "일치하는 옵션이 없습니다"
 
 #. Current page number in the athletes list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:107
+#: src/pages/sports/athletes/components/AthletesTable.tsx:108
 msgid "Page {current} of {pageCount}"
 msgstr "{pageCount}페이지 중 {current}페이지"
 
@@ -252,7 +252,7 @@ msgstr "포지션"
 msgid "Posts"
 msgstr "게시물"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:113
+#: src/pages/sports/athletes/components/AthletesTable.tsx:114
 msgid "Previous"
 msgstr "이전"
 
@@ -299,16 +299,16 @@ msgid "Search columns…"
 msgstr "열 검색…"
 
 #. Range of athletes shown out of the filtered total
-#: src/pages/sports/athletes/components/AthletesTable.tsx:140
+#: src/pages/sports/athletes/components/AthletesTable.tsx:141
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "총 {totalRows}명 중 {firstRow}–{lastRow}명 표시"
 
 #. Accessible label for a sortable athletes table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:178
+#: src/pages/sports/athletes/components/AthletesTable.tsx:175
 msgid "Sort by {label}"
 msgstr "{label} 기준 정렬"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:41
+#: src/pages/sports/athletes/components/AthletesTable.tsx:42
 msgid "Sort:"
 msgstr "정렬:"
 
@@ -373,8 +373,7 @@ msgstr "필터 옵션을 불러올 수 없습니다"
 msgid "Unnamed athlete"
 msgstr "이름 없는 선수"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:100
-#: src/pages/sports/athletes/components/AthletesTable.tsx:159
+#: src/pages/sports/athletes/components/AthletesTable.tsx:101
 msgid "Updating athletes"
 msgstr "선수 정보 업데이트 중"
 

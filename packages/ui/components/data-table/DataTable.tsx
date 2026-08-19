@@ -1,8 +1,9 @@
+import type { CSSProperties, Key, ReactNode } from "react";
+
 import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
 import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Group, Table, Text, UnstyledButton } from "@mantine/core";
-import { type CSSProperties, type Key, type ReactNode } from "react";
 
 import classes from "./DataTable.module.css";
 
@@ -215,9 +216,8 @@ export const DataTable = <Row, SortKey extends string>({
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {renderSkeletonRow
-            ? Array.from({ length: rows.length }, (_, i) => renderSkeletonRow(i))
-            : rows.map((row) => (
+          {renderSkeletonRow === undefined
+            ? rows.map((row) => (
                 <Table.Tr key={getRowKey(row)}>
                   {columns.map((column) => (
                     <Table.Td
@@ -233,7 +233,10 @@ export const DataTable = <Row, SortKey extends string>({
                     </Table.Td>
                   ))}
                 </Table.Tr>
-              ))}
+              ))
+            : Array.from({ length: rows.length }, (_, index): ReactNode =>
+                renderSkeletonRow(index),
+              )}
         </Table.Tbody>
       </Table>
     </div>

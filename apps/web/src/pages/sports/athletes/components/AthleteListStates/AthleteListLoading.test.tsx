@@ -5,6 +5,7 @@ import { render, screen } from "@testing-library/react";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import { messages as enSports } from "../../../../../locales/sports/en/messages.po";
+import { ATHLETE_PAGE_SIZE } from "../../api/athlete-list";
 import { AthleteListLoading } from "./AthleteListLoading";
 
 beforeAll(() => {
@@ -27,7 +28,9 @@ describe("AthleteListLoading", () => {
 
     expect(container.querySelector("table")).not.toBeNull();
     expect(container.querySelectorAll(":scope thead tr")).toHaveLength(1);
-    expect(container.querySelectorAll(":scope tbody tr")).toHaveLength(8);
+    expect(container.querySelectorAll(":scope tbody tr")).toHaveLength(
+      ATHLETE_PAGE_SIZE,
+    );
     expect(screen.queryByRole("progressbar")).toBeNull();
   });
 
