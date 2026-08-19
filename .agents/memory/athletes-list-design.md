@@ -275,6 +275,7 @@ Swapping these degrades UX in both directions: a skeleton on refetch destroys la
 **Why:** The header row is one visual band. When its left portion (sticky area) has a different background than its right portion (scrollable area), the header appears "split" — it reads as two separate UI regions rather than one row of column labels. The accent color on only the sticky portion is a CSS artifact (the sticky header background being set without extending it across the full row), not a design intent.
 
 **How to apply:**
+
 - The `thead tr th` background for sticky cells and non-sticky cells must use the same value.
 - If a sticky cell needs a background to prevent content bleeding through during horizontal scroll, set that background on ALL `thead th` cells (via a shared CSS variable or class), not only the sticky ones.
 - The visual distinction between sticky and scrollable columns in the header should come from the **scroll-state shadow** (see next principle), not from differing background colors.
@@ -288,6 +289,7 @@ Swapping these degrades UX in both directions: a skeleton on refetch destroys la
 **Why:** A persistent background color difference (always visible, regardless of scroll position) creates the two-tone header problem above. A scroll-state shadow appears only when it is meaningful — when content is actually passing under the sticky columns — so it carries semantic weight: "there is content hidden to the left under here." When the table is at its leftmost position, no shadow is needed and none should appear.
 
 **How to apply:**
+
 - Use a CSS `box-shadow` or `::after` pseudo-element on sticky cells that is only visible when the scroll container is not at its leftmost position.
 - The standard implementation: a `box-shadow: inset -8px 0 8px -8px rgba(0,0,0,0.3)` on the right edge of the rightmost sticky cell, toggled via a scroll-position class on the scroll container.
 - In Mantine's `Table.ScrollContainer`, this can be achieved by listening to the container's `scroll` event and toggling a CSS class that enables the shadow rule.

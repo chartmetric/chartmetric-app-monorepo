@@ -13,7 +13,13 @@
 tr:hover .stickyCell {
   background-color: var(
     --table-highlight-on-hover-color,
-    var(--table-hover-color, var(--dt-pinned-bg, light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-8))))
+    var(
+      --table-hover-color,
+      var(
+        --dt-pinned-bg,
+        light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-8))
+      )
+    )
   );
 }
 

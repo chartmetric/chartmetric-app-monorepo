@@ -304,7 +304,7 @@ msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "Affichage de {firstRow}–{lastRow} sur {totalRows} athlètes"
 
 #. Accessible label for a sortable athletes table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:177
+#: src/pages/sports/athletes/components/AthletesTable.tsx:175
 msgid "Sort by {label}"
 msgstr "Trier par {label}"
 

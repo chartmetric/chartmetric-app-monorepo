@@ -40,3 +40,6 @@ apps/web/src/locales/*/*/messages.js
 # Python bytecode from the harness scripts
 __pycache__/
 *.py[cod]
+
+# harness worktrees
+.worktrees/

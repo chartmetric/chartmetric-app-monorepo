@@ -10,3 +10,6 @@ packages/api-client/src/schema.generated.ts
 
 # Harness phase state — the runner rewrites these mid-pipeline
 phases/
+
+# Harness git worktrees (local-only, ignored via .git/info/exclude)
+.worktrees/
