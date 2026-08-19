@@ -7,6 +7,29 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
+### From 05-leagues-page retro (2026-08-19)
+
+- P2: Cover the athletes filter-option count formatting change introduced
+  by the `useListFormatters` dedupe (12500 now "12.5K", was "13K"), or
+  restore the compact defaults (`AthleteFilters.tsx:36`).
+- P2: Export `KEY_ATHLETES_MIN_WIDTH` / `NATIONALITIES_MIN_WIDTH` from
+  `leagues/columns/table-columns.ts`; `LeagueListLoading.tsx` hard-codes
+  the same values.
+- P2: Replace the raw `sortBy` fallback in `LeaguesTable.tsx:141` with a
+  translated label; derive `NationalitiesCell`'s prop from
+  `League["nationalities"]`; route `OverflowCount`'s "+N" through
+  `useListFormatters().plain`.
+- P3: Unify list-page search debouncing on the artists 350ms
+  `useDebouncedCallback` precedent; leagues and athletes fire one
+  request per keystroke.
+- P3: Promote `SkeletonToolbar`/`SkeletonFooter` beside the shared pills
+  (leagues duplicates `AthleteListLoading`'s copies byte-for-byte);
+  drop `SkeletonDataRow`'s ignored `key={index}` on its own root.
+- P3: Align the athletes list error state to the design-language Paper
+  state sibling (still uses `Alert`); settle the one-component-per-file
+  rule against the co-declarations in `LeaguesTable.tsx` and
+  `LeagueListLoading.tsx`.
+
 ### From 04-nav-sections retro (2026-08-19)
 
 - P2: `verticals.ts` now declares six paths with no route, duplicating
