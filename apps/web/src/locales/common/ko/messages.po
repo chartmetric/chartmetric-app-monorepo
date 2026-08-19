@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/verticals.ts:21
+#: src/verticals.ts:34
 msgid "Artists"
 msgstr "아티스트"
 
-#: src/verticals.ts:28
+#: src/verticals.ts:50
 msgid "Athletes"
 msgstr "운동선수"
 
@@ -25,19 +25,39 @@ msgstr "운동선수"
 msgid "Chartmetric Dash"
 msgstr "Chartmetric Dash"
 
-#: src/verticals.ts:34
+#: src/verticals.ts:85
+msgid "Compare"
+msgstr "비교"
+
+#: src/verticals.ts:45
+msgid "Dashboard"
+msgstr "대시보드"
+
+#: src/layout/components/VerticalNav.tsx:17
+msgid "Discover"
+msgstr "탐색"
+
+#: src/verticals.ts:71
+msgid "Events"
+msgstr "이벤트"
+
+#: src/verticals.ts:95
 msgid "for Creators"
 msgstr "크리에이터용"
 
-#: src/verticals.ts:20
+#: src/verticals.ts:33
 msgid "for Music"
 msgstr "음악용"
 
-#: src/verticals.ts:27
+#: src/verticals.ts:40
 msgid "for Sports"
 msgstr "스포츠용"
 
-#: src/verticals.ts:35
+#: src/verticals.ts:64
+msgid "Games"
+msgstr "경기"
+
+#: src/verticals.ts:96
 msgid "Influencers"
 msgstr "인플루언서"
 
@@ -45,9 +65,17 @@ msgstr "인플루언서"
 msgid "Language"
 msgstr "언어"
 
+#: src/layout/components/VerticalNav.tsx:16
+msgid "Library"
+msgstr "라이브러리"
+
 #: src/layout/components/AuthControls.tsx:30
 msgid "Log out"
 msgstr "로그아웃"
+
+#: src/verticals.ts:78
+msgid "Shortlists"
+msgstr "후보 목록"
 
 #: src/layout/components/ColorSchemeToggle.tsx:21
 msgid "Switch to dark mode"
@@ -61,7 +89,15 @@ msgstr "라이트 모드로 전환"
 msgid "Switch vertical"
 msgstr "버티컬 전환"
 
+#: src/verticals.ts:57
+msgid "Teams"
+msgstr "팀"
+
 #: src/layout/Layout.tsx:36
 #: src/layout/Layout.tsx:54
 msgid "Toggle navigation"
 msgstr "내비게이션 전환"
+
+#: src/layout/components/VerticalNav.tsx:18
+msgid "Tools"
+msgstr "도구"

@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/verticals.ts:21
+#: src/verticals.ts:34
 msgid "Artists"
 msgstr "Artistas"
 
-#: src/verticals.ts:28
+#: src/verticals.ts:50
 msgid "Athletes"
 msgstr "Atletas"
 
@@ -25,19 +25,39 @@ msgstr "Atletas"
 msgid "Chartmetric Dash"
 msgstr "Chartmetric Dash"
 
-#: src/verticals.ts:34
+#: src/verticals.ts:85
+msgid "Compare"
+msgstr "Comparar"
+
+#: src/verticals.ts:45
+msgid "Dashboard"
+msgstr "Panel"
+
+#: src/layout/components/VerticalNav.tsx:17
+msgid "Discover"
+msgstr "Descubrir"
+
+#: src/verticals.ts:71
+msgid "Events"
+msgstr "Eventos"
+
+#: src/verticals.ts:95
 msgid "for Creators"
 msgstr "para Creadores"
 
-#: src/verticals.ts:20
+#: src/verticals.ts:33
 msgid "for Music"
 msgstr "para Música"
 
-#: src/verticals.ts:27
+#: src/verticals.ts:40
 msgid "for Sports"
 msgstr "para Deportes"
 
-#: src/verticals.ts:35
+#: src/verticals.ts:64
+msgid "Games"
+msgstr "Partidos"
+
+#: src/verticals.ts:96
 msgid "Influencers"
 msgstr "Influencers"
 
@@ -45,9 +65,17 @@ msgstr "Influencers"
 msgid "Language"
 msgstr "Idioma"
 
+#: src/layout/components/VerticalNav.tsx:16
+msgid "Library"
+msgstr "Biblioteca"
+
 #: src/layout/components/AuthControls.tsx:30
 msgid "Log out"
 msgstr "Cerrar sesión"
+
+#: src/verticals.ts:78
+msgid "Shortlists"
+msgstr "Preselecciones"
 
 #: src/layout/components/ColorSchemeToggle.tsx:21
 msgid "Switch to dark mode"
@@ -61,7 +89,15 @@ msgstr "Cambiar a modo claro"
 msgid "Switch vertical"
 msgstr "Cambiar de vertical"
 
+#: src/verticals.ts:57
+msgid "Teams"
+msgstr "Equipos"
+
 #: src/layout/Layout.tsx:36
 #: src/layout/Layout.tsx:54
 msgid "Toggle navigation"
 msgstr "Alternar navegación"
+
+#: src/layout/components/VerticalNav.tsx:18
+msgid "Tools"
+msgstr "Herramientas"

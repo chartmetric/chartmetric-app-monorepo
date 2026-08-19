@@ -1,16 +1,16 @@
 import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
-import { AppShell, Burger, Group, NavLink } from "@mantine/core";
+import { AppShell, Burger, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Link, Outlet, useLocation } from "react-router";
+import { Outlet, useLocation } from "react-router";
 
 import { findVerticalByPathname } from "../verticals";
 import { AuthControls } from "./components/AuthControls";
 import { ColorSchemeToggle } from "./components/ColorSchemeToggle";
 import { LocaleSwitcher } from "./components/LocaleSwitcher";
+import { VerticalNav } from "./components/VerticalNav";
 import { VerticalSelector } from "./components/VerticalSelector";
-import classes from "./Layout.module.css";
 
 export const Layout: FC = () => {
   const { t } = useLingui();
@@ -61,20 +61,10 @@ export const Layout: FC = () => {
           </Group>
         </AppShell.Section>
         <AppShell.Section grow mt="md">
-          {activeVertical.navLinks.map((link) => (
-            <NavLink
-              active={location.pathname === link.path}
-              c="white"
-              className={classes["navLink"]}
-              color="teal.7"
-              component={Link}
-              key={link.path}
-              label={t(link.label)}
-              onClick={closeNavbar}
-              to={link.path}
-              variant="filled"
-            />
-          ))}
+          <VerticalNav
+            links={activeVertical.navLinks}
+            onNavigate={closeNavbar}
+          />
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>

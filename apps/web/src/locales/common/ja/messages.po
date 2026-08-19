@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/verticals.ts:21
+#: src/verticals.ts:34
 msgid "Artists"
 msgstr "アーティスト"
 
-#: src/verticals.ts:28
+#: src/verticals.ts:50
 msgid "Athletes"
 msgstr "アスリート"
 
@@ -25,19 +25,39 @@ msgstr "アスリート"
 msgid "Chartmetric Dash"
 msgstr "Chartmetric Dash"
 
-#: src/verticals.ts:34
+#: src/verticals.ts:85
+msgid "Compare"
+msgstr "比較"
+
+#: src/verticals.ts:45
+msgid "Dashboard"
+msgstr "ダッシュボード"
+
+#: src/layout/components/VerticalNav.tsx:17
+msgid "Discover"
+msgstr "発見"
+
+#: src/verticals.ts:71
+msgid "Events"
+msgstr "イベント"
+
+#: src/verticals.ts:95
 msgid "for Creators"
 msgstr "クリエイター向け"
 
-#: src/verticals.ts:20
+#: src/verticals.ts:33
 msgid "for Music"
 msgstr "音楽向け"
 
-#: src/verticals.ts:27
+#: src/verticals.ts:40
 msgid "for Sports"
 msgstr "スポーツ向け"
 
-#: src/verticals.ts:35
+#: src/verticals.ts:64
+msgid "Games"
+msgstr "試合"
+
+#: src/verticals.ts:96
 msgid "Influencers"
 msgstr "インフルエンサー"
 
@@ -45,9 +65,17 @@ msgstr "インフルエンサー"
 msgid "Language"
 msgstr "言語"
 
+#: src/layout/components/VerticalNav.tsx:16
+msgid "Library"
+msgstr "ライブラリ"
+
 #: src/layout/components/AuthControls.tsx:30
 msgid "Log out"
 msgstr "ログアウト"
+
+#: src/verticals.ts:78
+msgid "Shortlists"
+msgstr "候補リスト"
 
 #: src/layout/components/ColorSchemeToggle.tsx:21
 msgid "Switch to dark mode"
@@ -61,7 +89,15 @@ msgstr "ライトモードに切り替え"
 msgid "Switch vertical"
 msgstr "バーティカルを切り替え"
 
+#: src/verticals.ts:57
+msgid "Teams"
+msgstr "チーム"
+
 #: src/layout/Layout.tsx:36
 #: src/layout/Layout.tsx:54
 msgid "Toggle navigation"
 msgstr "ナビゲーションを切り替え"
+
+#: src/layout/components/VerticalNav.tsx:18
+msgid "Tools"
+msgstr "ツール"
