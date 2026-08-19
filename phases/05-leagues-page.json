@@ -2,7 +2,10 @@
   "id": "05-leagues-page",
   "title": "Leagues list page",
   "status": "pending",
-  "depends_on": ["03-leagues-api", "04-nav-sections"],
+  "depends_on": [
+    "03-leagues-api",
+    "04-nav-sections"
+  ],
   "acceptance": [
     "Route /sports/leagues renders a LeaguesPage from apps/web/src/pages/sports/leagues/, and the sports vertical declares the Leagues nav item under the Discover section",
     "Header row matches the mock: localized title with the live total from meta.total, inline SearchInput, and quick-pill groups - sport (single-select: All Sports plus each sport from /app/leagues/filter-options), ATHLETES 2+/5+/10+, REACH 1M+/10M+/100M+, and a Mega only toggle - mapping to sports[], minTrackedAthletes, minAggregatedIgFollowers, and megaOnly; changing any filter resets offset to 0",
@@ -24,7 +27,7 @@
     "pnpm test",
     "pnpm build"
   ],
-  "verification_cmd": "pnpm --filter web test -- src/pages/sports/leagues",
+  "verification_cmd": "pnpm --filter web exec vitest run src/pages/sports/leagues",
   "smoke_cmd": "",
   "security_review": false,
   "notes": "PRD: docs/PRD.md '## Leagues list (sports vertical)'. Depends on phase 03 for generated @repo/api-client types and phase 04 for the nav section mechanism. The mock is authoritative for information architecture and filter behavior; visual treatment follows docs/design/DESIGN_LANGUAGE.md (sport labels are colored Text per the taxonomy rule, not the mock's gray badges; organisation avatars use radius='sm'). This page is the explicit first ground-up test of the design language doc - treat its rules as acceptance-blocking. Reuse @repo/ui (search-input, data-table, table-pagination) and the athletes quick-pill precedent (PillGroup/Pill); a leagues page needs no column picker and no URL state (both out of scope in the PRD)."

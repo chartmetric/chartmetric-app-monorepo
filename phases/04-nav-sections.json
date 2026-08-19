@@ -21,7 +21,7 @@
     "pnpm test",
     "pnpm build"
   ],
-  "verification_cmd": "pnpm --filter web test -- src/layout",
+  "verification_cmd": "pnpm --filter web exec vitest run src/layout",
   "smoke_cmd": "",
   "security_review": false,
   "notes": "PRD: docs/PRD.md '## Leagues list (sports vertical)' requirement 7. User-confirmed: full mock nav ships now with not-yet-built destinations disabled. The Leagues nav item itself lands in phase 05 with its route - do not add a link to /sports/leagues in this phase. Nav grouping is presentation in route/nav code, permitted by the access-and-feature-gating architecture; do not add feature availability or route inventories to the documented VerticalConfig contract. Disabled presentation detail (tooltip vs plain muted) is the writer's call within the design language."

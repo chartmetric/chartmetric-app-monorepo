@@ -1,7 +1,7 @@
 {
   "id": "03-leagues-api",
   "title": "Leagues list API endpoint",
-  "status": "pending",
+  "status": "in_progress",
   "depends_on": [],
   "acceptance": [
     "GET /leagues is registered through createApiRoutes on both surfaces and appears in openapi.generated.json as /app/leagues and /v1/leagues with a new `leagues` tag",
@@ -27,8 +27,11 @@
     "pnpm --filter api test",
     "pnpm check:generated"
   ],
-  "verification_cmd": "pnpm --filter api test -- src/modules/leagues",
+  "verification_cmd": "pnpm --filter api exec vitest run src/modules/leagues",
   "smoke_cmd": "",
   "security_review": false,
-  "notes": "PRD: docs/PRD.md '## Leagues list (sports vertical)'. Sources are new_vertical.leagues (16 rows, ReplacingMergeTree sorted by id) and athletes_cache only - league_rankings_snapshots is NOT used (the mock replaced metric columns with key athletes/nationalities). Athlete aggregates group by a derived league label: football_league and basketball_league match leagues.name exactly; tennis maps as tennis_tour || ' Tour'. This name-join is a documented interim until athlete-league IDs exist. No smoke_cmd by design: per the learned rules, every filter/sort variant and the count/list sibling pair must be executed through the read-only ClickHouse MCP and the row counts recorded in these notes as deltas against a baseline, not absolutes. Surfaces decision (app+v1) is user-confirmed in the PRD."
+  "notes": "PRD: docs/PRD.md '## Leagues list (sports vertical)'. Sources are new_vertical.leagues (16 rows, ReplacingMergeTree sorted by id) and athletes_cache only - league_rankings_snapshots is NOT used (the mock replaced metric columns with key athletes/nationalities). Athlete aggregates group by a derived league label: football_league and basketball_league match leagues.name exactly; tennis maps as tennis_tour || ' Tour'. This name-join is a documented interim until athlete-league IDs exist. No smoke_cmd by design: per the learned rules, every filter/sort variant and the count/list sibling pair must be executed through the read-only ClickHouse MCP and the row counts recorded in these notes as deltas against a baseline, not absolutes. Surfaces decision (app+v1) is user-confirmed in the PRD.",
+  "attempts": 0,
+  "run_started_at": "2026-08-19T20:53:26+00:00",
+  "stage": "lint"
 }
