@@ -7,6 +7,7 @@ import { InfluencersPage } from "./pages/creators/influencers/InfluencersPage";
 import { DemoPage } from "./pages/demo/DemoPage";
 import { ArtistsPage } from "./pages/music/artists/ArtistsPage";
 import { AthletesPage } from "./pages/sports/athletes/AthletesPage";
+import { LeaguesPage } from "./pages/sports/leagues/LeaguesPage";
 import { DEFAULT_VERTICAL } from "./verticals";
 
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
       },
       { element: <ArtistsPage />, path: "/music/artists" },
       { element: <AthletesPage />, path: "/sports/athletes" },
+      { element: <LeaguesPage />, path: "/sports/leagues" },
       { element: <InfluencersPage />, path: "/creators/influencers" },
       { element: <DemoPage />, path: "/demo" },
       { element: <AccountPage />, path: "/account" },

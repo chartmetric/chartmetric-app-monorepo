@@ -30,8 +30,13 @@ looks.
   sport rendered as colored `Text` via `getSportColor` — not a
   `Badge`), Key Athletes as 3 chips plus a "+N" overflow with a
   tooltip listing the rest, Nationalities as an inline list plus "+N"
-  with tooltip; the league column sorts asc/desc with the directional
-  icon on the active column only.
+  with tooltip; the league column is sortable with the directional
+  icon on the active column only, in the single direction the contract
+  allows — `GET /app/leagues` exposes `sortBy` but no `sortDirection`,
+  and `list-leagues/queries.ts` fixes `name`/`sport` ascending and
+  `trackedAthletes` descending server-side, so the page mirrors that
+  fixed per-column direction instead of offering a toggle the API
+  cannot serve.
 - All request/response types derive from `@repo/api-client` `paths`
   (no hand-written API types); TanStack Query keys are
   `["leagues", query]` and `["league-filter-options"]`.
@@ -87,6 +92,10 @@ looks.
   precedent on the athletes page.
 - Identity cell: organisation avatar rules from the design language
   (`radius="sm"`, 1px default-border ring, `miw={0}` truncation).
+- PRD item 10 says "League column sortable asc/desc"; the phase-03
+  contract cannot serve that (no `sortDirection`). Acceptance is
+  amended to the fixed per-column direction; adding `sortDirection` to
+  `GET /app/leagues` is a follow-up phase, not a change to make here.
 - The screenshot state in the PRD shows ATHLETES 10+ active (12 of 16
   leagues); the default page state is unfiltered (all 16, name asc).
 - Lingui: strings under `src/pages/sports/leagues/` land in the

@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/verticals.ts:34
+#: src/verticals.ts:35
 msgid "Artists"
 msgstr "아티스트"
 
-#: src/verticals.ts:50
+#: src/verticals.ts:51
 msgid "Athletes"
 msgstr "운동선수"
 
@@ -25,11 +25,11 @@ msgstr "운동선수"
 msgid "Chartmetric Dash"
 msgstr "Chartmetric Dash"
 
-#: src/verticals.ts:85
+#: src/verticals.ts:92
 msgid "Compare"
 msgstr "비교"
 
-#: src/verticals.ts:45
+#: src/verticals.ts:46
 msgid "Dashboard"
 msgstr "대시보드"
 
@@ -37,33 +37,37 @@ msgstr "대시보드"
 msgid "Discover"
 msgstr "탐색"
 
-#: src/verticals.ts:71
+#: src/verticals.ts:78
 msgid "Events"
 msgstr "이벤트"
 
-#: src/verticals.ts:95
+#: src/verticals.ts:102
 msgid "for Creators"
 msgstr "크리에이터용"
 
-#: src/verticals.ts:33
+#: src/verticals.ts:34
 msgid "for Music"
 msgstr "음악용"
 
-#: src/verticals.ts:40
+#: src/verticals.ts:41
 msgid "for Sports"
 msgstr "스포츠용"
 
-#: src/verticals.ts:64
+#: src/verticals.ts:71
 msgid "Games"
 msgstr "경기"
 
-#: src/verticals.ts:96
+#: src/verticals.ts:103
 msgid "Influencers"
 msgstr "인플루언서"
 
 #: src/layout/components/LocaleSwitcher.tsx:22
 msgid "Language"
 msgstr "언어"
+
+#: src/verticals.ts:57
+msgid "Leagues"
+msgstr "리그"
 
 #: src/layout/components/VerticalNav.tsx:16
 msgid "Library"
@@ -73,7 +77,7 @@ msgstr "라이브러리"
 msgid "Log out"
 msgstr "로그아웃"
 
-#: src/verticals.ts:78
+#: src/verticals.ts:85
 msgid "Shortlists"
 msgstr "후보 목록"
 
@@ -89,7 +93,7 @@ msgstr "라이트 모드로 전환"
 msgid "Switch vertical"
 msgstr "버티컬 전환"
 
-#: src/verticals.ts:57
+#: src/verticals.ts:64
 msgid "Teams"
 msgstr "팀"
 

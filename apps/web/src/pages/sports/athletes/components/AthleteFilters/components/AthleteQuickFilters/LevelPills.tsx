@@ -4,8 +4,8 @@ import { useLingui } from "@lingui/react/macro";
 
 import type { AthleteLevel } from "../../../../api/types";
 
-import { Pill } from "./Pill";
-import { PillGroup } from "./PillGroup";
+import { Pill } from "../../../../../quick-filter-pills/Pill";
+import { PillGroup } from "../../../../../quick-filter-pills/PillGroup";
 
 interface LevelPillsProps {
   levels: readonly AthleteLevel[];

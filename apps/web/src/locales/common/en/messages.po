@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/verticals.ts:34
+#: src/verticals.ts:35
 msgid "Artists"
 msgstr "Artists"
 
-#: src/verticals.ts:50
+#: src/verticals.ts:51
 msgid "Athletes"
 msgstr "Athletes"
 
@@ -25,11 +25,11 @@ msgstr "Athletes"
 msgid "Chartmetric Dash"
 msgstr "Chartmetric Dash"
 
-#: src/verticals.ts:85
+#: src/verticals.ts:92
 msgid "Compare"
 msgstr "Compare"
 
-#: src/verticals.ts:45
+#: src/verticals.ts:46
 msgid "Dashboard"
 msgstr "Dashboard"
 
@@ -37,33 +37,37 @@ msgstr "Dashboard"
 msgid "Discover"
 msgstr "Discover"
 
-#: src/verticals.ts:71
+#: src/verticals.ts:78
 msgid "Events"
 msgstr "Events"
 
-#: src/verticals.ts:95
+#: src/verticals.ts:102
 msgid "for Creators"
 msgstr "for Creators"
 
-#: src/verticals.ts:33
+#: src/verticals.ts:34
 msgid "for Music"
 msgstr "for Music"
 
-#: src/verticals.ts:40
+#: src/verticals.ts:41
 msgid "for Sports"
 msgstr "for Sports"
 
-#: src/verticals.ts:64
+#: src/verticals.ts:71
 msgid "Games"
 msgstr "Games"
 
-#: src/verticals.ts:96
+#: src/verticals.ts:103
 msgid "Influencers"
 msgstr "Influencers"
 
 #: src/layout/components/LocaleSwitcher.tsx:22
 msgid "Language"
 msgstr "Language"
+
+#: src/verticals.ts:57
+msgid "Leagues"
+msgstr "Leagues"
 
 #: src/layout/components/VerticalNav.tsx:16
 msgid "Library"
@@ -73,7 +77,7 @@ msgstr "Library"
 msgid "Log out"
 msgstr "Log out"
 
-#: src/verticals.ts:78
+#: src/verticals.ts:85
 msgid "Shortlists"
 msgstr "Shortlists"
 
@@ -89,7 +93,7 @@ msgstr "Switch to light mode"
 msgid "Switch vertical"
 msgstr "Switch vertical"
 
-#: src/verticals.ts:57
+#: src/verticals.ts:64
 msgid "Teams"
 msgstr "Teams"
 

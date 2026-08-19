@@ -7,7 +7,7 @@ import { Avatar, Group, Stack, Text, Tooltip } from "@mantine/core";
 
 import type { Athlete } from "../../api/types";
 
-import { getSportColor } from "../../utils/sport-colors";
+import { getSportColor } from "../../../sport-colors";
 import { CountryFlag } from "./CountryFlag";
 import { SocialLinks } from "./SocialLinks";
 

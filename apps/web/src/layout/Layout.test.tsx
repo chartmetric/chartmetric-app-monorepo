@@ -81,7 +81,7 @@ describe("Layout navigation", () => {
     const tools = screen.getByRole("group", { name: "Tools" });
 
     expect(library.textContent).toBe("LibraryAthletes");
-    expect(discover.textContent).toBe("DiscoverTeamsGamesEvents");
+    expect(discover.textContent).toBe("DiscoverLeaguesTeamsGamesEvents");
     expect(tools.textContent).toBe("ToolsShortlistsCompare");
   });
 

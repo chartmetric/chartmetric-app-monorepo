@@ -4,8 +4,8 @@ import { useLingui } from "@lingui/react/macro";
 
 import type { FollowerRange } from "../../../../filters/types";
 
-import { Pill } from "./Pill";
-import { PillGroup } from "./PillGroup";
+import { Pill } from "../../../../../quick-filter-pills/Pill";
+import { PillGroup } from "../../../../../quick-filter-pills/PillGroup";
 
 const FOLLOWER_PRESETS: readonly FollowerRange[] = [
   { max: null, min: 100_000_000 },
