@@ -9,13 +9,18 @@ import type { VerticalNavLink, VerticalNavSection } from "../../verticals";
 
 import { VerticalNavItem } from "./VerticalNavItem";
 
-const SECTIONS: readonly {
-  id: VerticalNavSection;
-  label: MessageDescriptor;
-}[] = [
-  { id: "library", label: msg`Library` },
-  { id: "discover", label: msg`Discover` },
-  { id: "tools", label: msg`Tools` },
+// Record keyed by the union: adding a VerticalNavSection variant without a
+// label is a compile error, unlike an array literal that lets links vanish.
+const SECTION_LABELS: Record<VerticalNavSection, MessageDescriptor> = {
+  discover: msg`Discover`,
+  library: msg`Library`,
+  tools: msg`Tools`,
+};
+
+const SECTION_ORDER: readonly VerticalNavSection[] = [
+  "library",
+  "discover",
+  "tools",
 ];
 
 interface VerticalNavProps {
@@ -37,23 +42,16 @@ export const VerticalNav: FC<VerticalNavProps> = ({ links, onNavigate }) => {
             onNavigate={onNavigate}
           />
         ))}
-      {SECTIONS.map((section) => {
-        const sectionLinks = links.filter(
-          (link) => link.section === section.id,
-        );
+      {SECTION_ORDER.map((section) => {
+        const sectionLinks = links.filter((link) => link.section === section);
         if (sectionLinks.length === 0) {
           return null;
         }
 
-        const headingId = `nav-section-${section.id}`;
+        const headingId = `nav-section-${section}`;
 
         return (
-          <Box
-            aria-labelledby={headingId}
-            key={section.id}
-            mt="md"
-            role="group"
-          >
+          <Box aria-labelledby={headingId} key={section} mt="md" role="group">
             <Text
               c="teal.2"
               fw={600}
@@ -63,7 +61,7 @@ export const VerticalNav: FC<VerticalNavProps> = ({ links, onNavigate }) => {
               size="xs"
               tt="uppercase"
             >
-              {t(section.label)}
+              {t(SECTION_LABELS[section])}
             </Text>
             {sectionLinks.map((link) => (
               <VerticalNavItem

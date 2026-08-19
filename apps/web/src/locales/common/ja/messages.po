@@ -33,9 +33,9 @@ msgstr "比較"
 msgid "Dashboard"
 msgstr "ダッシュボード"
 
-#: src/layout/components/VerticalNav.tsx:17
+#: src/layout/components/VerticalNav.tsx:15
 msgid "Discover"
-msgstr "発見"
+msgstr "探索"
 
 #: src/verticals.ts:71
 msgid "Events"
@@ -98,6 +98,6 @@ msgstr "チーム"
 msgid "Toggle navigation"
 msgstr "ナビゲーションを切り替え"
 
-#: src/layout/components/VerticalNav.tsx:18
+#: src/layout/components/VerticalNav.tsx:17
 msgid "Tools"
 msgstr "ツール"

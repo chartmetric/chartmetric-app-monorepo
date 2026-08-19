@@ -33,7 +33,7 @@ msgstr "비교"
 msgid "Dashboard"
 msgstr "대시보드"
 
-#: src/layout/components/VerticalNav.tsx:17
+#: src/layout/components/VerticalNav.tsx:15
 msgid "Discover"
 msgstr "탐색"
 
@@ -98,6 +98,6 @@ msgstr "팀"
 msgid "Toggle navigation"
 msgstr "내비게이션 전환"
 
-#: src/layout/components/VerticalNav.tsx:18
+#: src/layout/components/VerticalNav.tsx:17
 msgid "Tools"
 msgstr "도구"

@@ -62,14 +62,14 @@ const renderLayout = (
 const isBurgerOpened = (burger: HTMLElement): boolean =>
   burger.querySelector("[data-opened]") !== null;
 
-const navItem = (label: string): HTMLAnchorElement => {
-  const item = screen.getByText(label).closest("a");
+const navItem = (label: string): HTMLElement => {
+  const item = screen.getByText(label).closest("a, button");
 
   if (item === null) {
     throw new Error(`No nav item rendered for ${label}`);
   }
 
-  return item;
+  return item as HTMLElement;
 };
 
 describe("Layout navigation", () => {
@@ -80,7 +80,7 @@ describe("Layout navigation", () => {
     const discover = screen.getByRole("group", { name: "Discover" });
     const tools = screen.getByRole("group", { name: "Tools" });
 
-    expect(library.textContent).toContain("Athletes");
+    expect(library.textContent).toBe("LibraryAthletes");
     expect(discover.textContent).toBe("DiscoverTeamsGamesEvents");
     expect(tools.textContent).toBe("ToolsShortlistsCompare");
   });
@@ -106,7 +106,7 @@ describe("Layout navigation", () => {
     }
   });
 
-  it("marks disabled items aria-disabled and does not link them", () => {
+  it("exposes disabled items as disabled buttons, never as links", () => {
     renderLayout("/sports/athletes");
 
     for (const label of [
@@ -117,10 +117,11 @@ describe("Layout navigation", () => {
       "Shortlists",
       "Compare",
     ]) {
-      const item = navItem(label);
+      const item = screen.getByRole<HTMLButtonElement>("button", {
+        name: label,
+      });
 
       expect(item.getAttribute("aria-disabled")).toBe("true");
-      expect(item.hasAttribute("href")).toBe(false);
       expect(screen.queryByRole("link", { name: label })).toBeNull();
     }
   });

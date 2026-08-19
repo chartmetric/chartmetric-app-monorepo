@@ -33,7 +33,7 @@ msgstr "Comparer"
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: src/layout/components/VerticalNav.tsx:17
+#: src/layout/components/VerticalNav.tsx:15
 msgid "Discover"
 msgstr "Découvrir"
 
@@ -98,6 +98,6 @@ msgstr "Équipes"
 msgid "Toggle navigation"
 msgstr "Basculer la navigation"
 
-#: src/layout/components/VerticalNav.tsx:18
+#: src/layout/components/VerticalNav.tsx:17
 msgid "Tools"
 msgstr "Outils"

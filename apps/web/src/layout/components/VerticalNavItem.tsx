@@ -25,16 +25,18 @@ export const VerticalNavItem: FC<VerticalNavItemProps> = ({
       <FontAwesomeIcon aria-hidden icon={link.icon} />
     );
 
-  // No Link means no href, so a click on a not-yet-built destination cannot
-  // navigate; Mantine's `disabled` supplies the muting.
+  // A native disabled button exposes its state to assistive tech; an anchor
+  // without href is role "generic", where aria-disabled is unsupported.
   if (link.disabled === true) {
     return (
       <NavLink
         aria-disabled
         c="white"
+        component="button"
         disabled
         label={t(link.label)}
         leftSection={icon}
+        type="button"
       />
     );
   }
