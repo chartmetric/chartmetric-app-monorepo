@@ -38,7 +38,7 @@ describe("listArtists", () => {
     );
     expect(sql).toContain("FROM new_vertical.profile FINAL");
     expect(sql).toContain(
-      "profile_type = 'musician' AND vertical = 'music' AND active = 'true' AND deleted_at IS NULL",
+      "has(profile_types, 'musician') AND vertical = 'music' AND active = 'true' AND deleted_at IS NULL",
     );
     expect(sql).toContain("accurateCastOrNull(cm_source_id, 'Int32')");
     expect(sql).toContain(
