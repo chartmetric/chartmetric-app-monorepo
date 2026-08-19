@@ -160,9 +160,7 @@ export const AthletesTable: FC<AthletesTableProps> = ({
         columns={columns}
         getRowKey={(athlete) => athlete.id}
         minWidth={
-          RANK_COLUMN_WIDTH +
-          ATHLETE_COLUMN_WIDTH +
-          SCROLLING_COLUMNS_MIN_WIDTH
+          RANK_COLUMN_WIDTH + ATHLETE_COLUMN_WIDTH + SCROLLING_COLUMNS_MIN_WIDTH
         }
         onSort={onSort}
         renderSkeletonRow={

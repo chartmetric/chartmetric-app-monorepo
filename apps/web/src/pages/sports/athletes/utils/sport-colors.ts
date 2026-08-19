@@ -17,9 +17,7 @@ const SPORT_COLORS: Readonly<Record<string, MantineColor>> = {
 };
 
 export const getSportColor = (sport: string | null): MantineColor => {
-  if (sport === null) return "gray";
+  const key = sport?.toLowerCase().replaceAll(" ", "_") ?? "";
 
-  const key = sport.toLowerCase().replaceAll(" ", "_");
-
-  return SPORT_COLORS[key] ?? "violet";
+  return SPORT_COLORS[key] ?? "gray";
 };
