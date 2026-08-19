@@ -8,7 +8,7 @@
     "Querystring contract: limit/offset from the shared pagination schema, name, sports[], minTrackedAthletes, minAggregatedIgFollowers, megaOnly (league has >=1 tracked athlete with >=100M IG followers); sortBy is name|sport|trackedAthletes with default name asc and a stable id tiebreak",
     "GET /leagues/filter-options is registered on the app surface only (present as /app/leagues/filter-options, absent from /v1 in openapi.generated.json) and returns the distinct sports of the leagues catalog",
     "Reply row is exactly: id, name, sport, leagueType, country (normalized from scope; 'world'/'World' -> null), logoUrl, countryFlagUrl (parsed from metadata JSON), keyAthletes (top 5 by IG followers, each {id, name}), nationalities (distinct, sorted), trackedAthletes; meta carries limit/offset/total; empty strings become null in the mapper, never in the query",
-    "All ClickHouse access composes hypequery builders: new_vertical.leagues is read through a CTE that applies .final(); athletes_cache aggregates apply .final() with is_active = 1 and deleted_at IS NULL; rawAs appears only for scalar aggregate expressions; ESLint passes with no raw SQL",
+    "All ClickHouse access composes hypequery builders: new_vertical.leagues is read with a root-level .final() (its sorting key is exactly id, and only a join target is barred from FINAL, so no CTE is needed); athletes_cache aggregates apply .final() with is_active = 1 and deleted_at IS NULL; rawAs appears only for scalar aggregate expressions; ESLint passes with no raw SQL",
     "apps/api/src/db/clickhouse/schema.generated.ts is regenerated and includes new_vertical.leagues; pnpm check:generated passes (OpenAPI snapshot and api-client regenerated in the same commit)",
     "Module tests exist and pass: routes.test.ts covers registration, surfaces, and responses through the app; colocated queries and mapper tests cover filters, sort mapping, key-athlete selection, and null normalization; pnpm --filter api lint, typecheck, and test pass"
   ],
@@ -19,7 +19,8 @@
     "apps/api/src/plugins/openapi.ts",
     "apps/api/src/db/clickhouse/schema.generated.ts",
     "apps/api/openapi.generated.json",
-    "packages/api-client/src/schema.generated.ts"
+    "packages/api-client/src/schema.generated.ts",
+    "apps/api/src/tests/helpers.ts"
   ],
   "gates": [
     "pnpm --filter api lint",

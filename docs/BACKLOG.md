@@ -7,6 +7,31 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
+### From 03-leagues-api retro (2026-08-19)
+
+- P1: Replace the interim name-based league join (`football_league` /
+  `basketball_league` / `concat(tennis_tour, ' Tour')` against
+  `leagues.name`) with a real league id on `athletes_cache`: a league
+  rename or a duplicate name silently zeroes or cross-counts every
+  aggregate in the `/leagues` reply.
+- P2: Replace `pnpm check:generated`'s `git status` grep with a
+  regenerate-and-diff check that does not consult git (structurally
+  unsatisfiable as a phase gate; wrong in both directions).
+- P2: Add `distinctSorted(values)` to `apps/api/src/lib/filter-options.ts`
+  and call it from `list-leagues/mapper.ts`, `league-filter-options/mapper.ts`,
+  and `athlete-filter-options/mapper.ts`, which all reimplement
+  distinct + blank-free + collated.
+- P2: Add why-comments to the four bare `rawAs` uses in
+  `list-leagues/queries.ts`, per `apps/api/AGENTS.md`.
+- P2: Type `nationalities` as `(string | null)[]` in
+  `list-leagues/types.ts`; split the filter-options cases out of
+  `describe("GET /leagues")` in leagues `routes.test.ts`.
+- P3: `ASCENDING_FIRST` + default-direction mapping now duplicated in
+  `athletes/queries.ts` and `leagues/queries.ts`; give it one owner if
+  a third list endpoint appears.
+- P3: `keyAthletes` capped at 5, `nationalities` uncapped in the list
+  reply; decide a cap or defer the full set to a league detail endpoint.
+
 - P2: Add a schema-drift gate comparing `schema.generated.ts` to
   `system.columns`, failing when a column the code reads changed type
   or vanished. On 2026-08-10 an upstream `RENAME TABLE` swapped

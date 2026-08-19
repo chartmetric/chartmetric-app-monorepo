@@ -35,7 +35,9 @@ IG-follower thresholds, and a mega-athlete toggle.
   `limit`/`offset`/`total`; empty strings become `null` in the mapper,
   never in the query.
 - All ClickHouse access composes hypequery builders:
-  `new_vertical.leagues` is read through a CTE that applies `.final()`;
+  `new_vertical.leagues` is read with a root-level `.final()` (its
+  sorting key is exactly `id`, and only a join target is barred from
+  `FINAL`, so no CTE is needed);
   `athletes_cache` aggregates apply `.final()` with `is_active = 1` and
   `deleted_at IS NULL`; `rawAs` appears only for scalar aggregate
   expressions; ESLint passes with no raw SQL.
