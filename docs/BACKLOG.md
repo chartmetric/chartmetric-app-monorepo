@@ -7,6 +7,18 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
+### From 04-nav-sections retro (2026-08-19)
+
+- P2: `verticals.ts` now declares six paths with no route, duplicating
+  the router's catalog; drive nav visibility from route metadata as
+  `apps/web/AGENTS.md` asks, once the real routes land in phase 05+.
+- P3: Disabled nav items offer no reason for being inert, and Mantine's
+  `opacity: 0.4` on white over teal.9 sits near the contrast floor;
+  decide an affordance and a legible muted token together.
+- P3: `VerticalNavItem` calls `useLocation()` per item while `Layout`
+  already holds the location; pass the active path down if the item
+  count grows.
+
 ### From 03-leagues-api retro (2026-08-19)
 
 - P1: Replace the interim name-based league join (`football_league` /
