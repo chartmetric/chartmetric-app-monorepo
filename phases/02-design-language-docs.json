@@ -1,8 +1,10 @@
 {
   "id": "02-design-language-docs",
   "title": "Design language documentation",
-  "status": "pending",
-  "depends_on": ["01-athletes-page-design"],
+  "status": "completed",
+  "depends_on": [
+    "01-athletes-page-design"
+  ],
   "acceptance": [
     "docs/design/DESIGN_LANGUAGE.md exists and contains sections: Color semantics, Surface hierarchy, Categorical data display, Identity cell composition, Table loading states, Anti-patterns",
     "apps/web/AGENTS.md contains a ## Design language section with 6-8 decision rules (Mantine API explicit) and a pointer to docs/design/DESIGN_LANGUAGE.md",
@@ -19,5 +21,5 @@
   "verification_cmd": "grep -q '## Color semantics' docs/design/DESIGN_LANGUAGE.md",
   "smoke_cmd": "",
   "security_review": false,
-  "notes": "Documentation-only phase — no product code changes. Writer must read the Phase 01 implementation (apps/web/src/pages/sports/athletes/) to capture decisions as they landed, not as planned. All rules must be agent-executable: no aesthetic adjectives, concrete Mantine API examples, explicit decision conditions. docs/design/DESIGN_LANGUAGE.md is the single source of truth; AGENTS.md and the skill are pointers only — no duplication."
+  "notes": "Documentation-only phase \u2014 no product code changes. Writer must read the Phase 01 implementation (apps/web/src/pages/sports/athletes/) to capture decisions as they landed, not as planned. All rules must be agent-executable: no aesthetic adjectives, concrete Mantine API examples, explicit decision conditions. docs/design/DESIGN_LANGUAGE.md is the single source of truth; AGENTS.md and the skill are pointers only \u2014 no duplication. Closed manually 2026-08-19: all four acceptance criteria were satisfied by direct commits on feat/nb-harness-on-design (docs/design/DESIGN_LANGUAGE.md, AGENTS.md sections, skill pointer) before any run; the runner correctly refuses a phase whose verifier is already green, so no run or retro exists for this phase."
 }

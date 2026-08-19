@@ -1,0 +1,31 @@
+{
+  "id": "05-leagues-page",
+  "title": "Leagues list page",
+  "status": "pending",
+  "depends_on": ["03-leagues-api", "04-nav-sections"],
+  "acceptance": [
+    "Route /sports/leagues renders a LeaguesPage from apps/web/src/pages/sports/leagues/, and the sports vertical declares the Leagues nav item under the Discover section",
+    "Header row matches the mock: localized title with the live total from meta.total, inline SearchInput, and quick-pill groups - sport (single-select: All Sports plus each sport from /app/leagues/filter-options), ATHLETES 2+/5+/10+, REACH 1M+/10M+/100M+, and a Mega only toggle - mapping to sports[], minTrackedAthletes, minAggregatedIgFollowers, and megaOnly; changing any filter resets offset to 0",
+    "Table matches the mock: # ordinal derived from offset, League/Competition identity cell (logo Avatar radius='sm', name, sport rendered as colored Text via getSportColor - not a Badge), Key Athletes as 3 chips plus a '+N' overflow with a tooltip listing the rest, Nationalities as an inline list plus '+N' with tooltip; the league column sorts asc/desc with the directional icon on the active column only",
+    "All request/response types derive from @repo/api-client paths (no hand-written API types); TanStack Query keys are ['leagues', query] and ['league-filter-options']",
+    "Loading, empty, error, and data states share identical Paper props; the skeleton mirrors toolbar, body, and footer with CSS-var bar heights and a row count driven by the page-size constant; the teal hover accent is set on the Paper wrapper",
+    "getSportColor is promoted out of apps/web/src/pages/sports/athletes/utils/ to a location shared by both sports pages; the athletes page imports the promoted module and no duplicate sport-color mapping remains",
+    "All user-facing strings go through Lingui and are translated in all 7 locales; behavior tests cover filter-to-query mapping, pill single-select behavior, and the four page states; pnpm typecheck, pnpm test, and pnpm build pass"
+  ],
+  "files": [
+    "apps/web/src/App.tsx",
+    "apps/web/src/verticals.ts",
+    "apps/web/src/pages/sports/**",
+    "apps/web/src/locales/sports/**",
+    "apps/web/src/locales/common/**"
+  ],
+  "gates": [
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build"
+  ],
+  "verification_cmd": "pnpm --filter web test -- src/pages/sports/leagues",
+  "smoke_cmd": "",
+  "security_review": false,
+  "notes": "PRD: docs/PRD.md '## Leagues list (sports vertical)'. Depends on phase 03 for generated @repo/api-client types and phase 04 for the nav section mechanism. The mock is authoritative for information architecture and filter behavior; visual treatment follows docs/design/DESIGN_LANGUAGE.md (sport labels are colored Text per the taxonomy rule, not the mock's gray badges; organisation avatars use radius='sm'). This page is the explicit first ground-up test of the design language doc - treat its rules as acceptance-blocking. Reuse @repo/ui (search-input, data-table, table-pagination) and the athletes quick-pill precedent (PillGroup/Pill); a leagues page needs no column picker and no URL state (both out of scope in the PRD)."
+}

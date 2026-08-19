@@ -1,0 +1,28 @@
+{
+  "id": "04-nav-sections",
+  "title": "Left-nav sections for the sports vertical",
+  "status": "pending",
+  "depends_on": [],
+  "acceptance": [
+    "VerticalNavLink in apps/web/src/verticals.ts supports optional section ('library' | 'discover' | 'tools') and disabled fields; the sports vertical declares: Dashboard (top-level, disabled), Library -> Athletes, Discover -> Teams, Games, Events (all disabled), Tools -> Shortlists, Compare (both disabled); music and creators navLinks are unchanged and flat",
+    "Layout.tsx renders localized section headers (LIBRARY, DISCOVER, TOOLS) above their grouped links; unsectioned links render above the first section without a header; a vertical with no sectioned links renders exactly as today",
+    "Disabled nav items do not navigate, carry aria-disabled, and are visually muted; enabled items keep the existing active/hover behavior",
+    "Every sports nav item renders a FontAwesome icon imported by individual path; no Unicode symbols",
+    "All new user-facing strings go through Lingui and are translated in all 7 locales in the common catalog; lingui compile --strict passes via the repo checks",
+    "Tests under apps/web/src/layout cover section grouping, disabled item non-navigation and aria-disabled, and flat rendering for verticals without sections; pnpm typecheck, pnpm test, and pnpm build pass"
+  ],
+  "files": [
+    "apps/web/src/verticals.ts",
+    "apps/web/src/layout/**",
+    "apps/web/src/locales/common/**"
+  ],
+  "gates": [
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build"
+  ],
+  "verification_cmd": "pnpm --filter web test -- src/layout",
+  "smoke_cmd": "",
+  "security_review": false,
+  "notes": "PRD: docs/PRD.md '## Leagues list (sports vertical)' requirement 7. User-confirmed: full mock nav ships now with not-yet-built destinations disabled. The Leagues nav item itself lands in phase 05 with its route - do not add a link to /sports/leagues in this phase. Nav grouping is presentation in route/nav code, permitted by the access-and-feature-gating architecture; do not add feature availability or route inventories to the documented VerticalConfig contract. Disabled presentation detail (tooltip vs plain muted) is the writer's call within the design language."
+}
