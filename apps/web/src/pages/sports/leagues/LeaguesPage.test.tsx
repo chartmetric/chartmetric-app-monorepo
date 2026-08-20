@@ -166,14 +166,14 @@ describe("LeaguesPage states", () => {
 
     renderPage();
 
-    expect(await screen.findByText("+14")).toBeTruthy();
+    expect(await screen.findByText("+15")).toBeTruthy();
     expect(
       screen.getByText(
-        "Country 7, Country 8, Country 9, Country 10, Country 11, Country 12, Country 13, Country 14, Country 15, Country 16",
+        "Country 6, Country 7, Country 8, Country 9, Country 10, Country 11, Country 12, Country 13, Country 14, Country 15",
       ),
     ).toBeTruthy();
-    expect(screen.getByText("…and 4 more")).toBeTruthy();
-    expect(screen.queryByText(/Country 17/u)).toBeNull();
+    expect(screen.getByText("…and 5 more")).toBeTruthy();
+    expect(screen.queryByText(/Country 16,/u)).toBeNull();
   });
 
   it("lists the first nationalities inline and counts the remainder", async () => {
@@ -188,7 +188,7 @@ describe("LeaguesPage states", () => {
     renderPage();
 
     expect(
-      await screen.findByText("Brazil, France, Ghana, Japan, Spain"),
+      await screen.findByText("Brazil France Ghana Japan Spain"),
     ).toBeTruthy();
   });
 
@@ -244,12 +244,25 @@ describe("LeaguesPage states", () => {
       header.getAttribute("aria-sort"),
     );
 
-    expect(sortStates).toEqual([null, "ascending", null, null, "none", "none"]);
+    expect(sortStates).toEqual([
+      null,
+      "none",
+      null,
+      null,
+      "none",
+      "descending",
+    ]);
   });
 
-  it.each(["League / Competition", "Athletes", "Total IG Reach"])(
+  it.each([
+    // League reads asc-first; Athletes desc-first; IG Reach starts active
+    // (the default sort) so the first click flips it.
+    ["League / Competition", "ascending", "descending"],
+    ["Athletes", "descending", "ascending"],
+    ["Total IG Reach", "ascending", "descending"],
+  ])(
     "flips the %s sort direction on every click",
-    async (label) => {
+    async (label, first, second) => {
       mockLeagues({ data: buildReply() });
 
       renderPage();
@@ -258,12 +271,12 @@ describe("LeaguesPage states", () => {
 
       fireEvent.click(within(header).getByRole("button"));
       await waitFor(() => {
-        expect(header.getAttribute("aria-sort")).toBe("descending");
+        expect(header.getAttribute("aria-sort")).toBe(first);
       });
 
       fireEvent.click(within(header).getByRole("button"));
       await waitFor(() => {
-        expect(header.getAttribute("aria-sort")).toBe("ascending");
+        expect(header.getAttribute("aria-sort")).toBe(second);
       });
     },
   );

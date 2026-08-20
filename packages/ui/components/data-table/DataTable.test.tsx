@@ -157,13 +157,13 @@ describe("DataTable", () => {
     expect(first?.className).toContain("stickyCell");
   });
 
-  it("marks the last pinned cell with the hard separator class", () => {
+  it("paints pinned cells with the body background, not a tint", () => {
     renderSticky();
 
     const cells = screen.getAllByRole("cell");
 
-    expect(cells[1]?.className).toContain("lastStickyCell");
-    expect(cells[2]?.className).not.toContain("lastStickyCell");
+    expect(cells[0]?.className).toContain("stickyCell");
+    expect(cells[1]?.className).not.toContain("lastStickyCell");
   });
 });
 

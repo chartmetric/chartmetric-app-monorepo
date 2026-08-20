@@ -470,6 +470,27 @@ The acceptance check is concrete: at a 1512px viewport, one header row
 holds title + count + search + every pill group + the sort control with
 margin to spare, and nothing wraps.
 
+**The exact data type spec (from the reference's DevTools).** Table
+data text is `"Space Mono", Menlo, monospace` at **12px on a 16px
+line** (`fontSizes.xs = 0.75rem`, `lineHeights.xs = 1.334`), **weight
+500 for the identity name, 400 for everything else**, ink `#17171c`
+(the theme `black` — never `#0b1215`-hard). Skeleton bars derive from
+`var(--mantine-line-height-*)`, never a literal multiplier.
+
+**Icons are always outline (`pro-regular`), never solid.** This
+includes nav, sort arrows, count pictograms, and placeholders. A glyph
+that is inherently a filled silhouette (person-running) is the wrong
+glyph — pick an outline-native one (people/user-group) instead.
+
+**Bold belongs to the page title alone.** One bold element per page,
+not per row: identity names are weight 500 mono, headers 500, data 400. If something else needs emphasis, it takes ink or size from the
+established bands, not weight.
+
+**Overflow counts are lighter than their list** (`gray-5`, glued to
+the last item with a no-break space), and a wrapping list column never
+shows an ellipsis — the preview count is budgeted so the wrap always
+ends on a whole item + the count.
+
 **Method note for the next loop.** Render the app without auth via an
 untracked Vite entry (`preview.html` + `src/preview.tsx` mounting the
 real tree minus `RequiredAuthProvider`), screenshot headless Chrome at

@@ -37,12 +37,12 @@ msgid "{total, plural, one {league} other {leagues}}"
 msgstr "{total, plural, other {リーグ}}"
 
 #. Leagues table column heading for the row number
-#: src/pages/sports/leagues/columns/table-columns.ts:37
+#: src/pages/sports/leagues/columns/table-columns.ts:52
 msgid "#"
 msgstr "#"
 
 #. Count of table-cell entries kept behind a tooltip
-#: src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:47
+#: src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:50
 msgid "+{extra}"
 msgstr "+{extra}"
 
@@ -74,8 +74,8 @@ msgid "Athlete"
 msgstr "選手"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:163
-#: src/pages/sports/leagues/columns/table-columns.ts:80
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:60
+#: src/pages/sports/leagues/columns/table-columns.ts:96
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:61
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:29
 msgid "Athletes"
 msgstr "選手"
@@ -182,7 +182,7 @@ msgstr "ハート"
 msgid "Hidden"
 msgstr "非表示"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:69
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:70
 msgid "IG Reach"
 msgstr "IGリーチ"
 
@@ -202,7 +202,7 @@ msgstr "Instagramフォロワー"
 msgid "Instagram posts"
 msgstr "Instagram投稿"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:62
+#: src/pages/sports/leagues/columns/table-columns.ts:78
 msgid "Key Athletes"
 msgstr "主要選手"
 
@@ -217,7 +217,7 @@ msgstr "最終試合"
 msgid "League"
 msgstr "リーグ"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:52
+#: src/pages/sports/leagues/columns/table-columns.ts:68
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:27
 msgid "League / Competition"
 msgstr "リーグ / 大会"
@@ -237,11 +237,11 @@ msgstr "レベル"
 msgid "Likes"
 msgstr "いいね"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:113
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:125
 msgid "Loading athletes"
 msgstr "選手を読み込み中"
 
-#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:97
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:109
 msgid "Loading leagues"
 msgstr "リーグを読み込み中"
 
@@ -249,7 +249,7 @@ msgstr "リーグを読み込み中"
 msgid "Maximum CM score"
 msgstr "最大CMスコア"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:79
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:80
 msgid "Mega only"
 msgstr "メガのみ"
 
@@ -272,7 +272,7 @@ msgstr "{label} を前に移動"
 msgid "Move {label} later"
 msgstr "{label} を後ろに移動"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:70
+#: src/pages/sports/leagues/columns/table-columns.ts:86
 msgid "Nationalities"
 msgstr "国籍"
 
@@ -413,7 +413,7 @@ msgstr "競技"
 msgid "Steady"
 msgstr "安定"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:99
+#: src/pages/sports/leagues/columns/table-columns.ts:114
 msgid "Sum of tracked athletes' Instagram followers — not a deduplicated audience."
 msgstr "追跡中の選手のInstagramフォロワー数の合計です。重複を除いたオーディエンスではありません。"
 
@@ -451,7 +451,7 @@ msgstr "TikTok投稿"
 msgid "TikTok videos"
 msgstr "TikTok動画"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:92
+#: src/pages/sports/leagues/columns/table-columns.ts:107
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:30
 msgid "Total IG Reach"
 msgstr "IG合計リーチ"
@@ -495,7 +495,7 @@ msgid "Unnamed athlete"
 msgstr "名前未設定の選手"
 
 #. Fallback name when a league record has no name
-#: src/pages/sports/leagues/components/LeagueCells/LeagueIdentity.tsx:20
+#: src/pages/sports/leagues/components/LeagueCells/LeagueIdentity.tsx:21
 msgid "Unnamed league"
 msgstr "名称未設定のリーグ"
 

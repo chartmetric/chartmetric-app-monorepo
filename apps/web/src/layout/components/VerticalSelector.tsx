@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { faChevronDown } from "@fortawesome/pro-solid-svg-icons/faChevronDown";
+import { faChevronDown } from "@fortawesome/pro-regular-svg-icons/faChevronDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { Group, Image, Menu, Stack, Text, UnstyledButton } from "@mantine/core";

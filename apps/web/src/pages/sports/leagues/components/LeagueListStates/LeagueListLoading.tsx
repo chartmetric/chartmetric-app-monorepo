@@ -20,7 +20,10 @@ import {
 
 const SkeletonFooter: FC = () => (
   <Group justify="space-between" {...TABLE_FOOTER_PADDING}>
-    <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w={180} />
+    <Skeleton
+      height="calc(var(--mantine-font-size-sm) * var(--mantine-line-height-sm))"
+      w={180}
+    />
     <Skeleton height={30} radius="sm" w={120} />
   </Group>
 );
@@ -57,8 +60,14 @@ export const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
       <Group gap="sm" wrap="nowrap">
         <Skeleton height={40} radius="sm" w={40} />
         <Stack gap={2} style={{ flex: 1 }}>
-          <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w="70%" />
-          <Skeleton height="calc(var(--mantine-font-size-xs) * 1.55)" w="40%" />
+          <Skeleton
+            height="calc(var(--mantine-font-size-sm) * var(--mantine-line-height-sm))"
+            w="70%"
+          />
+          <Skeleton
+            height="calc(var(--mantine-font-size-xs) * var(--mantine-line-height-xs))"
+            w="40%"
+          />
         </Stack>
       </Group>
     </Table.Td>
@@ -70,18 +79,21 @@ export const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
       </Group>
     </Table.Td>
     <Table.Td w={NATIONALITIES_WIDTH}>
-      <Skeleton height="calc(var(--mantine-font-size-xs) * 1.55)" w={168} />
+      <Skeleton
+        height="calc(var(--mantine-font-size-xs) * var(--mantine-line-height-xs))"
+        w={168}
+      />
     </Table.Td>
     <Table.Td w={TRACKED_ATHLETES_WIDTH}>
       <Skeleton
-        height="calc(var(--mantine-font-size-xs) * 1.55)"
+        height="calc(var(--mantine-font-size-xs) * var(--mantine-line-height-xs))"
         ml="auto"
         w={40}
       />
     </Table.Td>
     <Table.Td w={IG_REACH_WIDTH}>
       <Skeleton
-        height="calc(var(--mantine-font-size-xs) * 1.55)"
+        height="calc(var(--mantine-font-size-xs) * var(--mantine-line-height-xs))"
         ml="auto"
         w={52}
       />

@@ -1,9 +1,11 @@
 import {
   Button,
   createTheme,
+  type CSSVariablesResolver,
   Input,
   type MantineThemeOverride,
   mergeThemeOverrides,
+  Table,
   Tooltip,
 } from "@mantine/core";
 
@@ -20,7 +22,7 @@ import {
 
 export const baseTheme = createTheme({
   autoContrast: true,
-  black: "#0b1215",
+  black: "#17171c",
   colors: {
     blue,
     brandgreen,
@@ -68,6 +70,8 @@ export const baseTheme = createTheme({
      */
     Button: Button.extend({
       defaultProps: { size: "xs" },
+      // Buttons are controls, not emphasis: regular weight everywhere.
+      styles: { root: { fontWeight: 400 } },
       vars: (_theme, props) => ({
         root:
           props.size === "xs"
@@ -75,11 +79,21 @@ export const baseTheme = createTheme({
                 // 26px controls with 11px labels: the reference's filter-pill
                 // density, and the only height at which a full pill row fits a
                 // laptop-width header line.
+                "--button-bd": "1px solid var(--mantine-color-default-border)",
                 "--button-fz": "var(--mantine-font-size-xs)",
                 "--button-height": "1.625rem",
                 "--button-padding-x": "0.625rem",
               }
             : {},
+      }),
+    }),
+    Table: Table.extend({
+      vars: () => ({
+        table: {
+          // Whisper-thin dividers: rows separate by rhythm, not by line weight.
+          "--table-border-color":
+            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5))",
+        },
       }),
     }),
     Input: Input.extend({
@@ -89,6 +103,7 @@ export const baseTheme = createTheme({
           props.size === "xs"
             ? {
                 // Inputs share header rows with 26px buttons; heights match.
+                "--input-bd": "var(--mantine-color-default-border)",
                 "--input-fz": "var(--mantine-font-size-sm)",
                 "--input-height": "1.625rem",
               }
@@ -134,21 +149,30 @@ export const baseTheme = createTheme({
   // title. Skeleton bar heights follow automatically — they are CSS-var
   // formulas over these tokens by design-language rule.
   fontSizes: {
-    lg: "1rem",
-    md: "0.875rem",
-    sm: "0.8125rem",
-    xl: "1.125rem",
-    xs: "0.6875rem",
+    lg: "0.8rem",
+    md: "0.7rem",
+    sm: "0.65rem",
+    xl: "0.9rem",
+    xs: "0.6rem",
+  },
+  // The reference's data text is 12px on a 16px line (1.333); Mantine's 1.55
+  // default makes the same rows read taller than they are.
+  lineHeights: {
+    lg: "1.5",
+    md: "1.45",
+    sm: "1.4",
+    xl: "1.55",
+    xs: "1.334",
   },
   headings: {
     fontWeight: "600",
     sizes: {
-      h1: { fontSize: "1.5rem", fontWeight: "700", lineHeight: "1.3" },
-      h2: { fontSize: "1.375rem", lineHeight: "1.3" },
-      h3: { fontSize: "1.25rem", lineHeight: "1.3" },
-      h4: { fontSize: "1.125rem", lineHeight: "1.3" },
-      h5: { fontSize: "1rem", lineHeight: "1.3" },
-      h6: { fontSize: "0.875rem", lineHeight: "1.3" },
+      h1: { fontSize: "1.2rem", fontWeight: "700", lineHeight: "1.3" },
+      h2: { fontSize: "1.1rem", lineHeight: "1.3" },
+      h3: { fontSize: "1rem", lineHeight: "1.3" },
+      h4: { fontSize: "0.9rem", lineHeight: "1.3" },
+      h5: { fontSize: "0.8rem", lineHeight: "1.3" },
+      h6: { fontSize: "0.7rem", lineHeight: "1.3" },
     },
   },
   primaryColor: "teal",
@@ -176,3 +200,18 @@ export const baseTheme = createTheme({
 export const createVerticalTheme = (
   overrides: MantineThemeOverride,
 ): MantineThemeOverride => mergeThemeOverrides(baseTheme, overrides);
+
+/*
+ * Control and chip borders sit two steps lighter than Mantine's default
+ * (gray-4): the reference's edges are definite but never wiry. Passed to
+ * MantineProvider alongside the theme.
+ */
+export const cssVariablesResolver: CSSVariablesResolver = () => ({
+  dark: {
+    "--mantine-color-default-border": "var(--mantine-color-dark-5)",
+  },
+  light: {
+    "--mantine-color-default-border": "var(--mantine-color-gray-2)",
+  },
+  variables: {},
+});

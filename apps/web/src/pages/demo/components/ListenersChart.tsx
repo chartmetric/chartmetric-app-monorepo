@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
-import { faCompress } from "@fortawesome/pro-solid-svg-icons/faCompress";
-import { faExpand } from "@fortawesome/pro-solid-svg-icons/faExpand";
+import { faCompress } from "@fortawesome/pro-regular-svg-icons/faCompress";
+import { faExpand } from "@fortawesome/pro-regular-svg-icons/faExpand";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { AreaChart } from "@mantine/charts";

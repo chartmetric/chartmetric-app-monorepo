@@ -1,3 +1,5 @@
+import { faUserGroup } from "@fortawesome/pro-regular-svg-icons/faUserGroup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { createElement, useMemo } from "react";
 
@@ -10,12 +12,25 @@ import { KeyAthletesCell } from "../components/LeagueCells/KeyAthletesCell";
 import { LeagueIdentity } from "../components/LeagueCells/LeagueIdentity";
 import { NationalitiesCell } from "../components/LeagueCells/NationalitiesCell";
 
+const METRIC_TEXT_SIZE = "xs";
+
+const renderAthleteCount = (value: string): ReturnType<typeof createElement> =>
+  createElement(NumericCell, {
+    icon: createElement(FontAwesomeIcon, {
+      color:
+        "light-dark(var(--mantine-color-gray-7),var(--mantine-color-dark-2))",
+      icon: faUserGroup,
+    }),
+    size: METRIC_TEXT_SIZE,
+    value,
+  });
+
 export const ORDINAL_COLUMN_WIDTH = 44;
 export const LEAGUE_COLUMN_WIDTH = 300;
 export const KEY_ATHLETES_MIN_WIDTH = 340;
-export const NATIONALITIES_WIDTH = 290;
+export const NATIONALITIES_WIDTH = 190;
 export const TRACKED_ATHLETES_WIDTH = 90;
-export const IG_REACH_WIDTH = 130;
+export const IG_REACH_WIDTH = 150;
 
 export const LEAGUE_TABLE_MIN_WIDTH =
   ORDINAL_COLUMN_WIDTH +
@@ -40,6 +55,7 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
         }),
         renderCell: (row) =>
           createElement(NumericCell, {
+            muted: true,
             size: CELL_TEXT_SIZE,
             value: formatters.plain.format(row.ordinal),
           }),
@@ -79,10 +95,9 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
         key: "trackedAthletes",
         label: t`Athletes`,
         renderCell: (row) =>
-          createElement(NumericCell, {
-            size: CELL_TEXT_SIZE,
-            value: formatters.plain.format(row.league.trackedAthletes),
-          }),
+          renderAthleteCount(
+            formatters.plain.format(row.league.trackedAthletes),
+          ),
         sortKey: "trackedAthletes",
         width: TRACKED_ATHLETES_WIDTH,
       },
@@ -92,7 +107,7 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
         label: t`Total IG Reach`,
         renderCell: (row) =>
           createElement(NumericCell, {
-            size: CELL_TEXT_SIZE,
+            size: METRIC_TEXT_SIZE,
             value: formatters.compact.format(row.league.igReach),
           }),
         sortKey: "igReach",

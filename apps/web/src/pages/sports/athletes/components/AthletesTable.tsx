@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from "react";
 
-import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
-import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
+import { faArrowDown } from "@fortawesome/pro-regular-svg-icons/faArrowDown";
+import { faArrowUp } from "@fortawesome/pro-regular-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Text } from "@mantine/core";

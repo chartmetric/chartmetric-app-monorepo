@@ -1,7 +1,7 @@
 import type { CSSProperties, Key, ReactNode } from "react";
 
-import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
-import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
+import { faArrowDown } from "@fortawesome/pro-regular-svg-icons/faArrowDown";
+import { faArrowUp } from "@fortawesome/pro-regular-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
@@ -95,15 +95,8 @@ const stickyStyle = (
         zIndex: isHeader ? STICKY_HEADER_CELL_Z_INDEX : STICKY_CELL_Z_INDEX,
       };
 
-const stickyClass = (
-  left: number | undefined,
-  isLast = false,
-): string | undefined => {
-  if (left === undefined) return undefined;
-  return [classes["stickyCell"], isLast ? classes["lastStickyCell"] : undefined]
-    .filter(Boolean)
-    .join(" ");
-};
+const stickyClass = (left: number | undefined): string | undefined =>
+  left === undefined ? undefined : classes["stickyCell"];
 
 const ariaSort = (
   isActive: boolean,
@@ -113,21 +106,21 @@ const ariaSort = (
   return direction === "asc" ? "ascending" : "descending";
 };
 
+// Inactive columns reserve the icon's metrics invisibly: no directional noise
+// (the learned rule), but every header shares one baseline and nothing shifts
+// when the sort moves.
 const sortIcon = (
   isActive: boolean,
   direction: DataTableSortDirection,
-): ReactNode => {
-  if (!isActive) return null;
-  return direction === "asc" ? (
-    <FontAwesomeIcon icon={faArrowUp} />
-  ) : (
-    <FontAwesomeIcon icon={faArrowDown} />
-  );
-};
+): ReactNode => (
+  <FontAwesomeIcon
+    icon={direction === "asc" ? faArrowUp : faArrowDown}
+    {...(!isActive && { style: { visibility: "hidden" } })}
+  />
+);
 
 interface HeaderCellProps<Row, SortKey extends string> {
   column: DataTableColumn<Row, SortKey>;
-  isLast: boolean;
   left: number | undefined;
   onSort: (sortBy: SortKey) => void;
   sortBy: SortKey;
@@ -147,7 +140,7 @@ interface SortButtonProps {
 // Header labels are quiet chrome: uppercase mono, muted, regular weight. Bold
 // headers compete with the data rows they describe.
 const HEADER_LABEL_PROPS = {
-  c: "dimmed",
+  className: classes["headerLabel"] ?? "",
   component: "span",
   ff: "monospace",
   fw: 500,
@@ -167,12 +160,22 @@ const SortButton = ({
   const button = (
     <UnstyledButton aria-label={ariaLabel} onClick={onClick}>
       <Group
+        align="baseline"
         gap={6}
         justify={align === "right" ? "flex-end" : "flex-start"}
         wrap="nowrap"
       >
-        <Text {...HEADER_LABEL_PROPS}>{label}</Text>
-        <span aria-hidden="true">{icon}</span>
+        {align === "right" ? (
+          <>
+            <span aria-hidden="true">{icon}</span>
+            <Text {...HEADER_LABEL_PROPS}>{label}</Text>
+          </>
+        ) : (
+          <>
+            <Text {...HEADER_LABEL_PROPS}>{label}</Text>
+            <span aria-hidden="true">{icon}</span>
+          </>
+        )}
       </Group>
     </UnstyledButton>
   );
@@ -195,7 +198,6 @@ const SortButton = ({
 
 const HeaderCell = <Row, SortKey extends string>({
   column,
-  isLast,
   left,
   onSort,
   sortBy,
@@ -239,7 +241,7 @@ const HeaderCell = <Row, SortKey extends string>({
       }
       className={[
         left === undefined ? classes["headerCell"] : undefined,
-        stickyClass(left, isLast),
+        stickyClass(left),
       ]
         .filter(Boolean)
         .join(" ")}
@@ -282,9 +284,6 @@ export const DataTable = <Row, SortKey extends string>({
 }: DataTableProps<Row, SortKey>): ReactNode => {
   const offsets = stickyOffsets(columns);
 
-  let lastStickyKey: string | undefined;
-  for (const key of offsets.keys()) lastStickyKey = key;
-
   return (
     <div style={{ overflowX: "auto" }}>
       <Table
@@ -295,11 +294,10 @@ export const DataTable = <Row, SortKey extends string>({
         verticalSpacing={TABLE_VERTICAL_SPACING}
       >
         <Table.Thead>
-          <Table.Tr>
+          <Table.Tr className={classes["headerRow"]}>
             {columns.map((column) => (
               <HeaderCell
                 column={column}
-                isLast={column.key === lastStickyKey}
                 key={column.key}
                 left={offsets.get(column.key)}
                 onSort={onSort}
@@ -316,10 +314,7 @@ export const DataTable = <Row, SortKey extends string>({
                 <Table.Tr key={getRowKey(row)}>
                   {columns.map((column) => (
                     <Table.Td
-                      className={stickyClass(
-                        offsets.get(column.key),
-                        column.key === lastStickyKey,
-                      )}
+                      className={stickyClass(offsets.get(column.key))}
                       key={column.key}
                       style={stickyStyle(offsets.get(column.key), false)}
                       ta={column.align}

@@ -1,8 +1,5 @@
 .stickyCell {
-  background-color: var(
-    --dt-pinned-bg,
-    light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-8))
-  );
+  background-color: var(--dt-pinned-bg, var(--mantine-color-body));
   position: sticky;
 }
 
@@ -13,10 +10,19 @@
 tr:hover .stickyCell {
   background-color: var(
     --table-highlight-on-hover-color,
-    var(--table-hover-color, var(--dt-pinned-bg, light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-8))))
+    var(--table-hover-color, var(--dt-pinned-bg, var(--mantine-color-body)))
   );
 }
 
-.lastStickyCell {
-  border-right: 1px solid var(--mantine-color-default-border);
+/* Header ink sits between data ink and dimmed: E's #52505b band. */
+.headerLabel {
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-2));
+  white-space: nowrap;
+}
+
+.headerRow.headerRow {
+  border-bottom: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  border-top: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }

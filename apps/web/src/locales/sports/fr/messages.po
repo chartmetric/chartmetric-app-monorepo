@@ -37,12 +37,12 @@ msgid "{total, plural, one {league} other {leagues}}"
 msgstr "{total, plural, one {ligue} other {ligues}}"
 
 #. Leagues table column heading for the row number
-#: src/pages/sports/leagues/columns/table-columns.ts:37
+#: src/pages/sports/leagues/columns/table-columns.ts:52
 msgid "#"
 msgstr "#"
 
 #. Count of table-cell entries kept behind a tooltip
-#: src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:47
+#: src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:50
 msgid "+{extra}"
 msgstr "+{extra}"
 
@@ -74,8 +74,8 @@ msgid "Athlete"
 msgstr "Athlète"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:163
-#: src/pages/sports/leagues/columns/table-columns.ts:80
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:60
+#: src/pages/sports/leagues/columns/table-columns.ts:96
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:61
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:29
 msgid "Athletes"
 msgstr "Athlètes"
@@ -182,7 +182,7 @@ msgstr "Cœurs"
 msgid "Hidden"
 msgstr "Masquées"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:69
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:70
 msgid "IG Reach"
 msgstr "Portée IG"
 
@@ -202,7 +202,7 @@ msgstr "Abonnés Instagram"
 msgid "Instagram posts"
 msgstr "Publications Instagram"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:62
+#: src/pages/sports/leagues/columns/table-columns.ts:78
 msgid "Key Athletes"
 msgstr "Athlètes clés"
 
@@ -217,7 +217,7 @@ msgstr "Dernier match"
 msgid "League"
 msgstr "Ligue"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:52
+#: src/pages/sports/leagues/columns/table-columns.ts:68
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:27
 msgid "League / Competition"
 msgstr "Ligue / Compétition"
@@ -237,11 +237,11 @@ msgstr "Niveau"
 msgid "Likes"
 msgstr "J'aime"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:113
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:125
 msgid "Loading athletes"
 msgstr "Chargement des athlètes"
 
-#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:97
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:109
 msgid "Loading leagues"
 msgstr "Chargement des ligues"
 
@@ -249,7 +249,7 @@ msgstr "Chargement des ligues"
 msgid "Maximum CM score"
 msgstr "Score CM maximal"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:79
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:80
 msgid "Mega only"
 msgstr "Méga uniquement"
 
@@ -272,7 +272,7 @@ msgstr "Déplacer {label} vers le haut"
 msgid "Move {label} later"
 msgstr "Déplacer {label} vers le bas"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:70
+#: src/pages/sports/leagues/columns/table-columns.ts:86
 msgid "Nationalities"
 msgstr "Nationalités"
 
@@ -413,7 +413,7 @@ msgstr "Sport"
 msgid "Steady"
 msgstr "Stable"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:99
+#: src/pages/sports/leagues/columns/table-columns.ts:114
 msgid "Sum of tracked athletes' Instagram followers — not a deduplicated audience."
 msgstr "Somme des abonnés Instagram des athlètes suivis — il ne s'agit pas d'une audience dédupliquée."
 
@@ -451,7 +451,7 @@ msgstr "Publications TikTok"
 msgid "TikTok videos"
 msgstr "Vidéos TikTok"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:92
+#: src/pages/sports/leagues/columns/table-columns.ts:107
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:30
 msgid "Total IG Reach"
 msgstr "Portée IG totale"
@@ -495,7 +495,7 @@ msgid "Unnamed athlete"
 msgstr "Athlète sans nom"
 
 #. Fallback name when a league record has no name
-#: src/pages/sports/leagues/components/LeagueCells/LeagueIdentity.tsx:20
+#: src/pages/sports/leagues/components/LeagueCells/LeagueIdentity.tsx:21
 msgid "Unnamed league"
 msgstr "Ligue sans nom"
 

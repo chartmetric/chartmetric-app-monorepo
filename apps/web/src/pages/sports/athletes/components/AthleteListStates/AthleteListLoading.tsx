@@ -12,14 +12,20 @@ import { ATHLETE_PAGE_SIZE } from "../../api/athlete-list";
 
 const SkeletonToolbar: FC = () => (
   <Group justify="space-between" {...TABLE_TOOLBAR_PADDING}>
-    <Skeleton height="calc(var(--mantine-font-size-xs) * 1.55)" w={90} />
+    <Skeleton
+      height="calc(var(--mantine-font-size-xs) * var(--mantine-line-height-xs))"
+      w={90}
+    />
     <Skeleton height={30} radius="sm" w={104} />
   </Group>
 );
 
 const SkeletonFooter: FC = () => (
   <Group justify="space-between" {...TABLE_FOOTER_PADDING}>
-    <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w={180} />
+    <Skeleton
+      height="calc(var(--mantine-font-size-sm) * var(--mantine-line-height-sm))"
+      w={180}
+    />
     <Skeleton height={30} radius="sm" w={120} />
   </Group>
 );
@@ -68,10 +74,16 @@ export const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
       <Group gap="sm" wrap="nowrap">
         <Skeleton circle height={40} />
         <Stack gap={2} style={{ flex: 1 }}>
-          <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w="75%" />
-          <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w="45%" />
           <Skeleton
-            height="calc(var(--mantine-font-size-xs) * 1.55)"
+            height="calc(var(--mantine-font-size-sm) * var(--mantine-line-height-sm))"
+            w="75%"
+          />
+          <Skeleton
+            height="calc(var(--mantine-font-size-sm) * var(--mantine-line-height-sm))"
+            w="45%"
+          />
+          <Skeleton
+            height="calc(var(--mantine-font-size-xs) * var(--mantine-line-height-xs))"
             mt={2}
             w={72}
           />

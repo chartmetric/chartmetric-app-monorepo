@@ -1,14 +1,14 @@
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { MessageDescriptor } from "@lingui/core";
 
-import { faCalendarDays } from "@fortawesome/pro-solid-svg-icons/faCalendarDays";
-import { faGauge } from "@fortawesome/pro-solid-svg-icons/faGauge";
-import { faListCheck } from "@fortawesome/pro-solid-svg-icons/faListCheck";
-import { faPeopleGroup } from "@fortawesome/pro-solid-svg-icons/faPeopleGroup";
-import { faPersonRunning } from "@fortawesome/pro-solid-svg-icons/faPersonRunning";
-import { faScaleBalanced } from "@fortawesome/pro-solid-svg-icons/faScaleBalanced";
-import { faStopwatch } from "@fortawesome/pro-solid-svg-icons/faStopwatch";
-import { faTrophy } from "@fortawesome/pro-solid-svg-icons/faTrophy";
+import { faCalendarDays } from "@fortawesome/pro-regular-svg-icons/faCalendarDays";
+import { faGauge } from "@fortawesome/pro-regular-svg-icons/faGauge";
+import { faListCheck } from "@fortawesome/pro-regular-svg-icons/faListCheck";
+import { faPeopleGroup } from "@fortawesome/pro-regular-svg-icons/faPeopleGroup";
+import { faScaleBalanced } from "@fortawesome/pro-regular-svg-icons/faScaleBalanced";
+import { faStopwatch } from "@fortawesome/pro-regular-svg-icons/faStopwatch";
+import { faTrophy } from "@fortawesome/pro-regular-svg-icons/faTrophy";
+import { faUserGroup } from "@fortawesome/pro-regular-svg-icons/faUserGroup";
 import { msg } from "@lingui/core/macro";
 
 export type VerticalNavSection = "discover" | "library" | "tools";
@@ -47,7 +47,7 @@ const sports: VerticalConfig = {
       path: "/sports/dashboard",
     },
     {
-      icon: faPersonRunning,
+      icon: faUserGroup,
       label: msg`Athletes`,
       path: "/sports/athletes",
       section: "library",

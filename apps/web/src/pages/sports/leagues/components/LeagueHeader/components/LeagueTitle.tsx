@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { faTrophy } from "@fortawesome/pro-solid-svg-icons/faTrophy";
+import { faTrophy } from "@fortawesome/pro-regular-svg-icons/faTrophy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Plural, useLingui } from "@lingui/react/macro";
 import { Group, Text, Title, VisuallyHidden } from "@mantine/core";

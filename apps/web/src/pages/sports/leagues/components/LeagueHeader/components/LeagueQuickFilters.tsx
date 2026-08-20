@@ -46,6 +46,7 @@ export const LeagueQuickFilters: FC<LeagueQuickFiltersProps> = ({
       <SingleSelectPills
         clearLabel={t`All Sports`}
         groupLabel={t`Sport`}
+        labelHidden
         onChange={(sport) => {
           onChange({ ...values, sport });
         }}
@@ -55,7 +56,7 @@ export const LeagueQuickFilters: FC<LeagueQuickFiltersProps> = ({
         }))}
         value={values.sport}
       />
-      <Divider orientation="vertical" />
+      <Divider mx={6} orientation="vertical" />
       <SingleSelectPills
         groupLabel={t`Athletes`}
         onChange={(minTrackedAthletes) => {
@@ -64,7 +65,7 @@ export const LeagueQuickFilters: FC<LeagueQuickFiltersProps> = ({
         options={thresholdOptions(TRACKED_ATHLETE_THRESHOLDS)}
         value={values.minTrackedAthletes}
       />
-      <Divider orientation="vertical" />
+      <Divider mx={6} orientation="vertical" />
       <SingleSelectPills
         groupLabel={t`IG Reach`}
         onChange={(minAggregatedIgFollowers) => {
@@ -73,7 +74,7 @@ export const LeagueQuickFilters: FC<LeagueQuickFiltersProps> = ({
         options={thresholdOptions(REACH_THRESHOLDS)}
         value={values.minAggregatedIgFollowers}
       />
-      <Divider orientation="vertical" />
+      <Divider mx={6} orientation="vertical" />
       <Pill
         isActive={values.isMegaOnly}
         label={t`Mega only`}

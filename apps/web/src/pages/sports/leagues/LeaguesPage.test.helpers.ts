@@ -28,6 +28,6 @@ export const FILTER_OPTIONS = { sports: ["basketball", "football"] };
 export const DEFAULT_QUERY = {
   limit: 25,
   offset: 0,
-  sortBy: "name",
-  sortDirection: "asc",
+  sortBy: "igReach",
+  sortDirection: "desc",
 } as const;

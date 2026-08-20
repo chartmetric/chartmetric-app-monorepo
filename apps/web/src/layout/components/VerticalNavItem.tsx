@@ -46,7 +46,7 @@ export const VerticalNavItem: FC<VerticalNavItemProps> = ({
       active={location.pathname === link.path}
       c="white"
       className={classes["navLink"]}
-      color="teal.7"
+      color="teal.8"
       component={Link}
       label={t(link.label)}
       leftSection={icon}

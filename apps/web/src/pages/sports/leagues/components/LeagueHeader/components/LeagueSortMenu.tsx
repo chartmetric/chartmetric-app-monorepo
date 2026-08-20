@@ -1,8 +1,8 @@
 import type { FC } from "react";
 
-import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
-import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
-import { faChevronDown } from "@fortawesome/pro-solid-svg-icons/faChevronDown";
+import { faArrowDown } from "@fortawesome/pro-regular-svg-icons/faArrowDown";
+import { faArrowUp } from "@fortawesome/pro-regular-svg-icons/faArrowUp";
+import { faChevronDown } from "@fortawesome/pro-regular-svg-icons/faChevronDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Button, Menu } from "@mantine/core";

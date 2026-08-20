@@ -130,3 +130,15 @@ labels (theme-owned vars); title h5; leagues column widths rebalanced
 44/300/340/290/90/130. Measured result: one-row header with 12px
 margin at 1512px, 53px uniform rows, 22px pills, no truncation or
 overflow, 15 of 16 rows fully visible at 982px height.
+
+Iterations 13-14 (2026-08-20, user batch 6 - exact DevTools values from
+the reference): data text 12px/16px-line Space Mono weight 500/400
+split, ink #17171c via the theme black, skeleton bars derived from
+line-height tokens instead of a 1.55 literal, every icon swapped to
+pro-regular outline (person-running replaced by user-group - the glyph
+itself was a filled silhouette), bold confined to the page title, +N
+explicitly lighter and nbsp-glued, nationalities preview budgeted to
+five so the three-line wrap never clamps mid-name, sort-header groups
+baseline-aligned. Agent-verified: 12px/16px pitch exact, weight split
+measurable, #17171c-family ink, 65px rows matching the reference's
+3-line pitch.

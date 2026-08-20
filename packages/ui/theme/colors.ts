@@ -101,5 +101,5 @@ export const teal: MantineColorsTuple = [
   "#00a6b5",
   "#00818d",
   "#00646d",
-  "#004c54",
+  "#083940",
 ];
