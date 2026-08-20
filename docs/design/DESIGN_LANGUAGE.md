@@ -353,6 +353,51 @@ cannot see or rank by makes the filter's effect unverifiable ("why did
 this league disappear?"). When a filter is added, its column lands in
 the same change.
 
+## Theme tokens (prototype parity)
+
+Verified against the deployed prototype's CSS (2026-08-19):
+`--app-font-sans: "Inter"`, `--app-font-mono: "Space Mono", Menlo,
+monospace`, `--radius: 0.3rem`.
+
+**Typography.** Inter is the UI face (already the theme `fontFamily`).
+`Space Mono` is the data face: numeric table cells, counts, and metric
+values render in the theme `fontFamilyMonospace`. Numbers in a table
+column share the exact text size of neighbouring text cells, right-align,
+and line up digit-for-digit down the column (the mono face provides
+tabular figures inherently). A numeric column is never an exception to
+the peer-column type-scale rule.
+
+**Radius.** The scale is square-leaning to match the prototype's
+`0.3rem` base: `xs 0.125rem / sm 0.1875rem / md 0.3rem / lg 0.375rem /
+xl 0.5rem`. Cards and table Papers use `md`; controls default smaller.
+Fully-round (`radius="xl"` circles) is reserved for person avatars —
+organisation marks stay `sm` per the identity-cell rule.
+
+**Floating surfaces follow the active color scheme — never invert.**
+A tooltip or popover that renders dark-on-light in light mode and
+light-on-dark in dark mode reads as foreign chrome and fails the
+state-sibling consistency principle. Set the Tooltip (and any floating
+surface) colors once in the shared theme so both schemes resolve to a
+same-scheme surface; never restyle per call site.
+
+**Density.** The product is data-dense; the reference tables read
+correctly at what the previous scale showed at 80% zoom. Tables use
+`verticalSpacing="sm"`; toolbar rows `py={4}`; footer rows `py="xs"`.
+Distribute row width by content: identity columns get fixed widths,
+list columns (chips, nationality lists) flex, numeric metric columns
+get compact fixed widths at the right edge.
+
+**Page header composition.** One header row owns the page's controls:
+title + live count, inline search, then quick-filter pill groups — in
+that order, wrapping as a group. A search input never floats detached
+in the page corner; if it filters the table, it sits with the other
+things that filter the table.
+
+**Column order.** Identity leftmost (after the ordinal), descriptive
+list columns next, numeric metric columns at the right edge. For
+leagues: `# | League/Competition | Key Athletes | Nationalities |
+Athletes | IG Reach`.
+
 ## Anti-patterns
 
 These patterns caused real defects during the athletes page implementation. Each one has been fixed; this list prevents regression.

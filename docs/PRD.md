@@ -125,3 +125,22 @@ scope change executed as phase 06:
   tooltip. Requires exposing the aggregate in the reply plus `sortBy`
   additions and a `sortDirection` param (also fixing the phase-05 P1:
   the league column's sort control was inert without it).
+
+### Amendment 2 — prototype-parity design pass (2026-08-19)
+
+Second user design review, executed as phase 07. Tokens verified from
+the deployed prototype CSS. New rules in `docs/design/DESIGN_LANGUAGE.md`
+("Theme tokens (prototype parity)"):
+
+- Tooltips/floating surfaces follow the active color scheme (the
+  shipped tooltip inverted: dark on light mode, light on dark — ruled
+  never-again).
+- Global density matching the prototype (tables `verticalSpacing="sm"`,
+  compact toolbar/footer paddings, better row-width distribution).
+- Radius scale squared to the prototype's 0.3rem base.
+- Space Mono as the data face; numeric cells share peer text size,
+  right-aligned, digits aligned.
+- Search input inline in the page header row, never detached.
+- Column order: identity left, lists middle, numeric metrics at the
+  right edge (# | League | Key Athletes | Nationalities | Athletes |
+  IG Reach).
