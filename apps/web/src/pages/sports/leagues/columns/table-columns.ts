@@ -25,11 +25,11 @@ const renderAthleteCount = (value: string): ReturnType<typeof createElement> =>
     value,
   });
 
-export const ORDINAL_COLUMN_WIDTH = 44;
-export const LEAGUE_COLUMN_WIDTH = 300;
-export const KEY_ATHLETES_MIN_WIDTH = 340;
-export const NATIONALITIES_WIDTH = 190;
-export const TRACKED_ATHLETES_WIDTH = 90;
+export const ORDINAL_COLUMN_WIDTH = 36;
+export const LEAGUE_COLUMN_WIDTH = 290;
+export const KEY_ATHLETES_MIN_WIDTH = 320;
+export const NATIONALITIES_WIDTH = 185;
+export const TRACKED_ATHLETES_WIDTH = 80;
 export const IG_REACH_WIDTH = 150;
 
 export const LEAGUE_TABLE_MIN_WIDTH =

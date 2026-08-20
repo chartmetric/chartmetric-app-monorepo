@@ -145,7 +145,7 @@ const HEADER_LABEL_PROPS = {
   ff: "monospace",
   fw: 500,
   size: "xs",
-  style: { letterSpacing: "0.05em" },
+  style: { letterSpacing: "0.05em", whiteSpace: "nowrap" as const },
   tt: "uppercase",
 } as const;
 

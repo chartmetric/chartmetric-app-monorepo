@@ -38,7 +38,7 @@ export const LeagueIdentity: FC<LeagueIdentityProps> = ({ league }) => {
           colored sport text stays on entity rows (athletes), where the sport
           classifies a person rather than the row's own kind. */}
       <Group gap={8} miw={0} wrap="nowrap">
-        <Text ff="monospace" fw={500} size="xs" truncate>
+        <Text ff="monospace" fw={500} size="sm" truncate>
           {leagueName}
         </Text>
         {league.sport === null ? null : (
@@ -46,6 +46,7 @@ export const LeagueIdentity: FC<LeagueIdentityProps> = ({ league }) => {
             className={classes["sportTag"]}
             ff="monospace"
             fw={400}
+            fz="xs"
             radius="sm"
             size="sm"
             style={{ flexShrink: 0 }}

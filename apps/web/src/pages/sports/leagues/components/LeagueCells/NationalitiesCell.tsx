@@ -33,7 +33,9 @@ export const NationalitiesCell: FC<NationalitiesCellProps> = ({
     // work so row padding stays compact, and the +N flows inline after the
     // last entry (reference behavior).
     <Text c="dimmed" ff="monospace" lineClamp={3} miw={0} size={CELL_TEXT_SIZE}>
-      {preview.join(" ")}
+      {/* Internal spaces become no-break so a multi-word country never splits
+          across lines; the plain space between countries stays breakable. */}
+      {preview.map((name) => name.replaceAll(" ", "\u{A0}")).join(" ")}
       {"\u{A0}"}
       <OverflowCount items={overflow} />
     </Text>

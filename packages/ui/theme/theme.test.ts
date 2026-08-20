@@ -37,11 +37,11 @@ describe("baseTheme", () => {
 
   it("scales every font size one notch below Mantine's defaults", () => {
     expect(baseTheme.fontSizes).toEqual({
-      lg: "0.8rem",
-      md: "0.7rem",
-      sm: "0.65rem",
-      xl: "0.9rem",
-      xs: "0.6rem",
+      lg: "0.875rem",
+      md: "0.8125rem",
+      sm: "0.75rem",
+      xl: "1rem",
+      xs: "0.6875rem",
     });
   });
 
