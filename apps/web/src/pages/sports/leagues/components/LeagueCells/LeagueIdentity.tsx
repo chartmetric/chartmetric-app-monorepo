@@ -28,7 +28,7 @@ export const LeagueIdentity: FC<LeagueIdentityProps> = ({ league }) => {
         alt={leagueName}
         bd="1px solid var(--mantine-color-default-border)"
         radius="sm"
-        size={40}
+        size={36}
         src={league.logoUrl}
       >
         <FontAwesomeIcon aria-hidden icon={faTrophy} />

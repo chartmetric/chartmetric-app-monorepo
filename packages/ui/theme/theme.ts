@@ -30,6 +30,21 @@ export const baseTheme = createTheme({
     orange,
     red,
     teal,
+    // Near-black, teal-tinged dark scale (prototype parity): body resolves to
+    // dark.7 and cards to dark.6, so those two carry the depth; 0-3 keep
+    // Mantine's readable text tones.
+    dark: [
+      "#C9CDCE",
+      "#A8ADAF",
+      "#8F9598",
+      "#5B6467",
+      "#2A3235",
+      "#1C2326",
+      "#131A1C",
+      "#0D1214",
+      "#090D0F",
+      "#05080A",
+    ],
   },
   /*
    * Controls default one step down from Mantine's `sm`, taking buttons and
@@ -103,15 +118,26 @@ export const baseTheme = createTheme({
   // The data face: every numeric cell, count, and metric value renders in it so
   // digits line up down a column. Loaded by the consuming app (see main.tsx).
   fontFamilyMonospace: "'Space Mono', ui-monospace, Menlo, monospace",
+  // One notch below Mantine's defaults across the board (prototype parity):
+  // the product's reference density reads xs=11px data text and a ~20px page
+  // title. Skeleton bar heights follow automatically — they are CSS-var
+  // formulas over these tokens by design-language rule.
+  fontSizes: {
+    lg: "1rem",
+    md: "0.875rem",
+    sm: "0.8125rem",
+    xl: "1.125rem",
+    xs: "0.6875rem",
+  },
   headings: {
     fontWeight: "600",
     sizes: {
-      h1: { fontSize: "1.75rem", fontWeight: "700", lineHeight: "1.3" },
-      h2: { fontSize: "1.6rem", lineHeight: "1.3" },
-      h3: { fontSize: "1.4rem", lineHeight: "1.3" },
-      h4: { fontSize: "1.25rem", lineHeight: "1.3" },
-      h5: { fontSize: "1.125rem", lineHeight: "1.3" },
-      h6: { fontSize: "1rem", lineHeight: "1.3" },
+      h1: { fontSize: "1.5rem", fontWeight: "700", lineHeight: "1.3" },
+      h2: { fontSize: "1.375rem", lineHeight: "1.3" },
+      h3: { fontSize: "1.25rem", lineHeight: "1.3" },
+      h4: { fontSize: "1.125rem", lineHeight: "1.3" },
+      h5: { fontSize: "1rem", lineHeight: "1.3" },
+      h6: { fontSize: "0.875rem", lineHeight: "1.3" },
     },
   },
   primaryColor: "teal",

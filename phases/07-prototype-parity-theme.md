@@ -113,3 +113,10 @@ finding recorded in docs/design/DESIGN_LANGUAGE.md ("Visual parity
 findings"). The recurring single console error in loop screenshots is
 PropelAuth's 401 session probe in the unauthenticated preview, not an
 app defect.
+
+Iteration 5 (2026-08-20, user batch 3): near-black teal-tinged
+`colors.dark` scale, fontSizes one notch below Mantine defaults with
+headings to match, key-athlete chip hover highlight (CSS module),
+catalog avatars 36px, chip max width widened so full names fit at the
+smaller scale. Screenshot judged at parity with the reference for
+depth and density.

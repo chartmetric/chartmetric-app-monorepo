@@ -443,6 +443,26 @@ table is dead vertical space.
 league shows the domain icon (trophy) in its avatar, not initials —
 initials read as a person.
 
+**Dark means near-black.** The dark scheme's depth comes from a
+teal-tinged near-black `colors.dark` scale owned by
+`packages/ui/theme/theme.ts` (body ≈ `#0D1214`, cards one step up).
+Mantine's default gray-dark reads washed next to the reference; never
+lighten these tokens per surface.
+
+**The type scale sits one notch below Mantine's defaults.** `fontSizes`
+in the theme is the owner (xs 11px, sm 13px …); headings follow
+(`h3` = 20px page titles). Do not compensate per component — a page
+that looks oversized means a token is being overridden locally.
+
+**Tags that will become links get a hover highlight now.** Key-athlete
+chips brighten to the accent on hover (border + text), signalling the
+future navigation affordance; the hover lives in a CSS module beside
+the cell, not inline styles.
+
+**Catalog avatars are 36px.** Entity identity avatars (people) stay
+40px round; organisation logos in catalog rows sit at 36px square-ish
+so the smaller type scale keeps driving row height.
+
 **Method note for the next loop.** Render the app without auth via an
 untracked Vite entry (`preview.html` + `src/preview.tsx` mounting the
 real tree minus `RequiredAuthProvider`), screenshot headless Chrome at

@@ -35,8 +35,18 @@ describe("baseTheme", () => {
     expect(baseTheme.colors?.teal?.[5]).toBe("#00b6c7");
   });
 
-  it("keeps Mantine defaults for font sizes", () => {
-    expect(baseTheme.fontSizes).toBeUndefined();
+  it("scales every font size one notch below Mantine's defaults", () => {
+    expect(baseTheme.fontSizes).toEqual({
+      lg: "1rem",
+      md: "0.875rem",
+      sm: "0.8125rem",
+      xl: "1.125rem",
+      xs: "0.6875rem",
+    });
+  });
+
+  it("darkens the dark scale so the body sits near-black", () => {
+    expect(baseTheme.colors?.dark?.[7]).toBe("#0D1214");
   });
 
   it("names Space Mono first in the data face", () => {
