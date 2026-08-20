@@ -31,6 +31,8 @@ export const KeyAthletesCell: FC<KeyAthletesCellProps> = ({ athletes }) => {
     <Group gap={4} miw={0} wrap="nowrap">
       {preview.map((athlete) => (
         <Badge
+          ff="monospace"
+          fw={400}
           fz={CELL_TEXT_SIZE}
           key={athlete.id}
           maw={CHIP_MAX_WIDTH}

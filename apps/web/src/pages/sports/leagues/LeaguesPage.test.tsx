@@ -113,7 +113,8 @@ describe("LeaguesPage states", () => {
 
     const table = within(await screen.findByRole("table", { name: "Leagues" }));
 
-    expect(screen.getByText("16 leagues")).toBeTruthy();
+    expect(screen.getByText("16")).toBeTruthy();
+    expect(screen.getByText("leagues")).toBeTruthy();
     expect(table.getByText("Major League Soccer")).toBeTruthy();
     expect(table.getByText("Football")).toBeTruthy();
   });
@@ -157,7 +158,7 @@ describe("LeaguesPage states", () => {
 
   it("caps the overflow tooltip at ten entries and counts the rest", async () => {
     const nationalities = Array.from(
-      { length: 16 },
+      { length: 20 },
       (_, index) => `Country ${String(index + 1)}`,
     );
 
@@ -165,14 +166,14 @@ describe("LeaguesPage states", () => {
 
     renderPage();
 
-    expect(await screen.findByText("+13")).toBeTruthy();
+    expect(await screen.findByText("+14")).toBeTruthy();
     expect(
       screen.getByText(
-        "Country 4, Country 5, Country 6, Country 7, Country 8, Country 9, Country 10, Country 11, Country 12, Country 13",
+        "Country 7, Country 8, Country 9, Country 10, Country 11, Country 12, Country 13, Country 14, Country 15, Country 16",
       ),
     ).toBeTruthy();
-    expect(screen.getByText("…and 3 more")).toBeTruthy();
-    expect(screen.queryByText(/Country 14/u)).toBeNull();
+    expect(screen.getByText("…and 4 more")).toBeTruthy();
+    expect(screen.queryByText(/Country 17/u)).toBeNull();
   });
 
   it("lists the first nationalities inline and counts the remainder", async () => {
@@ -186,9 +187,9 @@ describe("LeaguesPage states", () => {
 
     renderPage();
 
-    expect(await screen.findByText("Brazil, France, Ghana")).toBeTruthy();
-    expect(screen.getByText("+2")).toBeTruthy();
-    expect(screen.getByText("Japan, Spain")).toBeTruthy();
+    expect(
+      await screen.findByText("Brazil, France, Ghana, Japan, Spain"),
+    ).toBeTruthy();
   });
 
   it("keeps the search in the header row beside the quick filters", async () => {
@@ -227,7 +228,7 @@ describe("LeaguesPage states", () => {
       "Key Athletes",
       "Nationalities",
       "Athletes",
-      expect.stringMatching(/^IG Reach/u),
+      expect.stringMatching(/^Total IG Reach/u),
     ]);
   });
 
@@ -246,7 +247,7 @@ describe("LeaguesPage states", () => {
     expect(sortStates).toEqual([null, "ascending", null, null, "none", "none"]);
   });
 
-  it.each(["League / Competition", "Athletes", "IG Reach"])(
+  it.each(["League / Competition", "Athletes", "Total IG Reach"])(
     "flips the %s sort direction on every click",
     async (label) => {
       mockLeagues({ data: buildReply() });

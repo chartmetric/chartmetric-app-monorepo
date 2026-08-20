@@ -1,15 +1,11 @@
 import type { FC } from "react";
 
-import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
-import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Text } from "@mantine/core";
 import {
   DataTable,
   type DataTableSortDirection,
   TABLE_FOOTER_PADDING,
-  TABLE_TOOLBAR_PADDING,
 } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
 
@@ -27,31 +23,6 @@ import { SkeletonDataRow } from "./LeagueListStates/LeagueListLoading";
 const TEAL_HOVER_STYLE = {
   "--table-highlight-on-hover-color": "var(--mantine-color-teal-light)",
 } as const;
-
-interface LeagueTableToolbarProps {
-  columnLabel: string;
-  direction: DataTableSortDirection;
-}
-
-const LeagueTableToolbar: FC<LeagueTableToolbarProps> = ({
-  columnLabel,
-  direction,
-}) => {
-  const { t } = useLingui();
-
-  return (
-    <Group justify="space-between" {...TABLE_TOOLBAR_PADDING}>
-      <Group c="dimmed" gap={6}>
-        <Text size="xs">{t`Sort:`}</Text>
-        <Text size="xs">{columnLabel}</Text>
-        <FontAwesomeIcon
-          icon={direction === "asc" ? faArrowUp : faArrowDown}
-          size="xs"
-        />
-      </Group>
-    </Group>
-  );
-};
 
 interface LeagueTableFooterProps {
   isFetching: boolean;
@@ -138,14 +109,8 @@ export const LeaguesTable: FC<LeaguesTableProps> = ({
     message: `Showing ${firstRow}–${lastRow} of ${totalRows} leagues`,
   });
 
-  const sortedColumn = columns.find((column) => column.sortKey === sortBy);
-
   return (
     <Paper radius="md" shadow="sm" style={TEAL_HOVER_STYLE}>
-      <LeagueTableToolbar
-        columnLabel={sortedColumn?.label ?? sortBy}
-        direction={sortDirection}
-      />
       <DataTable
         ariaLabel={t`Leagues`}
         columns={columns}

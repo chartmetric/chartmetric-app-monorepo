@@ -144,6 +144,18 @@ interface SortButtonProps {
   tooltip: string | undefined;
 }
 
+// Header labels are quiet chrome: uppercase mono, muted, regular weight. Bold
+// headers compete with the data rows they describe.
+const HEADER_LABEL_PROPS = {
+  c: "dimmed",
+  component: "span",
+  ff: "monospace",
+  fw: 500,
+  size: "xs",
+  style: { letterSpacing: "0.05em" },
+  tt: "uppercase",
+} as const;
+
 const SortButton = ({
   align,
   ariaLabel,
@@ -159,9 +171,7 @@ const SortButton = ({
         justify={align === "right" ? "flex-end" : "flex-start"}
         wrap="nowrap"
       >
-        <Text component="span" fw={600} size="sm">
-          {label}
-        </Text>
+        <Text {...HEADER_LABEL_PROPS}>{label}</Text>
         <span aria-hidden="true">{icon}</span>
       </Group>
     </UnstyledButton>
@@ -208,7 +218,7 @@ const HeaderCell = <Row, SortKey extends string>({
 
   const heading =
     sortKey === undefined ? (
-      label
+      <Text {...HEADER_LABEL_PROPS}>{label}</Text>
     ) : (
       <SortButton
         align={column.align}

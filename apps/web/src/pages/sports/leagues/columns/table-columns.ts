@@ -11,17 +11,17 @@ import { LeagueIdentity } from "../components/LeagueCells/LeagueIdentity";
 import { NationalitiesCell } from "../components/LeagueCells/NationalitiesCell";
 
 export const ORDINAL_COLUMN_WIDTH = 64;
-export const LEAGUE_COLUMN_WIDTH = 280;
+export const LEAGUE_COLUMN_WIDTH = 340;
 export const KEY_ATHLETES_MIN_WIDTH = 288;
-export const NATIONALITIES_MIN_WIDTH = 236;
+export const NATIONALITIES_WIDTH = 300;
 export const TRACKED_ATHLETES_WIDTH = 100;
-export const IG_REACH_WIDTH = 116;
+export const IG_REACH_WIDTH = 150;
 
 export const LEAGUE_TABLE_MIN_WIDTH =
   ORDINAL_COLUMN_WIDTH +
   LEAGUE_COLUMN_WIDTH +
   KEY_ATHLETES_MIN_WIDTH +
-  NATIONALITIES_MIN_WIDTH +
+  NATIONALITIES_WIDTH +
   TRACKED_ATHLETES_WIDTH +
   IG_REACH_WIDTH;
 
@@ -68,7 +68,7 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
         align: "left",
         key: "nationalities",
         label: t`Nationalities`,
-        minWidth: NATIONALITIES_MIN_WIDTH,
+        width: NATIONALITIES_WIDTH,
         renderCell: (row) =>
           createElement(NationalitiesCell, {
             nationalities: row.league.nationalities,
@@ -89,7 +89,7 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
       {
         align: "right",
         key: "igReach",
-        label: t`IG Reach`,
+        label: t`Total IG Reach`,
         renderCell: (row) =>
           createElement(NumericCell, {
             size: CELL_TEXT_SIZE,

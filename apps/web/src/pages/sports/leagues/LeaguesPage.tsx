@@ -42,7 +42,12 @@ export const LeaguesPage: FC = () => {
         onChange={(filters) => {
           setQuery((current) => replaceFilters(current, filters));
         }}
+        onSort={(nextSortBy) => {
+          setQuery((current) => changeQuerySort(current, nextSortBy));
+        }}
         options={filterOptionsQuery.data}
+        sortBy={sortBy}
+        sortDirection={sortDirection}
         total={leaguesQuery.data?.meta.total}
       />
       <LeagueListContent

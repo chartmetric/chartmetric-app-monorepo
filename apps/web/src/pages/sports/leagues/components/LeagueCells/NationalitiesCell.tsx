@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { Group, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
 
 import type { League } from "../../api/types";
 
@@ -8,7 +8,7 @@ import { EMPTY_CELL } from "../../../../../lib/formatting";
 import { CELL_TEXT_SIZE } from "./cell-typography";
 import { OverflowCount } from "./OverflowCount";
 
-const PREVIEW_COUNT = 3;
+const PREVIEW_COUNT = 6;
 
 interface NationalitiesCellProps {
   nationalities: League["nationalities"];
@@ -29,11 +29,11 @@ export const NationalitiesCell: FC<NationalitiesCellProps> = ({
   const overflow = nationalities.slice(PREVIEW_COUNT);
 
   return (
-    <Group gap={4} miw={0} wrap="nowrap">
-      <Text miw={0} size={CELL_TEXT_SIZE} truncate>
-        {preview.join(", ")}
-      </Text>
-      <OverflowCount items={overflow} />
-    </Group>
+    // Mono, dimmed, wrapping up to three lines: the list does the vertical
+    // work so row padding stays compact, and the +N flows inline after the
+    // last entry (reference behavior).
+    <Text c="dimmed" ff="monospace" lineClamp={3} miw={0} size={CELL_TEXT_SIZE}>
+      {preview.join(", ")} <OverflowCount items={overflow} />
+    </Text>
   );
 };

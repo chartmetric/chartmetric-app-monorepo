@@ -38,7 +38,12 @@ export const OverflowCount: FC<OverflowCountProps> = ({ items }) => {
 
   return (
     <Tooltip label={summary} multiline w={TOOLTIP_WIDTH}>
-      <Text c="dimmed" size={CELL_TEXT_SIZE} style={{ whiteSpace: "nowrap" }}>
+      <Text
+        c="dimmed"
+        component="span"
+        size={CELL_TEXT_SIZE}
+        style={{ whiteSpace: "nowrap" }}
+      >
         {t({
           comment: "Count of table-cell entries kept behind a tooltip",
           message: `+${extra}`,

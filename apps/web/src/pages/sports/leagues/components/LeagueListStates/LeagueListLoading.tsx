@@ -4,7 +4,6 @@ import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Skeleton, Stack, Table } from "@mantine/core";
 import {
   TABLE_FOOTER_PADDING,
-  TABLE_TOOLBAR_PADDING,
   TABLE_VERTICAL_SPACING,
 } from "@repo/ui/data-table";
 
@@ -14,16 +13,10 @@ import {
   KEY_ATHLETES_MIN_WIDTH,
   LEAGUE_COLUMN_WIDTH,
   LEAGUE_TABLE_MIN_WIDTH,
-  NATIONALITIES_MIN_WIDTH,
+  NATIONALITIES_WIDTH,
   ORDINAL_COLUMN_WIDTH,
   TRACKED_ATHLETES_WIDTH,
 } from "../../columns/table-columns";
-
-const SkeletonToolbar: FC = () => (
-  <Group justify="space-between" {...TABLE_TOOLBAR_PADDING}>
-    <Skeleton height="calc(var(--mantine-font-size-xs) * 1.55)" w={110} />
-  </Group>
-);
 
 const SkeletonFooter: FC = () => (
   <Group justify="space-between" {...TABLE_FOOTER_PADDING}>
@@ -43,7 +36,7 @@ const SkeletonHeaderRow: FC = () => (
     <Table.Th miw={KEY_ATHLETES_MIN_WIDTH}>
       <Skeleton height={12} w={84} />
     </Table.Th>
-    <Table.Th miw={NATIONALITIES_MIN_WIDTH}>
+    <Table.Th w={NATIONALITIES_WIDTH}>
       <Skeleton height={12} w={90} />
     </Table.Th>
     <Table.Th w={TRACKED_ATHLETES_WIDTH}>
@@ -76,7 +69,7 @@ export const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
         <Skeleton height={18} radius="sm" w={86} />
       </Group>
     </Table.Td>
-    <Table.Td miw={NATIONALITIES_MIN_WIDTH}>
+    <Table.Td w={NATIONALITIES_WIDTH}>
       <Skeleton height="calc(var(--mantine-font-size-xs) * 1.55)" w={168} />
     </Table.Td>
     <Table.Td w={TRACKED_ATHLETES_WIDTH}>
@@ -106,7 +99,6 @@ export const LeagueListLoading: FC = () => {
       role="status"
       shadow="sm"
     >
-      <SkeletonToolbar />
       <Table.ScrollContainer minWidth={LEAGUE_TABLE_MIN_WIDTH}>
         <Table verticalSpacing={TABLE_VERTICAL_SPACING}>
           <Table.Thead>

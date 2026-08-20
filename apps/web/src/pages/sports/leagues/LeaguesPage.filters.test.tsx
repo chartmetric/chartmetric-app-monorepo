@@ -117,7 +117,7 @@ describe("LeaguesPage filters", () => {
     renderPage();
 
     fireEvent.click(
-      await screen.findByRole("button", { name: "Sort by IG Reach" }),
+      await screen.findByRole("button", { name: "Sort by Total IG Reach" }),
     );
     await expectQuery({
       ...DEFAULT_QUERY,
@@ -125,7 +125,9 @@ describe("LeaguesPage filters", () => {
       sortDirection: "desc",
     });
 
-    fireEvent.click(screen.getByRole("button", { name: "Sort by IG Reach" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "Sort by Total IG Reach" }),
+    );
     await expectQuery({
       ...DEFAULT_QUERY,
       sortBy: "igReach",
