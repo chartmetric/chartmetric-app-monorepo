@@ -26,7 +26,7 @@ export const Layout: FC = () => {
       navbar={{
         breakpoint: "sm",
         collapsed: { mobile: !navbarOpened },
-        width: 260,
+        width: 220,
       }}
       padding="md"
     >

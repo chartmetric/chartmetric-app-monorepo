@@ -25,20 +25,20 @@ const inlineStyle = (element: Element | null | undefined): string =>
   element?.getAttribute("style") ?? "";
 
 describe("compact control defaults", () => {
-  it("renders buttons one size below the Mantine default", () => {
+  it("renders buttons at the 26px reference control height", () => {
     renderThemed(<Button>Genre</Button>);
 
     expect(
       inlineStyle(screen.getByRole("button", { name: "Genre" })),
-    ).toContain("--button-height: var(--button-height-xs)");
+    ).toContain("--button-height: 1.625rem");
   });
 
-  it("keeps button labels at the sm font size despite the smaller box", () => {
+  it("drops button labels to the xs font size to match the box", () => {
     renderThemed(<Button>Genre</Button>);
 
     expect(
       inlineStyle(screen.getByRole("button", { name: "Genre" })),
-    ).toContain("--button-fz: var(--mantine-font-size-sm)");
+    ).toContain("--button-fz: var(--mantine-font-size-xs)");
   });
 
   it("leaves an explicitly sized button on its own type scale", () => {
@@ -63,9 +63,7 @@ describe("compact control defaults", () => {
       // Mantine puts the size variables on the wrapper, not the control.
       const wrapper = screen.getByLabelText("Search").parentElement;
 
-      expect(inlineStyle(wrapper)).toContain(
-        "--input-height: var(--input-height-xs)",
-      );
+      expect(inlineStyle(wrapper)).toContain("--input-height: 1.625rem");
       expect(inlineStyle(wrapper)).toContain(
         "--input-fz: var(--mantine-font-size-sm)",
       );

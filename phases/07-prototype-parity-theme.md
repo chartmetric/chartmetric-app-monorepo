@@ -120,3 +120,13 @@ headings to match, key-athlete chip hover highlight (CSS module),
 catalog avatars 36px, chip max width widened so full names fit at the
 smaller scale. Screenshot judged at parity with the reference for
 depth and density.
+
+Iterations 6-8 (2026-08-20, user batch 4, measured at the user's real
+1512px viewport by a fresh-context agent — this session's context can
+no longer load screenshots): nav rail 260 → 220px; header compressed
+to one row at laptop width (search 170px, gap xs, nowrap; sort menu at
+the right edge of the same row); buttons/inputs 26px with 11px button
+labels (theme-owned vars); title h5; leagues column widths rebalanced
+44/300/340/290/90/130. Measured result: one-row header with 12px
+margin at 1512px, 53px uniform rows, 22px pills, no truncation or
+overflow, 15 of 16 rows fully visible at 982px height.

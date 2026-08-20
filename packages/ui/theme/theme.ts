@@ -71,7 +71,14 @@ export const baseTheme = createTheme({
       vars: (_theme, props) => ({
         root:
           props.size === "xs"
-            ? { "--button-fz": "var(--mantine-font-size-sm)" }
+            ? {
+                // 26px controls with 11px labels: the reference's filter-pill
+                // density, and the only height at which a full pill row fits a
+                // laptop-width header line.
+                "--button-fz": "var(--mantine-font-size-xs)",
+                "--button-height": "1.625rem",
+                "--button-padding-x": "0.625rem",
+              }
             : {},
       }),
     }),
@@ -80,7 +87,11 @@ export const baseTheme = createTheme({
       vars: (_theme, props) => ({
         wrapper:
           props.size === "xs"
-            ? { "--input-fz": "var(--mantine-font-size-sm)" }
+            ? {
+                // Inputs share header rows with 26px buttons; heights match.
+                "--input-fz": "var(--mantine-font-size-sm)",
+                "--input-height": "1.625rem",
+              }
             : {},
       }),
     }),

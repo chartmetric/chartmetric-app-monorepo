@@ -42,8 +42,8 @@ export const LeagueHeader: FC<LeagueHeaderProps> = ({
   const { filterValues, updateFilters } = useLeagueFilterValues(onChange);
 
   return (
-    <Group align="center" gap="sm" justify="space-between">
-      <Group align="center" gap="sm" miw={0}>
+    <Group align="center" gap="xs" justify="space-between" wrap="nowrap">
+      <Group align="center" gap="xs" miw={0} wrap="nowrap">
         <LeagueTitle total={total} />
         <SearchInput
           label={t`Search by league name`}
@@ -53,6 +53,7 @@ export const LeagueHeader: FC<LeagueHeaderProps> = ({
           }}
           placeholder={t`Search leagues…`}
           value={filterValues.name}
+          width={170}
         />
         <LeagueQuickFilters
           onChange={updateFilters}

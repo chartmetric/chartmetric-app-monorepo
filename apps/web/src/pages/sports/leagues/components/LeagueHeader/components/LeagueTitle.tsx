@@ -15,7 +15,7 @@ export const LeagueTitle: FC<LeagueTitleProps> = ({ total }) => {
   return (
     <Group align="baseline" gap={6} miw={0}>
       <FontAwesomeIcon aria-hidden icon={faTrophy} />
-      <Title order={1} size="h3">
+      <Title order={1} size="h5">
         {t`Leagues`}
       </Title>
       {total === undefined ? null : (

@@ -463,6 +463,13 @@ the cell, not inline styles.
 40px round; organisation logos in catalog rows sit at 36px square-ish
 so the smaller type scale keeps driving row height.
 
+**Controls are 26px; the filter row fits a laptop screen.** Buttons
+and inputs at the default `xs` are 26px tall with 11px labels
+(`packages/ui/theme/theme.ts` owns both vars); the nav rail is 220px.
+The acceptance check is concrete: at a 1512px viewport, one header row
+holds title + count + search + every pill group + the sort control with
+margin to spare, and nothing wraps.
+
 **Method note for the next loop.** Render the app without auth via an
 untracked Vite entry (`preview.html` + `src/preview.tsx` mounting the
 real tree minus `RequiredAuthProvider`), screenshot headless Chrome at
