@@ -2,6 +2,7 @@ import type { FC, ReactNode } from "react";
 
 import { Group, type MantineSize, Text } from "@mantine/core";
 
+import { CELL_TEXT_SIZE } from "./CellText";
 import classes from "./NumericCell.module.css";
 
 interface NumericCellProps {
@@ -9,8 +10,7 @@ interface NumericCellProps {
   icon?: ReactNode;
   /** Row labels (ordinals) read muted; measurements read graphite ink. */
   muted?: boolean;
-  /** The size the peer text cells on the same table use. */
-  size: MantineSize;
+  size?: MantineSize;
   value: string;
 }
 
@@ -22,7 +22,7 @@ interface NumericCellProps {
 export const NumericCell: FC<NumericCellProps> = ({
   icon,
   muted = false,
-  size,
+  size = CELL_TEXT_SIZE,
   value,
 }) => {
   const text = (

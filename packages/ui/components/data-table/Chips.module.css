@@ -1,7 +1,8 @@
 /* Doubled class beats Mantine core's single-class rules; overriding the CSS
    properties (not the --badge-* vars) sidesteps the inline-style variables
-   Mantine injects per variant. */
-.athleteChip.athleteChip {
+   Mantine injects per variant. Light-mode hovers stay gray by design rule;
+   the accent hover survives only in dark. */
+.entityChip.entityChip {
   background-color: light-dark(
     var(--mantine-color-gray-0),
     var(--mantine-color-dark-6)
@@ -10,11 +11,12 @@
     light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
   transition:
+    background-color 100ms ease,
     border-color 100ms ease,
     color 100ms ease;
 }
 
-.athleteChip.athleteChip:hover {
+.entityChip.entityChip:hover {
   background-color: light-dark(
     var(--mantine-color-gray-1),
     var(--mantine-color-dark-6)
@@ -26,8 +28,7 @@
   color: light-dark(var(--mantine-color-gray-9), var(--mantine-color-teal-4));
 }
 
-/* The sport tag is a quiet filled chip: soft wash, dark text, no outline. */
-.sportTag.sportTag {
+.kindTag.kindTag {
   background-color: light-dark(
     var(--mantine-color-gray-1),
     var(--mantine-color-dark-5)

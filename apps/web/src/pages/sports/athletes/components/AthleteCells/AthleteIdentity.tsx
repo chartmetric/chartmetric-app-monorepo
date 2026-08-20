@@ -4,12 +4,12 @@ import { faBadgeCheck } from "@fortawesome/pro-regular-svg-icons/faBadgeCheck";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Avatar, Group, Stack, Text, Tooltip } from "@mantine/core";
+import { CellText } from "@repo/ui/cell-text";
 
 import type { Athlete } from "../../api/types";
 
 import { getSportColor } from "../../../sport-colors";
 import { toSportLabel } from "../../../sport-labels";
-import { CELL_TEXT_SIZE } from "./cell-typography";
 import { CountryFlag } from "./CountryFlag";
 import { SocialLinks } from "./SocialLinks";
 
@@ -38,9 +38,9 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
       />
       <Stack gap={2} miw={0}>
         <Group gap={6} wrap="nowrap">
-          <Text fw={600} size={CELL_TEXT_SIZE} truncate>
+          <CellText fw={600} size="sm" truncate>
             {athleteName}
-          </Text>
+          </CellText>
           {athlete.igVerified ? (
             <Tooltip label={t`Verified on Instagram`}>
               <Text

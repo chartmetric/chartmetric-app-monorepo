@@ -7,6 +7,7 @@ import { Box, Text } from "@mantine/core";
 
 import type { VerticalNavLink, VerticalNavSection } from "../../verticals";
 
+import { NAV_MUTED_INK } from "../nav-ink";
 import { VerticalNavItem } from "./VerticalNavItem";
 
 // Record keyed by the union: adding a VerticalNavSection variant without a
@@ -53,7 +54,7 @@ export const VerticalNav: FC<VerticalNavProps> = ({ links, onNavigate }) => {
         return (
           <Box aria-labelledby={headingId} key={section} mt="md" role="group">
             <Text
-              c="rgba(255,255,255,0.45)"
+              c={NAV_MUTED_INK}
               fw={600}
               id={headingId}
               mb={4}

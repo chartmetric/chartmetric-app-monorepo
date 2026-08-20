@@ -21,7 +21,7 @@ msgstr "Künstler"
 msgid "Athletes"
 msgstr "Athleten"
 
-#: src/layout/components/VerticalSelector.tsx:30
+#: src/layout/components/VerticalSelector.tsx:31
 msgid "Chartmetric Dash"
 msgstr "Chartmetric Dash"
 
@@ -33,7 +33,7 @@ msgstr "Vergleichen"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/layout/components/VerticalNav.tsx:15
+#: src/layout/components/VerticalNav.tsx:16
 msgid "Discover"
 msgstr "Entdecken"
 
@@ -69,7 +69,7 @@ msgstr "Sprache"
 msgid "Leagues"
 msgstr "Ligen"
 
-#: src/layout/components/VerticalNav.tsx:16
+#: src/layout/components/VerticalNav.tsx:17
 msgid "Library"
 msgstr "Bibliothek"
 
@@ -89,7 +89,7 @@ msgstr "Zum dunklen Modus wechseln"
 msgid "Switch to light mode"
 msgstr "Zum hellen Modus wechseln"
 
-#: src/layout/components/VerticalSelector.tsx:25
+#: src/layout/components/VerticalSelector.tsx:26
 msgid "Switch vertical"
 msgstr "Bereich wechseln"
 
@@ -102,6 +102,6 @@ msgstr "Teams"
 msgid "Toggle navigation"
 msgstr "Navigation umschalten"
 
-#: src/layout/components/VerticalNav.tsx:17
+#: src/layout/components/VerticalNav.tsx:18
 msgid "Tools"
 msgstr "Werkzeuge"

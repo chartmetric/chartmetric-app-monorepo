@@ -3,12 +3,13 @@ import type { FC } from "react";
 import { faTrophy } from "@fortawesome/pro-regular-svg-icons/faTrophy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
-import { Avatar, Badge, Group, Text } from "@mantine/core";
+import { Avatar, Group } from "@mantine/core";
+import { CellText } from "@repo/ui/cell-text";
+import { KindTag } from "@repo/ui/kind-tag";
 
 import type { League } from "../../api/types";
 
 import { toSportLabel } from "../../../sport-labels";
-import classes from "./LeagueCells.module.css";
 
 interface LeagueIdentityProps {
   league: League;
@@ -34,27 +35,12 @@ export const LeagueIdentity: FC<LeagueIdentityProps> = ({ league }) => {
       >
         <FontAwesomeIcon aria-hidden icon={faTrophy} />
       </Avatar>
-      {/* Catalog rows tag the sport as a quiet neutral chip beside the name;
-          colored sport text stays on entity rows (athletes), where the sport
-          classifies a person rather than the row's own kind. */}
       <Group gap={8} miw={0} wrap="nowrap">
-        <Text ff="monospace" fw={500} size="sm" truncate>
+        <CellText ff="monospace" fw={500} size="sm" truncate>
           {leagueName}
-        </Text>
+        </CellText>
         {league.sport === null ? null : (
-          <Badge
-            className={classes["sportTag"]}
-            ff="monospace"
-            fw={400}
-            fz="xs"
-            radius="sm"
-            size="sm"
-            style={{ flexShrink: 0 }}
-            tt="none"
-            variant="default"
-          >
-            {toSportLabel(league.sport)}
-          </Badge>
+          <KindTag>{toSportLabel(league.sport)}</KindTag>
         )}
       </Group>
     </Group>

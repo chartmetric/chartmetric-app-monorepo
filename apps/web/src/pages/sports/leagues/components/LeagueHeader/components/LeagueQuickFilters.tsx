@@ -2,13 +2,13 @@ import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
 import { Divider, Group } from "@mantine/core";
+import { Pill } from "@repo/ui/pill";
+import { SingleSelectPills } from "@repo/ui/single-select-pills";
 
 import type { LeagueFilterValues } from "../../../filters/types";
 
 import { useListFormatters } from "../../../../../../lib/formatting";
-import { Pill } from "../../../../quick-filter-pills/Pill";
 import { toSportLabel } from "../../../../sport-labels";
-import { SingleSelectPills } from "./SingleSelectPills";
 
 const TRACKED_ATHLETE_THRESHOLDS = [2, 5, 10] as const;
 const REACH_THRESHOLDS = [1_000_000, 10_000_000, 100_000_000] as const;

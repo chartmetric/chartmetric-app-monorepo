@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router";
 
 import cmLogo from "../../assets/cm-logo.svg";
 import { findVerticalByPathname, VERTICALS } from "../../verticals";
+import { NAV_MUTED_INK } from "../nav-ink";
 
 interface VerticalSelectorProps {
   onNavigate: () => void;
@@ -29,7 +30,7 @@ export const VerticalSelector: FC<VerticalSelectorProps> = ({ onNavigate }) => {
               <Text c="white" fw={600} size="sm">
                 <Trans>Chartmetric Dash</Trans>
               </Text>
-              <Group c="rgba(255,255,255,0.45)" gap={4}>
+              <Group c={NAV_MUTED_INK} gap={4}>
                 <Text size="xs" tt="uppercase">
                   {t(activeVertical.label)}
                 </Text>

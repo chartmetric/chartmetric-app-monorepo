@@ -1,12 +1,12 @@
 import { useLingui } from "@lingui/react/macro";
+import { CELL_TEXT_SIZE } from "@repo/ui/cell-text";
+import { NumericCell } from "@repo/ui/numeric-cell";
 import { createElement, useMemo } from "react";
 
 import type { AthleteColumnKey, AthleteTableColumn } from "./types";
 
 import { EMPTY_CELL, useListFormatters } from "../../../../lib/formatting";
-import { NumericCell } from "../../numeric-cell/NumericCell";
 import { AthleteIdentity } from "../components/AthleteCells/AthleteIdentity";
-import { CELL_TEXT_SIZE } from "../components/AthleteCells/cell-typography";
 import { useAthleteCellRenderers, useAthleteColumnHeadings } from "./cells";
 import { ATHLETE_COLUMNS } from "./registry";
 

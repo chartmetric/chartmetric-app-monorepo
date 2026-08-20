@@ -27,7 +27,6 @@ export interface DataTableColumn<Row, SortKey extends string> {
   secondaryLabel?: string;
   sortKey?: SortKey;
   sticky?: boolean;
-  /** Defines what the column measures; shown on hover and read out to AT. */
   tooltip?: string;
   width?: number;
 }
@@ -53,6 +52,15 @@ export interface DataTableProps<Row, SortKey extends string> {
 const STICKY_CELL_Z_INDEX = 1;
 const STICKY_HEADER_CELL_Z_INDEX = 3;
 export const TOOLTIP_WIDTH = 240;
+// An overflow affordance summarizes; past this many entries a tooltip stops
+// listing and states how many more exist (design rule: never enumerate).
+export const TOOLTIP_ITEM_LIMIT = 10;
+// Light-mode hovers stay gray (design rule); dark keeps the accent wash. Set
+// on the Paper wrapper that owns a table, never on DataTable itself.
+export const ROW_HOVER_STYLE = {
+  "--table-highlight-on-hover-color":
+    "light-dark(var(--mantine-color-gray-1),var(--mantine-color-teal-light))",
+} as const;
 
 /*
  * The density of a table and of the chrome rows above and below it. Exported
@@ -106,9 +114,6 @@ const ariaSort = (
   return direction === "asc" ? "ascending" : "descending";
 };
 
-// Inactive columns reserve the icon's metrics invisibly: no directional noise
-// (the learned rule), but every header shares one baseline and nothing shifts
-// when the sort moves.
 const sortIcon = (
   isActive: boolean,
   direction: DataTableSortDirection,
@@ -180,8 +185,6 @@ const SortButton = ({
     </UnstyledButton>
   );
 
-  // The tooltip wraps the button itself so keyboard focus opens it; a
-  // wrapper element would leave the definition mouse-only.
   return tooltip === undefined ? (
     button
   ) : (

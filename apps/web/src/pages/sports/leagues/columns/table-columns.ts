@@ -1,29 +1,18 @@
 import { faUserGroup } from "@fortawesome/pro-regular-svg-icons/faUserGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
+import { CELL_TEXT_SIZE } from "@repo/ui/cell-text";
+import { NumericCell } from "@repo/ui/numeric-cell";
 import { createElement, useMemo } from "react";
 
 import type { LeagueTableColumn } from "./types";
 
 import { useListFormatters } from "../../../../lib/formatting";
-import { NumericCell } from "../../numeric-cell/NumericCell";
-import { CELL_TEXT_SIZE } from "../components/LeagueCells/cell-typography";
 import { KeyAthletesCell } from "../components/LeagueCells/KeyAthletesCell";
 import { LeagueIdentity } from "../components/LeagueCells/LeagueIdentity";
 import { NationalitiesCell } from "../components/LeagueCells/NationalitiesCell";
 
 const METRIC_TEXT_SIZE = "xs";
-
-const renderAthleteCount = (value: string): ReturnType<typeof createElement> =>
-  createElement(NumericCell, {
-    icon: createElement(FontAwesomeIcon, {
-      color:
-        "light-dark(var(--mantine-color-gray-7),var(--mantine-color-dark-2))",
-      icon: faUserGroup,
-    }),
-    size: METRIC_TEXT_SIZE,
-    value,
-  });
 
 export const ORDINAL_COLUMN_WIDTH = 36;
 export const LEAGUE_COLUMN_WIDTH = 290;
@@ -39,6 +28,50 @@ export const LEAGUE_TABLE_MIN_WIDTH =
   NATIONALITIES_MIN_WIDTH +
   TRACKED_ATHLETES_WIDTH +
   IG_REACH_WIDTH;
+
+interface MetricLabels {
+  athletes: string;
+  igReach: string;
+  igReachTooltip: string;
+}
+
+// The Lingui macro only transforms t\`…\` bound to useLingui's own identifier,
+// so labels resolve in the hook and arrive here as plain strings.
+const metricColumns = (
+  labels: MetricLabels,
+  formatters: ReturnType<typeof useListFormatters>,
+): LeagueTableColumn[] => [
+  {
+    align: "right",
+    key: "trackedAthletes",
+    label: labels.athletes,
+    renderCell: (row) =>
+      createElement(NumericCell, {
+        icon: createElement(FontAwesomeIcon, {
+          color:
+            "light-dark(var(--mantine-color-gray-7),var(--mantine-color-dark-2))",
+          icon: faUserGroup,
+        }),
+        size: METRIC_TEXT_SIZE,
+        value: formatters.plain.format(row.league.trackedAthletes),
+      }),
+    sortKey: "trackedAthletes",
+    width: TRACKED_ATHLETES_WIDTH,
+  },
+  {
+    align: "right",
+    key: "igReach",
+    label: labels.igReach,
+    renderCell: (row) =>
+      createElement(NumericCell, {
+        size: METRIC_TEXT_SIZE,
+        value: formatters.compact.format(row.league.igReach),
+      }),
+    sortKey: "igReach",
+    tooltip: labels.igReachTooltip,
+    width: IG_REACH_WIDTH,
+  },
+];
 
 export const useLeagueTableColumns = (): LeagueTableColumn[] => {
   const { t } = useLingui();
@@ -90,30 +123,14 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
             nationalities: row.league.nationalities,
           }),
       },
-      {
-        align: "right",
-        key: "trackedAthletes",
-        label: t`Athletes`,
-        renderCell: (row) =>
-          renderAthleteCount(
-            formatters.plain.format(row.league.trackedAthletes),
-          ),
-        sortKey: "trackedAthletes",
-        width: TRACKED_ATHLETES_WIDTH,
-      },
-      {
-        align: "right",
-        key: "igReach",
-        label: t`Total IG Reach`,
-        renderCell: (row) =>
-          createElement(NumericCell, {
-            size: METRIC_TEXT_SIZE,
-            value: formatters.compact.format(row.league.igReach),
-          }),
-        sortKey: "igReach",
-        tooltip: t`Sum of tracked athletes' Instagram followers — not a deduplicated audience.`,
-        width: IG_REACH_WIDTH,
-      },
+      ...metricColumns(
+        {
+          athletes: t`Athletes`,
+          igReach: t`Total IG Reach`,
+          igReachTooltip: t`Sum of tracked athletes' Instagram followers — not a deduplicated audience.`,
+        },
+        formatters,
+      ),
     ],
     [formatters, t],
   );

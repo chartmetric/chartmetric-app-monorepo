@@ -2,14 +2,8 @@ import type { FC } from "react";
 
 import { Plural, useLingui } from "@lingui/react/macro";
 import { Text, Tooltip, VisuallyHidden } from "@mantine/core";
-import { TOOLTIP_WIDTH } from "@repo/ui/data-table";
-
-import { CELL_TEXT_SIZE } from "./cell-typography";
-
-// An overflow affordance summarizes; it never enumerates. Past ten entries the
-// tooltip stops listing and says how many more the league holds — the full set
-// belongs on a detail surface, not in a hover.
-const TOOLTIP_ITEM_LIMIT = 10;
+import { CELL_TEXT_SIZE } from "@repo/ui/cell-text";
+import { TOOLTIP_ITEM_LIMIT, TOOLTIP_WIDTH } from "@repo/ui/data-table";
 
 interface OverflowCountProps {
   items: readonly string[];
@@ -51,7 +45,6 @@ export const OverflowCount: FC<OverflowCountProps> = ({ items }) => {
           comment: "Count of table-cell entries kept behind a tooltip",
           message: `+${extra}`,
         })}
-        {/* A tooltip is hover-only, so the summary is read out here. */}
         <VisuallyHidden>{summary}</VisuallyHidden>
       </Text>
     </Tooltip>

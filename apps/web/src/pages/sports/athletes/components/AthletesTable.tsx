@@ -7,6 +7,7 @@ import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Text } from "@mantine/core";
 import {
   DataTable,
+  ROW_HOVER_STYLE,
   TABLE_FOOTER_PADDING,
   TABLE_TOOLBAR_PADDING,
 } from "@repo/ui/data-table";
@@ -69,12 +70,6 @@ interface AthletesTableProps {
 }
 
 const SCROLLING_COLUMNS_MIN_WIDTH = 640;
-
-// Light-mode hovers stay gray (color is reserved); dark keeps the teal wash.
-const ROW_HOVER_STYLE = {
-  "--table-highlight-on-hover-color":
-    "light-dark(var(--mantine-color-gray-1),var(--mantine-color-teal-light))",
-} as const;
 
 interface TableFooterProps {
   isFetching: boolean;

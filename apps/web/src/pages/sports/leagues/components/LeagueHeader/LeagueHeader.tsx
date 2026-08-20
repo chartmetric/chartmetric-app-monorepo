@@ -25,11 +25,6 @@ export interface LeagueHeaderProps {
   total: number | undefined;
 }
 
-/*
- * One row owns everything that identifies, narrows, or orders the list. A
- * control parked in the page corner reads as page chrome rather than as a
- * table control, so search and sort sit with the pills that do the same job.
- */
 export const LeagueHeader: FC<LeagueHeaderProps> = ({
   onChange,
   onSort,

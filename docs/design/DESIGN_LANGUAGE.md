@@ -536,6 +536,31 @@ under-deliver silently** — see the identity-cell, tooltip, and nav
 sections above; the pattern is general: verify the rendered DOM, not
 the prop name.
 
+### Enforcement by shared component (PR-review rules, 2026-08-20)
+
+**Design constants and cell primitives have exactly one owner, in
+`@repo/ui` — never per feature.** A `cell-typography.ts` duplicated
+into two page trees is a defect, full stop. The scale, chip styling,
+hover behavior, and overflow budgets live in shared components and
+theme tokens; a feature that needs them imports them.
+
+**Cells render through the shared primitives, not raw Mantine.** Table
+cell text goes through `@repo/ui/cell-text` (which owns the cell
+scale), numbers through `@repo/ui/numeric-cell` (mono, ink classes,
+optional leading pictogram), entity references through
+`@repo/ui/entity-chip`, kind tags through `@repo/ui/kind-tag`, and
+quick filters through `@repo/ui/pill` / `pill-group` /
+`single-select-pills`. Passing `size`/`ff`/ink props to a bare `Text`
+in a cell means a primitive is missing — add it there, not locally.
+
+**The nav shell is shared; verticals contribute only content.** One
+navbar implementation serves every vertical; what differs per vertical
+is declared data — sections, items, labels, paths — supplied by that
+vertical's configuration and rendered by the shared shell. Behavior
+(collapse, active state, a11y, hover) never forks per vertical.
+(Implementation of per-vertical config modules is a planned follow-up
+PR; the rule binds now.)
+
 ### How to run the loop (method)
 
 Tooling is committed: `pnpm --filter web screenshot [route] [out]

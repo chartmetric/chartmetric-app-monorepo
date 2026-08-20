@@ -5,6 +5,7 @@ import { Group, Paper, Text } from "@mantine/core";
 import {
   DataTable,
   type DataTableSortDirection,
+  ROW_HOVER_STYLE,
   TABLE_FOOTER_PADDING,
 } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
@@ -18,12 +19,6 @@ import {
   useLeagueTableColumns,
 } from "../columns/table-columns";
 import { SkeletonDataRow } from "./LeagueListStates/LeagueListLoading";
-
-// Light-mode hovers stay gray (color is reserved); dark keeps the teal wash.
-const ROW_HOVER_STYLE = {
-  "--table-highlight-on-hover-color":
-    "light-dark(var(--mantine-color-gray-1),var(--mantine-color-teal-light))",
-} as const;
 
 interface LeagueTableFooterProps {
   isFetching: boolean;

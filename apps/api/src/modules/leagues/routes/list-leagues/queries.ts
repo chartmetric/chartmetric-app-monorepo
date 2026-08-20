@@ -1,12 +1,6 @@
 import { rawAs } from "@hypequery/clickhouse";
 
 import type { ClickHouseDatabase } from "../../../../db/clickhouse/client.ts";
-import type {
-  DatabaseQueryFactory,
-  ExecutableQuery,
-  JoinableChain,
-  OrderableChain,
-} from "../../../../lib/database.ts";
 import type { ListLeaguesQuery } from "./schemas.ts";
 import type {
   KeyAthleteTuple,
@@ -14,6 +8,13 @@ import type {
   LeagueCountRow,
   LeagueListRow,
 } from "./types.ts";
+
+import {
+  type DatabaseQueryFactory,
+  type ExecutableQuery,
+  type JoinableChain,
+  orderByExpression,
+} from "../../../../lib/database.ts";
 
 const CATALOG = "new_vertical.leagues";
 const AGGREGATE = "league_athletes";
@@ -38,7 +39,7 @@ const AGGREGATE_COLUMN = {
 const MEGA_IG_FOLLOWERS = 100_000_000;
 
 /**
- * Interim league join key. `athletes_cache` carries no league identifier, only
+ * DATA-FIX-ME: interim league join key. `athletes_cache` carries no league identifier, only
  * the label its ingesting source wrote: `football_league` and
  * `basketball_league` reproduce `leagues.name` exactly, while tennis stores the
  * bare tour ("ATP") that the catalog names "ATP Tour". Replace this with an
@@ -109,16 +110,6 @@ const withLeagueAthletes = <Builder>(
       COLUMN.name,
       AGGREGATE_COLUMN.label,
     ) as unknown as Builder;
-
-const orderByExpression = <Builder>(
-  builder: Builder,
-  expression: string,
-  direction: "ASC" | "DESC",
-): Builder =>
-  (builder as unknown as OrderableChain).orderBy(
-    expression,
-    direction,
-  ) as unknown as Builder;
 
 const applyNameFilter = (
   builder: LeagueCatalogBuilder,
@@ -231,11 +222,6 @@ const DEFAULT_SORT_BY = "name";
 
 const ASCENDING_FIRST: ReadonlySet<string> = new Set(["name", "sport"]);
 
-// `sum` over a Nullable column stays Nullable and an unmatched join row is NULL
-// as well, and ClickHouse parks NULLs at one end whichever direction is asked
-// for. Ordering reach through the same `ifNull` the threshold filter reads keeps
-// the sort agreeing with the zero the reply reports. `count` cannot be NULL, so
-// `tracked_athletes` already sorts an untracked league as the zero it returns.
 const SORT_COLUMNS = {
   igReach: `ifNull(${AGGREGATE_COLUMN.aggregatedIgFollowers}, 0)`,
   name: COLUMN.name,

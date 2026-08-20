@@ -1,4 +1,6 @@
 import { useLingui } from "@lingui/react/macro";
+import { CELL_TEXT_SIZE } from "@repo/ui/cell-text";
+import { NumericCell } from "@repo/ui/numeric-cell";
 import { createElement, type ReactElement, useMemo } from "react";
 
 import type { AthleteCellRenderers, AthleteColumnKey } from "./types";
@@ -9,8 +11,6 @@ import {
   formatDate,
   useListFormatters,
 } from "../../../../lib/formatting";
-import { NumericCell } from "../../numeric-cell/NumericCell";
-import { CELL_TEXT_SIZE } from "../components/AthleteCells/cell-typography";
 import { ClubCell } from "../components/AthleteCells/ClubCell";
 import { GpsCell } from "../components/AthleteCells/GpsCell";
 import { LeagueCell } from "../components/AthleteCells/LeagueCell";

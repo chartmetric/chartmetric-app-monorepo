@@ -25,8 +25,6 @@ export const VerticalNavItem: FC<VerticalNavItemProps> = ({
       <FontAwesomeIcon aria-hidden icon={link.icon} />
     );
 
-  // A native disabled button exposes its state to assistive tech; an anchor
-  // without href is role "generic", where aria-disabled is unsupported.
   if (link.disabled === true) {
     return (
       <NavLink

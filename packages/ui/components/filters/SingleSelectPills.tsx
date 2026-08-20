@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
-import { Pill } from "../../../../quick-filter-pills/Pill";
-import { PillGroup } from "../../../../quick-filter-pills/PillGroup";
+import { Pill } from "./Pill";
+import { PillGroup } from "./PillGroup";
 
 export interface PillOption<Value extends number | string> {
   label: string;

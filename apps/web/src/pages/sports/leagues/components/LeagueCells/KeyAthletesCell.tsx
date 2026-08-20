@@ -1,12 +1,12 @@
 import type { FC } from "react";
 
-import { Badge, Group, Text } from "@mantine/core";
+import { Group } from "@mantine/core";
+import { CellText } from "@repo/ui/cell-text";
+import { EntityChip } from "@repo/ui/entity-chip";
 
 import type { KeyAthlete } from "../../api/types";
 
 import { EMPTY_CELL } from "../../../../../lib/formatting";
-import { CELL_TEXT_SIZE } from "./cell-typography";
-import classes from "./LeagueCells.module.css";
 import { OverflowCount } from "./OverflowCount";
 
 const PREVIEW_COUNT = 3;
@@ -18,11 +18,7 @@ interface KeyAthletesCellProps {
 
 export const KeyAthletesCell: FC<KeyAthletesCellProps> = ({ athletes }) => {
   if (athletes.length === 0) {
-    return (
-      <Text c="dimmed" size={CELL_TEXT_SIZE}>
-        {EMPTY_CELL}
-      </Text>
-    );
+    return <CellText c="dimmed">{EMPTY_CELL}</CellText>;
   }
 
   const preview = athletes.slice(0, PREVIEW_COUNT);
@@ -31,20 +27,9 @@ export const KeyAthletesCell: FC<KeyAthletesCellProps> = ({ athletes }) => {
   return (
     <Group gap={4} miw={0} wrap="nowrap">
       {preview.map((athlete) => (
-        <Badge
-          className={classes["athleteChip"]}
-          ff="monospace"
-          fw={400}
-          fz={CELL_TEXT_SIZE}
-          key={athlete.id}
-          maw={CHIP_MAX_WIDTH}
-          radius="sm"
-          size="sm"
-          tt="none"
-          variant="default"
-        >
+        <EntityChip key={athlete.id} maw={CHIP_MAX_WIDTH}>
           {athlete.name}
-        </Badge>
+        </EntityChip>
       ))}
       <OverflowCount items={overflow.map((athlete) => athlete.name)} />
     </Group>

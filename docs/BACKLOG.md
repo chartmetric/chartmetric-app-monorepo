@@ -7,6 +7,25 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
+### From PR #53 review (2026-08-20)
+
+- P1: Per-vertical nav configuration (user-directed follow-up PR after
+  this merges): the shared shell renders sections/items declared by
+  each vertical's own config module; only content differs per vertical.
+  Rule already binds in DESIGN_LANGUAGE.md "Enforcement by shared
+  component".
+- P2: Analyze generalizing the list-endpoint filter-application pattern
+  (`applyFilters` builders exist per module: artists, athletes,
+  leagues) vs keeping module ownership — decide once a fourth list
+  endpoint appears.
+- P2: `keyAthletes`/`nationalities`-style aggregate builders may
+  generalize when a second entity needs top-N-by-metric or
+  distinct-collated aggregates; watch for the second consumer.
+- P3: Generalize the skeleton page-size test (page-size-driven row
+  count) into a shared test helper applied to every list page.
+- P3: Metric column width tokens generalize when the athletes table
+  adopts the leagues column system.
+
 ### From 07-prototype-parity-theme retro (2026-08-20)
 
 - P3: Adopt `NumericCell` in the music/artists table so the design doc's

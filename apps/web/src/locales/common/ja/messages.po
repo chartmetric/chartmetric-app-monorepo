@@ -21,7 +21,7 @@ msgstr "アーティスト"
 msgid "Athletes"
 msgstr "アスリート"
 
-#: src/layout/components/VerticalSelector.tsx:30
+#: src/layout/components/VerticalSelector.tsx:31
 msgid "Chartmetric Dash"
 msgstr "Chartmetric Dash"
 
@@ -33,7 +33,7 @@ msgstr "比較"
 msgid "Dashboard"
 msgstr "ダッシュボード"
 
-#: src/layout/components/VerticalNav.tsx:15
+#: src/layout/components/VerticalNav.tsx:16
 msgid "Discover"
 msgstr "探索"
 
@@ -69,7 +69,7 @@ msgstr "言語"
 msgid "Leagues"
 msgstr "リーグ"
 
-#: src/layout/components/VerticalNav.tsx:16
+#: src/layout/components/VerticalNav.tsx:17
 msgid "Library"
 msgstr "ライブラリ"
 
@@ -89,7 +89,7 @@ msgstr "ダークモードに切り替え"
 msgid "Switch to light mode"
 msgstr "ライトモードに切り替え"
 
-#: src/layout/components/VerticalSelector.tsx:25
+#: src/layout/components/VerticalSelector.tsx:26
 msgid "Switch vertical"
 msgstr "バーティカルを切り替え"
 
@@ -102,6 +102,6 @@ msgstr "チーム"
 msgid "Toggle navigation"
 msgstr "ナビゲーションを切り替え"
 
-#: src/layout/components/VerticalNav.tsx:17
+#: src/layout/components/VerticalNav.tsx:18
 msgid "Tools"
 msgstr "ツール"

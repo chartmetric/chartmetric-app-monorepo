@@ -41,3 +41,13 @@ export interface JoinableChain {
 export interface OrderableChain {
   orderBy: (column: string, direction: "ASC" | "DESC") => OrderableChain;
 }
+
+export const orderByExpression = <Builder>(
+  builder: Builder,
+  expression: string,
+  direction: "ASC" | "DESC",
+): Builder =>
+  (builder as unknown as OrderableChain).orderBy(
+    expression,
+    direction,
+  ) as unknown as Builder;
