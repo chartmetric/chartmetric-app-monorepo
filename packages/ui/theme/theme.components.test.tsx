@@ -1,6 +1,12 @@
 import type { ReactNode } from "react";
 
-import { Button, MantineProvider, NumberInput, TextInput } from "@mantine/core";
+import {
+  Button,
+  MantineProvider,
+  NumberInput,
+  TextInput,
+  Tooltip,
+} from "@mantine/core";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
@@ -65,4 +71,21 @@ describe("compact control defaults", () => {
       );
     },
   );
+});
+
+describe("floating surfaces", () => {
+  it("resolves a tooltip to the body surface instead of inverting it", () => {
+    renderThemed(
+      <Tooltip label="Sum of tracked followers" opened>
+        <Button>IG Reach</Button>
+      </Tooltip>,
+    );
+
+    const style = inlineStyle(screen.getByRole("tooltip"));
+
+    // Mantine's own default is gray-9 in light mode and gray-2 in dark, which
+    // makes the panel a foreign scheme on whichever page it opens over.
+    expect(style).toContain("--tooltip-bg: var(--mantine-color-body)");
+    expect(style).toContain("--tooltip-color: var(--mantine-color-text)");
+  });
 });

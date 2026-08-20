@@ -1,8 +1,10 @@
 {
   "id": "07-prototype-parity-theme",
   "title": "prototype-parity theme pass",
-  "status": "pending",
-  "depends_on": ["06-leagues-design-notes"],
+  "status": "completed",
+  "depends_on": [
+    "06-leagues-design-notes"
+  ],
   "acceptance": [
     "The shared theme declares fontFamilyMonospace with 'Space Mono' first (self-hosted via @fontsource/space-mono imported in apps/web), and every numeric metric cell in the leagues and athletes tables renders in the mono face at the same Mantine text size as neighbouring text cells, right-aligned",
     "The theme radius scale is xs 0.125rem / sm 0.1875rem / md 0.3rem / lg 0.375rem / xl 0.5rem; person avatars remain circles and organisation avatars remain radius sm",
@@ -33,5 +35,12 @@
   "verification_cmd": "grep -q 'Space Mono' packages/ui/theme/theme.ts",
   "smoke_cmd": "",
   "security_review": false,
-  "notes": "Executes PRD 'Amendment 2 - prototype-parity design pass (2026-08-19)'. Read docs/design/DESIGN_LANGUAGE.md 'Theme tokens (prototype parity)' first - it IS the spec, verified against the deployed prototype CSS. The theme package owns tooltip colors, radius, and the mono face; pages own layout and column order. @fontsource/space-mono is a new dependency in apps/web (same pattern as the existing @fontsource-variable/inter import in main.tsx); regular 400 + 700 weights suffice. Design-language skeleton rules still bind: bar heights stay CSS-var formulas so the density change cannot drift them; skeleton paddings must move together with the real toolbar/footer paddings. The athletes table adopts the same density tokens (state siblings across pages, not only within one page). Do not change any API contract - this phase is presentation only. Update the design doc's numeric examples in the same commit so doc and code agree (the doc's spacing tables currently state the old density)."
+  "notes": "Executes PRD 'Amendment 2 - prototype-parity design pass (2026-08-19)'. Read docs/design/DESIGN_LANGUAGE.md 'Theme tokens (prototype parity)' first - it IS the spec, verified against the deployed prototype CSS. The theme package owns tooltip colors, radius, and the mono face; pages own layout and column order. @fontsource/space-mono is a new dependency in apps/web (same pattern as the existing @fontsource-variable/inter import in main.tsx); regular 400 + 700 weights suffice. Design-language skeleton rules still bind: bar heights stay CSS-var formulas so the density change cannot drift them; skeleton paddings must move together with the real toolbar/footer paddings. The athletes table adopts the same density tokens (state siblings across pages, not only within one page). Do not change any API contract - this phase is presentation only. Update the design doc's numeric examples in the same commit so doc and code agree (the doc's spacing tables currently state the old density).",
+  "attempts": 1,
+  "run_started_at": "2026-08-20T00:20:31+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [
+    "apps/web/AGENTS.md"
+  ],
+  "review_findings": "SHOULD_FIX:\n- apps/web/src/pages/sports/athletes/components/AthleteCells/cell-typography.ts:8 \u2014 CELL_TEXT_SIZE claims to be the one scale \"matching the size='sm' its text cells render at\", but ClubCell.tsx:21, LeagueCell.tsx:26 and AthleteIdentity.tsx:40 still hard-code size=\"sm\"; changing the constant silently desyncs numeric cells from their peers \u2014 import it in those cells the way the leagues LeagueCells modules already do (learned rule: a constant a second module must match is imported, never restated)\n- phases/07-prototype-parity-theme.json:18 \u2014 apps/web/AGENTS.md was edited (its quick-reference stated the now-wrong avatar radius=\"xl\" and restated skeleton paddings) but the phase's files globs were not widened, so a necessary doc-alignment edit reads as scope creep in every later review; add \"apps/web/AGENTS.md\" to files in the same commit\n- apps/web/src/pages/sports/leagues/columns/table-columns.ts:35 (and athletes/columns/table-columns.ts:27) \u2014 the ordinal/# and rank columns now render through NumericCell but keep align:\"left\", while DESIGN_LANGUAGE.md's typography rule says numbers right-align with no stated ordinal exception; either right-align them or record the ordinal exception in the doc so the next reader can't derive the opposite requirement\n\nBACKLOG_WORTHY:\n- P3 \u2014 DESIGN_LANGUAGE.md now asserts \"One NumericCell renders every such value\", but the music/artists table's numeric cells still render in the sans face; adopt NumericCell there (and promote it from pages/sports/numeric-cell/ to @repo/ui at that point, when a consumer outside sports actually appears)\n- P3 \u2014 the artists table inherits the new verticalSpacing=\"sm\" and square radius scale with no visual verification in this phase; confirm its density/loading states at desktop and mobile widths\n- P3 \u2014 AthleteListLoading.tsx:119 restates the athletes table min width (944) and its per-column miw values as literals instead of importing them from athletes/columns, the same drift the leagues skeleton avoids by importing its width constants (pre-existing, untouched here)"
 }

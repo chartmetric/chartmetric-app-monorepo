@@ -31,7 +31,7 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
         alt={athleteName}
         bd="1px solid var(--mantine-color-default-border)"
         name={athleteName}
-        radius="xl"
+        radius="50%"
         size={40}
         src={athlete.imageUrl}
       />

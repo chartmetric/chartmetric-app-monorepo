@@ -191,6 +191,46 @@ describe("LeaguesPage states", () => {
     expect(screen.getByText("Japan, Spain")).toBeTruthy();
   });
 
+  it("keeps the search in the header row beside the quick filters", async () => {
+    mockLeagues({ data: buildReply() });
+
+    renderPage();
+
+    // Title group -> header row: the row that owns everything naming or
+    // narrowing the list. A search rendered outside it is the detached corner
+    // search this composition replaced.
+    const title = await screen.findByRole("heading", { name: "Leagues" });
+    const headerRow = title.parentElement?.parentElement;
+    const search = screen.getByRole("textbox", {
+      name: "Search by league name",
+    });
+    const sportPill = screen.getByRole("button", { name: "All Sports" });
+
+    expect(headerRow?.contains(search)).toBe(true);
+    expect(headerRow?.contains(sportPill)).toBe(true);
+  });
+
+  it("orders the columns with the numeric metrics at the right edge", async () => {
+    mockLeagues({ data: buildReply() });
+
+    renderPage();
+
+    const headers = within(
+      await screen.findByRole("table", { name: "Leagues" }),
+    ).getAllByRole("columnheader");
+
+    // The IG Reach header also carries its definition for screen readers, so
+    // the label is matched at the start of the cell rather than as a whole.
+    expect(headers.map((header) => header.textContent)).toEqual([
+      "#",
+      "League / Competition",
+      "Key Athletes",
+      "Nationalities",
+      "Athletes",
+      expect.stringMatching(/^IG Reach/u),
+    ]);
+  });
+
   it("marks the league column sorted and offers the two metric columns", async () => {
     mockLeagues({ data: buildReply() });
 
@@ -203,7 +243,7 @@ describe("LeaguesPage states", () => {
       header.getAttribute("aria-sort"),
     );
 
-    expect(sortStates).toEqual([null, "ascending", "none", "none", null, null]);
+    expect(sortStates).toEqual([null, "ascending", null, null, "none", "none"]);
   });
 
   it.each(["League / Competition", "Athletes", "IG Reach"])(

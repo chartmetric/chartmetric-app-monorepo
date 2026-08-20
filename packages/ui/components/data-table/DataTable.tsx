@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Group,
+  type MantineSpacing,
   Table,
   Text,
   Tooltip,
@@ -53,8 +54,19 @@ const STICKY_CELL_Z_INDEX = 1;
 const STICKY_HEADER_CELL_Z_INDEX = 3;
 export const TOOLTIP_WIDTH = 240;
 
-// Mantine tooltips open on hover only by default; focus must be explicit or
-// the content is unreachable by keyboard.
+/*
+ * The density of a table and of the chrome rows above and below it. Exported
+ * because three other modules have to resolve to the same numbers: the toolbar
+ * and footer a page composes around this table, and the skeleton that stands in
+ * for all three. Any disagreement is a layout shift the moment data arrives.
+ */
+export const TABLE_VERTICAL_SPACING: MantineSpacing = "sm";
+export const TABLE_TOOLBAR_PADDING = { px: "md", py: 4 } as const;
+export const TABLE_FOOTER_PADDING = { px: "md", py: "xs" } as const;
+
+// Mantine's default event set omits focus, which leaves the content
+// unreachable by keyboard. The shared theme sets the same default, but a
+// shared component cannot depend on the consumer's theme for keyboard access.
 const TOOLTIP_EVENTS = { focus: true, hover: true, touch: false };
 
 const stickyOffsets = <Row, SortKey extends string>(
@@ -270,7 +282,7 @@ export const DataTable = <Row, SortKey extends string>({
         highlightOnHover
         stickyHeader={stickyHeader}
         style={{ minWidth }}
-        verticalSpacing="md"
+        verticalSpacing={TABLE_VERTICAL_SPACING}
       >
         <Table.Thead>
           <Table.Tr>

@@ -32,12 +32,12 @@ msgstr "{remaining, plural, one {…외 #개} other {…외 #개}}"
 msgid "{threshold}+"
 msgstr "{threshold}+"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitleRow.tsx:28
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:20
 msgid "{total, plural, one {# league} other {# leagues}}"
 msgstr "{total, plural, other {# 리그}}"
 
 #. Leagues table column heading for the row number
-#: src/pages/sports/leagues/columns/table-columns.ts:36
+#: src/pages/sports/leagues/columns/table-columns.ts:37
 msgid "#"
 msgstr "#"
 
@@ -47,7 +47,7 @@ msgid "+{extra}"
 msgstr "+{extra}"
 
 #. Count of additional leagues an athlete competes in
-#: src/pages/sports/athletes/columns/cells.ts:56
+#: src/pages/sports/athletes/columns/cells.ts:60
 msgid "+{extra} more"
 msgstr "{extra}개 더"
 
@@ -60,7 +60,7 @@ msgstr "<{threshold}"
 msgid "Add, remove or reorder columns"
 msgstr "열 추가, 제거 또는 순서 변경"
 
-#: src/pages/sports/athletes/columns/cells.ts:26
+#: src/pages/sports/athletes/columns/cells.ts:28
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:37
 msgid "Age"
 msgstr "나이"
@@ -69,12 +69,12 @@ msgstr "나이"
 msgid "All Sports"
 msgstr "모든 종목"
 
-#: src/pages/sports/athletes/columns/table-columns.ts:39
+#: src/pages/sports/athletes/columns/table-columns.ts:44
 msgid "Athlete"
 msgstr "선수"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:159
-#: src/pages/sports/leagues/columns/table-columns.ts:60
+#: src/pages/sports/athletes/components/AthletesTable.tsx:163
+#: src/pages/sports/leagues/columns/table-columns.ts:80
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:60
 msgid "Athletes"
 msgstr "선수"
@@ -95,7 +95,7 @@ msgstr "범위 지우기"
 msgid "CM score"
 msgstr "CM 점수"
 
-#: src/pages/sports/athletes/columns/cells.ts:82
+#: src/pages/sports/athletes/columns/cells.ts:87
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:18
 msgid "College"
 msgstr "대학"
@@ -121,7 +121,7 @@ msgstr "{name} 그룹 삭제"
 msgid "Done"
 msgstr "완료"
 
-#: src/pages/sports/athletes/columns/cells.ts:29
+#: src/pages/sports/athletes/columns/cells.ts:31
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:40
 msgid "Engagement"
 msgstr "참여율"
@@ -159,17 +159,17 @@ msgstr "스포츠 찾기…"
 msgid "Find a team…"
 msgstr "팀 검색…"
 
-#: src/pages/sports/athletes/columns/cells.ts:30
-#: src/pages/sports/athletes/columns/cells.ts:38
+#: src/pages/sports/athletes/columns/cells.ts:32
+#: src/pages/sports/athletes/columns/cells.ts:40
 msgid "Followers"
 msgstr "팔로워"
 
-#: src/pages/sports/athletes/columns/cells.ts:28
+#: src/pages/sports/athletes/columns/cells.ts:30
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:39
 msgid "GPS"
 msgstr "GPS"
 
-#: src/pages/sports/athletes/columns/cells.ts:39
+#: src/pages/sports/athletes/columns/cells.ts:41
 msgid "Hearts"
 msgstr "하트"
 
@@ -177,7 +177,7 @@ msgstr "하트"
 msgid "Hidden"
 msgstr "숨김"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:71
+#: src/pages/sports/leagues/columns/table-columns.ts:92
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:69
 msgid "IG Reach"
 msgstr "IG 도달수"
@@ -198,45 +198,45 @@ msgstr "Instagram 팔로워"
 msgid "Instagram posts"
 msgstr "Instagram 게시물"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:83
+#: src/pages/sports/leagues/columns/table-columns.ts:62
 msgid "Key Athletes"
 msgstr "주요 선수"
 
-#: src/pages/sports/athletes/columns/cells.ts:32
+#: src/pages/sports/athletes/columns/cells.ts:34
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:43
 msgid "Last game"
 msgstr "최근 경기"
 
-#: src/pages/sports/athletes/columns/cells.ts:33
+#: src/pages/sports/athletes/columns/cells.ts:35
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:44
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:68
 msgid "League"
 msgstr "리그"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:50
+#: src/pages/sports/leagues/columns/table-columns.ts:52
 msgid "League / Competition"
 msgstr "리그 / 대회"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitleRow.tsx:24
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:145
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:16
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:150
 msgid "Leagues"
 msgstr "리그"
 
-#: src/pages/sports/athletes/columns/cells.ts:34
+#: src/pages/sports/athletes/columns/cells.ts:36
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:45
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:23
 msgid "Level"
 msgstr "레벨"
 
-#: src/pages/sports/athletes/columns/cells.ts:40
+#: src/pages/sports/athletes/columns/cells.ts:42
 msgid "Likes"
 msgstr "좋아요"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:110
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:113
 msgid "Loading athletes"
 msgstr "선수 불러오는 중"
 
-#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:101
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:104
 msgid "Loading leagues"
 msgstr "리그 불러오는 중"
 
@@ -252,7 +252,7 @@ msgstr "메가만"
 msgid "Minimum CM score"
 msgstr "최소 CM 점수"
 
-#: src/pages/sports/athletes/columns/cells.ts:35
+#: src/pages/sports/athletes/columns/cells.ts:37
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:46
 msgid "Momentum"
 msgstr "모멘텀"
@@ -267,11 +267,11 @@ msgstr "{label}을(를) 앞으로 이동"
 msgid "Move {label} later"
 msgstr "{label}을(를) 뒤로 이동"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:91
+#: src/pages/sports/leagues/columns/table-columns.ts:70
 msgid "Nationalities"
 msgstr "국적"
 
-#: src/pages/sports/athletes/columns/cells.ts:36
+#: src/pages/sports/athletes/columns/cells.ts:38
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:47
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:44
 msgid "Nationality"
@@ -281,8 +281,8 @@ msgstr "국적"
 msgid "New group name…"
 msgstr "새 그룹 이름…"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:102
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:79
+#: src/pages/sports/athletes/components/AthletesTable.tsx:106
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:84
 msgid "Next"
 msgstr "다음"
 
@@ -304,12 +304,12 @@ msgstr "일치하는 옵션이 없습니다"
 
 #. Current page number in the athletes list
 #. Current page number in the leagues list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:108
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:85
+#: src/pages/sports/athletes/components/AthletesTable.tsx:112
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:90
 msgid "Page {current} of {pageCount}"
 msgstr "{pageCount}페이지 중 {current}페이지"
 
-#: src/pages/sports/athletes/columns/cells.ts:37
+#: src/pages/sports/athletes/columns/cells.ts:39
 msgid "Pos"
 msgstr "포지션"
 
@@ -317,22 +317,22 @@ msgstr "포지션"
 msgid "Position"
 msgstr "포지션"
 
-#: src/pages/sports/athletes/columns/cells.ts:31
-#: src/pages/sports/athletes/columns/cells.ts:41
+#: src/pages/sports/athletes/columns/cells.ts:33
+#: src/pages/sports/athletes/columns/cells.ts:43
 msgid "Posts"
 msgstr "게시물"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:114
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:91
+#: src/pages/sports/athletes/components/AthletesTable.tsx:118
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:96
 msgid "Previous"
 msgstr "이전"
 
-#: src/pages/sports/athletes/columns/cells.ts:84
+#: src/pages/sports/athletes/columns/cells.ts:89
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:19
 msgid "Pro"
 msgstr "프로"
 
-#: src/pages/sports/athletes/columns/table-columns.ts:27
+#: src/pages/sports/athletes/columns/table-columns.ts:29
 msgid "Rank"
 msgstr "순위"
 
@@ -361,7 +361,7 @@ msgstr "그룹으로 저장"
 msgid "Search athletes…"
 msgstr "선수 검색…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitleRow.tsx:33
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:39
 msgid "Search by league name"
 msgstr "리그 이름으로 검색"
 
@@ -373,29 +373,29 @@ msgstr "이름으로 검색"
 msgid "Search columns…"
 msgstr "열 검색…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitleRow.tsx:36
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:44
 msgid "Search leagues…"
 msgstr "리그 검색…"
 
 #. Range of athletes shown out of the filtered total
-#: src/pages/sports/athletes/components/AthletesTable.tsx:141
+#: src/pages/sports/athletes/components/AthletesTable.tsx:145
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "총 {totalRows}명 중 {firstRow}–{lastRow}명 표시"
 
 #. Range of leagues shown out of the filtered total
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:131
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:136
 msgid "Showing {firstRow}–{lastRow} of {totalRows} leagues"
 msgstr "총 {totalRows}개 중 {firstRow}–{lastRow}개 표시"
 
 #. Accessible label for a sortable athletes table column
 #. Accessible label for a sortable leagues table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:175
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:159
+#: src/pages/sports/athletes/components/AthletesTable.tsx:179
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:164
 msgid "Sort by {label}"
 msgstr "{label} 기준 정렬"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:42
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:40
+#: src/pages/sports/athletes/components/AthletesTable.tsx:46
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:45
 msgid "Sort:"
 msgstr "정렬:"
 
@@ -404,15 +404,15 @@ msgstr "정렬:"
 msgid "Sport"
 msgstr "종목"
 
-#: src/pages/sports/athletes/columns/cells.ts:90
+#: src/pages/sports/athletes/columns/cells.ts:95
 msgid "Steady"
 msgstr "안정"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:78
+#: src/pages/sports/leagues/columns/table-columns.ts:99
 msgid "Sum of tracked athletes' Instagram followers — not a deduplicated audience."
 msgstr "추적 중인 선수의 인스타그램 팔로워 수 합계입니다. 중복이 제거된 오디언스가 아닙니다."
 
-#: src/pages/sports/athletes/columns/cells.ts:27
+#: src/pages/sports/athletes/columns/cells.ts:29
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:38
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:79
 msgid "Team"
@@ -489,11 +489,11 @@ msgstr "이름 없는 선수"
 msgid "Unnamed league"
 msgstr "이름 없는 리그"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:101
+#: src/pages/sports/athletes/components/AthletesTable.tsx:105
 msgid "Updating athletes"
 msgstr "선수 정보 업데이트 중"
 
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:78
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:83
 msgid "Updating leagues"
 msgstr "리그 정보 업데이트 중"
 
@@ -507,7 +507,7 @@ msgstr "인증됨"
 msgid "Verified on Instagram"
 msgstr "Instagram에서 인증됨"
 
-#: src/pages/sports/athletes/columns/cells.ts:42
+#: src/pages/sports/athletes/columns/cells.ts:44
 msgid "Videos"
 msgstr "동영상"
 

@@ -46,18 +46,18 @@ Two-tier system. **Mantine token strings** for structural/container-level spacin
 
 Every structural chrome region uses consistent padding so the table edges stay visually aligned across all states (loading, empty, error, data):
 
-| Region              | Props             | Why                                                                                                                      |
-| ------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Toolbar row         | `px="md" py="xs"` | Medium horizontal keeps content clear of Paper edge; extra-small vertical keeps the toolbar compact above the table      |
-| Footer row          | `px="md" py="sm"` | Same horizontal alignment as toolbar; slightly taller vertical because pagination controls need more touch target height |
-| Empty / error state | `p="xl"`          | Full padding on all sides — the state fills the Paper with nothing else competing for space                              |
-| Page-level Stack    | `gap="md"`        | Medium vertical separation between filters, alerts, and the table card                                                   |
+| Region              | Props             | Why                                                                                                                                  |
+| ------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Toolbar row         | `px="md" py={4}`  | Medium horizontal keeps content clear of Paper edge; 4px vertical keeps the sort summary a caption on the table, not a band above it |
+| Footer row          | `px="md" py="xs"` | Same horizontal alignment as toolbar; slightly taller vertical because pagination controls need more touch target height             |
+| Empty / error state | `p="xl"`          | Full padding on all sides — the state fills the Paper with nothing else competing for space                                          |
+| Page-level Stack    | `gap="md"`        | Medium vertical separation between filters, alerts, and the table card                                                               |
 
-Skeleton toolbar and footer mirror these values exactly so the container dimensions don't change when data arrives.
+Do not restate these paddings. `@repo/ui/data-table` exports `TABLE_TOOLBAR_PADDING` and `TABLE_FOOTER_PADDING`; the real toolbar, the real footer, and the skeleton that stands in for both spread the same object, so the container dimensions cannot drift between states.
 
 ### Table density
 
-Set `verticalSpacing="md"` on `<Table>`, never per-row. This is the only spacing prop that controls row height — do not add `py` to `Table.Td` or override it per cell. The medium vertical spacing gives rows enough breathing room for a three-line identity cell without wasting space.
+`DataTable` owns row height: it applies the exported `TABLE_VERTICAL_SPACING` (`"sm"`) to its `<Table>`, and a skeleton's `<Table>` imports the same constant. Never pass `verticalSpacing` per page and never add `py` to `Table.Td` or override it per cell. The product is data-dense — the reference tables read correctly at what a looser scale showed at 80% zoom — and `sm` still clears a three-line identity cell.
 
 ### Intra-cell gap scale
 
@@ -143,7 +143,7 @@ The three-line hierarchy for any entity identity cell in a data table (athlete, 
 
 ```
 <Group gap="sm" wrap="nowrap">
-  <Avatar size={40} radius="xl" bd="1px solid var(--mantine-color-default-border)" />
+  <Avatar size={40} radius="50%" bd="1px solid var(--mantine-color-default-border)" />
   <Stack gap={2} miw={0}>
     <Group gap={6} wrap="nowrap">         ← Line 1: name + inline badge
       <Text fw={600} size="sm" truncate>
@@ -164,7 +164,7 @@ The three-line hierarchy for any entity identity cell in a data table (athlete, 
 
 **Rules:**
 
-- **Avatar:** `size={40}` (large enough for face recognition, small enough to let text drive row height). `radius="xl"` (round) for people; `radius="sm"` for organisations, teams, or brands. `bd="1px solid var(--mantine-color-default-border)"` — required when the image may be absent (initials fallback) or when the photo background matches the page background; the 1px ring uses the default border color and adapts to light/dark mode.
+- **Avatar:** `size={40}` (large enough for face recognition, small enough to let text drive row height). `radius="50%"` (round) for people; `radius="sm"` for organisations, teams, or brands. The radius scale is square-leaning, so no scale key produces a circle — a person avatar states the percentage. `bd="1px solid var(--mantine-color-default-border)"` — required when the image may be absent (initials fallback) or when the photo background matches the page background; the 1px ring uses the default border color and adapts to light/dark mode.
 - **Stack gap:** `gap={2}` between all three lines.
 - **Social row extra gap:** The social `<Group>` carries `mt={2}` in addition to the Stack `gap={2}`, giving 4px total before the social row. This matches the visual weight of the icon row versus text rows.
 - **Line 1 height** (Text `size="sm"`, 14px): rendered line-height = `14 × 1.55 = 21.7px`.
@@ -200,9 +200,9 @@ Headers stay real so the user can see which column was just sorted. Row count st
 
 Every data table skeleton must contain all three structural regions:
 
-1. **Skeleton toolbar** — `<Group justify="space-between" px="md" py="xs">` with placeholder bars at the same padding as the real toolbar. If absent, the skeleton card is shorter than the loaded card and jumps down when data arrives.
-2. **Table body** — `<Table.ScrollContainer>` → `<Table>` → `<Thead>`/`<Tbody>` mirroring the real column widths.
-3. **Skeleton footer** — `<Group justify="space-between" px="md" py="sm">` with placeholder bars at the same padding as the real footer. Same layout-shift risk if absent.
+1. **Skeleton toolbar** — `<Group justify="space-between" {...TABLE_TOOLBAR_PADDING}>` with placeholder bars. If absent, the skeleton card is shorter than the loaded card and jumps down when data arrives.
+2. **Table body** — `<Table.ScrollContainer>` → `<Table verticalSpacing={TABLE_VERTICAL_SPACING}>` → `<Thead>`/`<Tbody>` mirroring the real column widths and order.
+3. **Skeleton footer** — `<Group justify="space-between" {...TABLE_FOOTER_PADDING}>` with placeholder bars. Same layout-shift risk if absent.
 
 **Skeleton bar height — use CSS variables, not integer px:**
 
@@ -229,7 +229,7 @@ Every data table skeleton must contain all three structural regions:
 
 1. **Check whether a skeleton row component already exists for this table before writing a new one.** The existing component has correct per-column widths, avatar circles, and text-line bar heights. A generic `<Skeleton height={12} />` dropped into every cell ignores all of that work.
 2. Identify every structural region of the loaded component (header, toolbar, table, footer, pagination).
-3. For each region: is it rendered while `isPending`? If not, add a placeholder with matching `px`/`py` padding.
+3. For each region: is it rendered while `isPending`? If not, add a placeholder spreading the same exported padding constant the real region uses.
 4. **Row count must equal the page size** — import the page-size constant and drive `Array.from({ length: PAGE_SIZE })` directly from it. Never hardcode a row count. A number that doesn't match the real page size produces a skeleton taller or shorter than the loaded table, which is a layout shift.
 5. Confirm bar heights use the CSS variable formula, not integer px.
 6. Confirm avatar placeholder uses `<Skeleton circle height={avatarSize}>` (not a rectangle).
@@ -365,13 +365,16 @@ values render in the theme `fontFamilyMonospace`. Numbers in a table
 column share the exact text size of neighbouring text cells, right-align,
 and line up digit-for-digit down the column (the mono face provides
 tabular figures inherently). A numeric column is never an exception to
-the peer-column type-scale rule.
+the peer-column type-scale rule. One `NumericCell` renders every such
+value with `ff="monospace"`, which resolves to the theme face — no cell
+ever names the family.
 
 **Radius.** The scale is square-leaning to match the prototype's
 `0.3rem` base: `xs 0.125rem / sm 0.1875rem / md 0.3rem / lg 0.375rem /
 xl 0.5rem`. Cards and table Papers use `md`; controls default smaller.
-Fully-round (`radius="xl"` circles) is reserved for person avatars —
-organisation marks stay `sm` per the identity-cell rule.
+No key on this scale produces a circle, so a person avatar asks for
+`radius="50%"` directly; organisation marks stay `sm` per the
+identity-cell rule.
 
 **Floating surfaces follow the active color scheme — never invert.**
 A tooltip or popover that renders dark-on-light in light mode and

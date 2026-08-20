@@ -15,6 +15,8 @@ import { detectLocale, dynamicActivate } from "./i18n";
 import { createQueryClient } from "./query-client";
 
 import "@fontsource-variable/inter";
+import "@fontsource/space-mono/400.css";
+import "@fontsource/space-mono/700.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";

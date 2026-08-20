@@ -4,7 +4,9 @@ import { createElement, useMemo } from "react";
 import type { AthleteColumnKey, AthleteTableColumn } from "./types";
 
 import { EMPTY_CELL, useListFormatters } from "../../../../lib/formatting";
+import { NumericCell } from "../../numeric-cell/NumericCell";
 import { AthleteIdentity } from "../components/AthleteCells/AthleteIdentity";
+import { CELL_TEXT_SIZE } from "../components/AthleteCells/cell-typography";
 import { useAthleteCellRenderers, useAthleteColumnHeadings } from "./cells";
 import { ATHLETE_COLUMNS } from "./registry";
 
@@ -28,7 +30,10 @@ export const useAthleteTableColumns = (
         renderCell: (athlete) =>
           athlete.rank === null
             ? EMPTY_CELL
-            : formatters.plain.format(athlete.rank),
+            : createElement(NumericCell, {
+                size: CELL_TEXT_SIZE,
+                value: formatters.plain.format(athlete.rank),
+              }),
         sortKey: "rank",
         sticky: true,
         width: RANK_COLUMN_WIDTH,

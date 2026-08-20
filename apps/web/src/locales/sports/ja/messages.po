@@ -32,12 +32,12 @@ msgstr "{remaining, plural, one {…他 # 件} other {…他 # 件}}"
 msgid "{threshold}+"
 msgstr "{threshold}+"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitleRow.tsx:28
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:20
 msgid "{total, plural, one {# league} other {# leagues}}"
 msgstr "{total, plural, other {# リーグ}}"
 
 #. Leagues table column heading for the row number
-#: src/pages/sports/leagues/columns/table-columns.ts:36
+#: src/pages/sports/leagues/columns/table-columns.ts:37
 msgid "#"
 msgstr "#"
 
@@ -47,7 +47,7 @@ msgid "+{extra}"
 msgstr "+{extra}"
 
 #. Count of additional leagues an athlete competes in
-#: src/pages/sports/athletes/columns/cells.ts:56
+#: src/pages/sports/athletes/columns/cells.ts:60
 msgid "+{extra} more"
 msgstr "他 {extra} 件"
 
@@ -60,7 +60,7 @@ msgstr "<{threshold}"
 msgid "Add, remove or reorder columns"
 msgstr "列の追加、削除、並べ替え"
 
-#: src/pages/sports/athletes/columns/cells.ts:26
+#: src/pages/sports/athletes/columns/cells.ts:28
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:37
 msgid "Age"
 msgstr "年齢"
@@ -69,12 +69,12 @@ msgstr "年齢"
 msgid "All Sports"
 msgstr "すべての競技"
 
-#: src/pages/sports/athletes/columns/table-columns.ts:39
+#: src/pages/sports/athletes/columns/table-columns.ts:44
 msgid "Athlete"
 msgstr "選手"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:159
-#: src/pages/sports/leagues/columns/table-columns.ts:60
+#: src/pages/sports/athletes/components/AthletesTable.tsx:163
+#: src/pages/sports/leagues/columns/table-columns.ts:80
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:60
 msgid "Athletes"
 msgstr "選手"
@@ -95,7 +95,7 @@ msgstr "範囲をクリア"
 msgid "CM score"
 msgstr "CMスコア"
 
-#: src/pages/sports/athletes/columns/cells.ts:82
+#: src/pages/sports/athletes/columns/cells.ts:87
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:18
 msgid "College"
 msgstr "大学"
@@ -121,7 +121,7 @@ msgstr "グループ {name} を削除"
 msgid "Done"
 msgstr "完了"
 
-#: src/pages/sports/athletes/columns/cells.ts:29
+#: src/pages/sports/athletes/columns/cells.ts:31
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:40
 msgid "Engagement"
 msgstr "エンゲージメント"
@@ -159,17 +159,17 @@ msgstr "スポーツを検索…"
 msgid "Find a team…"
 msgstr "チームを検索…"
 
-#: src/pages/sports/athletes/columns/cells.ts:30
-#: src/pages/sports/athletes/columns/cells.ts:38
+#: src/pages/sports/athletes/columns/cells.ts:32
+#: src/pages/sports/athletes/columns/cells.ts:40
 msgid "Followers"
 msgstr "フォロワー"
 
-#: src/pages/sports/athletes/columns/cells.ts:28
+#: src/pages/sports/athletes/columns/cells.ts:30
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:39
 msgid "GPS"
 msgstr "GPS"
 
-#: src/pages/sports/athletes/columns/cells.ts:39
+#: src/pages/sports/athletes/columns/cells.ts:41
 msgid "Hearts"
 msgstr "ハート"
 
@@ -177,7 +177,7 @@ msgstr "ハート"
 msgid "Hidden"
 msgstr "非表示"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:71
+#: src/pages/sports/leagues/columns/table-columns.ts:92
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:69
 msgid "IG Reach"
 msgstr "IGリーチ"
@@ -198,45 +198,45 @@ msgstr "Instagramフォロワー"
 msgid "Instagram posts"
 msgstr "Instagram投稿"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:83
+#: src/pages/sports/leagues/columns/table-columns.ts:62
 msgid "Key Athletes"
 msgstr "主要選手"
 
-#: src/pages/sports/athletes/columns/cells.ts:32
+#: src/pages/sports/athletes/columns/cells.ts:34
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:43
 msgid "Last game"
 msgstr "最終試合"
 
-#: src/pages/sports/athletes/columns/cells.ts:33
+#: src/pages/sports/athletes/columns/cells.ts:35
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:44
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:68
 msgid "League"
 msgstr "リーグ"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:50
+#: src/pages/sports/leagues/columns/table-columns.ts:52
 msgid "League / Competition"
 msgstr "リーグ / 大会"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitleRow.tsx:24
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:145
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:16
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:150
 msgid "Leagues"
 msgstr "リーグ"
 
-#: src/pages/sports/athletes/columns/cells.ts:34
+#: src/pages/sports/athletes/columns/cells.ts:36
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:45
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:23
 msgid "Level"
 msgstr "レベル"
 
-#: src/pages/sports/athletes/columns/cells.ts:40
+#: src/pages/sports/athletes/columns/cells.ts:42
 msgid "Likes"
 msgstr "いいね"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:110
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:113
 msgid "Loading athletes"
 msgstr "選手を読み込み中"
 
-#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:101
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:104
 msgid "Loading leagues"
 msgstr "リーグを読み込み中"
 
@@ -252,7 +252,7 @@ msgstr "メガのみ"
 msgid "Minimum CM score"
 msgstr "最小CMスコア"
 
-#: src/pages/sports/athletes/columns/cells.ts:35
+#: src/pages/sports/athletes/columns/cells.ts:37
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:46
 msgid "Momentum"
 msgstr "モメンタム"
@@ -267,11 +267,11 @@ msgstr "{label} を前に移動"
 msgid "Move {label} later"
 msgstr "{label} を後ろに移動"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:91
+#: src/pages/sports/leagues/columns/table-columns.ts:70
 msgid "Nationalities"
 msgstr "国籍"
 
-#: src/pages/sports/athletes/columns/cells.ts:36
+#: src/pages/sports/athletes/columns/cells.ts:38
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:47
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:44
 msgid "Nationality"
@@ -281,8 +281,8 @@ msgstr "国籍"
 msgid "New group name…"
 msgstr "新しいグループ名…"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:102
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:79
+#: src/pages/sports/athletes/components/AthletesTable.tsx:106
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:84
 msgid "Next"
 msgstr "次へ"
 
@@ -304,12 +304,12 @@ msgstr "一致する選択肢がありません"
 
 #. Current page number in the athletes list
 #. Current page number in the leagues list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:108
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:85
+#: src/pages/sports/athletes/components/AthletesTable.tsx:112
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:90
 msgid "Page {current} of {pageCount}"
 msgstr "{pageCount} ページ中 {current} ページ"
 
-#: src/pages/sports/athletes/columns/cells.ts:37
+#: src/pages/sports/athletes/columns/cells.ts:39
 msgid "Pos"
 msgstr "ポジション"
 
@@ -317,22 +317,22 @@ msgstr "ポジション"
 msgid "Position"
 msgstr "ポジション"
 
-#: src/pages/sports/athletes/columns/cells.ts:31
-#: src/pages/sports/athletes/columns/cells.ts:41
+#: src/pages/sports/athletes/columns/cells.ts:33
+#: src/pages/sports/athletes/columns/cells.ts:43
 msgid "Posts"
 msgstr "投稿"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:114
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:91
+#: src/pages/sports/athletes/components/AthletesTable.tsx:118
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:96
 msgid "Previous"
 msgstr "前へ"
 
-#: src/pages/sports/athletes/columns/cells.ts:84
+#: src/pages/sports/athletes/columns/cells.ts:89
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:19
 msgid "Pro"
 msgstr "プロ"
 
-#: src/pages/sports/athletes/columns/table-columns.ts:27
+#: src/pages/sports/athletes/columns/table-columns.ts:29
 msgid "Rank"
 msgstr "順位"
 
@@ -361,7 +361,7 @@ msgstr "グループとして保存"
 msgid "Search athletes…"
 msgstr "アスリートを検索…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitleRow.tsx:33
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:39
 msgid "Search by league name"
 msgstr "リーグ名で検索"
 
@@ -373,29 +373,29 @@ msgstr "名前で検索"
 msgid "Search columns…"
 msgstr "列を検索…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitleRow.tsx:36
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:44
 msgid "Search leagues…"
 msgstr "リーグを検索…"
 
 #. Range of athletes shown out of the filtered total
-#: src/pages/sports/athletes/components/AthletesTable.tsx:141
+#: src/pages/sports/athletes/components/AthletesTable.tsx:145
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "{totalRows} 人中 {firstRow}–{lastRow} 人を表示"
 
 #. Range of leagues shown out of the filtered total
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:131
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:136
 msgid "Showing {firstRow}–{lastRow} of {totalRows} leagues"
 msgstr "{totalRows} 件中 {firstRow}–{lastRow} 件を表示"
 
 #. Accessible label for a sortable athletes table column
 #. Accessible label for a sortable leagues table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:175
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:159
+#: src/pages/sports/athletes/components/AthletesTable.tsx:179
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:164
 msgid "Sort by {label}"
 msgstr "{label}で並べ替え"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:42
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:40
+#: src/pages/sports/athletes/components/AthletesTable.tsx:46
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:45
 msgid "Sort:"
 msgstr "並び順："
 
@@ -404,15 +404,15 @@ msgstr "並び順："
 msgid "Sport"
 msgstr "競技"
 
-#: src/pages/sports/athletes/columns/cells.ts:90
+#: src/pages/sports/athletes/columns/cells.ts:95
 msgid "Steady"
 msgstr "安定"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:78
+#: src/pages/sports/leagues/columns/table-columns.ts:99
 msgid "Sum of tracked athletes' Instagram followers — not a deduplicated audience."
 msgstr "追跡中の選手のInstagramフォロワー数の合計です。重複を除いたオーディエンスではありません。"
 
-#: src/pages/sports/athletes/columns/cells.ts:27
+#: src/pages/sports/athletes/columns/cells.ts:29
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:38
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:79
 msgid "Team"
@@ -489,11 +489,11 @@ msgstr "名前未設定の選手"
 msgid "Unnamed league"
 msgstr "名称未設定のリーグ"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:101
+#: src/pages/sports/athletes/components/AthletesTable.tsx:105
 msgid "Updating athletes"
 msgstr "選手情報を更新中"
 
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:78
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:83
 msgid "Updating leagues"
 msgstr "リーグ情報を更新中"
 
@@ -507,7 +507,7 @@ msgstr "認証済み"
 msgid "Verified on Instagram"
 msgstr "Instagramで認証済み"
 
-#: src/pages/sports/athletes/columns/cells.ts:42
+#: src/pages/sports/athletes/columns/cells.ts:44
 msgid "Videos"
 msgstr "動画"
 

@@ -4,6 +4,7 @@ import {
   Input,
   type MantineThemeOverride,
   mergeThemeOverrides,
+  Tooltip,
 } from "@mantine/core";
 
 import {
@@ -68,9 +69,40 @@ export const baseTheme = createTheme({
             : {},
       }),
     }),
+    /*
+     * Mantine's tooltip inverts the scheme — dark surface in light mode, light
+     * surface in dark mode — which reads as chrome borrowed from another
+     * product. Pinning the surface to the body color keeps a floating panel a
+     * sibling of the page it explains, so it needs its own border and shadow to
+     * separate from what sits behind it.
+     *
+     * `focus` is off in Mantine's default event set, which leaves every tooltip
+     * unreachable by keyboard; it belongs on every floating surface, not on the
+     * call sites that remember to ask.
+     */
+    Tooltip: Tooltip.extend({
+      defaultProps: {
+        events: { focus: true, hover: true, touch: false },
+      },
+      styles: {
+        tooltip: {
+          border: "1px solid var(--mantine-color-default-border)",
+          boxShadow: "var(--mantine-shadow-md)",
+        },
+      },
+      vars: () => ({
+        tooltip: {
+          "--tooltip-bg": "var(--mantine-color-body)",
+          "--tooltip-color": "var(--mantine-color-text)",
+        },
+      }),
+    }),
   },
   fontFamily:
     "'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  // The data face: every numeric cell, count, and metric value renders in it so
+  // digits line up down a column. Loaded by the consuming app (see main.tsx).
+  fontFamilyMonospace: "'Space Mono', ui-monospace, Menlo, monospace",
   headings: {
     fontWeight: "600",
     sizes: {
@@ -83,12 +115,14 @@ export const baseTheme = createTheme({
     },
   },
   primaryColor: "teal",
+  // Square-leaning, tracking the prototype's 0.3rem base at `md`. Round corners
+  // read as consumer-app softness; the reference tables want drawn edges.
   radius: {
-    xs: "0.25rem",
-    sm: "0.375rem",
-    md: "0.5rem",
-    lg: "0.75rem",
-    xl: "1rem",
+    xs: "0.125rem",
+    sm: "0.1875rem",
+    md: "0.3rem",
+    lg: "0.375rem",
+    xl: "0.5rem",
   },
   // Roughly 25% tighter than Mantine's default scale (10/12/16/20/32px). The
   // product is data-dense — ranked tables, filter bars, stat rows — so the

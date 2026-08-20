@@ -70,6 +70,16 @@ describe("AthleteIdentity", () => {
     expect(sportElement.closest("[data-variant]")).toBeNull();
   });
 
+  it("keeps the person avatar a full circle", () => {
+    renderComponent();
+
+    // The radius scale is square-leaning, so no scale key reaches a circle;
+    // `xl` here would round the corners and stop short.
+    expect(
+      screen.getByText("AM").parentElement?.getAttribute("style"),
+    ).toContain("--avatar-radius: 50%");
+  });
+
   it("renders the athlete name", () => {
     renderComponent();
 

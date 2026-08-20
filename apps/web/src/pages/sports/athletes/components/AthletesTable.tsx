@@ -5,7 +5,11 @@ import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Text } from "@mantine/core";
-import { DataTable } from "@repo/ui/data-table";
+import {
+  DataTable,
+  TABLE_FOOTER_PADDING,
+  TABLE_TOOLBAR_PADDING,
+} from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
 
 import type {
@@ -37,7 +41,7 @@ const TableToolbar: FC<TableToolbarProps> = ({
 }) => {
   const { t } = useLingui();
   return (
-    <Group justify="space-between" px="md" py="xs">
+    <Group justify="space-between" {...TABLE_TOOLBAR_PADDING}>
       <Group c="dimmed" gap={6}>
         <Text size="xs">{t`Sort:`}</Text>
         <Text size="xs">{columnLabel}</Text>
@@ -91,7 +95,7 @@ const TableFooter: FC<TableFooterProps> = ({
   const { t } = useLingui();
 
   return (
-    <Group justify="space-between" px="md" py="sm">
+    <Group justify="space-between" {...TABLE_FOOTER_PADDING}>
       <Text c="dimmed" size="sm">
         {rowRange}
       </Text>
