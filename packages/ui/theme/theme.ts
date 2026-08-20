@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   createTheme,
   type CSSVariablesResolver,
@@ -6,6 +7,7 @@ import {
   type MantineThemeOverride,
   mergeThemeOverrides,
   Table,
+  Text,
   Tooltip,
 } from "@mantine/core";
 
@@ -87,6 +89,20 @@ export const baseTheme = createTheme({
             : {},
       }),
     }),
+    Text: Text.extend({
+      styles: (_theme, props) =>
+        props.ff === "monospace"
+          ? // Space Mono's letterforms are wide; tightened tracking keeps the
+            // data face from reading a size larger than it is.
+            { root: { letterSpacing: "-0.02em" } }
+          : { root: {} },
+    }),
+    Badge: Badge.extend({
+      styles: (_theme, props) =>
+        props.ff === "monospace"
+          ? { root: { letterSpacing: "-0.02em" } }
+          : { root: {} },
+    }),
     Table: Table.extend({
       vars: () => ({
         table: {
@@ -149,11 +165,11 @@ export const baseTheme = createTheme({
   // title. Skeleton bar heights follow automatically — they are CSS-var
   // formulas over these tokens by design-language rule.
   fontSizes: {
-    lg: "0.875rem",
-    md: "0.8125rem",
-    sm: "0.75rem",
-    xl: "1rem",
-    xs: "0.6875rem",
+    lg: "0.8125rem",
+    md: "0.75rem",
+    sm: "0.6875rem",
+    xl: "0.9375rem",
+    xs: "0.625rem",
   },
   // The reference's data text is 12px on a 16px line (1.333); Mantine's 1.55
   // default makes the same rows read taller than they are.
@@ -167,11 +183,11 @@ export const baseTheme = createTheme({
   headings: {
     fontWeight: "600",
     sizes: {
-      h1: { fontSize: "1.375rem", fontWeight: "700", lineHeight: "1.3" },
-      h2: { fontSize: "1.25rem", lineHeight: "1.3" },
-      h3: { fontSize: "1.125rem", lineHeight: "1.3" },
-      h4: { fontSize: "1rem", lineHeight: "1.3" },
-      h5: { fontSize: "0.875rem", lineHeight: "1.3" },
+      h1: { fontSize: "1.25rem", fontWeight: "700", lineHeight: "1.3" },
+      h2: { fontSize: "1.125rem", lineHeight: "1.3" },
+      h3: { fontSize: "1rem", lineHeight: "1.3" },
+      h4: { fontSize: "0.875rem", lineHeight: "1.3" },
+      h5: { fontSize: "0.8125rem", lineHeight: "1.3" },
       h6: { fontSize: "0.75rem", lineHeight: "1.3" },
     },
   },
