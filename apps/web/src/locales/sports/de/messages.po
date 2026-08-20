@@ -73,7 +73,7 @@ msgstr "Alle Sportarten"
 msgid "Athlete"
 msgstr "Athlet"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:163
+#: src/pages/sports/athletes/components/AthletesTable.tsx:164
 #: src/pages/sports/leagues/columns/table-columns.ts:96
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:61
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:29
@@ -223,7 +223,7 @@ msgid "League / Competition"
 msgstr "Liga / Wettbewerb"
 
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:19
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:115
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:116
 msgid "Leagues"
 msgstr "Ligen"
 
@@ -286,8 +286,8 @@ msgstr "Nationalität"
 msgid "New group name…"
 msgstr "Neuer Gruppenname…"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:106
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:55
+#: src/pages/sports/athletes/components/AthletesTable.tsx:107
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:56
 msgid "Next"
 msgstr "Weiter"
 
@@ -309,8 +309,8 @@ msgstr "Keine passenden Optionen"
 
 #. Current page number in the athletes list
 #. Current page number in the leagues list
-#: src/pages/sports/athletes/components/AthletesTable.tsx:112
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:61
+#: src/pages/sports/athletes/components/AthletesTable.tsx:113
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:62
 msgid "Page {current} of {pageCount}"
 msgstr "Seite {current} von {pageCount}"
 
@@ -327,8 +327,8 @@ msgstr "Position"
 msgid "Posts"
 msgstr "Beiträge"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:118
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:67
+#: src/pages/sports/athletes/components/AthletesTable.tsx:119
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:68
 msgid "Previous"
 msgstr "Zurück"
 
@@ -383,19 +383,19 @@ msgid "Search leagues…"
 msgstr "Ligen suchen…"
 
 #. Range of athletes shown out of the filtered total
-#: src/pages/sports/athletes/components/AthletesTable.tsx:145
+#: src/pages/sports/athletes/components/AthletesTable.tsx:146
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "{firstRow}–{lastRow} von {totalRows} Athleten"
 
 #. Range of leagues shown out of the filtered total
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:107
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:108
 msgid "Showing {firstRow}–{lastRow} of {totalRows} leagues"
 msgstr "{firstRow}–{lastRow} von {totalRows} Ligen"
 
 #. Accessible label for a sortable athletes table column
 #. Accessible label for a sortable leagues table column
-#: src/pages/sports/athletes/components/AthletesTable.tsx:179
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:129
+#: src/pages/sports/athletes/components/AthletesTable.tsx:180
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:130
 msgid "Sort by {label}"
 msgstr "Nach {label} sortieren"
 
@@ -499,11 +499,11 @@ msgstr "Unbenannter Athlet"
 msgid "Unnamed league"
 msgstr "Unbenannte Liga"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:105
+#: src/pages/sports/athletes/components/AthletesTable.tsx:106
 msgid "Updating athletes"
 msgstr "Athleten werden aktualisiert"
 
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:54
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:55
 msgid "Updating leagues"
 msgstr "Ligen werden aktualisiert"
 

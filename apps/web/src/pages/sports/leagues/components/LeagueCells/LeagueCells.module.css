@@ -15,8 +15,15 @@
 }
 
 .athleteChip.athleteChip:hover {
-  border-color: var(--mantine-color-teal-5);
-  color: var(--mantine-color-teal-4);
+  background-color: light-dark(
+    var(--mantine-color-gray-1),
+    var(--mantine-color-dark-6)
+  );
+  border-color: light-dark(
+    var(--mantine-color-gray-4),
+    var(--mantine-color-teal-5)
+  );
+  color: light-dark(var(--mantine-color-gray-9), var(--mantine-color-teal-4));
 }
 
 /* The sport tag is a quiet filled chip: soft wash, dark text, no outline. */

@@ -272,27 +272,31 @@ if (!isActive) return <FontAwesomeIcon icon={faArrowsUpDown} />; // adds noise t
 
 ---
 
-## Row hover accent
+## Row hover
 
 ```tsx
 // Set on the Paper wrapper that owns this table — not on DataTable itself
-const HOVER_STYLE = {
-  "--table-highlight-on-hover-color": "var(--mantine-color-<accent>-light)",
+const ROW_HOVER_STYLE = {
+  "--table-highlight-on-hover-color":
+    "light-dark(var(--mantine-color-gray-1),var(--mantine-color-<accent>-light))",
 } as const;
 
-<Paper shadow="sm" radius="md" style={HOVER_STYLE}>
+<Paper shadow="sm" radius="md" style={ROW_HOVER_STYLE}>
   <DataTable ... />
 </Paper>
 ```
 
 Replace `<accent>` with the vertical's accent color from the [Vertical accent colors](#vertical-accent-colors) table. All current verticals use `teal`.
 
-**Why:** The `-light` variant is Mantine's soft wash (very subtle in light mode, tinted in dark mode). It reinforces the vertical's identity on every row hover at zero extra DOM cost.
+**Why:** light-mode hovers are gray — color on hover reads as selection,
+not affordance (parity rule, 2026-08-20). In dark mode gray steps vanish
+against the near-black body, so the accent's `-light` wash carries the
+hover there.
 
 **Rules:**
 
 - Set it on the nearest Paper ancestor that owns this specific table. Never on `DataTable` itself — `DataTable` is shared; its default stays neutral.
-- All current verticals use `teal`. If a future vertical adopts a different accent, update the [Vertical accent colors](#vertical-accent-colors) table first, then set the corresponding `-light` token here.
+- The gray side always comes first in the `light-dark()`; only the dark side is vertical-accented.
 - Sticky cells in `DataTable.module.css` inherit this CSS variable in their `tr:hover` rule to maintain consistent hover appearance across frozen and scrollable columns.
 
 ---
@@ -496,8 +500,14 @@ Brighter teal steps are for hovers and links only.
 near-black (owner: theme); never lighten it per surface.
 
 **Chips are soft fills, never wiry outlines.** Athlete chips: soft
-gray fill, hairline border, gray ink, accent hover (they will become
-links). Tags on catalog rows: soft fill, no border, dark ink.
+gray fill, hairline border, gray ink. Tags on catalog rows: soft fill,
+no border, dark ink.
+
+**Light-mode hovers are gray, not colorful.** Row hover and chip/tag
+hover use gray steps in light mode (`light-dark()` with the gray side
+first); the teal wash and accent hover survive only in dark mode,
+where gray steps vanish against near-black. Color on hover in light
+mode reads as selection, not affordance.
 
 **Dividers whisper; the header row encloses.** Row dividers sit at the
 faintest gray step (theme `Table` vars); the header row's top and

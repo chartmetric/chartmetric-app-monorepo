@@ -70,9 +70,10 @@ interface AthletesTableProps {
 
 const SCROLLING_COLUMNS_MIN_WIDTH = 640;
 
-// Teal hover: product accent instead of Mantine's default gray.
-const TEAL_HOVER_STYLE = {
-  "--table-highlight-on-hover-color": "var(--mantine-color-teal-light)",
+// Light-mode hovers stay gray (color is reserved); dark keeps the teal wash.
+const ROW_HOVER_STYLE = {
+  "--table-highlight-on-hover-color":
+    "light-dark(var(--mantine-color-gray-1),var(--mantine-color-teal-light))",
 } as const;
 
 interface TableFooterProps {
@@ -153,7 +154,7 @@ export const AthletesTable: FC<AthletesTableProps> = ({
   const sortColumnLabel = sortedColumn?.label ?? sortBy;
 
   return (
-    <Paper radius="md" shadow="sm" style={TEAL_HOVER_STYLE}>
+    <Paper radius="md" shadow="sm" style={ROW_HOVER_STYLE}>
       <TableToolbar
         columnLabel={sortColumnLabel}
         direction={sortDirection}
