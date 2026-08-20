@@ -7,6 +7,16 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
+### From 06-leagues-design-notes retro (2026-08-19)
+
+- P3: Hoist the asc/desc sortDirection TypeBox union into
+  `apps/api/src/lib/pagination.ts`; `list-leagues/schemas.ts` is the
+  third verbatim copy after artists and athletes.
+- P3: Add distinguishing Lingui `comment:` context to msgid "Athletes"
+  (leagues column header, leagues pill group, athletes table).
+- P3: Filter-column parity: the leagues "Mega only" filter has no
+  visible column, so its effect stays unverifiable.
+
 ### From 05-leagues-page retro (2026-08-19)
 
 - P2: Cover the athletes filter-option count formatting change introduced
