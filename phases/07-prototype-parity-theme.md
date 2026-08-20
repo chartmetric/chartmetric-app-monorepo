@@ -41,6 +41,15 @@ ordered with numeric metrics at the right edge.
 - `pnpm typecheck`, `pnpm test`, and `pnpm build` pass; all changed or
   new strings are translated in all 7 locales.
 
+- Driver-executed visual parity loop: the rendered leagues page is
+  compared against the reference prototype screenshot in iterations —
+  use of space, use of bold, use of color, and all remaining deltas —
+  fixing and re-rendering until the two are visually equivalent; every
+  delta found lands as a rule or token in
+  `docs/design/DESIGN_LANGUAGE.md` in the same iteration (executed by
+  the driver session with vision, like the MCP SQL verification —
+  writer agents cannot compare screenshots).
+
 ## In scope
 
 - `packages/ui/theme/**` (mono face, radius scale, Tooltip defaults,
