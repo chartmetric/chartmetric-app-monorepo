@@ -411,92 +411,142 @@ list columns next, numeric metric columns at the right edge. For
 leagues: `# | League/Competition | Key Athletes | Nationalities |
 Athletes | IG Reach`.
 
-## Visual parity findings (2026-08-19 loop)
+## Visual parity rules (harvested from the loop, iterations 1–18)
 
-Harvested from the driver-executed screenshot loop against the reference
-prototype (phase 07). Each was a real delta; each is now a rule.
+Every rule below started as a measured delta against the reference
+prototype, was fixed, and was re-verified by measurement. Numeric
+tokens are stated as principles with their owner named —
+`packages/ui/theme/theme.ts` holds the current values; do not trust a
+number written in prose over the token.
 
-**One bold element per row.** The identity name is the only `fw={600}`
-text in a data row. Chips, list cells, metric values, and column
-headers are regular weight — bolding a metric or a chip flattens the
-hierarchy bold exists to create.
+### Typography
 
-**Column headers are quiet chrome.** Uppercase, mono, `c="dimmed"`,
-`fw={500}`, `size="xs"`, letterspaced (`HEADER_LABEL_PROPS` in
-`@repo/ui/data-table` owns this). Headers describe the data; they never
-compete with it.
+**px size parity is not visual parity.** Space Mono's letterforms are
+wide: at equal font-size it reads a size larger and "letterspaced"
+compared to narrower monos. The compensation (negative tracking on the
+mono face) lives on the typeface, as props-conditional theme styles on
+`Text`/`Badge` (`ff="monospace"` → tightened `letterSpacing`) — never
+per call site.
 
-**Overflow counts flow inline.** The dimmed "+N" renders as a `span`
-inside the wrapping list text, landing at the end of the last line —
-never as its own block below the list.
+**Size hierarchy follows importance.** An identity name outranks its
+tag in size, not only weight (name one token above the tag). A tag
+rendering larger than the name it annotates is an inversion, however
+correct the weights are.
 
-**Wrapping list columns get a fixed width and dimmed mono text.** A
-list cell (nationalities) wraps up to three lines inside a fixed-width
-column; the wrap does the vertical work so row padding stays compact.
+**Bold belongs to the page title alone.** One bold element per page:
+identity names are medium (500) mono, headers 500, data 400, and all
+buttons 400 (`Button` theme styles own this — filter pills, sort
+menus, and chrome buttons never carry weight). Emphasis beyond the
+title comes from ink or size bands, not weight.
 
-**Sort lives in the page header as a menu, not in a table toolbar
-row.** Re-selecting the active column flips direction
-(`changeQuerySort` owns that rule). A "Sort:" caption row above the
-table is dead vertical space.
+**The scale is set by iteration against the reference, owned by the
+theme.** `fontSizes`, `lineHeights`, and `headings` in
+`packages/ui/theme/theme.ts` are the only source for sizes; skeleton
+bars derive from `var(--mantine-font-size-*) * var(--mantine-line-height-*)`
+so they track every retune automatically. A surface that looks
+oversized means a local override, not a token change.
 
-**Placeholder marks over initials for organisations.** A logo-less
-league shows the domain icon (trophy) in its avatar, not initials —
-initials read as a person.
+**Ink lives in narrow bands.** Data ink is the theme `black`
+(`#17171c` — soft near-black, never harder), label ink one step
+lighter (`gray-7`/`dark-2` band), list text dimmed, overflow counts
+lighter still. Headers carry no positive letter-spacing.
 
-**Dark means near-black.** The dark scheme's depth comes from a
-teal-tinged near-black `colors.dark` scale owned by
-`packages/ui/theme/theme.ts` (body ≈ `#0D1214`, cards one step up).
-Mantine's default gray-dark reads washed next to the reference; never
-lighten these tokens per surface.
+### Space and structure
 
-**The type scale sits one notch below Mantine's defaults.** `fontSizes`
-in the theme is the owner (xs 11px, sm 13px …); headings follow
-(`h3` = 20px page titles). Do not compensate per component — a page
-that looks oversized means a token is being overridden locally.
+**A table's flexible column is a design decision.** Fixed-width
+columns push all slack into whichever column has only a `minWidth`;
+know which column that is and make it the one whose content benefits
+(the wrapping list column), not whichever happened to be declared
+flexible. Probe with `getBoundingClientRect`, not by eye.
 
-**Tags that will become links get a hover highlight now.** Key-athlete
-chips brighten to the accent on hover (border + text), signalling the
-future navigation affordance; the hover lives in a CSS module beside
-the cell, not inline styles.
+**Wrapping list columns wrap whole items.** Multi-word entries are
+internally no-break-bound ("Costa Rica" never splits), the +N count is
+glued to the last item with a no-break space, the preview count is
+budgeted so the clamp never produces an ellipsis, and the +N reads
+lighter than its list.
 
-**Catalog avatars are 36px.** Entity identity avatars (people) stay
-40px round; organisation logos in catalog rows sit at 36px square-ish
-so the smaller type scale keeps driving row height.
+**Section dividers recede.** Nav group headers (LIBRARY / DISCOVER /
+TOOLS) and taglines are dimmed translucent white on the rail — they
+must call less attention than the items they group. A divider brighter
+than its tabs has the hierarchy backwards.
 
-**Controls are 26px; the filter row fits a laptop screen.** Buttons
-and inputs at the default `xs` are 26px tall with 11px labels
-(`packages/ui/theme/theme.ts` owns both vars); the nav rail is 220px.
-The acceptance check is concrete: at a 1512px viewport, one header row
-holds title + count + search + every pill group + the sort control with
-margin to spare, and nothing wraps.
+**Controls are compact and the filter row fits a laptop.** Buttons and
+inputs at default `xs` are 26px with theme-owned label sizes; the nav
+rail is 190px. Concrete acceptance: at a 1512px viewport, one header
+row holds title + count + search + every pill group + the sort control
+with margin, nothing wraps — including the header labels themselves
+(inline `nowrap`).
 
-**The exact data type spec (from the reference's DevTools).** Table
-data text is `"Space Mono", Menlo, monospace` at **12px on a 16px
-line** (`fontSizes.xs = 0.75rem`, `lineHeights.xs = 1.334`), **weight
-500 for the identity name, 400 for everything else**, ink `#17171c`
-(the theme `black` — never `#0b1215`-hard). Skeleton bars derive from
-`var(--mantine-line-height-*)`, never a literal multiplier.
+**Sorted metric headers read as one unit.** On right-aligned columns
+the arrow precedes the label; inactive headers reserve the arrow's box
+invisibly so all headers share a baseline and nothing shifts when sort
+moves. Sort lives in the page header as a menu (re-selecting the
+active column flips direction); a "Sort:" caption row is dead space.
 
-**Icons are always outline (`pro-regular`), never solid.** This
-includes nav, sort arrows, count pictograms, and placeholders. A glyph
-that is inherently a filled silhouette (person-running) is the wrong
-glyph — pick an outline-native one (people/user-group) instead.
+**Default sort is the page's ranking metric,** not the alphabet —
+which also sinks empty rows.
 
-**Bold belongs to the page title alone.** One bold element per page,
-not per row: identity names are weight 500 mono, headers 500, data 400. If something else needs emphasis, it takes ink or size from the
-established bands, not weight.
+### Color and surfaces
 
-**Overflow counts are lighter than their list** (`gray-5`, glued to
-the last item with a no-break space), and a wrapping list column never
-shows an ellipsis — the preview count is budgeted so the wrap always
-ends on a whole item + the count.
+**The accent is ink, not neon.** `teal.9` (`#083940`) fills every
+selected control and the nav rail; the content area stays achromatic.
+Brighter teal steps are for hovers and links only.
 
-**Method note for the next loop.** Render the app without auth via an
-untracked Vite entry (`preview.html` + `src/preview.tsx` mounting the
-real tree minus `RequiredAuthProvider`), screenshot headless Chrome at
-2000×1160 dark, compare against the reference, fix, repeat; delete the
-preview entry when done. Every delta found lands here in the same
-iteration.
+**Dark means near-black.** The `colors.dark` scale is teal-tinged
+near-black (owner: theme); never lighten it per surface.
+
+**Chips are soft fills, never wiry outlines.** Athlete chips: soft
+gray fill, hairline border, gray ink, accent hover (they will become
+links). Tags on catalog rows: soft fill, no border, dark ink.
+
+**Dividers whisper; the header row encloses.** Row dividers sit at the
+faintest gray step (theme `Table` vars); the header row's top and
+bottom borders sit one step darker than the dividers.
+
+**Icons are always outline (`pro-regular`).** A glyph that is
+inherently a filled silhouette is the wrong glyph — pick an
+outline-native one.
+
+### Mantine mechanics the loop paid for
+
+**Variant colors arrive as inline-style variables.** Class-level
+`--badge-*`/`--button-*` assignments always lose to them; override the
+real CSS properties with a doubled-class selector
+(`.chip.chip { background-color: … }`). Import order also matters:
+page CSS modules load before `@mantine/core/styles.css`, so a single
+class ties and loses.
+
+**`--input-bd` and `--button-bd` do not read
+`--mantine-color-default-border`.** Route them through it explicitly in
+the theme's component vars, alongside the `cssVariablesResolver` that
+softens the default border.
+
+**Mantine's `disabled`, `Tooltip` events, and `NavLink` semantics all
+under-deliver silently** — see the identity-cell, tooltip, and nav
+sections above; the pattern is general: verify the rendered DOM, not
+the prop name.
+
+### How to run the loop (method)
+
+Tooling is committed: `pnpm --filter web screenshot [route] [out]
+[light|dark]` drives the system Chrome against the dev server via the
+auth-less `preview.html` entry. Rules of the loop, each learned the
+hard way:
+
+- **Compare in the reviewer's color scheme, and check both.** The
+  entire first loop ran dark-only and shipped a light mode that failed
+  review on sight.
+- **Compare at the reviewer's viewport width.** Oversized screenshot
+  viewports flatter density; 1512px is the reference width.
+- **Measure; never eyeball.** `getBoundingClientRect` probes for
+  geometry, sampled hexes for color, and a fresh-context agent for
+  image comparison when the session's context cannot load screenshots.
+- **DOM computed styles are the arbiter.** When a pixel heuristic says
+  "heavier" and `getComputedStyle` says 400/Inter/11px on both
+  elements, the DOM wins — antialiasing lies at small sizes.
+- **Every delta lands as a rule in this file in the same iteration**,
+  with stale numbers repointed at their token owner rather than
+  restated.
 
 ## Anti-patterns
 

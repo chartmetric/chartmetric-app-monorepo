@@ -142,3 +142,11 @@ five so the three-line wrap never clamps mid-name, sort-header groups
 baseline-aligned. Agent-verified: 12px/16px pitch exact, weight split
 measurable, #17171c-family ink, 65px rows matching the reference's
 3-line pitch.
+
+Rules harvest (2026-08-20): the accumulated findings of iterations 1-18
+were consolidated into docs/design/DESIGN_LANGUAGE.md "Visual parity
+rules" (typography / space / color / Mantine mechanics / loop method),
+with stale numeric claims repointed at their token owners. Three
+transferable engineering rules landed in AGENTS.md Learned rules (both
+color schemes at reviewer viewport; DOM computed styles as arbiter;
+Mantine inline-variant-variable cascade).
