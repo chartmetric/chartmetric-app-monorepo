@@ -8,6 +8,7 @@ import { Avatar, Group, Stack, Text, Tooltip } from "@mantine/core";
 import type { Athlete } from "../../api/types";
 
 import { getSportColor } from "../../../sport-colors";
+import { toSportLabel } from "../../../sport-labels";
 import { CountryFlag } from "./CountryFlag";
 import { SocialLinks } from "./SocialLinks";
 
@@ -56,7 +57,7 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
           <CountryFlag nationality={athlete.nationality} />
           {athlete.sport !== null && (
             <Text c={getSportColor(athlete.sport)} size="xs" truncate>
-              {athlete.sport}
+              {toSportLabel(athlete.sport)}
             </Text>
           )}
         </Group>

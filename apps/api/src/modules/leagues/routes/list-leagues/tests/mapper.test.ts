@@ -5,6 +5,7 @@ import type { LeagueListRow } from "../types.ts";
 import { toLeague, toLeagueList } from "../mapper.ts";
 
 const row = (overrides: Partial<LeagueListRow> = {}): LeagueListRow => ({
+  aggregated_ig_followers: "184000000",
   country_flag_url: "https://media.api-sports.io/flags/es.svg",
   id: "2805663106422782827",
   key_athletes: [
@@ -27,6 +28,7 @@ describe("toLeague", () => {
       country: "Spain",
       countryFlagUrl: "https://media.api-sports.io/flags/es.svg",
       id: "2805663106422782827",
+      igReach: 184_000_000,
       keyAthletes: [
         { id: 686, name: "Kylian Mbappé" },
         { id: 706, name: "Vinícius Júnior" },
@@ -97,11 +99,17 @@ describe("toLeague", () => {
     expect(league.nationalities).toEqual(["Ãland", "Argentina", "Spain"]);
   });
 
-  it("counts an untracked league as zero athletes", () => {
-    expect(
-      toLeague(row({ key_athletes: [], tracked_athletes: null }))
-        .trackedAthletes,
-    ).toBe(0);
+  it("counts an untracked league as zero athletes and zero reach", () => {
+    const league = toLeague(
+      row({
+        aggregated_ig_followers: null,
+        key_athletes: [],
+        tracked_athletes: null,
+      }),
+    );
+
+    expect(league.trackedAthletes).toBe(0);
+    expect(league.igReach).toBe(0);
   });
 });
 

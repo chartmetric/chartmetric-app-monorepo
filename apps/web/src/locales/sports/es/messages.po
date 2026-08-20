@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. Leagues quick filter keeping leagues above a threshold
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:35
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:36
 msgid "{amount}+"
 msgstr "{amount}+"
 
@@ -22,6 +22,10 @@ msgstr "{amount}+"
 #: src/pages/sports/athletes/components/AthleteCells/SocialLinks.tsx:51
 msgid "{platform} profile {handle}"
 msgstr "Perfil de {platform} {handle}"
+
+#: src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:33
+msgid "{remaining, plural, one {…and # more} other {…and # more}}"
+msgstr "{remaining, plural, one {…y # más} other {…y # más}}"
 
 #. Audience-size filter for accounts above a threshold
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/FollowerPills.tsx:41
@@ -33,12 +37,12 @@ msgid "{total, plural, one {# league} other {# leagues}}"
 msgstr "{total, plural, one {# liga} other {# ligas}}"
 
 #. Leagues table column heading for the row number
-#: src/pages/sports/leagues/columns/table-columns.ts:30
+#: src/pages/sports/leagues/columns/table-columns.ts:36
 msgid "#"
 msgstr "#"
 
 #. Count of table-cell entries kept behind a tooltip
-#: src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:21
+#: src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:42
 msgid "+{extra}"
 msgstr "+{extra}"
 
@@ -61,7 +65,7 @@ msgstr "Añade, elimina o reordena columnas"
 msgid "Age"
 msgstr "Edad"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:46
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:47
 msgid "All Sports"
 msgstr "Todos los deportes"
 
@@ -70,7 +74,8 @@ msgid "Athlete"
 msgstr "Deportista"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:159
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:56
+#: src/pages/sports/leagues/columns/table-columns.ts:60
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:60
 msgid "Athletes"
 msgstr "Deportistas"
 
@@ -172,6 +177,11 @@ msgstr "Corazones"
 msgid "Hidden"
 msgstr "Ocultas"
 
+#: src/pages/sports/leagues/columns/table-columns.ts:71
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:69
+msgid "IG Reach"
+msgstr "Alcance en IG"
+
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:40
 msgid "Include"
 msgstr "Incluir"
@@ -188,7 +198,7 @@ msgstr "Seguidores de Instagram"
 msgid "Instagram posts"
 msgstr "Publicaciones de Instagram"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:51
+#: src/pages/sports/leagues/columns/table-columns.ts:83
 msgid "Key Athletes"
 msgstr "Deportistas clave"
 
@@ -203,7 +213,7 @@ msgstr "Último partido"
 msgid "League"
 msgstr "Liga"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:41
+#: src/pages/sports/leagues/columns/table-columns.ts:50
 msgid "League / Competition"
 msgstr "Liga / Competición"
 
@@ -226,7 +236,7 @@ msgstr "Me gusta"
 msgid "Loading athletes"
 msgstr "Cargando deportistas"
 
-#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:77
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:101
 msgid "Loading leagues"
 msgstr "Cargando ligas"
 
@@ -234,7 +244,7 @@ msgstr "Cargando ligas"
 msgid "Maximum CM score"
 msgstr "Puntuación CM máxima"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:75
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:79
 msgid "Mega only"
 msgstr "Solo mega"
 
@@ -257,7 +267,7 @@ msgstr "Mover {label} antes"
 msgid "Move {label} later"
 msgstr "Mover {label} después"
 
-#: src/pages/sports/leagues/columns/table-columns.ts:59
+#: src/pages/sports/leagues/columns/table-columns.ts:91
 msgid "Nationalities"
 msgstr "Nacionalidades"
 
@@ -326,10 +336,6 @@ msgstr "Pro"
 msgid "Rank"
 msgstr "Puesto"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:65
-msgid "Reach"
-msgstr "Alcance"
-
 #. Accessible label of the drag handle that reorders a column
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:86
 msgid "Reorder {label}"
@@ -394,13 +400,17 @@ msgid "Sort:"
 msgstr "Ordenar:"
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:43
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:47
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:48
 msgid "Sport"
 msgstr "Deporte"
 
 #: src/pages/sports/athletes/columns/cells.ts:90
 msgid "Steady"
 msgstr "Estable"
+
+#: src/pages/sports/leagues/columns/table-columns.ts:78
+msgid "Sum of tracked athletes' Instagram followers — not a deduplicated audience."
+msgstr "Suma de los seguidores de Instagram de los deportistas monitorizados: no es una audiencia sin duplicados."
 
 #: src/pages/sports/athletes/columns/cells.ts:27
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:38
@@ -470,12 +480,12 @@ msgid "Unable to load sports"
 msgstr "No se pudieron cargar los deportes"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:22
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:23
 msgid "Unnamed athlete"
 msgstr "Deportista sin nombre"
 
 #. Fallback name when a league record has no name
-#: src/pages/sports/leagues/components/LeagueCells/LeagueIdentity.tsx:18
+#: src/pages/sports/leagues/components/LeagueCells/LeagueIdentity.tsx:19
 msgid "Unnamed league"
 msgstr "Liga sin nombre"
 
@@ -492,8 +502,8 @@ msgstr "Actualizando ligas"
 msgid "Verified"
 msgstr "Verificado"
 
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:43
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:45
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:44
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:46
 msgid "Verified on Instagram"
 msgstr "Verificado en Instagram"
 

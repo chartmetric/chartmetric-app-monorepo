@@ -71,11 +71,13 @@ describe("LeaguesPage filters", () => {
     await expectQuery(DEFAULT_QUERY);
   });
 
+  // The catalog stores sports lowercase; the pill capitalizes for display and
+  // still sends the raw value the API filters on.
   it("maps a sport pill to sports[] and clears it from All Sports", async () => {
     renderPage();
 
     await clickPill("Football");
-    await expectQuery({ ...DEFAULT_QUERY, sports: ["Football"] });
+    await expectQuery({ ...DEFAULT_QUERY, sports: ["football"] });
 
     await clickPill("All Sports");
     await expectQuery(DEFAULT_QUERY);
@@ -85,10 +87,10 @@ describe("LeaguesPage filters", () => {
     renderPage();
 
     await clickPill("Football");
-    await expectQuery({ ...DEFAULT_QUERY, sports: ["Football"] });
+    await expectQuery({ ...DEFAULT_QUERY, sports: ["football"] });
 
     await clickPill("Basketball");
-    await expectQuery({ ...DEFAULT_QUERY, sports: ["Basketball"] });
+    await expectQuery({ ...DEFAULT_QUERY, sports: ["basketball"] });
   });
 
   it("maps the tracked-athlete pills and replaces rather than accumulates", async () => {
@@ -109,6 +111,26 @@ describe("LeaguesPage filters", () => {
 
     await clickPill("2+");
     await expectQuery(DEFAULT_QUERY);
+  });
+
+  it("sends the column and the resolved direction when a header is sorted", async () => {
+    renderPage();
+
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Sort by IG Reach" }),
+    );
+    await expectQuery({
+      ...DEFAULT_QUERY,
+      sortBy: "igReach",
+      sortDirection: "desc",
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Sort by IG Reach" }));
+    await expectQuery({
+      ...DEFAULT_QUERY,
+      sortBy: "igReach",
+      sortDirection: "asc",
+    });
   });
 
   it("maps the reach pills to minAggregatedIgFollowers", async () => {

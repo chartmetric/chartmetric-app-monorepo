@@ -3,7 +3,15 @@ import type { CSSProperties, Key, ReactNode } from "react";
 import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
 import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Group, Table, Text, UnstyledButton } from "@mantine/core";
+import {
+  Box,
+  Group,
+  Table,
+  Text,
+  Tooltip,
+  UnstyledButton,
+  VisuallyHidden,
+} from "@mantine/core";
 
 import classes from "./DataTable.module.css";
 
@@ -18,6 +26,8 @@ export interface DataTableColumn<Row, SortKey extends string> {
   secondaryLabel?: string;
   sortKey?: SortKey;
   sticky?: boolean;
+  /** Defines what the column measures; shown on hover and read out to AT. */
+  tooltip?: string;
   width?: number;
 }
 
@@ -41,6 +51,7 @@ export interface DataTableProps<Row, SortKey extends string> {
 
 const STICKY_CELL_Z_INDEX = 1;
 const STICKY_HEADER_CELL_Z_INDEX = 3;
+const TOOLTIP_WIDTH = 240;
 
 const stickyOffsets = <Row, SortKey extends string>(
   columns: readonly DataTableColumn<Row, SortKey>[],
@@ -118,7 +129,7 @@ const HeaderCell = <Row, SortKey extends string>({
   sortLabel,
 }: HeaderCellProps<Row, SortKey>): ReactNode => {
   const isActive = column.sortKey === sortBy;
-  const { sortKey } = column;
+  const { sortKey, tooltip } = column;
   const label =
     column.secondaryLabel === undefined ? (
       column.label
@@ -129,6 +140,29 @@ const HeaderCell = <Row, SortKey extends string>({
         </Text>
         {column.label}
       </>
+    );
+
+  const heading =
+    sortKey === undefined ? (
+      label
+    ) : (
+      <UnstyledButton
+        aria-label={sortLabel(column.label)}
+        onClick={() => {
+          onSort(sortKey);
+        }}
+      >
+        <Group
+          gap={6}
+          justify={column.align === "right" ? "flex-end" : "flex-start"}
+          wrap="nowrap"
+        >
+          <Text component="span" fw={600} size="sm">
+            {label}
+          </Text>
+          <span aria-hidden="true">{sortIcon(isActive, sortDirection)}</span>
+        </Group>
+      </UnstyledButton>
     );
 
   return (
@@ -147,26 +181,17 @@ const HeaderCell = <Row, SortKey extends string>({
       ta={column.align}
       w={column.width}
     >
-      {sortKey === undefined ? (
-        label
+      {tooltip === undefined ? (
+        heading
       ) : (
-        <UnstyledButton
-          aria-label={sortLabel(column.label)}
-          onClick={() => {
-            onSort(sortKey);
-          }}
-        >
-          <Group
-            gap={6}
-            justify={column.align === "right" ? "flex-end" : "flex-start"}
-            wrap="nowrap"
-          >
-            <Text component="span" fw={600} size="sm">
-              {label}
-            </Text>
-            <span aria-hidden="true">{sortIcon(isActive, sortDirection)}</span>
-          </Group>
-        </UnstyledButton>
+        <Tooltip label={tooltip} multiline w={TOOLTIP_WIDTH}>
+          {/* Block so the wrapper does not disturb the cell's own alignment. */}
+          <Box component="span" display="block">
+            {heading}
+            {/* A tooltip is hover-only, so the definition is read out here. */}
+            <VisuallyHidden>{tooltip}</VisuallyHidden>
+          </Box>
+        </Tooltip>
       )}
     </Table.Th>
   );

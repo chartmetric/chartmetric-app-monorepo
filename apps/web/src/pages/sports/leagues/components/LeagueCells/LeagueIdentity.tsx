@@ -6,6 +6,7 @@ import { Avatar, Group, Stack, Text } from "@mantine/core";
 import type { League } from "../../api/types";
 
 import { getSportColor } from "../../../sport-colors";
+import { toSportLabel } from "../../../sport-labels";
 
 interface LeagueIdentityProps {
   league: League;
@@ -36,7 +37,7 @@ export const LeagueIdentity: FC<LeagueIdentityProps> = ({ league }) => {
         </Text>
         {league.sport === null ? null : (
           <Text c={getSportColor(league.sport)} size="xs" truncate>
-            {league.sport}
+            {toSportLabel(league.sport)}
           </Text>
         )}
       </Stack>

@@ -41,6 +41,17 @@ const renderPage = (): void => {
   );
 };
 
+const sortHeader = async (label: string): Promise<HTMLElement> => {
+  const button = await screen.findByRole("button", {
+    name: `Sort by ${label}`,
+  });
+  const header = button.closest("th");
+
+  if (header === null) throw new Error(`No column header for ${label}`);
+
+  return header;
+};
+
 const mockLeagues = (reply: unknown): void => {
   apiGetMock.mockImplementation(async (path: string) => {
     await Promise.resolve();
@@ -107,6 +118,17 @@ describe("LeaguesPage states", () => {
     expect(table.getByText("Football")).toBeTruthy();
   });
 
+  it("shows the athlete count exactly and the reach compacted", async () => {
+    mockLeagues({ data: buildReply() });
+
+    renderPage();
+
+    const table = within(await screen.findByRole("table", { name: "Leagues" }));
+
+    expect(table.getByText("12")).toBeTruthy();
+    expect(table.getByText("12.5M")).toBeTruthy();
+  });
+
   it("numbers rows from the current offset", async () => {
     mockLeagues({ data: buildReply([buildLeague()], 60) });
 
@@ -133,6 +155,26 @@ describe("LeaguesPage states", () => {
     expect(screen.getByText("Athlete 4, Athlete 5")).toBeTruthy();
   });
 
+  it("caps the overflow tooltip at ten entries and counts the rest", async () => {
+    const nationalities = Array.from(
+      { length: 16 },
+      (_, index) => `Country ${String(index + 1)}`,
+    );
+
+    mockLeagues({ data: buildReply([buildLeague({ nationalities })]) });
+
+    renderPage();
+
+    expect(await screen.findByText("+13")).toBeTruthy();
+    expect(
+      screen.getByText(
+        "Country 4, Country 5, Country 6, Country 7, Country 8, Country 9, Country 10, Country 11, Country 12, Country 13",
+      ),
+    ).toBeTruthy();
+    expect(screen.getByText("…and 3 more")).toBeTruthy();
+    expect(screen.queryByText(/Country 14/u)).toBeNull();
+  });
+
   it("lists the first nationalities inline and counts the remainder", async () => {
     mockLeagues({
       data: buildReply([
@@ -149,7 +191,7 @@ describe("LeaguesPage states", () => {
     expect(screen.getByText("Japan, Spain")).toBeTruthy();
   });
 
-  it("marks only the league column as sorted", async () => {
+  it("marks the league column sorted and offers the two metric columns", async () => {
     mockLeagues({ data: buildReply() });
 
     renderPage();
@@ -161,6 +203,27 @@ describe("LeaguesPage states", () => {
       header.getAttribute("aria-sort"),
     );
 
-    expect(sortStates).toEqual([null, "ascending", null, null]);
+    expect(sortStates).toEqual([null, "ascending", "none", "none", null, null]);
   });
+
+  it.each(["League / Competition", "Athletes", "IG Reach"])(
+    "flips the %s sort direction on every click",
+    async (label) => {
+      mockLeagues({ data: buildReply() });
+
+      renderPage();
+
+      const header = await sortHeader(label);
+
+      fireEvent.click(within(header).getByRole("button"));
+      await waitFor(() => {
+        expect(header.getAttribute("aria-sort")).toBe("descending");
+      });
+
+      fireEvent.click(within(header).getByRole("button"));
+      await waitFor(() => {
+        expect(header.getAttribute("aria-sort")).toBe("ascending");
+      });
+    },
+  );
 });

@@ -474,7 +474,9 @@ export interface paths {
                     minAggregatedIgFollowers?: number;
                     minTrackedAthletes?: number;
                     name?: string;
-                    sortBy?: "name" | "sport" | "trackedAthletes";
+                    sortBy?: "igReach" | "name" | "sport" | "trackedAthletes";
+                    /** @description Defaults to ascending for name and sport, descending for trackedAthletes and igReach. */
+                    sortDirection?: "asc" | "desc";
                     sports?: string[];
                 };
                 header?: never;
@@ -494,6 +496,8 @@ export interface paths {
                                 country: string | null;
                                 countryFlagUrl: string | null;
                                 id: string;
+                                /** @description Sum of the Instagram followers of the league's tracked athletes. Not a deduplicated audience: a follower of two athletes is counted twice, and an athlete tracked in two leagues counts towards both. */
+                                igReach: number;
                                 keyAthletes: {
                                     id: number;
                                     name: string;
@@ -710,7 +714,9 @@ export interface paths {
                     minAggregatedIgFollowers?: number;
                     minTrackedAthletes?: number;
                     name?: string;
-                    sortBy?: "name" | "sport" | "trackedAthletes";
+                    sortBy?: "igReach" | "name" | "sport" | "trackedAthletes";
+                    /** @description Defaults to ascending for name and sport, descending for trackedAthletes and igReach. */
+                    sortDirection?: "asc" | "desc";
                     sports?: string[];
                 };
                 header?: never;
@@ -730,6 +736,8 @@ export interface paths {
                                 country: string | null;
                                 countryFlagUrl: string | null;
                                 id: string;
+                                /** @description Sum of the Instagram followers of the league's tracked athletes. Not a deduplicated audience: a follower of two athletes is counted twice, and an athlete tracked in two leagues counts towards both. */
+                                igReach: number;
                                 keyAthletes: {
                                     id: number;
                                     name: string;

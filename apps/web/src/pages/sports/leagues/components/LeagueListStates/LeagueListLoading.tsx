@@ -5,9 +5,13 @@ import { Group, Paper, Skeleton, Stack, Table } from "@mantine/core";
 
 import { LEAGUE_PAGE_SIZE } from "../../api/league-list";
 import {
+  IG_REACH_MIN_WIDTH,
+  KEY_ATHLETES_MIN_WIDTH,
   LEAGUE_COLUMN_WIDTH,
   LEAGUE_TABLE_MIN_WIDTH,
+  NATIONALITIES_MIN_WIDTH,
   ORDINAL_COLUMN_WIDTH,
+  TRACKED_ATHLETES_MIN_WIDTH,
 } from "../../columns/table-columns";
 
 // Mirrors LeagueTableToolbar: Group justify="space-between" px="md" py="xs"
@@ -33,10 +37,16 @@ const SkeletonHeaderRow: FC = () => (
     <Table.Th w={LEAGUE_COLUMN_WIDTH}>
       <Skeleton height={12} w={150} />
     </Table.Th>
-    <Table.Th miw={280}>
+    <Table.Th miw={TRACKED_ATHLETES_MIN_WIDTH}>
+      <Skeleton height={12} ml="auto" w={56} />
+    </Table.Th>
+    <Table.Th miw={IG_REACH_MIN_WIDTH}>
+      <Skeleton height={12} ml="auto" w={64} />
+    </Table.Th>
+    <Table.Th miw={KEY_ATHLETES_MIN_WIDTH}>
       <Skeleton height={12} w={84} />
     </Table.Th>
-    <Table.Th miw={220}>
+    <Table.Th miw={NATIONALITIES_MIN_WIDTH}>
       <Skeleton height={12} w={90} />
     </Table.Th>
   </Table.Tr>
@@ -56,15 +66,29 @@ export const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
         </Stack>
       </Group>
     </Table.Td>
-    <Table.Td miw={280}>
+    <Table.Td miw={TRACKED_ATHLETES_MIN_WIDTH}>
+      <Skeleton
+        height="calc(var(--mantine-font-size-xs) * 1.55)"
+        ml="auto"
+        w={40}
+      />
+    </Table.Td>
+    <Table.Td miw={IG_REACH_MIN_WIDTH}>
+      <Skeleton
+        height="calc(var(--mantine-font-size-xs) * 1.55)"
+        ml="auto"
+        w={52}
+      />
+    </Table.Td>
+    <Table.Td miw={KEY_ATHLETES_MIN_WIDTH}>
       <Group gap={4} wrap="nowrap">
-        <Skeleton height={20} radius="sm" w={92} />
-        <Skeleton height={20} radius="sm" w={80} />
-        <Skeleton height={20} radius="sm" w={86} />
+        <Skeleton height={18} radius="sm" w={92} />
+        <Skeleton height={18} radius="sm" w={80} />
+        <Skeleton height={18} radius="sm" w={86} />
       </Group>
     </Table.Td>
-    <Table.Td miw={220}>
-      <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w={168} />
+    <Table.Td miw={NATIONALITIES_MIN_WIDTH}>
+      <Skeleton height="calc(var(--mantine-font-size-xs) * 1.55)" w={168} />
     </Table.Td>
   </Table.Tr>
 );

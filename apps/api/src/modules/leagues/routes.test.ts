@@ -10,6 +10,7 @@ import { stubClickhouse, testConfig } from "../../tests/helpers.ts";
 const rows = {
   "new_vertical.leagues": [
     {
+      aggregated_ig_followers: "184000000",
       country_flag_url: "https://media.api-sports.io/flags/es.svg",
       id: "2805663106422782827",
       key_athletes: [
@@ -25,6 +26,7 @@ const rows = {
       tracked_athletes: "89",
     },
     {
+      aggregated_ig_followers: "42000000",
       country_flag_url: "",
       id: "3059933633278878705",
       key_athletes: [],
@@ -37,6 +39,7 @@ const rows = {
       tracked_athletes: "216",
     },
     {
+      aggregated_ig_followers: null,
       country_flag_url: "",
       id: "8372815033546819479",
       key_athletes: [],
@@ -72,6 +75,7 @@ describe("GET /leagues", () => {
       country: "Spain",
       countryFlagUrl: "https://media.api-sports.io/flags/es.svg",
       id: "2805663106422782827",
+      igReach: 184_000_000,
       keyAthletes: [
         { id: 686, name: "Kylian Mbappé" },
         { id: 706, name: "Vinícius Júnior" },
@@ -95,6 +99,7 @@ describe("GET /leagues", () => {
     expect(data[1]).toMatchObject({ country: null, countryFlagUrl: null });
     expect(data[2]).toMatchObject({
       country: null,
+      igReach: 0,
       logoUrl: null,
       trackedAthletes: 0,
     });
@@ -148,7 +153,7 @@ describe("GET /leagues", () => {
 
     const response = await app.inject({
       method: "GET",
-      url: "/app/leagues?name=liga&sports=football&sports=tennis&minTrackedAthletes=5&minAggregatedIgFollowers=1000000&megaOnly=true&sortBy=trackedAthletes",
+      url: "/app/leagues?name=liga&sports=football&sports=tennis&minTrackedAthletes=5&minAggregatedIgFollowers=1000000&megaOnly=true&sortBy=igReach&sortDirection=asc",
     });
 
     expect(response.statusCode).toBe(200);
@@ -158,6 +163,7 @@ describe("GET /leagues", () => {
   it.each([
     ["invalid pagination", "/app/leagues?limit=9999"],
     ["an unsupported sort column", "/app/leagues?sortBy=reach"],
+    ["an unsupported sort direction", "/app/leagues?sortDirection=widest"],
     ["a negative athlete threshold", "/app/leagues?minTrackedAthletes=-1"],
     ["a blank name", "/app/leagues?name="],
   ])("rejects %s", async (_scenario, url) => {

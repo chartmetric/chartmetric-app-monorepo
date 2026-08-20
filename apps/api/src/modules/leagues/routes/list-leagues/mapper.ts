@@ -40,6 +40,7 @@ export const toLeague = (row: LeagueListRow): League => ({
   country: toCountry(row.scope),
   countryFlagUrl: emptyToNull(row.country_flag_url),
   id: row.id,
+  igReach: toNumber(row.aggregated_ig_followers) ?? 0,
   keyAthletes: toKeyAthletes(row.key_athletes),
   leagueType: emptyToNull(row.league_type),
   logoUrl: emptyToNull(row.logo_url),

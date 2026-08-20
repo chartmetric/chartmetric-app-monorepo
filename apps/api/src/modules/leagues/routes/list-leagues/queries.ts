@@ -5,6 +5,7 @@ import type {
   DatabaseQueryFactory,
   ExecutableQuery,
   JoinableChain,
+  OrderableChain,
 } from "../../../../lib/database.ts";
 import type { ListLeaguesQuery } from "./schemas.ts";
 import type {
@@ -109,6 +110,16 @@ const withLeagueAthletes = <Builder>(
       AGGREGATE_COLUMN.label,
     ) as unknown as Builder;
 
+const orderByExpression = <Builder>(
+  builder: Builder,
+  expression: string,
+  direction: "ASC" | "DESC",
+): Builder =>
+  (builder as unknown as OrderableChain).orderBy(
+    expression,
+    direction,
+  ) as unknown as Builder;
+
 const applyNameFilter = (
   builder: LeagueCatalogBuilder,
   name: string,
@@ -202,6 +213,10 @@ const CATALOG_SELECTIONS = [
     AGGREGATE_COLUMN.trackedAthletes,
     "tracked_athletes",
   ),
+  rawAs<number, "aggregated_ig_followers">(
+    AGGREGATE_COLUMN.aggregatedIgFollowers,
+    "aggregated_ig_followers",
+  ),
   rawAs<KeyAthleteTuple[], "key_athletes">(
     AGGREGATE_COLUMN.keyAthletes,
     "key_athletes",
@@ -216,7 +231,13 @@ const DEFAULT_SORT_BY = "name";
 
 const ASCENDING_FIRST: ReadonlySet<string> = new Set(["name", "sport"]);
 
+// `sum` over a Nullable column stays Nullable and an unmatched join row is NULL
+// as well, and ClickHouse parks NULLs at one end whichever direction is asked
+// for. Ordering reach through the same `ifNull` the threshold filter reads keeps
+// the sort agreeing with the zero the reply reports. `count` cannot be NULL, so
+// `tracked_athletes` already sorts an untracked league as the zero it returns.
 const SORT_COLUMNS = {
+  igReach: `ifNull(${AGGREGATE_COLUMN.aggregatedIgFollowers}, 0)`,
   name: COLUMN.name,
   sport: COLUMN.sport,
   trackedAthletes: "tracked_athletes",
@@ -231,26 +252,37 @@ const QUERY_SETTINGS = {
 const sortBy = (query: ListLeaguesQuery): keyof typeof SORT_COLUMNS =>
   query.sortBy ?? DEFAULT_SORT_BY;
 
-// The useful first look depends on the column. Names and sports start
-// ascending, athlete counts descending, so `sortBy=trackedAthletes` returns the
-// deepest leagues rather than the emptiest.
-const sortDirection = (query: ListLeaguesQuery): "ASC" | "DESC" =>
-  ASCENDING_FIRST.has(sortBy(query)) ? "ASC" : "DESC";
+// An explicit request wins; otherwise the useful first look depends on the
+// column. Names and sports start ascending, athlete counts and reach
+// descending, so `sortBy=trackedAthletes` returns the deepest leagues rather
+// than the emptiest.
+const sortDirection = (query: ListLeaguesQuery): "ASC" | "DESC" => {
+  const requested =
+    query.sortDirection ??
+    (ASCENDING_FIRST.has(sortBy(query)) ? "asc" : "desc");
+
+  return requested === "asc" ? "ASC" : "DESC";
+};
 
 const listLeagues = (
   database: ClickHouseDatabase,
   query: ListLeaguesQuery,
-): ExecutableQuery<LeagueListRow> =>
-  withLeagueAthletes(
+): ExecutableQuery<LeagueListRow> => {
+  const joined = withLeagueAthletes(
     applyFilters(selectLeagueCatalog(database), query),
     database,
+  );
+
+  return orderByExpression(
+    joined.select(CATALOG_SELECTIONS),
+    SORT_COLUMNS[sortBy(query)],
+    sortDirection(query),
   )
-    .select(CATALOG_SELECTIONS)
-    .orderBy(SORT_COLUMNS[sortBy(query)], sortDirection(query))
     .orderBy(COLUMN.id, "ASC")
     .limit(query.limit)
     .offset(query.offset)
     .settings(QUERY_SETTINGS) as unknown as ExecutableQuery<LeagueListRow>;
+};
 
 // The count keeps the aggregate join the list query uses: every threshold
 // filter reads a column that only exists on the joined side, and a LEFT ANY

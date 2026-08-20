@@ -8,6 +8,7 @@ export const DEFAULT_LEAGUE_QUERY = {
   limit: LEAGUE_PAGE_SIZE,
   offset: 0,
   sortBy: "name",
+  sortDirection: "asc",
 } satisfies LeagueListQuery;
 
 export const loadLeagues = async (

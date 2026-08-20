@@ -19,4 +19,6 @@ export type LeagueFilters = Pick<
 
 export type LeagueSortBy = NonNullable<LeagueListQuery["sortBy"]>;
 
+export type LeagueSortDirection = NonNullable<LeagueListQuery["sortDirection"]>;
+
 export type LeagueFilterOptionsReply = GetReply<"/app/leagues/filter-options">;

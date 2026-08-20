@@ -34,3 +34,10 @@ export interface JoinableChain {
   ) => JoinableChain;
   withCTE: (alias: string, subquery: unknown) => JoinableChain;
 }
+
+// `orderBy` cannot be typed when the order key is an expression or a column of
+// a CTE the builder state does not know. Same caveat as JoinableChain: this
+// typechecks either way, so the ordering must be run against real ClickHouse.
+export interface OrderableChain {
+  orderBy: (column: string, direction: "ASC" | "DESC") => OrderableChain;
+}

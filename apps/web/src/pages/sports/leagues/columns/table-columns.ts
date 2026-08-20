@@ -7,16 +7,22 @@ import { useListFormatters } from "../../../../lib/formatting";
 import { KeyAthletesCell } from "../components/LeagueCells/KeyAthletesCell";
 import { LeagueIdentity } from "../components/LeagueCells/LeagueIdentity";
 import { NationalitiesCell } from "../components/LeagueCells/NationalitiesCell";
+import { NumericCell } from "../components/LeagueCells/NumericCell";
 
 export const ORDINAL_COLUMN_WIDTH = 64;
 export const LEAGUE_COLUMN_WIDTH = 280;
-
-const SCROLLING_COLUMNS_MIN_WIDTH = 500;
-const KEY_ATHLETES_MIN_WIDTH = 280;
-const NATIONALITIES_MIN_WIDTH = 220;
+export const TRACKED_ATHLETES_MIN_WIDTH = 110;
+export const IG_REACH_MIN_WIDTH = 130;
+export const KEY_ATHLETES_MIN_WIDTH = 280;
+export const NATIONALITIES_MIN_WIDTH = 220;
 
 export const LEAGUE_TABLE_MIN_WIDTH =
-  ORDINAL_COLUMN_WIDTH + LEAGUE_COLUMN_WIDTH + SCROLLING_COLUMNS_MIN_WIDTH;
+  ORDINAL_COLUMN_WIDTH +
+  LEAGUE_COLUMN_WIDTH +
+  TRACKED_ATHLETES_MIN_WIDTH +
+  IG_REACH_MIN_WIDTH +
+  KEY_ATHLETES_MIN_WIDTH +
+  NATIONALITIES_MIN_WIDTH;
 
 export const useLeagueTableColumns = (): LeagueTableColumn[] => {
   const { t } = useLingui();
@@ -31,7 +37,10 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
           comment: "Leagues table column heading for the row number",
           message: "#",
         }),
-        renderCell: (row) => formatters.plain.format(row.ordinal),
+        renderCell: (row) =>
+          createElement(NumericCell, {
+            value: formatters.plain.format(row.ordinal),
+          }),
         sticky: true,
         width: ORDINAL_COLUMN_WIDTH,
       },
@@ -44,6 +53,29 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
         sortKey: "name",
         sticky: true,
         width: LEAGUE_COLUMN_WIDTH,
+      },
+      {
+        align: "right",
+        key: "trackedAthletes",
+        label: t`Athletes`,
+        minWidth: TRACKED_ATHLETES_MIN_WIDTH,
+        renderCell: (row) =>
+          createElement(NumericCell, {
+            value: formatters.plain.format(row.league.trackedAthletes),
+          }),
+        sortKey: "trackedAthletes",
+      },
+      {
+        align: "right",
+        key: "igReach",
+        label: t`IG Reach`,
+        minWidth: IG_REACH_MIN_WIDTH,
+        renderCell: (row) =>
+          createElement(NumericCell, {
+            value: formatters.compact.format(row.league.igReach),
+          }),
+        sortKey: "igReach",
+        tooltip: t`Sum of tracked athletes' Instagram followers — not a deduplicated audience.`,
       },
       {
         align: "left",

@@ -7,6 +7,8 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
+- [ ] [P1] Phase 06-leagues-design-notes review cycles exhausted after 2 attempts on `review MUST_FIX cycle`. Last error: `- apps/api/src/modules/leagues/routes/list-leagues/queries.ts:114 — `interface OrderableChain` is a builder escape hatch`. Source: harness_loop, 2026-08-19.
+
 ### From 05-leagues-page retro (2026-08-19)
 
 - P2: Cover the athletes filter-option count formatting change introduced

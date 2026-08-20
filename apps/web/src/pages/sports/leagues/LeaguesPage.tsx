@@ -9,11 +9,7 @@ import { DEFAULT_LEAGUE_QUERY, loadLeagues } from "./api/league-list";
 import { LeagueHeader } from "./components/LeagueHeader/LeagueHeader";
 import { LeagueListContent } from "./components/LeagueListContent";
 import { LeagueFilterOptionsError } from "./components/LeagueListStates/LeagueFilterOptionsError";
-import {
-  changeQuerySort,
-  replaceFilters,
-  sortDirectionFor,
-} from "./filters/sort-state";
+import { changeQuerySort, replaceFilters } from "./filters/sort-state";
 
 const FILTER_OPTIONS_STALE_TIME_MS = 5 * 60 * 1000;
 
@@ -30,6 +26,8 @@ export const LeaguesPage: FC = () => {
     queryKey: ["leagues", query],
   });
   const sortBy = query.sortBy ?? DEFAULT_LEAGUE_QUERY.sortBy;
+  const sortDirection =
+    query.sortDirection ?? DEFAULT_LEAGUE_QUERY.sortDirection;
 
   return (
     <Stack gap="md">
@@ -57,7 +55,7 @@ export const LeaguesPage: FC = () => {
         }}
         query={leaguesQuery}
         sortBy={sortBy}
-        sortDirection={sortDirectionFor(sortBy)}
+        sortDirection={sortDirection}
       />
     </Stack>
   );

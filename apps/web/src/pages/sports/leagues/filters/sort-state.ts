@@ -1,9 +1,8 @@
-import type { DataTableSortDirection } from "@repo/ui/data-table";
-
 import type {
   LeagueFilters,
   LeagueListQuery,
   LeagueSortBy,
+  LeagueSortDirection,
 } from "../api/types";
 
 import { DEFAULT_LEAGUE_QUERY } from "../api/league-list";
@@ -15,8 +14,25 @@ export const replaceFilters = (
   limit: query.limit,
   offset: 0,
   sortBy: query.sortBy ?? DEFAULT_LEAGUE_QUERY.sortBy,
+  sortDirection: query.sortDirection ?? DEFAULT_LEAGUE_QUERY.sortDirection,
   ...filters,
 });
+
+// Descending is the useful first click on a metric; names and sports read
+// naturally ascending. Must stay in lockstep with ASCENDING_FIRST in
+// apps/api/src/modules/leagues/routes/list-leagues/queries.ts, which resolves
+// an omitted direction — the test pins every member's first-click direction.
+const ASCENDING_FIRST_SORTS = new Set<LeagueSortBy>(["name", "sport"]);
+
+const nextSortDirection = (
+  isSameColumn: boolean,
+  currentDirection: LeagueSortDirection,
+  nextSortBy: LeagueSortBy,
+): LeagueSortDirection => {
+  if (isSameColumn) return currentDirection === "asc" ? "desc" : "asc";
+
+  return ASCENDING_FIRST_SORTS.has(nextSortBy) ? "asc" : "desc";
+};
 
 export const changeQuerySort = (
   query: LeagueListQuery,
@@ -25,18 +41,9 @@ export const changeQuerySort = (
   ...query,
   offset: 0,
   sortBy: nextSortBy,
+  sortDirection: nextSortDirection(
+    (query.sortBy ?? DEFAULT_LEAGUE_QUERY.sortBy) === nextSortBy,
+    query.sortDirection ?? DEFAULT_LEAGUE_QUERY.sortDirection,
+    nextSortBy,
+  ),
 });
-
-// `GET /app/leagues` accepts no sortDirection: the API fixes the direction per
-// column, names and sports ascending and athlete counts descending. Mirroring
-// that rule is what keeps the header icon showing the order the server actually
-// returned rather than a direction this page believes it asked for.
-const SERVER_ASCENDING_SORTS: ReadonlySet<LeagueSortBy> = new Set([
-  "name",
-  "sport",
-]);
-
-export const sortDirectionFor = (
-  sortBy: LeagueSortBy,
-): DataTableSortDirection =>
-  SERVER_ASCENDING_SORTS.has(sortBy) ? "asc" : "desc";

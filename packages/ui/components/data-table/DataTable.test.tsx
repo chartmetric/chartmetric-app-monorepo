@@ -58,6 +58,38 @@ describe("DataTable", () => {
     expect(onSort).toHaveBeenCalledWith("name");
   });
 
+  it("keeps a column definition available on hover and to assistive tech", () => {
+    const definition = "Sum of tracked athletes' followers.";
+    render(
+      <MantineProvider>
+        <DataTable
+          ariaLabel="People"
+          columns={[
+            {
+              align: "right",
+              key: "score",
+              label: "Score",
+              renderCell: ({ score }) => score,
+              sortKey: "score",
+              tooltip: definition,
+            },
+          ]}
+          getRowKey={({ id }) => id}
+          onSort={vi.fn()}
+          rows={[{ id: 1, name: "Alex", score: 87.4 }]}
+          sortBy="score"
+          sortDirection="desc"
+          sortLabel={(label) => `Sort by ${label}`}
+        />
+      </MantineProvider>,
+    );
+
+    expect(
+      screen.getByRole("columnheader", { name: new RegExp(definition, "u") }),
+    ).toBeDefined();
+    expect(screen.getByRole("button", { name: "Sort by Score" })).toBeDefined();
+  });
+
   it("offsets each pinned column by the widths before it", () => {
     renderSticky();
 

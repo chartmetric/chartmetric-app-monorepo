@@ -1,0 +1,45 @@
+{
+  "phase_id": "06-leagues-design-notes",
+  "duration_min": 58,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "37 files changed, 784 insertions(+), 236 deletions(-)\n      42",
+  "tests_added": 13,
+  "tests_passing_total": 458,
+  "drafted_by": "agent",
+  "surprises": [
+    "The IG Reach header tooltip attaches to the non-focusable Box wrapper rather than the UnstyledButton inside it, so the definition is hover-only and a keyboard user never reaches it - and the new test passed because it asserts the accessible name, not focus.",
+    "TOOLTIP_WIDTH = 240 was written twice in one phase (DataTable.tsx and OverflowCount.tsx) even though phase 05 had just landed the rule that a literal two modules must match gets one exported owner.",
+    "The review-cycle exhaustion handler appended a P1 to docs/BACKLOG.md for the `OrderableChain` escape hatch that the same diff then fixed by moving the interface into apps/api/src/lib/database.ts, so the phase ships its own stale triage item."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "- **A tooltip belongs on the focusable element, never on a wrapper around it.** `Tooltip` opens on hover and focus, but only for the node it actually wraps - wrapping a `Box`/`span` that contains the real `<button>` makes the content mouse-only, and a `VisuallyHidden` copy fixes screen readers while leaving sighted keyboard users with nothing. Put the tooltip on the interactive element (or fold the text into its accessible name), and assert it through focusing the control, not through the wrapper's text."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "- **Re-check every backlog entry a phase wrote against that phase's final diff before committing.** The harness appends a P1 when a retry or review loop exhausts, but the loop usually exhausts because the writer was fixing the very thing described - landing the entry unchanged hands the next `/backlog` run a defect that no longer exists. Delete or amend it in the same commit."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "- **When an architecture rule forces an edit outside a phase's declared globs, widen the phase's `files` list in the same commit.** A CRITICAL rule in `docs/ARCHITECTURE.md` that mandates a location (builder-typing workarounds in the database layer) outranks the glob list; leaving the file undeclared makes unavoidable wiring read as scope creep in every later review."
+    }
+  ],
+  "followups": [
+    "P1 - Execute the leagues filter/sort matrix and the count/list sibling pair against real ClickHouse through the read-only MCP for the widened SELECT and the new ifNull(...) ORDER BY, and report row counts before pushing (queries.ts:216,240); do not add a script.",
+    "P1 - Delete or amend the stale harness-written P1 at docs/BACKLOG.md:10 (`OrderableChain` escape hatch), which this diff already resolved in apps/api/src/lib/database.ts.",
+    "P2 - Move the header Tooltip onto the UnstyledButton in packages/ui/components/data-table/DataTable.tsx:187 so keyboard focus opens the definition, and cover it with a focus-based test.",
+    "P2 - Give TOOLTIP_WIDTH one exported owner in packages/ui and import it in leagues/components/LeagueCells/OverflowCount.tsx:14.",
+    "P2 - Add `apps/api/src/lib/**` to phase 06's `files` list, as was already done for `packages/ui/components/data-table/**`.",
+    "P3 - Hoist the asc/desc sortDirection TypeBox union into apps/api/src/lib/pagination.ts; list-leagues/schemas.ts:18 is the third verbatim copy after artists and athletes.",
+    "P3 - Add distinguishing Lingui `comment:` context to the msgid \"Athletes\", which now serves the leagues column header, the leagues threshold pill group, and the athletes table.",
+    "P3 - Filter-column parity (docs/design/DESIGN_LANGUAGE.md): the leagues \"Mega only\" filter still has no visible column, so its effect stays unverifiable."
+  ]
+}

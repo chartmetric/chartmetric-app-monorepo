@@ -61,10 +61,12 @@ describe("listLeagues", () => {
     );
   });
 
-  it("keeps the follower aggregates out of the reply projection", () => {
+  it("projects the reach aggregate and keeps the threshold-only one out", () => {
     const projection = projectionOf(queries.listLeagues(PAGE).toSQL());
 
-    expect(projection).not.toContain("aggregated_ig_followers");
+    expect(projection).toContain(
+      "league_athletes.aggregated_ig_followers AS aggregated_ig_followers",
+    );
     expect(projection).not.toContain("max_ig_followers");
   });
 
@@ -120,10 +122,65 @@ describe("listLeagues", () => {
       { sortBy: "trackedAthletes" },
       "tracked_athletes DESC",
     ],
+    [
+      "reach, widest first",
+      { sortBy: "igReach" },
+      "ifNull(league_athletes.aggregated_ig_followers, 0) DESC",
+    ],
   ] as const)("sorts by %s", (_name, sort, expected) => {
     const sql = queries.listLeagues({ ...PAGE, ...sort }).toSQL();
 
     expect(sql).toContain(`ORDER BY ${expected}, new_vertical.leagues.id ASC`);
+  });
+
+  it.each([
+    ["name", { sortBy: "name" }, "asc", "new_vertical.leagues.name DESC"],
+    [
+      "igReach",
+      { sortBy: "igReach" },
+      "desc",
+      "ifNull(league_athletes.aggregated_ig_followers, 0) ASC",
+    ],
+  ] as const)(
+    "reverses the %s default when the caller asks for the other direction",
+    (_name, sort, defaultDirection, expected) => {
+      const requested = defaultDirection === "asc" ? "desc" : "asc";
+      const sql = queries
+        .listLeagues({ ...PAGE, ...sort, sortDirection: requested })
+        .toSQL();
+
+      expect(sql).toContain(
+        `ORDER BY ${expected}, new_vertical.leagues.id ASC`,
+      );
+    },
+  );
+
+  it("keeps the id tiebreak ascending whichever direction is requested", () => {
+    const sql = queries
+      .listLeagues({ ...PAGE, sortBy: "trackedAthletes", sortDirection: "asc" })
+      .toSQL();
+
+    expect(sql).toContain(
+      "ORDER BY tracked_athletes ASC, new_vertical.leagues.id ASC",
+    );
+  });
+
+  // A league nobody tracks has no aggregate row, and `sum` over a Nullable
+  // column is Nullable even where one exists. Sorting the raw column would park
+  // those leagues at one end in both directions rather than at the zero the
+  // reply reports for them.
+  it("sorts reach on the same coalesced value the reply reports", () => {
+    const ascending = queries
+      .listLeagues({ ...PAGE, sortBy: "igReach", sortDirection: "asc" })
+      .toSQL();
+
+    expect(ascending).not.toMatch(
+      /ORDER BY league_athletes\.aggregated_ig_followers/,
+    );
+    expect(ascending).not.toMatch(/ORDER BY aggregated_ig_followers/);
+    expect(ascending).toContain(
+      "ORDER BY ifNull(league_athletes.aggregated_ig_followers, 0) ASC",
+    );
   });
 
   it("pages with the requested window", () => {

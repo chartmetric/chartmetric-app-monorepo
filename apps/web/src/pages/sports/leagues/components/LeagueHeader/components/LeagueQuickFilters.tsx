@@ -7,6 +7,7 @@ import type { LeagueFilterValues } from "../../../filters/types";
 
 import { useListFormatters } from "../../../../../../lib/formatting";
 import { Pill } from "../../../../quick-filter-pills/Pill";
+import { toSportLabel } from "../../../../sport-labels";
 import { SingleSelectPills } from "./SingleSelectPills";
 
 const TRACKED_ATHLETE_THRESHOLDS = [2, 5, 10] as const;
@@ -48,7 +49,10 @@ export const LeagueQuickFilters: FC<LeagueQuickFiltersProps> = ({
         onChange={(sport) => {
           onChange({ ...values, sport });
         }}
-        options={sports.map((sport) => ({ label: sport, value: sport }))}
+        options={sports.map((sport) => ({
+          label: toSportLabel(sport),
+          value: sport,
+        }))}
         value={values.sport}
       />
       <Divider orientation="vertical" />
@@ -62,7 +66,7 @@ export const LeagueQuickFilters: FC<LeagueQuickFiltersProps> = ({
       />
       <Divider orientation="vertical" />
       <SingleSelectPills
-        groupLabel={t`Reach`}
+        groupLabel={t`IG Reach`}
         onChange={(minAggregatedIgFollowers) => {
           onChange({ ...values, minAggregatedIgFollowers });
         }}

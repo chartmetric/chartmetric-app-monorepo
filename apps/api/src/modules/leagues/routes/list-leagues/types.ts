@@ -13,6 +13,7 @@ export interface LeagueListRow {
   logo_url: string | null;
   country_flag_url: string | null;
   tracked_athletes: WarehouseNumber;
+  aggregated_ig_followers: WarehouseNumber;
   key_athletes: KeyAthleteTuple[];
   nationalities: string[];
 }
