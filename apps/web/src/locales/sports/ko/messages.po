@@ -490,7 +490,7 @@ msgid "Unable to load sports"
 msgstr "종목을 불러올 수 없습니다"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:23
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:24
 msgid "Unnamed athlete"
 msgstr "이름 없는 선수"
 
@@ -512,8 +512,8 @@ msgstr "리그 정보 업데이트 중"
 msgid "Verified"
 msgstr "인증됨"
 
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:44
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:46
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:45
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:47
 msgid "Verified on Instagram"
 msgstr "Instagram에서 인증됨"
 

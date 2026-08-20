@@ -490,7 +490,7 @@ msgid "Unable to load sports"
 msgstr "Unable to load sports"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:23
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:24
 msgid "Unnamed athlete"
 msgstr "Unnamed athlete"
 
@@ -512,8 +512,8 @@ msgstr "Updating leagues"
 msgid "Verified"
 msgstr "Verified"
 
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:44
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:46
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:45
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:47
 msgid "Verified on Instagram"
 msgstr "Verified on Instagram"
 

@@ -96,3 +96,20 @@ ordered with numeric metrics at the right edge.
   Keep `aria` labels intact.
 - Column reorder happens in `leagues/columns/table-columns.ts`
   (order + widths); the identity column keeps its sticky config.
+
+## Visual parity loop log (2026-08-19/20, driver session)
+
+Four iterations against the reference prototype screenshot, headless
+Chrome 2000×1160 dark via the untracked preview entry. Iteration 1:
+quiet uppercase mono headers, single-line identity + neutral sport
+chip, mono chips/nationalities, icon+count title, "Total IG Reach".
+Iteration 2: sort menu into the header row (toolbar row removed,
+skeleton follows), column widths redistributed (340/300/150), trophy
+avatar placeholder, chip no-shrink. Iterations 3–4: nationalities
+dimmed with inline "+N", tooltip-cap test made non-vacuous. End state
+judged visually equivalent to the reference; the only remaining delta
+is the prototype's global top-bar search (out of scope per PRD). Every
+finding recorded in docs/design/DESIGN_LANGUAGE.md ("Visual parity
+findings"). The recurring single console error in loop screenshots is
+PropelAuth's 401 session probe in the unauthenticated preview, not an
+app defect.

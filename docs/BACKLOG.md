@@ -7,6 +7,18 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
+### From 07-prototype-parity-theme retro (2026-08-20)
+
+- P3: Adopt `NumericCell` in the music/artists table so the design doc's
+  "one NumericCell renders every such value" is true, promoting it to
+  `@repo/ui` at that point (second consumer).
+- P3: Visually verify the artists table's density and loading states at
+  desktop and mobile widths after the inherited `verticalSpacing="sm"`
+  and square radius scale (theme change reached it unverified).
+- P3: `AthleteListLoading.tsx` restates the athletes table min width and
+  per-column `miw` values; import them from `athletes/columns` the way
+  the leagues skeleton does.
+
 ### From 06-leagues-design-notes retro (2026-08-19)
 
 - P3: Hoist the asc/desc sortDirection TypeBox union into

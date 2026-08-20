@@ -24,7 +24,8 @@
     "pnpm-lock.yaml",
     "docs/design/DESIGN_LANGUAGE.md",
     "apps/web/src/locales/sports/**",
-    "apps/web/src/locales/common/**"
+    "apps/web/src/locales/common/**",
+    "apps/web/AGENTS.md"
   ],
   "gates": [
     "pnpm --filter @repo/ui lint",

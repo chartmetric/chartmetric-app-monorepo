@@ -9,6 +9,7 @@ import type { Athlete } from "../../api/types";
 
 import { getSportColor } from "../../../sport-colors";
 import { toSportLabel } from "../../../sport-labels";
+import { CELL_TEXT_SIZE } from "./cell-typography";
 import { CountryFlag } from "./CountryFlag";
 import { SocialLinks } from "./SocialLinks";
 
@@ -37,7 +38,7 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
       />
       <Stack gap={2} miw={0}>
         <Group gap={6} wrap="nowrap">
-          <Text fw={600} size="sm" truncate>
+          <Text fw={600} size={CELL_TEXT_SIZE} truncate>
             {athleteName}
           </Text>
           {athlete.igVerified ? (

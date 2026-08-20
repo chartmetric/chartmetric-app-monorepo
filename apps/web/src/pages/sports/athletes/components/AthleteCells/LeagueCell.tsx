@@ -5,6 +5,7 @@ import { Stack, Text, Tooltip } from "@mantine/core";
 import type { Athlete } from "../../api/types";
 
 import { EMPTY_CELL } from "../../../../../lib/formatting";
+import { CELL_TEXT_SIZE } from "./cell-typography";
 
 interface LeagueCellProps {
   athlete: Athlete;
@@ -23,7 +24,7 @@ export const LeagueCell: FC<LeagueCellProps> = ({ athlete, moreLabel }) => {
         label={athlete.leagues.join(", ")}
         multiline
       >
-        <Text size="sm" truncate>
+        <Text size={CELL_TEXT_SIZE} truncate>
           {primary}
         </Text>
       </Tooltip>

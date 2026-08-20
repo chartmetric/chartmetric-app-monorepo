@@ -5,6 +5,7 @@ import { Group, Image, Text } from "@mantine/core";
 import type { Athlete } from "../../api/types";
 
 import { EMPTY_CELL } from "../../../../../lib/formatting";
+import { CELL_TEXT_SIZE } from "./cell-typography";
 
 interface ClubCellProps {
   athlete: Athlete;
@@ -18,7 +19,7 @@ export const ClubCell: FC<ClubCellProps> = ({ athlete }) => {
       {athlete.teamLogoUrl === null ? null : (
         <Image alt="" h={16} src={athlete.teamLogoUrl} w={16} />
       )}
-      <Text size="sm" truncate>
+      <Text size={CELL_TEXT_SIZE} truncate>
         {athlete.club}
       </Text>
     </Group>

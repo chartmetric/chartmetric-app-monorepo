@@ -490,7 +490,7 @@ msgid "Unable to load sports"
 msgstr "競技を読み込めません"
 
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:23
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:24
 msgid "Unnamed athlete"
 msgstr "名前未設定の選手"
 
@@ -512,8 +512,8 @@ msgstr "リーグ情報を更新中"
 msgid "Verified"
 msgstr "認証済み"
 
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:44
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:46
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:45
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:47
 msgid "Verified on Instagram"
 msgstr "Instagramで認証済み"
 

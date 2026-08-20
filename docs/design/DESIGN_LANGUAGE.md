@@ -119,9 +119,17 @@ Use `<Paper shadow="sm" radius="md">` without `withBorder` when the Paper sits o
 
 **Decision tree — choose exactly one:**
 
-1. **Taxonomy label** — any categorical dimension the user filters or sorts on, rendered inline in a dense data row (sport name, genre, content type, etc.):
+1. **Taxonomy label on an entity row** (an athlete's sport, an artist's genre) — a categorical dimension classifying a _person or act_, rendered inline in a dense data row:
    → `<Text c={getCategoryColor(item)} size="xs">` where `getCategoryColor` is the vertical's color-mapping function (e.g. `getSportColor`, `getGenreColor`).
    → **Never** `<Badge>` — Badge adds pill geometry (border-radius, padding) that misaligns text in dense rows and visually competes with row borders.
+
+   **Catalog rows are the exception** (parity finding, 2026-08-19): when the
+   row _is_ the category's container — a league tagged with its sport, a
+   playlist tagged with its platform — the tag is a quiet neutral chip inline
+   with the name (`<Badge variant="default" c="dimmed" ff="monospace"
+fw={400} tt="none" radius="sm">`), not colored text. The color signal
+   belongs to classification of entities, not to a row describing its own
+   kind.
 
 2. **Level or tier** (2–4 discrete status values like Pro/College):
    → `<Badge variant="light" color={semanticColor}>` — contained Badge communicates "this has a status."
@@ -365,7 +373,9 @@ values render in the theme `fontFamilyMonospace`. Numbers in a table
 column share the exact text size of neighbouring text cells, right-align,
 and line up digit-for-digit down the column (the mono face provides
 tabular figures inherently). A numeric column is never an exception to
-the peer-column type-scale rule. One `NumericCell` renders every such
+the peer-column type-scale rule. One deliberate exception: ordinal/rank
+columns (`#`) stay left-aligned beside the identity column — they are row
+labels, not measurements, and the reference design reads them that way. One `NumericCell` renders every such
 value with `ff="monospace"`, which resolves to the theme face — no cell
 ever names the family.
 
@@ -400,6 +410,45 @@ things that filter the table.
 list columns next, numeric metric columns at the right edge. For
 leagues: `# | League/Competition | Key Athletes | Nationalities |
 Athletes | IG Reach`.
+
+## Visual parity findings (2026-08-19 loop)
+
+Harvested from the driver-executed screenshot loop against the reference
+prototype (phase 07). Each was a real delta; each is now a rule.
+
+**One bold element per row.** The identity name is the only `fw={600}`
+text in a data row. Chips, list cells, metric values, and column
+headers are regular weight — bolding a metric or a chip flattens the
+hierarchy bold exists to create.
+
+**Column headers are quiet chrome.** Uppercase, mono, `c="dimmed"`,
+`fw={500}`, `size="xs"`, letterspaced (`HEADER_LABEL_PROPS` in
+`@repo/ui/data-table` owns this). Headers describe the data; they never
+compete with it.
+
+**Overflow counts flow inline.** The dimmed "+N" renders as a `span`
+inside the wrapping list text, landing at the end of the last line —
+never as its own block below the list.
+
+**Wrapping list columns get a fixed width and dimmed mono text.** A
+list cell (nationalities) wraps up to three lines inside a fixed-width
+column; the wrap does the vertical work so row padding stays compact.
+
+**Sort lives in the page header as a menu, not in a table toolbar
+row.** Re-selecting the active column flips direction
+(`changeQuerySort` owns that rule). A "Sort:" caption row above the
+table is dead vertical space.
+
+**Placeholder marks over initials for organisations.** A logo-less
+league shows the domain icon (trophy) in its avatar, not initials —
+initials read as a person.
+
+**Method note for the next loop.** Render the app without auth via an
+untracked Vite entry (`preview.html` + `src/preview.tsx` mounting the
+real tree minus `RequiredAuthProvider`), screenshot headless Chrome at
+2000×1160 dark, compare against the reference, fix, repeat; delete the
+preview entry when done. Every delta found lands here in the same
+iteration.
 
 ## Anti-patterns
 
