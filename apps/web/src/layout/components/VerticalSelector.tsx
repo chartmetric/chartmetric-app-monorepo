@@ -29,7 +29,7 @@ export const VerticalSelector: FC<VerticalSelectorProps> = ({ onNavigate }) => {
               <Text c="white" fw={600} size="sm">
                 <Trans>Chartmetric Dash</Trans>
               </Text>
-              <Group c="teal.2" gap={4}>
+              <Group c="rgba(255,255,255,0.45)" gap={4}>
                 <Text size="xs" tt="uppercase">
                   {t(activeVertical.label)}
                 </Text>

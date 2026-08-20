@@ -27,16 +27,16 @@ const renderAthleteCount = (value: string): ReturnType<typeof createElement> =>
 
 export const ORDINAL_COLUMN_WIDTH = 36;
 export const LEAGUE_COLUMN_WIDTH = 290;
-export const KEY_ATHLETES_MIN_WIDTH = 320;
-export const NATIONALITIES_WIDTH = 185;
+export const KEY_ATHLETES_WIDTH = 400;
+export const NATIONALITIES_MIN_WIDTH = 185;
 export const TRACKED_ATHLETES_WIDTH = 80;
 export const IG_REACH_WIDTH = 150;
 
 export const LEAGUE_TABLE_MIN_WIDTH =
   ORDINAL_COLUMN_WIDTH +
   LEAGUE_COLUMN_WIDTH +
-  KEY_ATHLETES_MIN_WIDTH +
-  NATIONALITIES_WIDTH +
+  KEY_ATHLETES_WIDTH +
+  NATIONALITIES_MIN_WIDTH +
   TRACKED_ATHLETES_WIDTH +
   IG_REACH_WIDTH;
 
@@ -76,7 +76,7 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
         align: "left",
         key: "keyAthletes",
         label: t`Key Athletes`,
-        minWidth: KEY_ATHLETES_MIN_WIDTH,
+        width: KEY_ATHLETES_WIDTH,
         renderCell: (row) =>
           createElement(KeyAthletesCell, { athletes: row.league.keyAthletes }),
       },
@@ -84,7 +84,7 @@ export const useLeagueTableColumns = (): LeagueTableColumn[] => {
         align: "left",
         key: "nationalities",
         label: t`Nationalities`,
-        width: NATIONALITIES_WIDTH,
+        minWidth: NATIONALITIES_MIN_WIDTH,
         renderCell: (row) =>
           createElement(NationalitiesCell, {
             nationalities: row.league.nationalities,

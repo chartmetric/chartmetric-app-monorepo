@@ -10,10 +10,10 @@ import {
 import { LEAGUE_PAGE_SIZE } from "../../api/league-list";
 import {
   IG_REACH_WIDTH,
-  KEY_ATHLETES_MIN_WIDTH,
+  KEY_ATHLETES_WIDTH,
   LEAGUE_COLUMN_WIDTH,
   LEAGUE_TABLE_MIN_WIDTH,
-  NATIONALITIES_WIDTH,
+  NATIONALITIES_MIN_WIDTH,
   ORDINAL_COLUMN_WIDTH,
   TRACKED_ATHLETES_WIDTH,
 } from "../../columns/table-columns";
@@ -36,10 +36,10 @@ const SkeletonHeaderRow: FC = () => (
     <Table.Th w={LEAGUE_COLUMN_WIDTH}>
       <Skeleton height={12} w={150} />
     </Table.Th>
-    <Table.Th miw={KEY_ATHLETES_MIN_WIDTH}>
+    <Table.Th w={KEY_ATHLETES_WIDTH}>
       <Skeleton height={12} w={84} />
     </Table.Th>
-    <Table.Th w={NATIONALITIES_WIDTH}>
+    <Table.Th miw={NATIONALITIES_MIN_WIDTH}>
       <Skeleton height={12} w={90} />
     </Table.Th>
     <Table.Th w={TRACKED_ATHLETES_WIDTH}>
@@ -71,14 +71,14 @@ export const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
         </Stack>
       </Group>
     </Table.Td>
-    <Table.Td miw={KEY_ATHLETES_MIN_WIDTH}>
+    <Table.Td w={KEY_ATHLETES_WIDTH}>
       <Group gap={4} wrap="nowrap">
         <Skeleton height={18} radius="sm" w={92} />
         <Skeleton height={18} radius="sm" w={80} />
         <Skeleton height={18} radius="sm" w={86} />
       </Group>
     </Table.Td>
-    <Table.Td w={NATIONALITIES_WIDTH}>
+    <Table.Td miw={NATIONALITIES_MIN_WIDTH}>
       <Skeleton
         height="calc(var(--mantine-font-size-xs) * var(--mantine-line-height-xs))"
         w={168}

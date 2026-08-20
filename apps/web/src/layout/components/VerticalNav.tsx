@@ -53,7 +53,7 @@ export const VerticalNav: FC<VerticalNavProps> = ({ links, onNavigate }) => {
         return (
           <Box aria-labelledby={headingId} key={section} mt="md" role="group">
             <Text
-              c="teal.2"
+              c="rgba(255,255,255,0.45)"
               fw={600}
               id={headingId}
               mb={4}
