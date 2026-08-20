@@ -2,6 +2,7 @@ import type { FC } from "react";
 
 import { Plural, useLingui } from "@lingui/react/macro";
 import { Text, Tooltip, VisuallyHidden } from "@mantine/core";
+import { TOOLTIP_WIDTH } from "@repo/ui/data-table";
 
 import { CELL_TEXT_SIZE } from "./cell-typography";
 
@@ -9,7 +10,6 @@ import { CELL_TEXT_SIZE } from "./cell-typography";
 // tooltip stops listing and says how many more the league holds — the full set
 // belongs on a detail surface, not in a hover.
 const TOOLTIP_ITEM_LIMIT = 10;
-const TOOLTIP_WIDTH = 240;
 
 interface OverflowCountProps {
   items: readonly string[];

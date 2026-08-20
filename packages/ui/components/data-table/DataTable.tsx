@@ -51,7 +51,11 @@ export interface DataTableProps<Row, SortKey extends string> {
 
 const STICKY_CELL_Z_INDEX = 1;
 const STICKY_HEADER_CELL_Z_INDEX = 3;
-const TOOLTIP_WIDTH = 240;
+export const TOOLTIP_WIDTH = 240;
+
+// Mantine tooltips open on hover only by default; focus must be explicit or
+// the content is unreachable by keyboard.
+const TOOLTIP_EVENTS = { focus: true, hover: true, touch: false };
 
 const stickyOffsets = <Row, SortKey extends string>(
   columns: readonly DataTableColumn<Row, SortKey>[],
@@ -119,6 +123,54 @@ interface HeaderCellProps<Row, SortKey extends string> {
   sortLabel: (label: string) => string;
 }
 
+interface SortButtonProps {
+  align: "center" | "left" | "right" | undefined;
+  ariaLabel: string;
+  icon: ReactNode;
+  label: ReactNode;
+  onClick: () => void;
+  tooltip: string | undefined;
+}
+
+const SortButton = ({
+  align,
+  ariaLabel,
+  icon,
+  label,
+  onClick,
+  tooltip,
+}: SortButtonProps): ReactNode => {
+  const button = (
+    <UnstyledButton aria-label={ariaLabel} onClick={onClick}>
+      <Group
+        gap={6}
+        justify={align === "right" ? "flex-end" : "flex-start"}
+        wrap="nowrap"
+      >
+        <Text component="span" fw={600} size="sm">
+          {label}
+        </Text>
+        <span aria-hidden="true">{icon}</span>
+      </Group>
+    </UnstyledButton>
+  );
+
+  // The tooltip wraps the button itself so keyboard focus opens it; a
+  // wrapper element would leave the definition mouse-only.
+  return tooltip === undefined ? (
+    button
+  ) : (
+    <Tooltip
+      events={TOOLTIP_EVENTS}
+      label={tooltip}
+      multiline
+      w={TOOLTIP_WIDTH}
+    >
+      {button}
+    </Tooltip>
+  );
+};
+
 const HeaderCell = <Row, SortKey extends string>({
   column,
   isLast,
@@ -146,23 +198,16 @@ const HeaderCell = <Row, SortKey extends string>({
     sortKey === undefined ? (
       label
     ) : (
-      <UnstyledButton
-        aria-label={sortLabel(column.label)}
+      <SortButton
+        align={column.align}
+        ariaLabel={sortLabel(column.label)}
+        icon={sortIcon(isActive, sortDirection)}
+        label={label}
         onClick={() => {
           onSort(sortKey);
         }}
-      >
-        <Group
-          gap={6}
-          justify={column.align === "right" ? "flex-end" : "flex-start"}
-          wrap="nowrap"
-        >
-          <Text component="span" fw={600} size="sm">
-            {label}
-          </Text>
-          <span aria-hidden="true">{sortIcon(isActive, sortDirection)}</span>
-        </Group>
-      </UnstyledButton>
+        tooltip={tooltip}
+      />
     );
 
   return (
@@ -181,17 +226,20 @@ const HeaderCell = <Row, SortKey extends string>({
       ta={column.align}
       w={column.width}
     >
-      {tooltip === undefined ? (
+      {tooltip === undefined || sortKey !== undefined ? (
         heading
       ) : (
         <Tooltip label={tooltip} multiline w={TOOLTIP_WIDTH}>
           {/* Block so the wrapper does not disturb the cell's own alignment. */}
           <Box component="span" display="block">
             {heading}
-            {/* A tooltip is hover-only, so the definition is read out here. */}
-            <VisuallyHidden>{tooltip}</VisuallyHidden>
           </Box>
         </Tooltip>
+      )}
+      {tooltip === undefined ? null : (
+        // A hover tooltip never reaches a screen reader; the definition is
+        // read out here regardless of which node carries the Tooltip.
+        <VisuallyHidden>{tooltip}</VisuallyHidden>
       )}
     </Table.Th>
   );

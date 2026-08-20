@@ -90,6 +90,37 @@ describe("DataTable", () => {
     expect(screen.getByRole("button", { name: "Sort by Score" })).toBeDefined();
   });
 
+  it("opens the column definition on keyboard focus", async () => {
+    const definition = "Sum of tracked athletes' followers.";
+    render(
+      <MantineProvider>
+        <DataTable
+          ariaLabel="People"
+          columns={[
+            {
+              align: "right",
+              key: "score",
+              label: "Score",
+              renderCell: ({ score }) => score,
+              sortKey: "score",
+              tooltip: definition,
+            },
+          ]}
+          getRowKey={({ id }) => id}
+          onSort={vi.fn()}
+          rows={[{ id: 1, name: "Alex", score: 87.4 }]}
+          sortBy="score"
+          sortDirection="desc"
+          sortLabel={(label) => `Sort by ${label}`}
+        />
+      </MantineProvider>,
+    );
+
+    fireEvent.focus(screen.getByRole("button", { name: "Sort by Score" }));
+
+    expect(await screen.findByRole("tooltip")).toBeDefined();
+  });
+
   it("offsets each pinned column by the widths before it", () => {
     renderSticky();
 

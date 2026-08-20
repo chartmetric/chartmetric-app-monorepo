@@ -20,7 +20,8 @@
     "apps/web/src/pages/sports/**",
     "apps/web/src/locales/sports/**",
     "apps/web/src/locales/common/**",
-    "packages/ui/components/data-table/**"
+    "packages/ui/components/data-table/**",
+    "apps/api/src/lib/**"
   ],
   "gates": [
     "pnpm --filter api lint",

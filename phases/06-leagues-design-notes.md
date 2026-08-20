@@ -78,3 +78,22 @@ IG Reach as visible sortable columns matching the filters.
   (see the formatter-consolidation learned rule).
 - SQL execution against real ClickHouse happens after the phase via
   the driver session's read-only MCP (writers have no MCP access).
+
+## Verification log (2026-08-19, live API against service `vert`)
+
+Executed after commit by the driver session through the running
+`apps/api` server (the builder's own SQL, end to end). No request
+errored; igReach values matched independent MCP aggregates exactly.
+
+| Request | total | top rows (igReach) |
+| --- | --- | --- |
+| sortBy=igReach (defaults desc) | 16 | La Liga (992,077,454), MLS, Premier League |
+| sortBy=igReach&sortDirection=asc | 16 | FIFA World Ranking (0), NWSL Women (0), UEFA Europa League (0) |
+| sortBy=trackedAthletes desc | 16 | NBA, ATP Tour, WTA Tour |
+| sortBy=name desc | 16 | WTA Tour, WNBA, UEFA Europa League |
+| sortBy=sport asc | 16 | NBA, WNBA, Ligue 1 (id tiebreak inside sport) |
+| minAggregatedIgFollowers=100M | 7 | La Liga, MLS, Premier League |
+| megaOnly=true | 3 | La Liga, MLS, NBA |
+| sports=tennis | 2 | ATP Tour, WTA Tour |
+| name=liga | 3 | La Liga, Bundesliga, Primeira Liga |
+| minTrackedAthletes=100&megaOnly=true | 1 | NBA |
