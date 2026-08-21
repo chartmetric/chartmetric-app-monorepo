@@ -15,12 +15,12 @@ const projectionOf = (sql: string): string =>
   sql.slice(sql.lastIndexOf(") SELECT "));
 
 describe("listLeagues", () => {
-  it("reads the catalog with FINAL and joins the athlete aggregate by name", () => {
+  it("reads the catalog with FINAL and joins the athlete aggregate by external id", () => {
     const sql = queries.listLeagues(PAGE).toSQL();
 
     expect(sql).toContain("FROM new_vertical.leagues FINAL");
     expect(sql).toContain(
-      "LEFT ANY JOIN league_athletes ON new_vertical.leagues.name = league_athletes.league_label",
+      "LEFT ANY JOIN league_athletes ON new_vertical.leagues.external_id = league_athletes.league_key",
     );
   });
 
@@ -43,14 +43,45 @@ describe("listLeagues", () => {
     expect(cte).toContain("isNull(deleted_at)");
   });
 
-  it("derives the league label from the three source columns and skips unlabelled athletes", () => {
+  it("dedupes provider team names with argMax so the club join never reads a stale row", () => {
     const sql = queries.listLeagues(PAGE).toSQL();
 
     expect(sql).toContain(
-      "coalesce(nullIf(football_league, ''), nullIf(basketball_league, ''), concat(nullIf(tennis_tour, ''), ' Tour'), '') AS league_label",
+      "football_team_names AS (SELECT team_id, ifNull(argMax(name, _loaded_at), '') AS club_name FROM new_vertical.teams_apifootball GROUP BY team_id)",
     );
-    expect(sql).toContain("notEquals(league_label, '')");
-    expect(sql).toContain("GROUP BY league_label");
+  });
+
+  it("keeps one row per club name and competition, dropping nameless teams", () => {
+    const cte = /football_club_leagues AS \((.*?)\), league_athletes AS /s.exec(
+      queries.listLeagues(PAGE).toSQL(),
+    )?.[1];
+
+    expect(cte).toContain(
+      "LEFT ANY JOIN football_team_names ON new_vertical.l_team_competition_apifootball.team_id = football_team_names.team_id",
+    );
+    expect(cte).toContain("notEquals(football_team_names.club_name, '')");
+    expect(cte).toContain("GROUP BY club_name, competition_id");
+  });
+
+  it("fans each football athlete out to every competition their club plays in", () => {
+    const sql = queries.listLeagues(PAGE).toSQL();
+
+    expect(sql).toContain(
+      "LEFT JOIN football_club_leagues ON new_vertical.athletes_cache.football_club = football_club_leagues.club_name",
+    );
+    expect(sql).not.toContain(
+      "LEFT ANY JOIN football_club_leagues ON new_vertical.athletes_cache.football_club",
+    );
+  });
+
+  it("keys football on the competition id, label sports on the lowercased source label, and skips athletes with neither", () => {
+    const sql = queries.listLeagues(PAGE).toSQL();
+
+    expect(sql).toContain(
+      "if(football_club_leagues.competition_id != 0, toString(football_club_leagues.competition_id), lowerUTF8(coalesce(nullIf(basketball_league, ''), nullIf(tennis_tour, ''), ''))) AS league_key",
+    );
+    expect(sql).toContain("notEquals(league_key, '')");
+    expect(sql).toContain("GROUP BY league_key");
   });
 
   it("takes the five highest-followed athletes per league, breaking ties by id", () => {
@@ -198,7 +229,7 @@ describe("countLeagues", () => {
 
     expect(sql).toContain("count() AS total");
     expect(sql).toContain(
-      "LEFT ANY JOIN league_athletes ON new_vertical.leagues.name = league_athletes.league_label",
+      "LEFT ANY JOIN league_athletes ON new_vertical.leagues.external_id = league_athletes.league_key",
     );
     expect(sql).toContain(
       "notEquals(positionCaseInsensitiveUTF8(new_vertical.leagues.name, 'Liga'), 0)",

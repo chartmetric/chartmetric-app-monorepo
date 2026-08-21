@@ -20,9 +20,12 @@ import { resolveSortDirection } from "../../../../lib/sorting.ts";
 
 const CATALOG = "new_vertical.leagues";
 const AGGREGATE = "league_athletes";
+const TEAM_NAMES = "football_team_names";
+const CLUB_LEAGUES = "football_club_leagues";
 const VERTICAL = "sports";
 
 const COLUMN = {
+  externalId: "new_vertical.leagues.external_id",
   id: "new_vertical.leagues.id",
   name: "new_vertical.leagues.name",
   sport: "new_vertical.leagues.sport",
@@ -31,8 +34,8 @@ const COLUMN = {
 
 const AGGREGATE_COLUMN = {
   aggregatedIgFollowers: "league_athletes.aggregated_ig_followers",
+  key: "league_athletes.league_key",
   keyAthletes: "league_athletes.key_athletes",
-  label: "league_athletes.league_label",
   maxIgFollowers: "league_athletes.max_ig_followers",
   nationalities: "league_athletes.nationalities",
   trackedAthletes: "league_athletes.tracked_athletes",
@@ -41,14 +44,16 @@ const AGGREGATE_COLUMN = {
 const MEGA_IG_FOLLOWERS = 100_000_000;
 
 /**
- * DATA-FIX-ME: interim league join key. `athletes_cache` carries no league identifier, only
- * the label its ingesting source wrote: `football_league` and
- * `basketball_league` reproduce `leagues.name` exactly, while tennis stores the
- * bare tour ("ATP") that the catalog names "ATP Tour". Replace this with an
- * athlete-to-league id once one exists.
+ * DATA-FIX-ME: interim league membership key, matched to `leagues.external_id`.
+ * `athletes_cache` carries no league id, so football membership is derived by
+ * matching the free-text `football_club` against the provider's team names and
+ * reading each matched team's competitions — an athlete whose stored spelling
+ * differs from the provider's ("PSG" vs "Paris Saint Germain") silently drops
+ * out. Basketball and tennis ride on their source label lowercasing to the
+ * catalog's `external_id` ("NBA" → "nba", "ATP" → "atp"). Replace both paths
+ * with an ingested athlete-to-league id once the data team provides one.
  */
-const LEAGUE_LABEL =
-  "coalesce(nullIf(football_league, ''), nullIf(basketball_league, ''), concat(nullIf(tennis_tour, ''), ' Tour'), '')";
+const LEAGUE_KEY = `if(${CLUB_LEAGUES}.competition_id != 0, toString(${CLUB_LEAGUES}.competition_id), lowerUTF8(coalesce(nullIf(basketball_league, ''), nullIf(tennis_tour, ''), '')))`;
 
 // No builder form: an ordered slice over a grouped array. Ties on followers
 // break by profile_id so the chips a league shows are stable between requests.
@@ -62,28 +67,81 @@ const NATIONALITIES = "groupUniqArray(nationality)";
 const COUNTRY_FLAG_URL =
   "JSONExtractString(ifNull(new_vertical.leagues.metadata, ''), 'country_flag_url')";
 
-const selectLeagueAthletes = ((database) =>
+// `teams_apifootball` is a ReplacingMergeTree sorted by `team_id`; a join
+// target cannot carry FINAL, so argMax over the load version reproduces it.
+const selectFootballTeamNames = ((database) =>
   database
-    .table("new_vertical.athletes_cache")
-    .final()
+    .table("new_vertical.teams_apifootball")
+    .select([
+      "team_id",
+      rawAs<string, "club_name">(
+        "ifNull(argMax(name, _loaded_at), '')",
+        "club_name",
+      ),
+    ])
+    .groupBy("team_id")) satisfies DatabaseQueryFactory;
+
+// One row per (club name, competition): grouping collapses both the
+// ReplacingMergeTree duplicates of `l_team_competition_apifootball` and its
+// per-season rows, and same-named clubs keep the union of their competitions
+// rather than an arbitrary pick.
+const selectFootballClubLeagues = ((database) => {
+  const base = database.table("new_vertical.l_team_competition_apifootball");
+
+  return (
+    (base as unknown as JoinableChain).leftAnyJoin(
+      TEAM_NAMES,
+      "new_vertical.l_team_competition_apifootball.team_id",
+      `${TEAM_NAMES}.team_id`,
+    ) as unknown as typeof base
+  )
+    .where((predicate) =>
+      predicate.fn<boolean>(
+        "notEquals",
+        predicate.raw(`${TEAM_NAMES}.club_name`),
+        predicate.value(""),
+      ),
+    )
+    .select([
+      // A CTE column is invisible to the builder's schema; the reference must
+      // go through rawAs like the join above goes through JoinableChain.
+      rawAs<string, "club_name">(`${TEAM_NAMES}.club_name`, "club_name"),
+      "competition_id",
+    ])
+    .groupBy(["club_name", "competition_id"]);
+}) satisfies DatabaseQueryFactory;
+
+const selectLeagueAthletes = ((database) => {
+  const base = database.table("new_vertical.athletes_cache").final();
+
+  // A plain LEFT JOIN on purpose: a club plays in several competitions at
+  // once, and its athletes must count toward every one of them.
+  return (
+    (base as unknown as JoinableChain).leftJoin(
+      CLUB_LEAGUES,
+      "new_vertical.athletes_cache.football_club",
+      `${CLUB_LEAGUES}.club_name`,
+    ) as unknown as typeof base
+  )
     .where("is_active", "eq", 1)
     .where((predicate) => predicate.fn<boolean>("isNull", "deleted_at"))
     .where((predicate) =>
       predicate.fn<boolean>(
         "notEquals",
-        predicate.raw("league_label"),
+        predicate.raw("league_key"),
         predicate.value(""),
       ),
     )
     .select([
-      rawAs<string, "league_label">(LEAGUE_LABEL, "league_label"),
+      rawAs<string, "league_key">(LEAGUE_KEY, "league_key"),
       rawAs<KeyAthleteTuple[], "key_athletes">(KEY_ATHLETES, "key_athletes"),
       rawAs<string[], "nationalities">(NATIONALITIES, "nationalities"),
     ])
-    .groupBy("league_label")
+    .groupBy("league_key")
     .count("profile_id", "tracked_athletes")
     .sum("ig_followers", "aggregated_ig_followers")
-    .max("ig_followers", "max_ig_followers")) satisfies DatabaseQueryFactory;
+    .max("ig_followers", "max_ig_followers");
+}) satisfies DatabaseQueryFactory;
 
 export const selectLeagueCatalog = ((database) =>
   database
@@ -97,16 +155,21 @@ export const selectLeagueCatalog = ((database) =>
       ),
     )) satisfies DatabaseQueryFactory;
 
+// Joining on `external_id` alone assumes the catalog's providers never share
+// an id — true today ('nba'/'wnba', 'atp'/'wta', numeric apifootball ids,
+// fifa's 'men') and gone with the interim key scheme above.
 const withLeagueAthletes = <Builder>(
   builder: Builder,
   database: ClickHouseDatabase,
 ): Builder =>
   (builder as unknown as JoinableChain)
+    .withCTE(TEAM_NAMES, selectFootballTeamNames(database))
+    .withCTE(CLUB_LEAGUES, selectFootballClubLeagues(database))
     .withCTE(AGGREGATE, selectLeagueAthletes(database))
     .leftAnyJoin(
       AGGREGATE,
-      COLUMN.name,
-      AGGREGATE_COLUMN.label,
+      COLUMN.externalId,
+      AGGREGATE_COLUMN.key,
     ) as unknown as Builder;
 
 const applyNameFilter = (
