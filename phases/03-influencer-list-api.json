@@ -1,7 +1,7 @@
 {
   "id": "03-influencer-list-api",
   "title": "serve the influencer list from /app and /v1",
-  "status": "pending",
+  "status": "completed",
   "depends_on": [
     "02-pagination-total"
   ],
@@ -33,5 +33,10 @@
   ],
   "verification_cmd": "pnpm --filter api exec vitest run influencers",
   "security_review": true,
-  "notes": "security_review is set because /v1 publishes inferred gender and age-group attributes for individual creator accounts to external API-key customers. creator_ethnicity exists in the source table and must not be exposed. Include/exclude filter pairs mirror artists and athletes so the shared @repo/ui/multi-select-filter control is usable unchanged. Matrix executed through the read-only ClickHouse MCP on 2026-08-11 (ClickHouse 26.2.1.558; creator_profile_cache 409,455 raw rows over 354,983 unique keys). Unfiltered total 155,785. categories=[Music] 59,381 and excludeCategories=[Music] 96,404 sum to the total, as do countries=[US] 56,832 and excludeCountries=[US] 98,953 \u2014 include and exclude are exact complements. genders=[female] + ageGroups=[25-34] + categories=[Music] 14,057. Handle search 'rollingstone' 1. ageGroups=[18-34] rejected with 400 by request validation. No smoke_cmd: the phase adds a route but the query verification belongs to the MCP, and the route itself is covered by routes.test.ts through the app."
+  "notes": "security_review is set because /v1 publishes inferred gender and age-group attributes for individual creator accounts to external API-key customers. creator_ethnicity exists in the source table and must not be exposed. Include/exclude filter pairs mirror artists and athletes so the shared @repo/ui/multi-select-filter control is usable unchanged. Matrix executed through the read-only ClickHouse MCP on 2026-08-11 (ClickHouse 26.2.1.558; creator_profile_cache 409,455 raw rows over 354,983 unique keys). Unfiltered total 155,785. categories=[Music] 59,381 and excludeCategories=[Music] 96,404 sum to the total, as do countries=[US] 56,832 and excludeCountries=[US] 98,953 \u2014 include and exclude are exact complements. genders=[female] + ageGroups=[25-34] + categories=[Music] 14,057. Handle search 'rollingstone' 1. ageGroups=[18-34] rejected with 400 by request validation. No smoke_cmd: the phase adds a route but the query verification belongs to the MCP, and the route itself is covered by routes.test.ts through the app.",
+  "attempts": 2,
+  "run_started_at": "2026-08-10T16:07:11+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [],
+  "review_findings": "SHOULD_FIX:\n- apps/api/src/modules/influencers/routes/list-influencers/list-influencers.smoke.ts:96 \u2014 the 'empty-value' case asserts that some of the first 200 name-ascending rows carry '' city/country/age_group, which pins the test to the current warehouse population (recurring defect #12) and can flake on ingestion changes \u2014 assert the mapper's empty\u2192null transform on a fixture row instead, and keep the smoke case scoped to 'query executes + row shape'.\n- apps/api/src/db/clickhouse/schema.generated.ts:53 \u2014 this phase's regeneration also folds in unrelated athletes_cache column drift (football_team_id, basketball_*, college_*); it is honest generated output and CI will match, but it bundles a second table's schema change into an influencers commit \u2014 call it out in the retro so the drift is attributable.\n\nBACKLOG_WORTHY:\n- low \u2014 module-local InfluencerCtes + `as unknown as InfluencerDatabase` cast (types.ts/queries.ts) mirrors the artists module exactly, but the phase note and ARCHITECTURE say the CTE-schema-extension machinery belongs in the database layer; unify both modules onto a shared helper in src/lib/database.ts rather than per-module casts.\n- low \u2014 `/app/influencers` appears in openapi.generated.json alongside the pre-existing `/app/athletes`/`/app/artists`; the onRoute `hide:true` hook only affects the runtime spec, so the committed snapshot exposes /app routes \u2014 confirm this is intended for the generated artifact."
 }

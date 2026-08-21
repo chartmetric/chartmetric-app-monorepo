@@ -325,6 +325,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/app/influencers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    limit: number;
+                    offset: number;
+                    ageGroups?: ("18-" | "18-24" | "25-34" | "35-44" | "45-64" | "65+")[];
+                    categories?: string[];
+                    countries?: string[];
+                    excludeAgeGroups?: ("18-" | "18-24" | "25-34" | "35-44" | "45-64" | "65+")[];
+                    excludeCategories?: string[];
+                    excludeCountries?: string[];
+                    excludeGenders?: string[];
+                    genders?: string[];
+                    handle?: string;
+                    sortBy?: "name";
+                    sortDirection?: "asc" | "desc";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                ageGroup: string | null;
+                                categories: string[];
+                                city: string | null;
+                                country: string | null;
+                                gender: string | null;
+                                id: number;
+                                instagramHandle: string | null;
+                                name: string | null;
+                                subtags: string[];
+                                tiktokHandle: string | null;
+                                youtubeHandle: string | null;
+                            }[];
+                            meta: {
+                                limit: number;
+                                offset: number;
+                                total?: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/app/auth": {
         parameters: {
             query?: never;
@@ -685,6 +753,74 @@ export interface paths {
                                 limit: number;
                                 offset: number;
                                 total: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/influencers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    limit: number;
+                    offset: number;
+                    ageGroups?: ("18-" | "18-24" | "25-34" | "35-44" | "45-64" | "65+")[];
+                    categories?: string[];
+                    countries?: string[];
+                    excludeAgeGroups?: ("18-" | "18-24" | "25-34" | "35-44" | "45-64" | "65+")[];
+                    excludeCategories?: string[];
+                    excludeCountries?: string[];
+                    excludeGenders?: string[];
+                    genders?: string[];
+                    handle?: string;
+                    sortBy?: "name";
+                    sortDirection?: "asc" | "desc";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                ageGroup: string | null;
+                                categories: string[];
+                                city: string | null;
+                                country: string | null;
+                                gender: string | null;
+                                id: number;
+                                instagramHandle: string | null;
+                                name: string | null;
+                                subtags: string[];
+                                tiktokHandle: string | null;
+                                youtubeHandle: string | null;
+                            }[];
+                            meta: {
+                                limit: number;
+                                offset: number;
+                                total?: number;
                             };
                         };
                     };
