@@ -7,12 +7,19 @@ import {
 } from "@tanstack/react-query";
 import { type FC, useState } from "react";
 
-import type { InfluencerListQuery, InfluencerListReply } from "./types";
+import type {
+  InfluencerFilters as InfluencerFilterQuery,
+  InfluencerListQuery,
+  InfluencerListReply,
+} from "./types";
 
+import { loadInfluencerFilterOptions } from "./api/filter-options";
 import { loadInfluencers } from "./api/influencer-list";
+import { InfluencerFilters } from "./components/filters/InfluencerFilters";
 import {
   EmptyState,
   ErrorState,
+  FilterOptionsError,
   LoadingState,
 } from "./components/InfluencersPageStates";
 import { InfluencersTable } from "./components/InfluencersTable";
@@ -74,10 +81,26 @@ const InfluencersContent: FC<InfluencersContentProps> = ({
   );
 };
 
+const replaceFilters = (
+  query: InfluencerListQuery,
+  filters: InfluencerFilterQuery,
+): InfluencerListQuery => ({
+  limit: query.limit,
+  offset: 0,
+  ...filters,
+});
+
 export const InfluencersPage: FC = () => {
   const [query, setQuery] = useState<InfluencerListQuery>(
     DEFAULT_INFLUENCER_QUERY,
   );
+  const [isFilterWarningDismissed, setIsFilterWarningDismissed] =
+    useState(false);
+  const filterOptionsQuery = useQuery({
+    queryFn: loadInfluencerFilterOptions,
+    queryKey: ["influencer-filter-options"],
+    staleTime: 5 * 60 * 1000,
+  });
   const influencersQuery = useQuery({
     placeholderData: keepPreviousData,
     queryFn: async () => await loadInfluencers(query),
@@ -88,9 +111,29 @@ export const InfluencersPage: FC = () => {
     setQuery((currentQuery) => ({ ...currentQuery, offset: nextOffset }));
   };
 
+  const applyFilters = (filters: InfluencerFilterQuery): void => {
+    setQuery((currentQuery) => replaceFilters(currentQuery, filters));
+  };
+
   return (
     <Stack gap="lg">
       <InfluencersHeader total={influencersQuery.data?.meta.total} />
+      {!isFilterWarningDismissed && filterOptionsQuery.isError ? (
+        <FilterOptionsError
+          dismiss={() => {
+            setIsFilterWarningDismissed(true);
+          }}
+          retry={() => {
+            setIsFilterWarningDismissed(false);
+            void filterOptionsQuery.refetch();
+          }}
+        />
+      ) : null}
+      <InfluencerFilters
+        isLoading={filterOptionsQuery.isPending}
+        onChange={applyFilters}
+        options={filterOptionsQuery.data}
+      />
       <InfluencersContent
         influencersQuery={influencersQuery}
         offset={query.offset}

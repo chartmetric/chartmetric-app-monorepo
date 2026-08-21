@@ -67,3 +67,36 @@ export const ErrorState: FC<RetryProps> = ({ retry }) => (
     </Stack>
   </Alert>
 );
+
+interface FilterOptionsErrorProps extends RetryProps {
+  dismiss: () => void;
+}
+
+export const FilterOptionsError: FC<FilterOptionsErrorProps> = ({
+  dismiss,
+  retry,
+}) => {
+  const { t } = useLingui();
+
+  return (
+    <Alert
+      closeButtonLabel={t`Dismiss filter warning`}
+      color="yellow"
+      onClose={dismiss}
+      title={<Trans>Unable to load filter options</Trans>}
+      withCloseButton
+    >
+      <Stack align="flex-start" gap="sm">
+        <Text>
+          <Trans>
+            Category, country, gender and age filters are temporarily
+            unavailable.
+          </Trans>
+        </Text>
+        <Button color="yellow" onClick={retry} variant="light">
+          <Trans>Retry filter options</Trans>
+        </Button>
+      </Stack>
+    </Alert>
+  );
+};

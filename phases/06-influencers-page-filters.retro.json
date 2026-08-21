@@ -1,0 +1,30 @@
+{
+  "phase_id": "06-influencers-page-filters",
+  "duration_min": 20,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "14 files changed, 862 insertions(+), 191 deletions(-)\n19",
+  "tests_added": 8,
+  "tests_passing_total": 16,
+  "drafted_by": "agent",
+  "surprises": [
+    "The reused ArtistsPage error banner offers only Retry, so inheriting the precedent quietly missed the acceptance's 'dismissible' requirement.",
+    "Reusing the shared handle-search input stacks its 350ms debounce on top of the panel's own applyDraft debounce, giving ~700ms latency inherited straight from the artists precedent."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+ When reusing a shared filter/precedent component, check it against THIS phase's acceptance line by line before assuming parity — a shared precedent can silently violate an explicit requirement (e.g. a 'dismissible' warning that only offers Retry)."
+    }
+  ],
+  "followups": [
+    "P3: Make FilterOptionsError warning dismissible (add a close/dismiss action) on both InfluencersPage and the shared ArtistsPage precedent, since they share the component.",
+    "P3: Collapse the double debounce on handle search (HandleSearchInput 350ms + applyDraft 350ms ≈ 700ms) to a single debounce across both the influencer and artist filter panels."
+  ]
+}
