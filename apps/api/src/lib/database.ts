@@ -22,12 +22,20 @@ export type TablesWithColumn<Column extends string> = {
   ]: Column extends keyof Database[Table] ? Table : never;
 }[Extract<keyof Database, string>];
 
-// hypequery cannot type a CTE alias as a join source, and `leftAnyJoin` takes
-// only an unqualified left column — which ClickHouse rejects with
-// AMBIGUOUS_IDENTIFIER once two joined sources share it. Both typecheck either
-// way, so anything built through this must be run against real ClickHouse.
+// hypequery cannot type a CTE alias as a join source, and its typed join
+// methods only accept an unqualified left column — which ClickHouse rejects
+// with AMBIGUOUS_IDENTIFIER once two joined sources share it. Through this
+// hatch the left column is rendered into the ON clause verbatim, so pass it
+// fully qualified whenever another source carries the same name. Everything
+// typechecks either way, so anything built through this must be run against
+// real ClickHouse.
 export interface JoinableChain {
   leftAnyJoin: (
+    source: string,
+    leftColumn: string,
+    rightColumn: string,
+  ) => JoinableChain;
+  leftJoin: (
     source: string,
     leftColumn: string,
     rightColumn: string,

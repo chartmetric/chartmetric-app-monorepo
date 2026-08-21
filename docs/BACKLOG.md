@@ -83,13 +83,27 @@ phase's retry loop or review cycle exhausts.
   already holds the location; pass the active path down if the item
   count grows.
 
+### From league-membership derivation fix (2026-08-21)
+
+- P1: Replace the interim league-membership derivation in
+  `list-leagues/queries.ts` with a real athlete-to-league id once the
+  data team ingests one (blocked on ingestion). Today football
+  membership is derived by matching free-text
+  `athletes_cache.football_club` against `teams_apifootball.name` and
+  reading `l_team_competition_apifootball`, keyed to
+  `leagues.external_id`; basketball/tennis lean on the source label
+  lowercasing to `external_id` ("NBA" → "nba"). Known losses the id
+  must recover: 569 of 1,639 football athletes whose club spelling
+  differs from the provider's ("PSG" vs "Paris Saint Germain",
+  "Porto" vs "FC Porto"); `l_team_competition_apifootball` has no rows
+  for NWSL (competition 254) or UEFA Europa League (3), so those
+  leagues aggregate to zero; `football_team_id` is stamped only on
+  NWSL athletes. When the id lands, delete the `football_team_names`
+  and `football_club_leagues` CTEs and the DATA-FIX-ME blocks in
+  `list-leagues/queries.ts`.
+
 ### From 03-leagues-api retro (2026-08-19)
 
-- P1: Replace the interim name-based league join (`football_league` /
-  `basketball_league` / `concat(tennis_tour, ' Tour')` against
-  `leagues.name`) with a real league id on `athletes_cache`: a league
-  rename or a duplicate name silently zeroes or cross-counts every
-  aggregate in the `/leagues` reply.
 - P2: Replace `pnpm check:generated`'s `git status` grep with a
   regenerate-and-diff check that does not consult git (structurally
   unsatisfiable as a phase gate; wrong in both directions).
