@@ -1,7 +1,7 @@
 {
   "id": "05-influencers-page-list",
   "title": "render the influencer list table with pagination",
-  "status": "pending",
+  "status": "completed",
   "depends_on": [
     "02-pagination-total",
     "03-influencer-list-api"
@@ -28,5 +28,12 @@
   ],
   "verification_cmd": "pnpm --filter web exec vitest run InfluencersPage",
   "security_review": false,
-  "notes": "Reuses the existing @repo/ui data-table and table-pagination exports; no new shared component. Filters arrive in phase 06."
+  "notes": "Reuses the existing @repo/ui data-table and table-pagination exports; no new shared component. Filters arrive in phase 06.",
+  "attempts": 1,
+  "run_started_at": "2026-08-10T17:11:35+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [
+    "apps/web/src/App.test.tsx"
+  ],
+  "review_findings": "BACKLOG_WORTHY:\n- InfluencersTable.tsx:36 \u2014 `type HandleKey` restates three contract field names as a hand-written union instead of deriving from `Influencer`; harmless today but drifts silently if the reply's handle fields change (low priority).\n- InfluencersTable.tsx:47-121 \u2014 TagList/InfluencerHandles/InfluencerLocation are single-use render helpers colocated in the composer; allowed by the 'small render helpers' exception, but if they grow they should move to components/ like InfluencerIdentity (low priority).\n- apps/web/src/App.test.tsx:186 \u2014 out-of-scope edit, but justified and necessary: the routing test asserted the old placeholder heading and had to track the rename to 'Influencers'; already declared in the phase's out_of_scope_files (informational, no action)."
 }
