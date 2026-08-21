@@ -360,6 +360,7 @@ export interface IntrospectedSchema {
     id: "UInt32";
     name: "String";
     profile_type: "String";
+    profile_types: "Array(LowCardinality(String))";
     vertical: "String";
     image_url: "Nullable(String)";
     active: "String";
@@ -799,6 +800,7 @@ export interface ProfileRecord {
   id: number;
   name: string;
   profile_type: string;
+  profile_types: string[];
   vertical: string;
   image_url: string | null;
   active: string;

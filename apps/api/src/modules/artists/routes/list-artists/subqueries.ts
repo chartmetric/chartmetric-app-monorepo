@@ -219,7 +219,9 @@ export const artistMetrics = ((database) =>
       ),
       rawAs<number, "is_verified">(VERIFIED_EXPRESSION, "is_verified"),
     ])
-    .where("profile_type", "eq", "musician")
+    .where((predicate) =>
+      predicate.fn<boolean>("has", predicate.col("profile_types"), predicate.value("musician")),
+    )
     .where("vertical", "eq", "music")
     .where("active", "eq", "true")
     .whereNull("deleted_at")) satisfies MetricsQueryFactory;
