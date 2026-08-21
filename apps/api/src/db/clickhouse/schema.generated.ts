@@ -343,6 +343,19 @@ export interface IntrospectedSchema {
     season: "UInt16";
     _loaded_at: "DateTime";
   };
+  leagues: {
+    id: "UInt64";
+    vertical: "LowCardinality(String)";
+    sport: "LowCardinality(String)";
+    name: "String";
+    league_type: "LowCardinality(String)";
+    scope: "Nullable(String)";
+    logo_url: "Nullable(String)";
+    provider: "LowCardinality(String)";
+    external_id: "String";
+    metadata: "Nullable(String)";
+    updated_at: "DateTime";
+  };
   profile: {
     id: "UInt32";
     name: "String";
@@ -357,6 +370,7 @@ export interface IntrospectedSchema {
     cm_source_ref: "String";
     deleted_at: "Nullable(DateTime)";
     deleted_by: "Nullable(String)";
+    profile_types: "Array(LowCardinality(String))";
   };
   profile_snapshots: {
     id: "UInt64";
@@ -767,6 +781,20 @@ export interface L_team_competition_apifootballRecord {
   _loaded_at: string;
 }
 
+export interface LeaguesRecord {
+  id: string;
+  vertical: string;
+  sport: string;
+  name: string;
+  league_type: string;
+  scope: string | null;
+  logo_url: string | null;
+  provider: string;
+  external_id: string;
+  metadata: string | null;
+  updated_at: string;
+}
+
 export interface ProfileRecord {
   id: number;
   name: string;
@@ -781,6 +809,7 @@ export interface ProfileRecord {
   cm_source_ref: string;
   deleted_at: string | null;
   deleted_by: string | null;
+  profile_types: Array<string>;
 }
 
 export interface Profile_snapshotsRecord {

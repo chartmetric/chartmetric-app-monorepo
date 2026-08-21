@@ -1609,6 +1609,327 @@
         }
       }
     },
+    "/app/leagues/filter-options": {
+      "get": {
+        "tags": [
+          "leagues"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "sports"
+                  ],
+                  "properties": {
+                    "sports": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/app/leagues": {
+      "get": {
+        "tags": [
+          "leagues"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true
+          },
+          {
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "megaOnly",
+            "required": false,
+            "description": "Keep only leagues with at least one tracked athlete above 100M Instagram followers."
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minAggregatedIgFollowers",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minTrackedAthletes",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "in": "query",
+            "name": "name",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "name",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "igReach"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "name"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "sport"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "trackedAthletes"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "sortBy",
+            "required": false
+          },
+          {
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "asc"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "desc"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "sortDirection",
+            "required": false,
+            "description": "Defaults to ascending for name and sport, descending for trackedAthletes and igReach."
+          },
+          {
+            "schema": {
+              "maxItems": 20,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "sports",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "country",
+                          "countryFlagUrl",
+                          "id",
+                          "igReach",
+                          "keyAthletes",
+                          "leagueType",
+                          "logoUrl",
+                          "name",
+                          "nationalities",
+                          "sport",
+                          "trackedAthletes"
+                        ],
+                        "properties": {
+                          "country": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "countryFlagUrl": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "igReach": {
+                            "description": "Sum of the Instagram followers of the league's tracked athletes. Not a deduplicated audience: a follower of two athletes is counted twice, and an athlete tracked in two leagues counts towards both.",
+                            "type": "integer"
+                          },
+                          "keyAthletes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": [
+                                "id",
+                                "name"
+                              ],
+                              "properties": {
+                                "id": {
+                                  "type": "integer"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "leagueType": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "logoUrl": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "name": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "nationalities": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "sport": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "trackedAthletes": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "required": [
+                        "limit",
+                        "offset",
+                        "total"
+                      ],
+                      "properties": {
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/artists": {
       "get": {
         "tags": [
@@ -2748,6 +3069,297 @@
           }
         }
       }
+    },
+    "/v1/leagues": {
+      "get": {
+        "tags": [
+          "leagues"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true
+          },
+          {
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "megaOnly",
+            "required": false,
+            "description": "Keep only leagues with at least one tracked athlete above 100M Instagram followers."
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minAggregatedIgFollowers",
+            "required": false
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "minTrackedAthletes",
+            "required": false
+          },
+          {
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "in": "query",
+            "name": "name",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "name",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "igReach"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "name"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "sport"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "trackedAthletes"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "sortBy",
+            "required": false
+          },
+          {
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "asc"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "desc"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "sortDirection",
+            "required": false,
+            "description": "Defaults to ascending for name and sport, descending for trackedAthletes and igReach."
+          },
+          {
+            "schema": {
+              "maxItems": 20,
+              "minItems": 1,
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "sports",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "country",
+                          "countryFlagUrl",
+                          "id",
+                          "igReach",
+                          "keyAthletes",
+                          "leagueType",
+                          "logoUrl",
+                          "name",
+                          "nationalities",
+                          "sport",
+                          "trackedAthletes"
+                        ],
+                        "properties": {
+                          "country": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "countryFlagUrl": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "igReach": {
+                            "description": "Sum of the Instagram followers of the league's tracked athletes. Not a deduplicated audience: a follower of two athletes is counted twice, and an athlete tracked in two leagues counts towards both.",
+                            "type": "integer"
+                          },
+                          "keyAthletes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": [
+                                "id",
+                                "name"
+                              ],
+                              "properties": {
+                                "id": {
+                                  "type": "integer"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "leagueType": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "logoUrl": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "name": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "nationalities": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "sport": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "trackedAthletes": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "required": [
+                        "limit",
+                        "offset",
+                        "total"
+                      ],
+                      "properties": {
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "tags": [
@@ -2758,6 +3370,10 @@
     {
       "description": "Athlete catalog",
       "name": "athletes"
+    },
+    {
+      "description": "League catalog",
+      "name": "leagues"
     },
     {
       "description": "Service health",

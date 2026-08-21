@@ -34,3 +34,30 @@ export interface JoinableChain {
   ) => JoinableChain;
   withCTE: (alias: string, subquery: unknown) => JoinableChain;
 }
+
+// `orderBy` cannot be typed when the order key is an expression or a column of
+// a CTE the builder state does not know. Same caveat as JoinableChain: this
+// typechecks either way, so the ordering must be run against real ClickHouse.
+export interface OrderableChain {
+  orderBy: (column: string, direction: "ASC" | "DESC") => OrderableChain;
+}
+
+export const orderByExpression = <Builder>(
+  builder: Builder,
+  expression: string,
+  direction: "ASC" | "DESC",
+): Builder =>
+  (builder as unknown as OrderableChain).orderBy(
+    expression,
+    direction,
+  ) as unknown as Builder;
+
+/**
+ * Applies a builder transform only when the filter value is present — the
+ * shared shape of every list endpoint's filter chain.
+ */
+export const applyWhen = <Builder, Value>(
+  builder: Builder,
+  value: Value | undefined,
+  apply: (builder: Builder, value: Value) => Builder,
+): Builder => (value === undefined ? builder : apply(builder, value));

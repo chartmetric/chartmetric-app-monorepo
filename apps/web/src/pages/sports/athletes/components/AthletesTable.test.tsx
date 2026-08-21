@@ -12,7 +12,7 @@ import type {
 import type { AthleteColumnKey } from "../columns/types";
 
 import { messages as enSports } from "../../../../locales/sports/en/messages.po";
-import { buildAthlete } from "./athlete.test.helpers";
+import { buildAthlete } from "../AthletesPage.test.helpers";
 import { AthletesTable } from "./AthletesTable";
 
 beforeAll(() => {
@@ -55,18 +55,20 @@ describe("AthletesTable", () => {
     expect(paper?.hasAttribute("data-with-border")).toBe(false);
   });
 
-  it("replaces body rows with skeletons while isFetching is true", () => {
+  it("replaces body rows with skeleton rows while isFetching is true", () => {
     const { container } = renderTable({
       athletes: [buildAthlete()],
       isFetching: true,
-      total: 1,
     });
 
+    expect(
+      container.querySelector("[class*='LoadingOverlay-root']"),
+    ).toBeNull();
     expect(
       container.querySelectorAll(":scope tbody .mantine-Skeleton-root").length,
     ).toBeGreaterThan(0);
     expect(screen.queryByText("Alex Morgan")).toBeNull();
-    expect(container.querySelector("[class*='LoadingOverlay']")).toBeNull();
+    expect(container.querySelector("thead")).not.toBeNull();
   });
 
   it("shows the row-count text alongside the pagination controls", () => {

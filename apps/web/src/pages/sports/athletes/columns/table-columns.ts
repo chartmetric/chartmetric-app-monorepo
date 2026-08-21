@@ -1,4 +1,6 @@
 import { useLingui } from "@lingui/react/macro";
+import { CELL_TEXT_SIZE } from "@repo/ui/cell-text";
+import { NumericCell } from "@repo/ui/numeric-cell";
 import { createElement, useMemo } from "react";
 
 import type { AthleteColumnKey, AthleteTableColumn } from "./types";
@@ -28,7 +30,10 @@ export const useAthleteTableColumns = (
         renderCell: (athlete) =>
           athlete.rank === null
             ? EMPTY_CELL
-            : formatters.plain.format(athlete.rank),
+            : createElement(NumericCell, {
+                size: CELL_TEXT_SIZE,
+                value: formatters.plain.format(athlete.rank),
+              }),
         sortKey: "rank",
         sticky: true,
         width: RANK_COLUMN_WIDTH,

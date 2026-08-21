@@ -1,10 +1,24 @@
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { MessageDescriptor } from "@lingui/core";
 
+import { faCalendarDays } from "@fortawesome/pro-regular-svg-icons/faCalendarDays";
+import { faGauge } from "@fortawesome/pro-regular-svg-icons/faGauge";
+import { faListCheck } from "@fortawesome/pro-regular-svg-icons/faListCheck";
+import { faPeopleGroup } from "@fortawesome/pro-regular-svg-icons/faPeopleGroup";
+import { faScaleBalanced } from "@fortawesome/pro-regular-svg-icons/faScaleBalanced";
+import { faStopwatch } from "@fortawesome/pro-regular-svg-icons/faStopwatch";
+import { faTrophy } from "@fortawesome/pro-regular-svg-icons/faTrophy";
+import { faUserGroup } from "@fortawesome/pro-regular-svg-icons/faUserGroup";
 import { msg } from "@lingui/core/macro";
 
-interface VerticalNavLink {
+export type VerticalNavSection = "discover" | "library" | "tools";
+
+export interface VerticalNavLink {
+  disabled?: boolean;
+  icon?: IconDefinition;
   label: MessageDescriptor;
   path: string;
+  section?: VerticalNavSection;
 }
 
 export interface VerticalConfig {
@@ -25,7 +39,61 @@ const sports: VerticalConfig = {
   homePath: "/sports/athletes",
   id: "sports",
   label: msg`for Sports`,
-  navLinks: [{ label: msg`Athletes`, path: "/sports/athletes" }],
+  navLinks: [
+    {
+      disabled: true,
+      icon: faGauge,
+      label: msg`Dashboard`,
+      path: "/sports/dashboard",
+    },
+    {
+      icon: faUserGroup,
+      label: msg`Athletes`,
+      path: "/sports/athletes",
+      section: "library",
+    },
+    {
+      icon: faTrophy,
+      label: msg`Leagues`,
+      path: "/sports/leagues",
+      section: "discover",
+    },
+    {
+      disabled: true,
+      icon: faPeopleGroup,
+      label: msg`Teams`,
+      path: "/sports/teams",
+      section: "discover",
+    },
+    {
+      disabled: true,
+      icon: faStopwatch,
+      label: msg`Games`,
+      path: "/sports/games",
+      section: "discover",
+    },
+    {
+      disabled: true,
+      icon: faCalendarDays,
+      label: msg`Events`,
+      path: "/sports/events",
+      section: "discover",
+    },
+    {
+      disabled: true,
+      icon: faListCheck,
+      label: msg`Shortlists`,
+      path: "/sports/shortlists",
+      section: "tools",
+    },
+    {
+      disabled: true,
+      icon: faScaleBalanced,
+      label: msg`Compare`,
+      path: "/sports/compare",
+      section: "tools",
+    },
+  ],
 };
 
 const creators: VerticalConfig = {

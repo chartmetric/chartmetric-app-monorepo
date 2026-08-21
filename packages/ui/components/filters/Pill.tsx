@@ -11,6 +11,7 @@ interface PillProps {
 export const Pill: FC<PillProps> = ({ isActive, label, onToggle }) => (
   <Button
     aria-pressed={isActive}
+    color="teal.9"
     onClick={onToggle}
     size="compact-xs"
     variant={isActive ? "filled" : "default"}

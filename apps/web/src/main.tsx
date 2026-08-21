@@ -4,7 +4,7 @@ import { I18nProvider } from "@lingui/react";
 import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { RequiredAuthProvider } from "@propelauth/react";
-import { baseTheme } from "@repo/ui/theme";
+import { baseTheme, cssVariablesResolver } from "@repo/ui/theme";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { createRoot } from "react-dom/client";
 
@@ -15,6 +15,8 @@ import { detectLocale, dynamicActivate } from "./i18n";
 import { createQueryClient } from "./query-client";
 
 import "@fontsource-variable/inter";
+import "@fontsource/space-mono/400.css";
+import "@fontsource/space-mono/700.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
@@ -55,7 +57,11 @@ createRoot(container).render(
   >
     <QueryClientProvider client={queryClient}>
       <I18nProvider i18n={i18n}>
-        <MantineProvider defaultColorScheme="auto" theme={baseTheme}>
+        <MantineProvider
+          cssVariablesResolver={cssVariablesResolver}
+          defaultColorScheme="auto"
+          theme={baseTheme}
+        >
           <ModalsProvider>
             <App />
           </ModalsProvider>

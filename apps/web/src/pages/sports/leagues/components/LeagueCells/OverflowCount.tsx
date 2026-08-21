@@ -1,0 +1,52 @@
+import type { FC } from "react";
+
+import { Plural, useLingui } from "@lingui/react/macro";
+import { Text, Tooltip, VisuallyHidden } from "@mantine/core";
+import { CELL_TEXT_SIZE } from "@repo/ui/cell-text";
+import { TOOLTIP_ITEM_LIMIT, TOOLTIP_WIDTH } from "@repo/ui/table-tokens";
+
+interface OverflowCountProps {
+  items: readonly string[];
+}
+
+export const OverflowCount: FC<OverflowCountProps> = ({ items }) => {
+  const { t } = useLingui();
+
+  if (items.length === 0) return null;
+
+  const listed = items.slice(0, TOOLTIP_ITEM_LIMIT);
+  const remaining = items.length - listed.length;
+  const extra = String(items.length);
+  const summary = (
+    <>
+      <Text component="span" display="block" size={CELL_TEXT_SIZE}>
+        {listed.join(", ")}
+      </Text>
+      {remaining === 0 ? null : (
+        <Text component="span" display="block" size={CELL_TEXT_SIZE}>
+          <Plural one="…and # more" other="…and # more" value={remaining} />
+        </Text>
+      )}
+    </>
+  );
+
+  return (
+    <Tooltip label={summary} multiline w={TOOLTIP_WIDTH}>
+      <Text
+        component="span"
+        size={CELL_TEXT_SIZE}
+        style={{
+          color:
+            "light-dark(var(--mantine-color-gray-5),var(--mantine-color-dark-3))",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {t({
+          comment: "Count of table-cell entries kept behind a tooltip",
+          message: `+${extra}`,
+        })}
+        <VisuallyHidden>{summary}</VisuallyHidden>
+      </Text>
+    </Tooltip>
+  );
+};

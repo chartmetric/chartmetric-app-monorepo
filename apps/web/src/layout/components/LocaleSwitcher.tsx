@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
-import { faCheck } from "@fortawesome/pro-solid-svg-icons/faCheck";
-import { faLanguage } from "@fortawesome/pro-solid-svg-icons/faLanguage";
+import { faCheck } from "@fortawesome/pro-regular-svg-icons/faCheck";
+import { faLanguage } from "@fortawesome/pro-regular-svg-icons/faLanguage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { ActionIcon, Menu } from "@mantine/core";

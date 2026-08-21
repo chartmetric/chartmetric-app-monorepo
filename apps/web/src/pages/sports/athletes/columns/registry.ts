@@ -9,7 +9,7 @@ export const ATHLETE_COLUMNS: readonly AthleteColumnDefinition[] = [
   { align: "left", key: "club", minWidth: 140, source: "Football" },
   { align: "left", key: "league", minWidth: 150, source: "Football" },
   { align: "left", key: "nationality", minWidth: 100, source: "Profile" },
-  { align: "center", key: "age", minWidth: 60, source: "Profile" },
+  { align: "right", key: "age", minWidth: 60, source: "Profile" },
   { align: "left", key: "lastMatchDate", minWidth: 110, source: "Football" },
   {
     align: "right",

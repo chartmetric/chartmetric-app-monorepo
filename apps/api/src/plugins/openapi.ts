@@ -24,6 +24,7 @@ export const openapiPlugin = fp(
         tags: [
           { description: "Artist catalog", name: "artists" },
           { description: "Athlete catalog", name: "athletes" },
+          { description: "League catalog", name: "leagues" },
           { description: "Service health", name: "system" },
         ],
       },

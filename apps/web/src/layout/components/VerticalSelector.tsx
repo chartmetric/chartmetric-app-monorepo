@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { faChevronDown } from "@fortawesome/pro-solid-svg-icons/faChevronDown";
+import { faChevronDown } from "@fortawesome/pro-regular-svg-icons/faChevronDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { Group, Image, Menu, Stack, Text, UnstyledButton } from "@mantine/core";
@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router";
 
 import cmLogo from "../../assets/cm-logo.svg";
 import { findVerticalByPathname, VERTICALS } from "../../verticals";
+import { NAV_MUTED_INK } from "../nav-ink";
 
 interface VerticalSelectorProps {
   onNavigate: () => void;
@@ -29,7 +30,7 @@ export const VerticalSelector: FC<VerticalSelectorProps> = ({ onNavigate }) => {
               <Text c="white" fw={600} size="sm">
                 <Trans>Chartmetric Dash</Trans>
               </Text>
-              <Group c="teal.2" gap={4}>
+              <Group c={NAV_MUTED_INK} gap={4}>
                 <Text size="xs" tt="uppercase">
                   {t(activeVertical.label)}
                 </Text>

@@ -32,6 +32,7 @@ interface StubChain {
   orderBy: () => StubChain;
   select: (columns?: unknown) => StubChain;
   settings: () => StubChain;
+  sum: () => StubChain;
   toSQL: () => string;
   where: () => StubChain;
   whereNull: () => StubChain;
@@ -85,6 +86,7 @@ export const stubClickhouse = (rowsByTable: StubRows = {}): ClickHouse => {
         return chain;
       },
       settings: () => chain,
+      sum: () => chain,
       toSQL: () => "",
       where: () => chain,
       whereNull: () => chain,

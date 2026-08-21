@@ -11,6 +11,7 @@ import type {
   RosterBuilder,
 } from "./types.ts";
 
+import { resolveSortDirection } from "../../../../lib/sorting.ts";
 import { withEnrichment } from "./enrichment.ts";
 import { applyFilters, selectRoster } from "./filters.ts";
 
@@ -124,13 +125,8 @@ const filteredSources = (query: ListAthletesQuery): CteAlias[] => {
 const sortBy = (query: ListAthletesQuery): keyof typeof SORT_COLUMNS =>
   query.sortBy ?? DEFAULT_SORT_BY;
 
-const sortDirection = (query: ListAthletesQuery): "ASC" | "DESC" => {
-  const requested =
-    query.sortDirection ??
-    (ASCENDING_FIRST.has(sortBy(query)) ? "asc" : "desc");
-
-  return requested === "asc" ? "ASC" : "DESC";
-};
+const sortDirection = (query: ListAthletesQuery): "ASC" | "DESC" =>
+  resolveSortDirection(query.sortDirection, sortBy(query), ASCENDING_FIRST);
 
 const selectEnrichedRoster = (
   database: ClickHouseDatabase,

@@ -1,0 +1,47 @@
+{
+  "phase_id": "07-prototype-parity-theme",
+  "duration_min": 22,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "32 files changed, 723 insertions(+), 547 deletions(-)\n      33",
+  "tests_added": 7,
+  "tests_passing_total": 467,
+  "drafted_by": "agent",
+  "surprises": [
+    "The new CELL_TEXT_SIZE constant declares itself the one scale for athletes cells, yet ClubCell, LeagueCell and AthleteIdentity still hard-code size=\"sm\" — the owner was created without moving its peers onto it, so the constant documents a guarantee it does not hold.",
+    "A presentation-only theme edit changed density and radius for every table in the app, including the music/artists table this phase never opened or verified.",
+    "Aligning apps/web/AGENTS.md was unavoidable because its quick-reference restated theme tokens (avatar radius, skeleton paddings), which turns any theme change into an out-of-scope doc edit."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **A constant introduced as the single owner of a value must be imported by every module that value governs, in the same commit.** Adding `CELL_TEXT_SIZE` while sibling cells still hard-code `size=\"sm\"` is worse than no constant: the name and its comment assert one scale, so the next writer changes the constant and silently desyncs the cells that never adopted it. Either land the imports with the constant or do not claim ownership in its name."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **A change to a shared theme token is a change to every consumer; enumerate them and state per consumer whether it was verified or deferred.** Density, radius, and font-family live in `packages/ui/theme` and reach pages the phase never opened — a phase scoped to one vertical still restyles the others. List the affected surfaces in the phase notes and file a followup for each one left unverified, rather than discovering the regression from a screenshot later."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **A deliberate exception to a design-doc rule is recorded in the doc in the same commit that ships it.** Ordinal columns rendered through `NumericCell` but left `align: \"left\"` contradict the doc's unqualified \"numbers right-align\", and the next reader derives the opposite requirement from the doc and \"fixes\" working code. State the exception and its reason where the rule lives, or conform to the rule."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **A workspace `AGENTS.md` quick-reference must point at token owners, not restate their values.** Once `apps/web/AGENTS.md` spells out `radius=\"xl\"` and literal skeleton paddings, a theme phase must edit it to stay truthful, and that edit reads as scope creep in every later review. Name the owning module and let readers read the tokens from it."
+    }
+  ],
+  "followups": [
+    "P2 — Import CELL_TEXT_SIZE in ClubCell.tsx, LeagueCell.tsx and AthleteIdentity.tsx (still `size=\"sm\"` literals) so the athletes numeric cells cannot desync from their text peers.",
+    "P2 — Add \"apps/web/AGENTS.md\" to the phase's `files` globs (it currently sits only in `out_of_scope_files`) so the doc-alignment edit is declared scope.",
+    "P2 — Resolve the ordinal alignment contradiction: either right-align the `#`/rank columns (leagues/columns/table-columns.ts:35, athletes/columns/table-columns.ts:27) or record the ordinal exception in DESIGN_LANGUAGE.md near line 365.",
+    "P3 — Adopt NumericCell in the music/artists table so DESIGN_LANGUAGE.md's \"One NumericCell renders every such value\" is true, promoting it from pages/sports/numeric-cell/ to @repo/ui at that point.",
+    "P3 — Visually verify the artists table's density and loading states at desktop and mobile widths after the inherited verticalSpacing=\"sm\" and square radius scale.",
+    "P3 — AthleteListLoading.tsx:119 restates the athletes table min width (944) and per-column miw values; import them from athletes/columns the way the leagues skeleton does (pre-existing)."
+  ]
+}

@@ -1,0 +1,9 @@
+/* Graphite data ink and gray label ink: E's #303032 / #58575c band, both
+   softer than full text color, adapted per scheme. */
+.value {
+  color: light-dark(#17171c, var(--mantine-color-dark-1));
+}
+
+.muted {
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-2));
+}

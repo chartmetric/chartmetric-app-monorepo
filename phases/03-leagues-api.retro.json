@@ -1,0 +1,46 @@
+{
+  "phase_id": "03-leagues-api",
+  "duration_min": 60,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "9 files changed, 896 insertions(+), 4 deletions(-)\n      10",
+  "tests_added": 42,
+  "tests_passing_total": 268,
+  "drafted_by": "agent",
+  "surprises": [
+    "The phase's own acceptance text was the defect, not the code: it demanded `new_vertical.leagues` be read through a CTE applying `.final()`, but `id` is the entire sorting key and only a join target is barred from FINAL, so root-level FINAL is correct — and the mis-specified criterion survived a full review cycle before anyone questioned the spec instead of the query.",
+    "`pnpm check:generated` verifies freshness by grepping `git status`, so it can never pass at the harness gate for any phase that changes a contract — the gate is structurally unsatisfiable for exactly the phases it exists to protect.",
+    "The aggregate CTE required a `sum` stub in `apps/api/src/tests/helpers.ts` that the ClickHouse test fake did not yet have, pulling a file outside every declared `files` glob into a phase whose scope looked fully enumerated."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **When code and an acceptance criterion disagree about `FINAL`, settle it from the sorting key before changing either.** `FINAL` is barred only on a join target, and it deduplicates only for a key the sorting key covers — a table sorted by exactly the column you read by needs no CTE, and demanding one is a spec bug, not a code bug. Amend the acceptance text when the schema says the code is right, and cite the schema fact in the amended wording so the next reader cannot re-derive the wrong requirement from the general rule."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **A generated-artifact freshness gate regenerates and diffs its own output; it must never consult `git status`.** A git-status check reports the working tree, not staleness, so it fails on every phase that legitimately changes a contract and passes on a stale artifact in a clean tree — it is wrong in both directions. Regenerate to a scratch path, diff against the committed file, and exit non-zero on the diff alone."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **A row type mirrors the source column's nullability, not what the mapper happens to guarantee.** `groupUniqArray` over a `Nullable(String)` column emits `(string | null)[]`; typing it `string[]` because the mapper calls `emptyToNull` hides the fact that the defence is load-bearing, and the next projection added without that defence type-checks. Read the nullability out of `schema.generated.ts` and let the type make the normalization step visibly required."
+    }
+  ],
+  "followups": [
+    "P1 — Replace the interim name-based league join (`football_league` / `basketball_league` / `concat(tennis_tour, ' Tour')` against `leagues.name`) with a real league id on `athletes_cache`: a league rename or a duplicate name silently zeroes or cross-counts every aggregate in the reply.",
+    "P1 — Amend acceptance[4] in `phases/03-leagues-api.json` and line 36 of `phases/03-leagues-api.md` to require root-level `FINAL` for `new_vertical.leagues`, and add `apps/api/src/tests/helpers.ts` to the phase's `files` so the declared scope matches the diff.",
+    "P1 — Note in the commit body that regenerating `schema.generated.ts` also picked up unrelated `profile.profile_types` drift, so it is not read as part of the leagues contract.",
+    "P2 — Add `distinctSorted(values)` to `apps/api/src/lib/filter-options.ts` (which already owns collation) and call it from `list-leagues/mapper.ts`, `league-filter-options/mapper.ts`, and `athlete-filter-options/mapper.ts:142`, all three of which reimplement distinct + blank-free + collated.",
+    "P2 — Add why-comments to the four bare `rawAs` uses in `list-leagues/queries.ts` (`NATIONALITIES` and the three CTE-qualified projections), using the `filters.ts:24` wording that CTE columns sit outside the builder's type state, as `apps/api/AGENTS.md` requires.",
+    "P2 — Type `nationalities` as `(string | null)[]` in `list-leagues/types.ts`, and move the two `filter-options` cases out of `describe(\"GET /leagues\")` in `routes.test.ts` into their own describe so a failure names the broken endpoint.",
+    "P2 — Replace `pnpm check:generated`'s `git status` grep with a regenerate-and-diff check that does not consult git.",
+    "P3 — `ASCENDING_FIRST` plus the `sortBy`/`sortDirection` default-direction mapping is now written in both `athletes/queries.ts` and `leagues/queries.ts`; give it one owner if a third list endpoint appears.",
+    "P3 — `keyAthletes` is capped at 5 while `nationalities` is uncapped in the list reply; decide on a cap or move the full set to a league detail endpoint."
+  ]
+}
