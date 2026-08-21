@@ -9,9 +9,10 @@ export interface TablePaginationProps {
   nextLabel: string;
   offset: number;
   onPageChange: (offset: number) => void;
-  pageLabel: (page: number) => string;
+  pageLabel: (page: number, pageCount?: number) => string;
   pageSize: number;
   previousLabel: string;
+  total?: number;
 }
 
 export const TablePagination: FC<TablePaginationProps> = ({
@@ -24,8 +25,13 @@ export const TablePagination: FC<TablePaginationProps> = ({
   pageLabel,
   pageSize,
   previousLabel,
+  total,
 }) => {
   const currentPage = Math.floor(offset / pageSize) + 1;
+  const pageCount =
+    total === undefined ? undefined : Math.max(1, Math.ceil(total / pageSize));
+  const isLastPage =
+    total === undefined ? !hasNextPage : offset + pageSize >= total;
 
   return (
     <Group justify="space-between" p="md" wrap="nowrap">
@@ -41,11 +47,11 @@ export const TablePagination: FC<TablePaginationProps> = ({
       <Group gap="xs" wrap="nowrap">
         {isLoading ? <Loader aria-label={loadingLabel} size="xs" /> : null}
         <Text c="dimmed" size="sm">
-          {pageLabel(currentPage)}
+          {pageLabel(currentPage, pageCount)}
         </Text>
       </Group>
       <Button
-        disabled={!hasNextPage || isLoading}
+        disabled={isLastPage || isLoading}
         onClick={() => {
           onPageChange(offset + pageSize);
         }}

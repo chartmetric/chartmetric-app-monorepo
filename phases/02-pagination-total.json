@@ -1,7 +1,7 @@
 {
   "id": "02-pagination-total",
   "title": "add an optional total to the shared pagination contract and control",
-  "status": "pending",
+  "status": "completed",
   "depends_on": [],
   "acceptance": [
     "PaginationMetaSchema exposes an optional integer total, and a reply that omits it still validates",
@@ -27,5 +27,12 @@
   ],
   "verification_cmd": "pnpm --filter @repo/ui exec vitest run TablePagination",
   "security_review": false,
-  "notes": "Additive on both sides so the published /v1/athletes contract does not break. The influencers page needs the total for the mockup's result count and page-of-N label."
+  "notes": "Additive on both sides so the published /v1/athletes contract does not break. The influencers page needs the total for the mockup's result count and page-of-N label.",
+  "attempts": 1,
+  "run_started_at": "2026-08-10T15:55:22+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [
+    "packages/ui/components/data-table/DataTable.test.tsx"
+  ],
+  "review_findings": "BACKLOG_WORTHY:\n- packages/ui: consider extracting a shared `formatPageLabel`-style helper if a third TablePagination consumer appears (currently duplicated in AthletesTable/ArtistsTable, correctly not promoted yet) \u2014 low priority"
 }
