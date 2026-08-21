@@ -1,6 +1,6 @@
 // Renders a route of the running dev server headlessly and saves a PNG, for
 // the visual parity loop documented in docs/design/DESIGN_LANGUAGE.md.
-// Usage: pnpm --filter web screenshot [route] [outfile] [light|dark]
+// Usage: pnpm --filter web screenshot [route] [outfile] [light|dark] [width]
 // Requires the dev server on :5173; drives the system Chrome via
 // playwright-core (no browser download).
 import { existsSync } from "node:fs";
@@ -9,6 +9,7 @@ import { chromium } from "playwright-core";
 const route = process.argv[2] ?? "/sports/leagues";
 const out = process.argv[3] ?? "screenshot.png";
 const scheme = process.argv[4] === "dark" ? "dark" : "light";
+const width = Number(process.argv[5]) || 1512;
 
 const CHROME_PATHS = [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -26,7 +27,7 @@ try {
   const context = await browser.newContext({
     colorScheme: scheme,
     deviceScaleFactor: 1,
-    viewport: { height: 982, width: 1512 },
+    viewport: { height: 982, width },
   });
   const page = await context.newPage();
   await page.addInitScript((value) => {
@@ -45,7 +46,7 @@ try {
   await page.waitForTimeout(2500);
   await page.screenshot({ path: out });
   await browser.close();
-  console.log(`screenshot: saved ${out} (${route}, ${scheme})`);
+  console.log(`screenshot: saved ${out} (${route}, ${scheme}, ${width}px)`);
 } catch (error) {
   console.error(
     `screenshot: ${error instanceof Error ? error.message.split("\n", 1)[0] : String(error)}`,
