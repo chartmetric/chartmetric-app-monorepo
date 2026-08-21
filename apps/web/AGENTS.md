@@ -6,7 +6,7 @@ Also follow `/AGENTS.md`, `/apps/AGENTS.md`, and `/docs/architecture/access-and-
 
 ## Design language
 
-Read `docs/design/DESIGN_LANGUAGE.md` before any design-oriented UI work in `apps/web/`. Quick-reference rules:
+Read `docs/design/DESIGN_LANGUAGE.md` before any design-oriented UI work in `apps/web/`. It is the index of the design language — it routes by task to the framework, rules, and method files beside it; load only the file your task needs. Quick-reference rules:
 
 - **New views start from the decision framework:** write the decision sentence (“after this view a user can decide ___”), pick the comparison unit (table / chart / KPI cards), build the reading order (orientation → signals → evidence → action), and design loading/error/empty/partial states before polishing the loaded state.
 - **Table surface:** `<Paper shadow="sm" radius="md">` without `withBorder` on plain page backgrounds. All state siblings (loading, empty, error) use the same Paper variant so no visual jump occurs on transition.
@@ -15,8 +15,10 @@ Read `docs/design/DESIGN_LANGUAGE.md` before any design-oriented UI work in `app
 - **Identity cells:** round avatar (`radius="50%"` — the square-leaning scale means no radius key reaches a circle) = person; `radius="sm"` = organisation, with the default-border ring. Cell text renders through `@repo/ui/cell-text` (`CellText`), names one size above their row; entity chips through `@repo/ui/entity-chip`, kind tags through `@repo/ui/kind-tag`.
 - **Table loading:** skeleton must mirror the full layout — toolbar row, table, footer row — spreading the `TABLE_TOOLBAR_PADDING` / `TABLE_FOOTER_PADDING` / `TABLE_VERTICAL_SPACING` constants `@repo/ui/data-table` exports rather than restating them. Bar heights derive from `calc(var(--mantine-font-size-*) * var(--mantine-line-height-*))`, never a literal multiplier. `isPending` → full skeleton; `isFetching && !isPending` → pass `renderSkeletonRow` so body rows go skeleton while headers stay real. Never `LoadingOverlay`.
 - **Sort icon:** only the active column shows a directional FA icon. Inactive columns return `null`. Wrap icon in `aria-hidden` span; communicate sort state via `aria-sort` on the `<th>`.
-- **Row hover:** spread `ROW_HOVER_STYLE` from `@repo/ui/data-table` on the Paper wrapper, not on DataTable — gray in light mode, accent wash in dark, per the design rule.
+- **Row hover / state changes:** spread `ROW_HOVER_STYLE` from `@repo/ui/data-table` on the Paper wrapper, not on DataTable — gray in light mode, accent wash in dark. General rule: any state or mode change (hover, selected, tag/chip washes) shifts one step on the scale, never a bright/saturated leap.
 - **Icons:** FA outline (`@fortawesome/pro-regular-svg-icons`, individual path imports) everywhere — never solid, never Unicode symbols (`▲ ▼ — ↑ ↓`).
+- **Control placement:** filters live in the page header grouped by target; utility controls (column picker, export) share the title/count row right-aligned — no control gets an otherwise-empty row of its own. Header wraps to a balanced second row, never a lopsided strip.
+- **Accessibility & contrast:** every text/background and label/fill pair meets WCAG 2.2 AA (4.5:1 text, 3:1 large text/UI) in both color schemes — measured against the actual fill (button/badge/washed row), not the page. Color is never the only signal; focus is always visible.
 
 Full rationale, decision trees, and anti-patterns: `docs/design/DESIGN_LANGUAGE.md`.
 
@@ -27,7 +29,7 @@ Consult the matching skill in `/.agents/skills/` before working in its area:
 - `frontend-feature-workflow` — mandatory shared-component discovery, cross-entity precedent review, parity decisions, implementation order, and validation for any frontend feature work.
 - `vercel-react-best-practices` — React component and performance patterns.
 - `vercel-composition-patterns` — component composition, compound components, and reusable component APIs.
-- `web-design-guidelines` — UI, UX, and accessibility review.
+- `web-design-guidelines` — UI, UX, and accessibility, when creating or reviewing components.
 - `mantine-custom-components`, `mantine-form`, `mantine-combobox` — building on Mantine primitives, forms, and select/autocomplete components.
 - `vite` — Vite configuration and plugins.
 - `vitest` — writing and structuring tests.

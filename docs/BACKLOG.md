@@ -7,13 +7,23 @@ phase's retry loop or review cycle exhausts.
 
 ## Active
 
+### From design-language audit (2026-08-21)
+
+- P3: Add a CI contrast lint using `apca-w3` to mechanically enforce the
+  WCAG 2.2 AA / APCA floor now documented in DESIGN_LANGUAGE.md
+  "Accessibility and contrast". Check text/background and label/fill
+  pairs — especially badge fills, washed rows, and button labels — in
+  both color schemes. Subsumes the near-floor nav concern below
+  (disabled `opacity: 0.4` white-on-teal.9): once the lint exists, the
+  legible muted token is whatever passes it.
+
 ### From PR #53 review (2026-08-20)
 
 - P1: Per-vertical nav configuration (user-directed follow-up PR after
   this merges): the shared shell renders sections/items declared by
   each vertical's own config module; only content differs per vertical.
-  Rule already binds in DESIGN_LANGUAGE.md "Enforcement by shared
-  component".
+  Rule already binds in DESIGN_LANGUAGE.md "Shared-component
+  ownership".
 - P2: Analyze generalizing the list-endpoint filter-application pattern
   (`applyFilters` builders exist per module: artists, athletes,
   leagues) vs keeping module ownership — decide once a fourth list
