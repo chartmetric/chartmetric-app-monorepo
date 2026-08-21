@@ -1,0 +1,33 @@
+{
+  "id": "04-nav-sections",
+  "title": "left-nav sections for the sports vertical",
+  "status": "completed",
+  "depends_on": [],
+  "acceptance": [
+    "VerticalNavLink in apps/web/src/verticals.ts supports optional section ('library' | 'discover' | 'tools') and disabled fields; the sports vertical declares: Dashboard (top-level, disabled), Library -> Athletes, Discover -> Teams, Games, Events (all disabled), Tools -> Shortlists, Compare (both disabled); music and creators navLinks are unchanged and flat",
+    "Layout.tsx renders localized section headers (LIBRARY, DISCOVER, TOOLS) above their grouped links; unsectioned links render above the first section without a header; a vertical with no sectioned links renders exactly as today",
+    "Disabled nav items do not navigate, carry aria-disabled, and are visually muted; enabled items keep the existing active/hover behavior",
+    "Every sports nav item renders a FontAwesome icon imported by individual path; no Unicode symbols",
+    "All new user-facing strings go through Lingui and are translated in all 7 locales in the common catalog; lingui compile --strict passes via the repo checks",
+    "Tests under apps/web/src/layout cover section grouping, disabled item non-navigation and aria-disabled, and flat rendering for verticals without sections; pnpm typecheck, pnpm test, and pnpm build pass"
+  ],
+  "files": [
+    "apps/web/src/verticals.ts",
+    "apps/web/src/layout/**",
+    "apps/web/src/locales/common/**"
+  ],
+  "gates": [
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build"
+  ],
+  "verification_cmd": "pnpm --filter web exec vitest run src/layout",
+  "smoke_cmd": "",
+  "security_review": false,
+  "notes": "PRD: docs/PRD.md '## Leagues list (sports vertical)' requirement 7. User-confirmed: full mock nav ships now with not-yet-built destinations disabled. The Leagues nav item itself lands in phase 05 with its route - do not add a link to /sports/leagues in this phase. Nav grouping is presentation in route/nav code, permitted by the access-and-feature-gating architecture; do not add feature availability or route inventories to the documented VerticalConfig contract. Disabled presentation detail (tooltip vs plain muted) is the writer's call within the design language.",
+  "attempts": 1,
+  "run_started_at": "2026-08-19T22:01:23+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [],
+  "review_findings": "SHOULD_FIX:\n- apps/web/src/layout/components/VerticalNav.tsx:12 \u2014 SECTIONS is typed `readonly {id: VerticalNavSection; label}[]`, which does not force coverage of the union; adding a fourth section id (phase 05+) silently drops every link in it from the nav with no compile error \u2014 build it from a `Record<VerticalNavSection, MessageDescriptor>` plus an explicit order tuple so an omission is a type error\n- apps/web/src/layout/components/VerticalNavItem.tsx:31-39 \u2014 `aria-disabled` is not a global ARIA state, and the disabled branch renders Mantine NavLink as an `<a>` with no href, which maps to role `generic` where ARIA attributes are unsupported; assistive tech announces plain text with no disabled state, so the criterion is met in the DOM only \u2014 add `role=\"link\"` (or render `component=\"button\"` with `disabled`) so the attribute is exposed; the test asserts the raw attribute and passes either way\n- apps/web/src/layout/Layout.test.tsx:83 \u2014 `library.textContent` uses `toContain` while the sibling Discover/Tools assertions use `toBe`, so a stray link leaking into the Library group would not fail \u2014 use `toBe(\"LibraryAthletes\")` for parity\n- apps/web/src/layout/components/VerticalNavItem.tsx:28-29 \u2014 comment restates the code it sits above (\"No Link means no href\", \"Mantine's `disabled` supplies the muting\"), which comment-discipline forbids \u2014 delete it; the branch is self-evident from the absence of `component={Link}`\n- apps/web/src/locales/common/ja/messages.po \u2014 \"Discover\" is translated \u767a\u898b (the noun \"a discovery\"), which reads oddly as a nav section header; \u63a2\u7d22 (cf. the Korean \ud0d0\uc0c9 already used) fits the navigation context\n\nBACKLOG_WORTHY:\n- medium \u2014 verticals.ts navLinks now lists six paths with no corresponding route, duplicating the router's catalog; apps/web/AGENTS.md asks navigation visibility to be driven from route metadata \u2014 unify once the real routes land\n- low \u2014 disabled nav items give no affordance explaining why they are inert (no tooltip/\"Coming soon\"), and Mantine's `opacity: 0.4` on white over teal.9 leaves them near the contrast floor\n- low \u2014 VerticalNavItem calls useLocation() per item while Layout already holds the location; pass the active path down if nav item count grows"
+}

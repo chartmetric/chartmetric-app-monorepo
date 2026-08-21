@@ -58,6 +58,69 @@ describe("DataTable", () => {
     expect(onSort).toHaveBeenCalledWith("name");
   });
 
+  it("keeps a column definition available on hover and to assistive tech", () => {
+    const definition = "Sum of tracked athletes' followers.";
+    render(
+      <MantineProvider>
+        <DataTable
+          ariaLabel="People"
+          columns={[
+            {
+              align: "right",
+              key: "score",
+              label: "Score",
+              renderCell: ({ score }) => score,
+              sortKey: "score",
+              tooltip: definition,
+            },
+          ]}
+          getRowKey={({ id }) => id}
+          onSort={vi.fn()}
+          rows={[{ id: 1, name: "Alex", score: 87.4 }]}
+          sortBy="score"
+          sortDirection="desc"
+          sortLabel={(label) => `Sort by ${label}`}
+        />
+      </MantineProvider>,
+    );
+
+    expect(
+      screen.getByRole("columnheader", { name: new RegExp(definition, "u") }),
+    ).toBeDefined();
+    expect(screen.getByRole("button", { name: "Sort by Score" })).toBeDefined();
+  });
+
+  it("opens the column definition on keyboard focus", async () => {
+    const definition = "Sum of tracked athletes' followers.";
+    render(
+      <MantineProvider>
+        <DataTable
+          ariaLabel="People"
+          columns={[
+            {
+              align: "right",
+              key: "score",
+              label: "Score",
+              renderCell: ({ score }) => score,
+              sortKey: "score",
+              tooltip: definition,
+            },
+          ]}
+          getRowKey={({ id }) => id}
+          onSort={vi.fn()}
+          rows={[{ id: 1, name: "Alex", score: 87.4 }]}
+          sortBy="score"
+          sortDirection="desc"
+          sortLabel={(label) => `Sort by ${label}`}
+        />
+      </MantineProvider>,
+    );
+
+    fireEvent.focus(screen.getByRole("button", { name: "Sort by Score" }));
+
+    expect(await screen.findByRole("tooltip")).toBeDefined();
+  });
+
   it("offsets each pinned column by the widths before it", () => {
     renderSticky();
 
@@ -92,6 +155,47 @@ describe("DataTable", () => {
 
     expect(first?.style.backgroundColor).toBe("");
     expect(first?.className).toContain("stickyCell");
+  });
+
+  it("marks only the last pinned cell with the shadow carrier class", () => {
+    renderSticky();
+
+    const cells = screen.getAllByRole("cell");
+
+    expect(cells[0]?.className).not.toContain("lastStickyCell");
+    expect(cells[1]?.className).toContain("lastStickyCell");
+    expect(cells[2]?.className).not.toContain("lastStickyCell");
+  });
+
+  // The scrolled-state shadow was silently lost once before: a static
+  // reference screenshot shows only the rest state, and the vestigial tests
+  // were deleted with the old implementation. These two guard the behavior.
+  it("marks the scroll container scrolled while horizontally scrolled", () => {
+    renderSticky();
+    const scrollDiv = screen.getByRole("table", {
+      name: "People",
+    }).parentElement;
+    if (scrollDiv === null) throw new Error("Table has no parent element");
+
+    scrollDiv.scrollLeft = 50;
+    fireEvent.scroll(scrollDiv);
+
+    expect(scrollDiv.className).toContain("scrolled");
+  });
+
+  it("clears the scrolled mark when scroll returns to origin", () => {
+    renderSticky();
+    const scrollDiv = screen.getByRole("table", {
+      name: "People",
+    }).parentElement;
+    if (scrollDiv === null) throw new Error("Table has no parent element");
+
+    scrollDiv.scrollLeft = 50;
+    fireEvent.scroll(scrollDiv);
+    scrollDiv.scrollLeft = 0;
+    fireEvent.scroll(scrollDiv);
+
+    expect(scrollDiv.className).not.toContain("scrolled");
   });
 });
 

@@ -1,11 +1,11 @@
-import type { CSSProperties, Key, ReactNode } from "react";
+import type { Key, ReactNode } from "react";
 
-import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
-import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Group, Table, Text, UnstyledButton } from "@mantine/core";
+import { Table } from "@mantine/core";
 
 import classes from "./DataTable.module.css";
+import { HeaderCell } from "./HeaderCell";
+import { stickyClass, stickyStyle } from "./sticky";
+import { TABLE_VERTICAL_SPACING } from "./table-tokens";
 
 export type DataTableSortDirection = "asc" | "desc";
 
@@ -18,6 +18,7 @@ export interface DataTableColumn<Row, SortKey extends string> {
   secondaryLabel?: string;
   sortKey?: SortKey;
   sticky?: boolean;
+  tooltip?: string;
   width?: number;
 }
 
@@ -27,7 +28,7 @@ export interface DataTableProps<Row, SortKey extends string> {
   getRowKey: (row: Row) => Key;
   // When provided, renders this instead of data rows. Pass during refetch so
   // headers stay real (sort state visible) and row count stays fixed (no layout shift).
-  renderSkeletonRow?: ((index: number) => ReactNode) | undefined;
+  renderSkeletonRow?: (index: number) => ReactNode;
   minWidth?: number;
   onSort: (sortBy: SortKey) => void;
   rows: readonly Row[];
@@ -38,9 +39,6 @@ export interface DataTableProps<Row, SortKey extends string> {
   // which this component always wraps in. Confirm in a browser before relying.
   stickyHeader?: boolean;
 }
-
-const STICKY_CELL_Z_INDEX = 1;
-const STICKY_HEADER_CELL_Z_INDEX = 3;
 
 const stickyOffsets = <Row, SortKey extends string>(
   columns: readonly DataTableColumn<Row, SortKey>[],
@@ -55,121 +53,6 @@ const stickyOffsets = <Row, SortKey extends string>(
   }
 
   return offsets;
-};
-
-const stickyStyle = (
-  left: number | undefined,
-  isHeader: boolean,
-): CSSProperties | undefined =>
-  left === undefined
-    ? undefined
-    : {
-        left,
-        zIndex: isHeader ? STICKY_HEADER_CELL_Z_INDEX : STICKY_CELL_Z_INDEX,
-      };
-
-const stickyClass = (
-  left: number | undefined,
-  isLast = false,
-): string | undefined => {
-  if (left === undefined) return undefined;
-  return [classes["stickyCell"], isLast ? classes["lastStickyCell"] : undefined]
-    .filter(Boolean)
-    .join(" ");
-};
-
-const ariaSort = (
-  isActive: boolean,
-  direction: DataTableSortDirection,
-): "ascending" | "descending" | "none" => {
-  if (!isActive) return "none";
-  return direction === "asc" ? "ascending" : "descending";
-};
-
-const sortIcon = (
-  isActive: boolean,
-  direction: DataTableSortDirection,
-): ReactNode => {
-  if (!isActive) return null;
-  return direction === "asc" ? (
-    <FontAwesomeIcon icon={faArrowUp} />
-  ) : (
-    <FontAwesomeIcon icon={faArrowDown} />
-  );
-};
-
-interface HeaderCellProps<Row, SortKey extends string> {
-  column: DataTableColumn<Row, SortKey>;
-  isLast: boolean;
-  left: number | undefined;
-  onSort: (sortBy: SortKey) => void;
-  sortBy: SortKey;
-  sortDirection: DataTableSortDirection;
-  sortLabel: (label: string) => string;
-}
-
-const HeaderCell = <Row, SortKey extends string>({
-  column,
-  isLast,
-  left,
-  onSort,
-  sortBy,
-  sortDirection,
-  sortLabel,
-}: HeaderCellProps<Row, SortKey>): ReactNode => {
-  const isActive = column.sortKey === sortBy;
-  const { sortKey } = column;
-  const label =
-    column.secondaryLabel === undefined ? (
-      column.label
-    ) : (
-      <>
-        <Text c="dimmed" component="span" display="block" size="xs">
-          {column.secondaryLabel}
-        </Text>
-        {column.label}
-      </>
-    );
-
-  return (
-    <Table.Th
-      aria-sort={
-        sortKey === undefined ? undefined : ariaSort(isActive, sortDirection)
-      }
-      className={[
-        left === undefined ? classes["headerCell"] : undefined,
-        stickyClass(left, isLast),
-      ]
-        .filter(Boolean)
-        .join(" ")}
-      miw={column.minWidth}
-      style={stickyStyle(left, true)}
-      ta={column.align}
-      w={column.width}
-    >
-      {sortKey === undefined ? (
-        label
-      ) : (
-        <UnstyledButton
-          aria-label={sortLabel(column.label)}
-          onClick={() => {
-            onSort(sortKey);
-          }}
-        >
-          <Group
-            gap={6}
-            justify={column.align === "right" ? "flex-end" : "flex-start"}
-            wrap="nowrap"
-          >
-            <Text component="span" fw={600} size="sm">
-              {label}
-            </Text>
-            <span aria-hidden="true">{sortIcon(isActive, sortDirection)}</span>
-          </Group>
-        </UnstyledButton>
-      )}
-    </Table.Th>
-  );
 };
 
 export const DataTable = <Row, SortKey extends string>({
@@ -190,17 +73,29 @@ export const DataTable = <Row, SortKey extends string>({
   let lastStickyKey: string | undefined;
   for (const key of offsets.keys()) lastStickyKey = key;
 
+  // Class toggling instead of state: a scroll position change must not
+  // re-render every row.
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>): void => {
+    const scrolledClass = classes["scrolled"];
+    if (scrolledClass !== undefined) {
+      event.currentTarget.classList.toggle(
+        scrolledClass,
+        event.currentTarget.scrollLeft > 0,
+      );
+    }
+  };
+
   return (
-    <div style={{ overflowX: "auto" }}>
+    <div onScroll={handleScroll} style={{ overflowX: "auto" }}>
       <Table
         aria-label={ariaLabel}
         highlightOnHover
         stickyHeader={stickyHeader}
         style={{ minWidth }}
-        verticalSpacing="md"
+        verticalSpacing={TABLE_VERTICAL_SPACING}
       >
         <Table.Thead>
-          <Table.Tr>
+          <Table.Tr className={classes["headerRow"]}>
             {columns.map((column) => (
               <HeaderCell
                 column={column}

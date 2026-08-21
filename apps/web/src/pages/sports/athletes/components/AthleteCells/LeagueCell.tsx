@@ -1,6 +1,7 @@
 import type { FC } from "react";
 
-import { Stack, Text, Tooltip } from "@mantine/core";
+import { Stack, Tooltip } from "@mantine/core";
+import { CellText } from "@repo/ui/cell-text";
 
 import type { Athlete } from "../../api/types";
 
@@ -14,7 +15,8 @@ interface LeagueCellProps {
 export const LeagueCell: FC<LeagueCellProps> = ({ athlete, moreLabel }) => {
   const [primary, ...rest] = athlete.leagues;
 
-  if (primary === undefined) return <Text c="dimmed">{EMPTY_CELL}</Text>;
+  if (primary === undefined)
+    return <CellText c="dimmed">{EMPTY_CELL}</CellText>;
 
   return (
     <Stack gap={0} miw={0}>
@@ -23,14 +25,10 @@ export const LeagueCell: FC<LeagueCellProps> = ({ athlete, moreLabel }) => {
         label={athlete.leagues.join(", ")}
         multiline
       >
-        <Text size="sm" truncate>
-          {primary}
-        </Text>
+        <CellText truncate>{primary}</CellText>
       </Tooltip>
       {rest.length === 0 ? null : (
-        <Text c="dimmed" size="xs">
-          {moreLabel(rest.length)}
-        </Text>
+        <CellText c="dimmed">{moreLabel(rest.length)}</CellText>
       )}
     </Stack>
   );

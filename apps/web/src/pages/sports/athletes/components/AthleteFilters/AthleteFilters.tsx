@@ -10,16 +10,14 @@ import type {
   AthleteFilters as AthleteFilterQuery,
 } from "../../api/types";
 
+import { useListFormatters } from "../../../../../lib/formatting";
 import { useAthleteFilterOptions } from "../../filters/filter-options";
 import {
   countActiveFilters,
   createEmptyFilterValues,
   useAthleteFilterValues,
 } from "../../filters/filter-state";
-import {
-  useCompactNumberFormatter,
-  useFilterBarLabel,
-} from "../../filters/formatters";
+import { useFilterBarLabel } from "../../filters/formatters";
 import { AthleteEntityFilters } from "./components/AthleteEntityFilters";
 import { AthleteQuickFilters } from "./components/AthleteQuickFilters/AthleteQuickFilters";
 import { AthleteScoreFilter } from "./components/AthleteScoreFilter";
@@ -35,7 +33,7 @@ export const AthleteFilters: FC<AthleteFiltersProps> = (props) => {
   const { t } = useLingui();
   const { filterValues, setFilterValues, updateFilters } =
     useAthleteFilterValues(onChange);
-  const countFormatter = useCompactNumberFormatter();
+  const countFormatter = useListFormatters().compact;
   const filterBarLabel = useFilterBarLabel(countActiveFilters(filterValues));
   const filterOptions = useAthleteFilterOptions(
     options,

@@ -1,12 +1,17 @@
 import type { FC, ReactNode } from "react";
 
-import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
-import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
+import { faArrowDown } from "@fortawesome/pro-regular-svg-icons/faArrowDown";
+import { faArrowUp } from "@fortawesome/pro-regular-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Text } from "@mantine/core";
 import { DataTable } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
+import {
+  ROW_HOVER_STYLE,
+  TABLE_FOOTER_PADDING,
+  TABLE_TOOLBAR_PADDING,
+} from "@repo/ui/table-tokens";
 
 import type {
   Athlete,
@@ -37,7 +42,7 @@ const TableToolbar: FC<TableToolbarProps> = ({
 }) => {
   const { t } = useLingui();
   return (
-    <Group justify="space-between" px="md" py="xs">
+    <Group justify="space-between" {...TABLE_TOOLBAR_PADDING}>
       <Group c="dimmed" gap={6}>
         <Text size="xs">{t`Sort:`}</Text>
         <Text size="xs">{columnLabel}</Text>
@@ -66,11 +71,6 @@ interface AthletesTableProps {
 
 const SCROLLING_COLUMNS_MIN_WIDTH = 640;
 
-// Teal hover: product accent instead of Mantine's default gray.
-const TEAL_HOVER_STYLE = {
-  "--table-highlight-on-hover-color": "var(--mantine-color-teal-light)",
-} as const;
-
 interface TableFooterProps {
   isFetching: boolean;
   offset: number;
@@ -91,7 +91,7 @@ const TableFooter: FC<TableFooterProps> = ({
   const { t } = useLingui();
 
   return (
-    <Group justify="space-between" px="md" py="sm">
+    <Group justify="space-between" {...TABLE_FOOTER_PADDING}>
       <Text c="dimmed" size="sm">
         {rowRange}
       </Text>
@@ -149,7 +149,7 @@ export const AthletesTable: FC<AthletesTableProps> = ({
   const sortColumnLabel = sortedColumn?.label ?? sortBy;
 
   return (
-    <Paper radius="md" shadow="sm" style={TEAL_HOVER_STYLE}>
+    <Paper radius="md" shadow="sm" style={ROW_HOVER_STYLE}>
       <TableToolbar
         columnLabel={sortColumnLabel}
         direction={sortDirection}
@@ -163,11 +163,11 @@ export const AthletesTable: FC<AthletesTableProps> = ({
           RANK_COLUMN_WIDTH + ATHLETE_COLUMN_WIDTH + SCROLLING_COLUMNS_MIN_WIDTH
         }
         onSort={onSort}
-        renderSkeletonRow={
-          isFetching
-            ? (index) => <SkeletonDataRow index={index} key={index} />
-            : undefined
-        }
+        {...(isFetching && {
+          renderSkeletonRow: (index: number) => (
+            <SkeletonDataRow index={index} key={index} />
+          ),
+        })}
         rows={athletes}
         sortBy={sortBy}
         sortDirection={sortDirection}

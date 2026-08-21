@@ -13,23 +13,46 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. Leagues quick filter keeping leagues above a threshold
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:36
+msgid "{amount}+"
+msgstr "{amount}+"
+
 #. Link to an athlete's social profile
 #: src/pages/sports/athletes/components/AthleteCells/SocialLinks.tsx:51
 msgid "{platform} profile {handle}"
 msgstr "Profil {platform} {handle}"
 
+#: src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:27
+msgid "{remaining, plural, one {…and # more} other {…and # more}}"
+msgstr "{remaining, plural, one {…et # autre} other {…et # autres}}"
+
 #. Audience-size filter for accounts above a threshold
-#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/FollowerPills.tsx:41
+#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/FollowerPills.tsx:40
 msgid "{threshold}+"
 msgstr "{threshold}+"
 
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:25
+msgid "{total, plural, one {league} other {leagues}}"
+msgstr "{total, plural, one {ligue} other {ligues}}"
+
+#. Leagues table column heading for the row number
+#: src/pages/sports/leagues/columns/table-columns.ts:85
+msgid "#"
+msgstr "#"
+
+#. Count of table-cell entries kept behind a tooltip
+#: src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:44
+msgid "+{extra}"
+msgstr "+{extra}"
+
 #. Count of additional leagues an athlete competes in
-#: src/pages/sports/athletes/columns/cells.ts:56
+#: src/pages/sports/athletes/columns/cells.ts:60
 msgid "+{extra} more"
 msgstr "+{extra} de plus"
 
 #. Audience-size filter for accounts below a threshold
-#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/FollowerPills.tsx:33
+#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/FollowerPills.tsx:32
 msgid "<{threshold}"
 msgstr "<{threshold}"
 
@@ -37,16 +60,23 @@ msgstr "<{threshold}"
 msgid "Add, remove or reorder columns"
 msgstr "Ajouter, supprimer ou réorganiser les colonnes"
 
-#: src/pages/sports/athletes/columns/cells.ts:26
+#: src/pages/sports/athletes/columns/cells.ts:28
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:37
 msgid "Age"
 msgstr "Âge"
 
-#: src/pages/sports/athletes/columns/table-columns.ts:39
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:47
+msgid "All Sports"
+msgstr "Tous les sports"
+
+#: src/pages/sports/athletes/columns/table-columns.ts:44
 msgid "Athlete"
 msgstr "Athlète"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:159
+#: src/pages/sports/leagues/columns/table-columns.ts:128
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:61
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:29
 msgid "Athletes"
 msgstr "Athlètes"
 
@@ -54,7 +84,11 @@ msgstr "Athlètes"
 msgid "Category filters are temporarily unavailable."
 msgstr "Les filtres de catégorie sont temporairement indisponibles."
 
-#: src/pages/sports/athletes/components/AthleteFilters/AthleteFilters.tsx:48
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:38
+msgid "Change list sorting"
+msgstr "Modifier le tri de la liste"
+
+#: src/pages/sports/athletes/components/AthleteFilters/AthleteFilters.tsx:46
 msgid "Clear filters"
 msgstr "Effacer les filtres"
 
@@ -66,8 +100,8 @@ msgstr "Effacer la plage"
 msgid "CM score"
 msgstr "Score CM"
 
-#: src/pages/sports/athletes/columns/cells.ts:82
-#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:18
+#: src/pages/sports/athletes/columns/cells.ts:87
+#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:17
 msgid "College"
 msgstr "Universitaire"
 
@@ -92,7 +126,7 @@ msgstr "Supprimer le groupe {name}"
 msgid "Done"
 msgstr "Terminé"
 
-#: src/pages/sports/athletes/columns/cells.ts:29
+#: src/pages/sports/athletes/columns/cells.ts:31
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:40
 msgid "Engagement"
 msgstr "Engagement"
@@ -101,12 +135,16 @@ msgstr "Engagement"
 msgid "Exclude"
 msgstr "Exclure"
 
-#: src/pages/sports/athletes/filters/formatters.ts:8
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueFilterOptionsError.tsx:19
+msgid "Filtering by sport is unavailable until this loads."
+msgstr "Le filtrage par sport est indisponible tant que ceci n’est pas chargé."
+
+#: src/pages/sports/athletes/filters/formatters.ts:7
 msgid "Filters"
 msgstr "Filtres"
 
 #. Filter bar heading with the number of active filters
-#: src/pages/sports/athletes/filters/formatters.ts:10
+#: src/pages/sports/athletes/filters/formatters.ts:9
 msgid "Filters ({activeCount})"
 msgstr "Filtres ({activeCount})"
 
@@ -126,17 +164,17 @@ msgstr "Rechercher un sport…"
 msgid "Find a team…"
 msgstr "Rechercher une équipe…"
 
-#: src/pages/sports/athletes/columns/cells.ts:30
-#: src/pages/sports/athletes/columns/cells.ts:38
+#: src/pages/sports/athletes/columns/cells.ts:32
+#: src/pages/sports/athletes/columns/cells.ts:40
 msgid "Followers"
 msgstr "Abonnés"
 
-#: src/pages/sports/athletes/columns/cells.ts:28
+#: src/pages/sports/athletes/columns/cells.ts:30
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:39
 msgid "GPS"
 msgstr "GPS"
 
-#: src/pages/sports/athletes/columns/cells.ts:39
+#: src/pages/sports/athletes/columns/cells.ts:41
 msgid "Hearts"
 msgstr "Cœurs"
 
@@ -144,11 +182,15 @@ msgstr "Cœurs"
 msgid "Hidden"
 msgstr "Masquées"
 
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:70
+msgid "IG Reach"
+msgstr "Portée IG"
+
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:40
 msgid "Include"
 msgstr "Inclure"
 
-#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/FollowerPills.tsx:48
+#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/FollowerPills.tsx:47
 msgid "Instagram"
 msgstr "Instagram"
 
@@ -160,40 +202,62 @@ msgstr "Abonnés Instagram"
 msgid "Instagram posts"
 msgstr "Publications Instagram"
 
-#: src/pages/sports/athletes/columns/cells.ts:32
+#: src/pages/sports/leagues/columns/table-columns.ts:111
+msgid "Key Athletes"
+msgstr "Athlètes clés"
+
+#: src/pages/sports/athletes/columns/cells.ts:34
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:43
 msgid "Last game"
 msgstr "Dernier match"
 
-#: src/pages/sports/athletes/columns/cells.ts:33
+#: src/pages/sports/athletes/columns/cells.ts:35
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:44
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:68
 msgid "League"
 msgstr "Ligue"
 
-#: src/pages/sports/athletes/columns/cells.ts:34
+#: src/pages/sports/leagues/columns/table-columns.ts:101
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:27
+msgid "League / Competition"
+msgstr "Ligue / Compétition"
+
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:19
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:107
+msgid "Leagues"
+msgstr "Ligues"
+
+#: src/pages/sports/athletes/columns/cells.ts:36
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:45
-#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:23
+#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:22
 msgid "Level"
 msgstr "Niveau"
 
-#: src/pages/sports/athletes/columns/cells.ts:40
+#: src/pages/sports/athletes/columns/cells.ts:42
 msgid "Likes"
 msgstr "J'aime"
 
-#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:110
+#: src/pages/sports/athletes/components/AthleteListStates/AthleteListLoading.tsx:125
 msgid "Loading athletes"
 msgstr "Chargement des athlètes"
+
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:109
+msgid "Loading leagues"
+msgstr "Chargement des ligues"
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteScoreFilter.tsx:35
 msgid "Maximum CM score"
 msgstr "Score CM maximal"
 
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:80
+msgid "Mega only"
+msgstr "Méga uniquement"
+
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteScoreFilter.tsx:37
 msgid "Minimum CM score"
 msgstr "Score CM minimal"
 
-#: src/pages/sports/athletes/columns/cells.ts:35
+#: src/pages/sports/athletes/columns/cells.ts:37
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:46
 msgid "Momentum"
 msgstr "Momentum"
@@ -208,7 +272,11 @@ msgstr "Déplacer {label} vers le haut"
 msgid "Move {label} later"
 msgstr "Déplacer {label} vers le bas"
 
-#: src/pages/sports/athletes/columns/cells.ts:36
+#: src/pages/sports/leagues/columns/table-columns.ts:119
+msgid "Nationalities"
+msgstr "Nationalités"
+
+#: src/pages/sports/athletes/columns/cells.ts:38
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:47
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:44
 msgid "Nationality"
@@ -219,12 +287,17 @@ msgid "New group name…"
 msgstr "Nom du nouveau groupe…"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:102
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:47
 msgid "Next"
 msgstr "Suivant"
 
 #: src/pages/sports/athletes/components/AthleteListStates/AthleteListEmpty.tsx:11
 msgid "No athletes found"
 msgstr "Aucun athlète trouvé"
+
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListEmpty.tsx:11
+msgid "No leagues found"
+msgstr "Aucune ligue trouvée"
 
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:96
 msgid "No matching columns"
@@ -235,11 +308,13 @@ msgid "No matching options"
 msgstr "Aucune option correspondante"
 
 #. Current page number in the athletes list
+#. Current page number in the leagues list
 #: src/pages/sports/athletes/components/AthletesTable.tsx:108
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:53
 msgid "Page {current} of {pageCount}"
 msgstr "Page {current} sur {pageCount}"
 
-#: src/pages/sports/athletes/columns/cells.ts:37
+#: src/pages/sports/athletes/columns/cells.ts:39
 msgid "Pos"
 msgstr "Pos."
 
@@ -247,21 +322,22 @@ msgstr "Pos."
 msgid "Position"
 msgstr "Poste"
 
-#: src/pages/sports/athletes/columns/cells.ts:31
-#: src/pages/sports/athletes/columns/cells.ts:41
+#: src/pages/sports/athletes/columns/cells.ts:33
+#: src/pages/sports/athletes/columns/cells.ts:43
 msgid "Posts"
 msgstr "Publications"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:114
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:59
 msgid "Previous"
 msgstr "Précédent"
 
-#: src/pages/sports/athletes/columns/cells.ts:84
-#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:19
+#: src/pages/sports/athletes/columns/cells.ts:89
+#: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/LevelPills.tsx:18
 msgid "Pro"
 msgstr "Pro"
 
-#: src/pages/sports/athletes/columns/table-columns.ts:27
+#: src/pages/sports/athletes/columns/table-columns.ts:29
 msgid "Rank"
 msgstr "Rang"
 
@@ -286,11 +362,15 @@ msgstr "Enregistrer"
 msgid "Save as group"
 msgstr "Enregistrer comme groupe"
 
-#: src/pages/sports/athletes/components/AthleteFilters/AthleteFilters.tsx:75
+#: src/pages/sports/athletes/components/AthleteFilters/AthleteFilters.tsx:73
 msgid "Search athletes…"
 msgstr "Rechercher des athlètes…"
 
-#: src/pages/sports/athletes/components/AthleteFilters/AthleteFilters.tsx:70
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:44
+msgid "Search by league name"
+msgstr "Rechercher par nom de ligue"
+
+#: src/pages/sports/athletes/components/AthleteFilters/AthleteFilters.tsx:68
 msgid "Search by name"
 msgstr "Rechercher par nom"
 
@@ -298,29 +378,46 @@ msgstr "Rechercher par nom"
 msgid "Search columns…"
 msgstr "Rechercher des colonnes…"
 
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:49
+msgid "Search leagues…"
+msgstr "Rechercher des ligues…"
+
 #. Range of athletes shown out of the filtered total
 #: src/pages/sports/athletes/components/AthletesTable.tsx:141
 msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "Affichage de {firstRow}–{lastRow} sur {totalRows} athlètes"
 
+#. Range of leagues shown out of the filtered total
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:99
+msgid "Showing {firstRow}–{lastRow} of {totalRows} leagues"
+msgstr "Affichage de {firstRow}–{lastRow} sur {totalRows} ligues"
+
 #. Accessible label for a sortable athletes table column
+#. Accessible label for a sortable leagues table column
 #: src/pages/sports/athletes/components/AthletesTable.tsx:175
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:121
 msgid "Sort by {label}"
 msgstr "Trier par {label}"
 
-#: src/pages/sports/athletes/components/AthletesTable.tsx:42
+#: src/pages/sports/athletes/components/AthletesTable.tsx:47
 msgid "Sort:"
 msgstr "Trier :"
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:43
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:48
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:28
 msgid "Sport"
 msgstr "Sport"
 
-#: src/pages/sports/athletes/columns/cells.ts:90
+#: src/pages/sports/athletes/columns/cells.ts:95
 msgid "Steady"
 msgstr "Stable"
 
-#: src/pages/sports/athletes/columns/cells.ts:27
+#: src/pages/sports/leagues/columns/table-columns.ts:130
+msgid "Sum of tracked athletes' Instagram followers — not a deduplicated audience."
+msgstr "Somme des abonnés Instagram des athlètes suivis — il ne s'agit pas d'une audience dédupliquée."
+
+#: src/pages/sports/athletes/columns/cells.ts:29
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:38
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:79
 msgid "Team"
@@ -329,6 +426,10 @@ msgstr "Équipe"
 #: src/pages/sports/athletes/components/AthleteListStates/AthleteListError.tsx:17
 msgid "The athlete list could not be loaded. Try again."
 msgstr "La liste des athlètes n’a pas pu être chargée. Réessayez."
+
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListError.tsx:16
+msgid "The league list could not be loaded. Try again."
+msgstr "La liste des ligues n’a pas pu être chargée. Réessayez."
 
 #: src/pages/sports/athletes/components/AthleteColumnPicker.tsx:49
 msgid "TikTok followers"
@@ -350,12 +451,22 @@ msgstr "Publications TikTok"
 msgid "TikTok videos"
 msgstr "Vidéos TikTok"
 
+#: src/pages/sports/leagues/columns/table-columns.ts:129
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:30
+msgid "Total IG Reach"
+msgstr "Portée IG totale"
+
 #. Button that retries loading the athletes list
+#. Button that retries loading the league sport filters
+#. Button that retries loading the leagues list
 #: src/pages/sports/athletes/components/AthleteListStates/AthleteListError.tsx:20
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueFilterOptionsError.tsx:22
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListError.tsx:19
 msgid "Try again"
 msgstr "Réessayer"
 
 #: src/pages/sports/athletes/components/AthleteListStates/AthleteListEmpty.tsx:14
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListEmpty.tsx:14
 msgid "Try widening your filters or clearing the search."
 msgstr "Essayez d'élargir vos filtres ou d'effacer la recherche."
 
@@ -368,26 +479,45 @@ msgstr "Impossible de charger les athlètes"
 msgid "Unable to load filter options"
 msgstr "Impossible de charger les options de filtre"
 
+#. Error title on the leagues list page
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueListError.tsx:11
+msgid "Unable to load leagues"
+msgstr "Impossible de charger les ligues"
+
+#. Error title when the leagues sport pills cannot load
+#: src/pages/sports/leagues/components/LeagueListStates/LeagueFilterOptionsError.tsx:12
+msgid "Unable to load sports"
+msgstr "Impossible de charger les sports"
+
 #. Fallback name when an athlete profile has no name
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:22
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:24
 msgid "Unnamed athlete"
 msgstr "Athlète sans nom"
+
+#. Fallback name when a league record has no name
+#: src/pages/sports/leagues/components/LeagueCells/LeagueIdentity.tsx:22
+msgid "Unnamed league"
+msgstr "Ligue sans nom"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:101
 msgid "Updating athletes"
 msgstr "Mise à jour des athlètes"
+
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:46
+msgid "Updating leagues"
+msgstr "Mise à jour des ligues"
 
 #. Filter limiting the list to verified accounts
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteQuickFilters/AthleteQuickFilters.tsx:47
 msgid "Verified"
 msgstr "Vérifié"
 
-#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:43
 #: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:45
+#: src/pages/sports/athletes/components/AthleteCells/AthleteIdentity.tsx:47
 msgid "Verified on Instagram"
 msgstr "Vérifié sur Instagram"
 
-#: src/pages/sports/athletes/columns/cells.ts:42
+#: src/pages/sports/athletes/columns/cells.ts:44
 msgid "Videos"
 msgstr "Vidéos"
 

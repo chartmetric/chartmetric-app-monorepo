@@ -2,21 +2,30 @@ import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Skeleton, Stack, Table } from "@mantine/core";
+import {
+  TABLE_FOOTER_PADDING,
+  TABLE_TOOLBAR_PADDING,
+  TABLE_VERTICAL_SPACING,
+} from "@repo/ui/table-tokens";
 
 import { ATHLETE_PAGE_SIZE } from "../../api/athlete-list";
 
-// Mirrors TableToolbar: Group justify="space-between" px="md" py="xs"
 const SkeletonToolbar: FC = () => (
-  <Group justify="space-between" px="md" py="xs">
-    <Skeleton height="calc(var(--mantine-font-size-xs) * 1.55)" w={90} />
+  <Group justify="space-between" {...TABLE_TOOLBAR_PADDING}>
+    <Skeleton
+      height="calc(var(--mantine-font-size-xs) * var(--mantine-line-height-xs))"
+      w={90}
+    />
     <Skeleton height={30} radius="sm" w={104} />
   </Group>
 );
 
-// Mirrors TableFooter: Group justify="space-between" px="md" py="sm"
 const SkeletonFooter: FC = () => (
-  <Group justify="space-between" px="md" py="sm">
-    <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w={180} />
+  <Group justify="space-between" {...TABLE_FOOTER_PADDING}>
+    <Skeleton
+      height="calc(var(--mantine-font-size-sm) * var(--mantine-line-height-sm))"
+      w={180}
+    />
     <Skeleton height={30} radius="sm" w={120} />
   </Group>
 );
@@ -42,16 +51,16 @@ const SkeletonHeaderRow: FC = () => (
       <Skeleton height={12} w={68} />
     </Table.Th>
     <Table.Th miw={60}>
-      <Skeleton height={12} w={26} />
+      <Skeleton height={12} ml="auto" w={26} />
     </Table.Th>
     <Table.Th miw={110}>
       <Skeleton height={12} w={58} />
     </Table.Th>
     <Table.Th miw={110}>
-      <Skeleton height={12} w={62} />
+      <Skeleton height={12} ml="auto" w={62} />
     </Table.Th>
     <Table.Th miw={80}>
-      <Skeleton height={12} w={36} />
+      <Skeleton height={12} ml="auto" w={36} />
     </Table.Th>
   </Table.Tr>
 );
@@ -65,10 +74,16 @@ export const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
       <Group gap="sm" wrap="nowrap">
         <Skeleton circle height={40} />
         <Stack gap={2} style={{ flex: 1 }}>
-          <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w="75%" />
-          <Skeleton height="calc(var(--mantine-font-size-sm) * 1.55)" w="45%" />
           <Skeleton
-            height="calc(var(--mantine-font-size-xs) * 1.55)"
+            height="calc(var(--mantine-font-size-sm) * var(--mantine-line-height-sm))"
+            w="75%"
+          />
+          <Skeleton
+            height="calc(var(--mantine-font-size-sm) * var(--mantine-line-height-sm))"
+            w="45%"
+          />
+          <Skeleton
+            height="calc(var(--mantine-font-size-xs) * var(--mantine-line-height-xs))"
             mt={2}
             w={72}
           />
@@ -88,16 +103,16 @@ export const SkeletonDataRow: FC<{ index: number }> = ({ index }) => (
       <Skeleton height={12} w={76} />
     </Table.Td>
     <Table.Td miw={60}>
-      <Skeleton height={12} w={22} />
+      <Skeleton height={12} ml="auto" w={22} />
     </Table.Td>
     <Table.Td miw={110}>
       <Skeleton height={12} w={70} />
     </Table.Td>
     <Table.Td miw={110}>
-      <Skeleton height={12} w={52} />
+      <Skeleton height={12} ml="auto" w={52} />
     </Table.Td>
     <Table.Td miw={80}>
-      <Skeleton height={12} w={34} />
+      <Skeleton height={12} ml="auto" w={34} />
     </Table.Td>
   </Table.Tr>
 );
@@ -114,7 +129,7 @@ export const AthleteListLoading: FC = () => {
     >
       <SkeletonToolbar />
       <Table.ScrollContainer minWidth={944}>
-        <Table verticalSpacing="md">
+        <Table verticalSpacing={TABLE_VERTICAL_SPACING}>
           <Table.Thead>
             <SkeletonHeaderRow />
           </Table.Thead>

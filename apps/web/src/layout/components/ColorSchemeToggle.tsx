@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
-import { faMoon } from "@fortawesome/pro-solid-svg-icons/faMoon";
-import { faSun } from "@fortawesome/pro-solid-svg-icons/faSun";
+import { faMoon } from "@fortawesome/pro-regular-svg-icons/faMoon";
+import { faSun } from "@fortawesome/pro-regular-svg-icons/faSun";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import {

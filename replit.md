@@ -52,3 +52,58 @@ Run `echo "https://$REPLIT_DEV_DOMAIN"` in the shell to get the exact URL.
 
 - Keep existing project structure (Turborepo monorepo) intact.
 - Never use `--no-verify` or any flag that bypasses pre-commit hooks.
+
+# Git workflow — mandatory
+
+## Never bypass Git hooks
+
+- NEVER use `git commit --no-verify`.
+- NEVER use `git push --no-verify`.
+- NEVER bypass, disable, modify, or remove Git hooks to make a commit succeed.
+- If a pre-commit or pre-push hook fails, fix the underlying issue and run the command again normally.
+- Hook failures are blockers, not something to work around.
+
+## Start of every task
+
+Before modifying any files, ALWAYS:
+
+1. Check the working tree:
+
+```bash
+git status
+```
+
+2. Fetch the latest remote state:
+
+```bash
+git fetch origin
+```
+
+3. Switch to main:
+
+```bash
+git checkout main
+```
+
+4. Update local main using fast-forward only:
+
+```bash
+git pull --ff-only origin main
+```
+
+5. Install dependencies using the repository's existing package manager and lockfile.
+   For this repository:
+
+```bash
+pnpm install --frozen-lockfile
+```
+
+6. Create a NEW branch from the updated main before making changes:
+
+```bash
+git checkout -b <descriptive-task-branch>
+```
+
+7. Only then begin implementation.
+   Do not perform task work directly on main.
+   If the working tree contains existing uncommitted changes at the start of a task, STOP and inspect them. Do not discard, overwrite, stash, or commit them without understanding where they came from.

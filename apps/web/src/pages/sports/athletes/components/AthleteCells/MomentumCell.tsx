@@ -1,9 +1,9 @@
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { FC } from "react";
 
-import { faArrowDown } from "@fortawesome/pro-solid-svg-icons/faArrowDown";
-import { faArrowUp } from "@fortawesome/pro-solid-svg-icons/faArrowUp";
-import { faMinus } from "@fortawesome/pro-solid-svg-icons/faMinus";
+import { faArrowDown } from "@fortawesome/pro-regular-svg-icons/faArrowDown";
+import { faArrowUp } from "@fortawesome/pro-regular-svg-icons/faArrowUp";
+import { faMinus } from "@fortawesome/pro-regular-svg-icons/faMinus";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Badge, Group, Text } from "@mantine/core";
 

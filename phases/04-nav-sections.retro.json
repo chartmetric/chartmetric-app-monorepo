@@ -1,0 +1,41 @@
+{
+  "phase_id": "04-nav-sections",
+  "duration_min": 18,
+  "gates_fired": [
+    {
+      "hook": "dangerous_cmd_guard",
+      "deny_count": 0,
+      "allow_count": 0,
+      "examples": []
+    }
+  ],
+  "git_diff_summary": "11 files changed, 372 insertions(+), 67 deletions(-)\n      15",
+  "tests_added": 8,
+  "tests_passing_total": 416,
+  "drafted_by": "agent",
+  "surprises": [
+    "Mantine's `disabled` on `NavLink` only adds `data-disabled` (opacity plus `pointer-events: none`) — it neither emits `aria-disabled` nor blocks `onClick`, so what actually makes a not-yet-built destination inert is the absence of `component={Link}`, not the prop that appears to disable it.",
+    "Dropping `component={Link}` is also what breaks the accessibility criterion: the element falls to an `<a>` with no href (role `generic`), where `aria-disabled` is unsupported — and the test written to prove inertness asserts exactly that missing `link` role, so it locks the defect in while passing.",
+    "`lingui compile --strict` reported 0 missing messages across all 7 locales while ja rendered the \"Discover\" nav header as 発見 (the noun \"a discovery\"); the gate proves a string exists, never that it fits its slot."
+  ],
+  "proposed_rules": [
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **Making a control inert by removing what makes it interactive also removes the role that can carry its state.** A Mantine `NavLink` rendered without `component={Link}` is an `<a>` with no href — role `generic`, where `aria-disabled` is unsupported and assistive tech announces plain text. Keep an explicit `role=\"link\"`, or render `component=\"button\"` with `disabled`. And assert the state through `getByRole(role, { name })`, never through the raw attribute: an attribute assertion passes on an element that exposes nothing."
+    },
+    {
+      "target": "AGENTS.md",
+      "diff": "+- **A table keyed by a union is a `Record<Union, T>` plus an explicit order tuple, never an array of `{ id: Union }`.** The array literal type-checks with members missing, so adding a variant silently drops everything under it with no compile error — exactly the failure a union was chosen to prevent. Reach for the array form only when the key genuinely is open-ended."
+    }
+  ],
+  "followups": [
+    "P1 — Rebuild `SECTIONS` in `apps/web/src/layout/components/VerticalNav.tsx:12` from a `Record<VerticalNavSection, MessageDescriptor>` plus an order tuple; today a fourth section id compiles and its links vanish from the nav.",
+    "P1 — Expose the disabled state in `VerticalNavItem.tsx:31-39` (add `role=\"link\"`, or `component=\"button\"` with `disabled`) and reassert it via `getByRole`, so acceptance[2] holds for assistive tech and not only in the DOM.",
+    "P2 — Retranslate \"Discover\" in `apps/web/src/locales/common/ja/messages.po` as 探索, matching the register of the Korean 탐색 already in the catalog.",
+    "P2 — Use `toBe(\"LibraryAthletes\")` at `apps/web/src/layout/Layout.test.tsx:83`; `toContain` would not catch a stray link leaking into the Library group, unlike its Discover/Tools siblings.",
+    "P2 — Delete the comment at `VerticalNavItem.tsx:28-29`, which restates the branch it sits above and violates comment-discipline.",
+    "P2 — `verticals.ts` now declares six paths with no route, duplicating the router's catalog; drive nav visibility from route metadata as `apps/web/AGENTS.md` asks, once the real routes land in phase 05+.",
+    "P3 — Disabled nav items offer no reason for being inert, and Mantine's `opacity: 0.4` on white over teal.9 sits near the contrast floor; decide on an affordance and a legible muted token together.",
+    "P3 — `VerticalNavItem` calls `useLocation()` per item while `Layout` already holds the location; pass the active path down if the item count grows."
+  ]
+}

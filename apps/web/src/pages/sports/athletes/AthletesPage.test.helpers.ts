@@ -1,6 +1,49 @@
 import { screen, waitFor, within } from "@testing-library/react";
 import { expect } from "vitest";
 
+import type { Athlete } from "./api/types";
+
+export const buildAthlete = (overrides: Partial<Athlete> = {}): Athlete => ({
+  age: 36,
+  club: "Orlando Pride",
+  cmScore: 87.4,
+  gpsAtk: null,
+  gpsDef: null,
+  gpsScore: null,
+  id: 42,
+  igEngagementRate: null,
+  igFollowers: 10_000_000,
+  igPosts: 1200,
+  igVerified: true,
+  imageUrl: "https://img/athlete-42.jpg",
+  lastMatchDate: "2026-07-06",
+  leagues: ["Major League Soccer"],
+  level: "professional",
+  momentumLabel: null,
+  momentumScore: null,
+  name: "Alex Morgan",
+  nationality: "United States",
+  nationalTeam: "United States",
+  position: "FW",
+  rank: 1,
+  socialLinks: [
+    {
+      handle: "alexmorgan13",
+      platform: "instagram",
+      url: "https://www.instagram.com/alexmorgan13",
+    },
+  ],
+  sport: "Football",
+  teamLogoUrl: null,
+  tiktokFollowers: null,
+  tiktokHearts: null,
+  tiktokLikes: null,
+  tiktokPosts: null,
+  tiktokVideos: null,
+  turnedPro: null,
+  ...overrides,
+});
+
 export const findEnabledControl = async (
   role: "button" | "combobox",
   name: string,

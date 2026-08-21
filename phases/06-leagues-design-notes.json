@@ -1,0 +1,47 @@
+{
+  "id": "06-leagues-design-notes",
+  "title": "leagues design-review amendments",
+  "status": "completed",
+  "depends_on": [
+    "05-leagues-page"
+  ],
+  "acceptance": [
+    "GET /leagues accepts sortDirection (asc|desc) and sortBy gains igReach; the reply row gains igReach (sum of tracked athletes' IG followers) with a schema description stating it is not a deduplicated audience; OpenAPI snapshot, api-client, and module tests updated; api lint/typecheck/test pass",
+    "The leagues table shows two new right-aligned sortable columns - Athletes (trackedAthletes) and IG Reach (igReach, compact-formatted) - and the League/Competition column sorts again; a test clicks each sortable header and asserts aria-sort flips between ascending and descending",
+    "Sport labels are capitalized in every surface: the league identity cell and the sport filter pills render through a shared display-label formatter beside getSportColor in apps/web/src/pages/sports/, never the raw API value",
+    "Key Athletes and Nationalities cells share one text size; the nationalities overflow tooltip is a themed Mantine surface capped at 10 items with a localized ellipsis line stating how many more exist, and a test asserts the cap",
+    "The REACH pill group is labeled IG Reach, and the IG Reach column header carries a tooltip defining the aggregation; all new or changed strings go through Lingui and are translated in all 7 locales",
+    "pnpm typecheck, pnpm test, and pnpm build pass; pnpm generate:api-client artifacts are regenerated in this change"
+  ],
+  "files": [
+    "apps/api/src/modules/leagues/**",
+    "apps/api/openapi.generated.json",
+    "packages/api-client/src/schema.generated.ts",
+    "apps/web/src/pages/sports/**",
+    "apps/web/src/locales/sports/**",
+    "apps/web/src/locales/common/**",
+    "packages/ui/components/data-table/**",
+    "apps/api/src/lib/**"
+  ],
+  "gates": [
+    "pnpm --filter api lint",
+    "pnpm --filter web lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build",
+    "pnpm generate:api-client"
+  ],
+  "verification_cmd": "grep -q 'igReach' packages/api-client/src/schema.generated.ts",
+  "smoke_cmd": "",
+  "security_review": false,
+  "notes": "Executes the PRD amendment 'design review notes (2026-08-19)' and the phase-05 P1 (sortDirection missing left the league sort header inert). Read docs/design/DESIGN_LANGUAGE.md 'Data display integrity' - these five rules ARE the acceptance intent. Model sortDirection on athletes (ASCENDING_FIRST set, no schema default, per-column resolution); asc-first: name, sport; desc-first: trackedAthletes, igReach. The igReach aggregate already exists query-side for the REACH threshold filter - expose it in the SELECT and reply rather than recomputing. Column tooltip copy: 'Sum of tracked athletes' Instagram followers - not a deduplicated audience.' The design-language learned rule applies: a test for a sortable header must click it and assert aria-sort changes, not assert the rest state. SQL for the new sort and the widened SELECT must be executed against real ClickHouse via the read-only MCP after the phase by the driver session (writers have no MCP access); do not add a script.",
+  "attempts": 1,
+  "run_started_at": "2026-08-19T23:10:18+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [
+    "apps/api/src/lib/database.ts",
+    "docs/BACKLOG.md"
+  ],
+  "review_findings": "SHOULD_FIX:\n- docs/BACKLOG.md:10 \u2014 out-of-scope harness-written entry records a P1 (`OrderableChain` builder escape hatch) that this same diff already fixed by moving the interface to `apps/api/src/lib/database.ts`; landing it adds a stale P1 the next `/backlog` run has to re-triage \u2014 delete or amend the entry before committing.\n- apps/api/src/lib/database.ts:38 \u2014 outside the phase's declared globs, but `docs/ARCHITECTURE.md:143-146` (CRITICAL) requires builder-typing workarounds to live in the database layer, so `OrderableChain` is unavoidable wiring; accept it and add `apps/api/src/lib/**` to the phase's `files` list, as was already done for `packages/ui/components/data-table/**`.\n- apps/api/src/modules/leagues/routes/list-leagues/queries.ts:216,240 \u2014 the widened SELECT (`league_athletes.aggregated_ig_followers`) and the new `ifNull(...)` ORDER BY expression over a joined CTE alias are proven only by asserted SQL strings; the learned rule requires the filter/sort matrix and the count/list sibling pair to execute against real ClickHouse. The read-only MCP is not reachable from this review session, so this is still outstanding \u2014 run it and report row counts before pushing (do not add a script).\n- packages/ui/components/data-table/DataTable.tsx:187 \u2014 the `Tooltip` wraps the non-focusable `Box`, not the `UnstyledButton` inside it, so keyboard focus on the sort button never opens the definition; a sighted keyboard user cannot reach it at all. Put the tooltip on the interactive element (or add the definition to the button's accessible name) rather than only on hover plus a `VisuallyHidden` copy.\n- apps/web/src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:14 \u2014 `TOOLTIP_WIDTH = 240` is restated verbatim in `packages/ui/components/data-table/DataTable.tsx:54`; two multiline tooltip surfaces that are meant to look alike now drift independently. Give the value one exported owner in the UI package and import it.\n\nBACKLOG_WORTHY:\n- P3 \u2014 hoist the asc/desc sort-direction TypeBox union into `apps/api/src/lib/pagination.ts`; `schemas.ts:18` is now the third verbatim copy (artists, athletes, leagues).\n- P3 \u2014 msgid \"Athletes\" now serves the leagues column header, the leagues threshold pill group, and the athletes table; add distinguishing Lingui `comment:` context so one translation is not forced on three meanings.\n- P3 \u2014 filter\u2013column parity (docs/design/DESIGN_LANGUAGE.md): the leagues \"Mega only\" filter still has no visible column, so its effect stays unverifiable.",
+  "review_cycles": 3
+}

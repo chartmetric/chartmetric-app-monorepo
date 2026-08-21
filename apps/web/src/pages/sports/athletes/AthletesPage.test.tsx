@@ -15,47 +15,7 @@ import type { Athlete } from "./api/types";
 
 import { messages as enSports } from "../../../locales/sports/en/messages.po";
 import { AthletesPage } from "./AthletesPage";
-
-const buildAthlete = (overrides: Partial<Athlete> = {}): Athlete => ({
-  age: 36,
-  club: "Orlando Pride",
-  cmScore: 87.4,
-  gpsAtk: null,
-  gpsDef: null,
-  gpsScore: null,
-  id: 42,
-  igEngagementRate: null,
-  igFollowers: 10_000_000,
-  igPosts: 1200,
-  igVerified: true,
-  imageUrl: "https://img/athlete-42.jpg",
-  lastMatchDate: "2026-07-06",
-  leagues: ["Major League Soccer"],
-  level: "professional",
-  momentumLabel: null,
-  momentumScore: null,
-  name: "Alex Morgan",
-  nationality: "United States",
-  nationalTeam: "United States",
-  position: "FW",
-  rank: 1,
-  socialLinks: [
-    {
-      handle: "alexmorgan13",
-      platform: "instagram",
-      url: "https://www.instagram.com/alexmorgan13",
-    },
-  ],
-  sport: "Football",
-  teamLogoUrl: null,
-  tiktokFollowers: null,
-  tiktokHearts: null,
-  tiktokLikes: null,
-  tiktokPosts: null,
-  tiktokVideos: null,
-  turnedPro: null,
-  ...overrides,
-});
+import { buildAthlete } from "./AthletesPage.test.helpers";
 
 const FILTER_OPTIONS = {
   clubsBySport: { Football: { "Major League Soccer": ["Orlando Pride"] } },

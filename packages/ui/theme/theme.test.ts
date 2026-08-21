@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { baseTheme, createVerticalTheme } from "./theme";
 
-type SpacingKey = "xs" | "sm" | "md" | "lg" | "xl";
+type ScaleKey = "xs" | "sm" | "md" | "lg" | "xl";
 
-const SPACING_KEYS: SpacingKey[] = ["xs", "sm", "md", "lg", "xl"];
+const SCALE_KEYS: ScaleKey[] = ["xs", "sm", "md", "lg", "xl"];
 
 /** Mantine 9's own defaults (10/12/16/20/32px), as rem numbers. */
-const MANTINE_DEFAULT_SPACING: Record<SpacingKey, number> = {
+const MANTINE_DEFAULT_SPACING: Record<ScaleKey, number> = {
   xs: 0.625,
   sm: 0.75,
   md: 1,
@@ -21,7 +21,7 @@ const MANTINE_DEFAULT_SPACING: Record<SpacingKey, number> = {
  * relationship to the root font size, and comparing the bare number would hide
  * that.
  */
-const remValue = (key: SpacingKey): number => {
+const remValue = (key: ScaleKey): number => {
   const raw = baseTheme.spacing?.[key];
 
   expect(raw, `spacing.${key} is defined`).toMatch(/^[\d.]+rem$/);
@@ -35,12 +35,45 @@ describe("baseTheme", () => {
     expect(baseTheme.colors?.teal?.[5]).toBe("#00b6c7");
   });
 
-  it("keeps Mantine defaults for font sizes", () => {
-    expect(baseTheme.fontSizes).toBeUndefined();
+  it("scales every font size one notch below Mantine's defaults", () => {
+    expect(baseTheme.fontSizes).toEqual({
+      lg: "0.8125rem",
+      md: "0.75rem",
+      sm: "0.6875rem",
+      xl: "0.9375rem",
+      xs: "0.625rem",
+    });
+  });
+
+  it("darkens the dark scale so the body sits near-black", () => {
+    expect(baseTheme.colors?.dark?.[7]).toBe("#0D1214");
+  });
+
+  it("names Space Mono first in the data face", () => {
+    expect(baseTheme.fontFamilyMonospace).toMatch(/^'Space Mono',/u);
+  });
+
+  it("keeps the radius scale square-leaning and strictly increasing", () => {
+    const steps = SCALE_KEYS.map((key) => {
+      const raw = baseTheme.radius?.[key];
+
+      expect(raw, `radius.${key} is defined`).toMatch(/^[\d.]+rem$/);
+
+      return Number(String(raw).replace("rem", ""));
+    });
+
+    expect(steps).toEqual([0.125, 0.1875, 0.3, 0.375, 0.5]);
+    expect(steps).toEqual([...steps].toSorted((a, b) => a - b));
+  });
+
+  it("opens tooltips on focus so they are reachable by keyboard", () => {
+    expect(baseTheme.components?.["Tooltip"]?.defaultProps).toMatchObject({
+      events: { focus: true, hover: true },
+    });
   });
 
   it("tightens every spacing step below the Mantine default", () => {
-    for (const key of SPACING_KEYS) {
+    for (const key of SCALE_KEYS) {
       expect(
         remValue(key),
         `spacing.${key} is tighter than the Mantine default`,
@@ -49,7 +82,7 @@ describe("baseTheme", () => {
   });
 
   it("keeps the spacing scale strictly increasing", () => {
-    const steps = SPACING_KEYS.map((key) => remValue(key));
+    const steps = SCALE_KEYS.map((key) => remValue(key));
 
     expect(steps).toEqual([...steps].toSorted((a, b) => a - b));
     expect(new Set(steps).size).toBe(steps.length);

@@ -7,7 +7,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import type { Athlete } from "../../api/types";
 
 import { messages as enSports } from "../../../../../locales/sports/en/messages.po";
-import { buildAthlete } from "../athlete.test.helpers";
+import { buildAthlete } from "../../AthletesPage.test.helpers";
 import { AthleteIdentity } from "./AthleteIdentity";
 
 beforeAll(() => {
@@ -34,6 +34,16 @@ describe("AthleteIdentity", () => {
 
     expect(sportElement.tagName.toLowerCase()).toBe("p");
     expect(sportElement.closest("[data-variant]")).toBeNull();
+  });
+
+  it("keeps the person avatar a full circle", () => {
+    renderComponent(buildAthlete({ imageUrl: null }));
+
+    // The radius scale is square-leaning, so no scale key reaches a circle;
+    // `xl` here would round the corners and stop short.
+    expect(
+      screen.getByText("AM").parentElement?.getAttribute("style"),
+    ).toContain("--avatar-radius: 50%");
   });
 
   it("renders the athlete name", () => {

@@ -1,5 +1,7 @@
 import { useLingui } from "@lingui/react/macro";
-import { createElement, useMemo } from "react";
+import { CELL_TEXT_SIZE } from "@repo/ui/cell-text";
+import { NumericCell } from "@repo/ui/numeric-cell";
+import { createElement, type ReactElement, useMemo } from "react";
 
 import type { AthleteCellRenderers, AthleteColumnKey } from "./types";
 
@@ -50,6 +52,8 @@ export const useAthleteCellRenderers = (): AthleteCellRenderers => {
   const formatters = useListFormatters();
 
   return useMemo(() => {
+    const numeric = (value: string): ReactElement =>
+      createElement(NumericCell, { size: CELL_TEXT_SIZE, value });
     const moreLabel = (count: number): string => {
       const extra = String(count);
 
@@ -63,17 +67,18 @@ export const useAthleteCellRenderers = (): AthleteCellRenderers => {
       age: (athlete) =>
         athlete.age === null
           ? EMPTY_CELL
-          : formatters.plain.format(athlete.age),
+          : numeric(formatters.plain.format(athlete.age)),
       club: (athlete) => createElement(ClubCell, { athlete }),
       gpsScore: (athlete) =>
         createElement(GpsCell, { score: athlete.gpsScore }),
       igEngagementRate: (athlete) =>
         athlete.igEngagementRate === null
           ? EMPTY_CELL
-          : formatters.percent.format(athlete.igEngagementRate),
+          : numeric(formatters.percent.format(athlete.igEngagementRate)),
       igFollowers: (athlete) =>
-        formatCount(athlete.igFollowers, formatters.compact),
-      igPosts: (athlete) => formatCount(athlete.igPosts, formatters.plain),
+        numeric(formatCount(athlete.igFollowers, formatters.compact)),
+      igPosts: (athlete) =>
+        numeric(formatCount(athlete.igPosts, formatters.plain)),
       lastMatchDate: (athlete) =>
         formatDate(athlete.lastMatchDate, formatters.date),
       league: (athlete) => createElement(LeagueCell, { athlete, moreLabel }),
@@ -92,15 +97,15 @@ export const useAthleteCellRenderers = (): AthleteCellRenderers => {
       nationality: (athlete) => athlete.nationality ?? EMPTY_CELL,
       position: (athlete) => athlete.position ?? EMPTY_CELL,
       tiktokFollowers: (athlete) =>
-        formatCount(athlete.tiktokFollowers, formatters.compact),
+        numeric(formatCount(athlete.tiktokFollowers, formatters.compact)),
       tiktokHearts: (athlete) =>
-        formatCount(athlete.tiktokHearts, formatters.compact),
+        numeric(formatCount(athlete.tiktokHearts, formatters.compact)),
       tiktokLikes: (athlete) =>
-        formatCount(athlete.tiktokLikes, formatters.compact),
+        numeric(formatCount(athlete.tiktokLikes, formatters.compact)),
       tiktokPosts: (athlete) =>
-        formatCount(athlete.tiktokPosts, formatters.plain),
+        numeric(formatCount(athlete.tiktokPosts, formatters.plain)),
       tiktokVideos: (athlete) =>
-        formatCount(athlete.tiktokVideos, formatters.plain),
+        numeric(formatCount(athlete.tiktokVideos, formatters.plain)),
     };
   }, [formatters, t]);
 };

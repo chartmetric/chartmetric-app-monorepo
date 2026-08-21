@@ -12,6 +12,7 @@ import type {
 } from "./types";
 
 import { useNameComparator } from "../../../../lib/collation";
+import { toSportLabel } from "../../sport-labels";
 
 type Compare = (left: string, right: string) => number;
 
@@ -87,7 +88,9 @@ export const useAthleteFilterOptions = (
         options?.nationalities ?? [],
         formatCount,
       ),
-      sports: toCountedFilterOptions(options?.sports ?? [], formatCount),
+      sports: toCountedFilterOptions(options?.sports ?? [], formatCount).map(
+        (option) => ({ ...option, label: toSportLabel(option.value) }),
+      ),
     };
   }, [compare, countFormatter, options, selectedLeagues, selectedSports]);
 };

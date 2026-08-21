@@ -1,11 +1,10 @@
 import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
+import { Pill } from "@repo/ui/pill";
+import { PillGroup } from "@repo/ui/pill-group";
 
 import type { AthleteLevel } from "../../../../api/types";
-
-import { Pill } from "./Pill";
-import { PillGroup } from "./PillGroup";
 
 interface LevelPillsProps {
   levels: readonly AthleteLevel[];

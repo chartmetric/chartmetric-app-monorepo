@@ -1,7 +1,10 @@
-import type { DatabaseQueryFactory } from "../../../../lib/database.ts";
 import type { ListAthletesQuery } from "./schemas.ts";
 import type { ListAthletesOptions, RosterBuilder } from "./types.ts";
 
+import {
+  applyWhen,
+  type DatabaseQueryFactory,
+} from "../../../../lib/database.ts";
 import { COLLEGE_SPORT_LIST } from "../../sport/classification.ts";
 
 /**
@@ -244,22 +247,20 @@ export const applyFilters = (
 ): RosterBuilder => {
   let next = applyRangeFilters(applyCategoricalFilters(builder, query), query);
 
-  if (query.name !== undefined) next = applyNameFilter(next, query.name);
-  if (query.verified === true) {
-    next = applyComparison(next, COLUMN.igVerified, "equals", 1);
-  }
+  next = applyWhen(next, query.name, applyNameFilter);
+  next = applyWhen(next, query.verified === true ? true : undefined, (b) =>
+    applyComparison(b, COLUMN.igVerified, "equals", 1),
+  );
   // Selecting both levels is the same as not filtering by level at all.
-  if (query.levels?.length === 1) {
-    next = applyLevelFilter(next, query.levels[0] === "college");
-  }
-  if (query.leagues !== undefined) {
-    next = applyLeagueFilter(
-      next,
-      query.leagues,
-      options.leagueClubNames ?? [],
-    );
-  }
-  if (query.clubs !== undefined) next = applyClubFilter(next, query.clubs);
+  next = applyWhen(
+    next,
+    query.levels?.length === 1 ? query.levels[0] : undefined,
+    (b, level) => applyLevelFilter(b, level === "college"),
+  );
+  next = applyWhen(next, query.leagues, (b, leagues) =>
+    applyLeagueFilter(b, leagues, options.leagueClubNames ?? []),
+  );
+  next = applyWhen(next, query.clubs, applyClubFilter);
 
   return next;
 };

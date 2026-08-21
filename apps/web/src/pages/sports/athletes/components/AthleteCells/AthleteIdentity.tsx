@@ -4,10 +4,12 @@ import { faBadgeCheck } from "@fortawesome/pro-regular-svg-icons/faBadgeCheck";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Avatar, Group, Stack, Text, Tooltip } from "@mantine/core";
+import { CellText } from "@repo/ui/cell-text";
 
 import type { Athlete } from "../../api/types";
 
-import { getSportColor } from "../../utils/sport-colors";
+import { getSportColor } from "../../../sport-colors";
+import { toSportLabel } from "../../../sport-labels";
 import { CountryFlag } from "./CountryFlag";
 import { SocialLinks } from "./SocialLinks";
 
@@ -30,15 +32,15 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
         alt={athleteName}
         bd="1px solid var(--mantine-color-default-border)"
         name={athleteName}
-        radius="xl"
+        radius="50%"
         size={40}
         src={athlete.imageUrl}
       />
       <Stack gap={2} miw={0}>
         <Group gap={6} wrap="nowrap">
-          <Text fw={600} size="sm" truncate>
+          <CellText fw={600} size="sm" truncate>
             {athleteName}
-          </Text>
+          </CellText>
           {athlete.igVerified ? (
             <Tooltip label={t`Verified on Instagram`}>
               <Text
@@ -56,7 +58,7 @@ export const AthleteIdentity: FC<AthleteIdentityProps> = ({ athlete }) => {
           <CountryFlag nationality={athlete.nationality} />
           {athlete.sport !== null && (
             <Text c={getSportColor(athlete.sport)} size="xs" truncate>
-              {athlete.sport}
+              {toSportLabel(athlete.sport)}
             </Text>
           )}
         </Group>

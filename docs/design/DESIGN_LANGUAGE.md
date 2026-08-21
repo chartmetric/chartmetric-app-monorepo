@@ -10,7 +10,7 @@ This is a professional analytics workspace, not a consumer product. Its users �
 
 - A screen exists to get the user to a defensible answer with fewer clicks and less scrolling. Color, imagery, animation, and large type earn their place only by improving comprehension, orientation, or feedback — otherwise they compete with the data.
 - The product spans music, sports, creators, and future verticals but remains **one workspace**: one shell, one interaction model, one hierarchy. Data and domain vocabulary change inside the shell; the visual language does not. VerticalConfig varies branding and terminology — never interaction patterns.
-- Density is a capacity decision, not an aesthetic. On a typical display, compact text and spacing fit roughly half again as many comparable rows as leisurely sizing, and the dominant task is comparison. `packages/ui/theme/theme.ts` already encodes this (spacing ~25% below Mantine defaults, `Button`/`Input` defaulting to the 30px `xs` tier). Do not undo it locally with custom padding, larger type, or hero regions — and do not tighten further with per-component overrides; change the theme or nothing.
+- Density is a capacity decision, not an aesthetic. On a typical display, compact text and spacing fit roughly half again as many comparable rows as leisurely sizing, and the dominant task is comparison. `packages/ui/theme/theme.ts` already encodes this (a tightened spacing scale, `Button`/`Input` defaulting to the compact 26px `xs` tier — read the current tokens from the theme, not from prose). Do not undo it locally with custom padding, larger type, or hero regions — and do not tighten further with per-component overrides; change the theme or nothing.
 
 ## App shell
 
@@ -20,9 +20,9 @@ This is a professional analytics workspace, not a consumer product. Its users �
 
 ## Typography
 
-- **One typeface.** Inter Variable, from the theme, for everything. Do not add a display, serif, or monospace font package.
-- **Numeric columns use tabular figures.** Any column of values the user scans or compares gets `font-variant-numeric: tabular-nums` (a CSS module class or `style` prop — Mantine has no shorthand). Fixed-width digits stop numbers from shifting as values change, which is what makes a dense column scannable.
-- **Hierarchy comes from weight, case, and color — not size inflation.** Inside a dense region, a section or metadata label is `<Text size="xs" tt="uppercase" c="dimmed" style={{ letterSpacing: "0.08em" }}>`, not a bigger heading. (`c="dimmed"` is correct here: a section label is not a filter/sort value — see Color semantics.) Reserve theme heading sizes for page and view titles.
+- **Two typefaces, both theme-owned.** Inter Variable for UI chrome; Space Mono (the theme `fontFamilyMonospace`) as the data face for table cells, counts, and metric values — reached only via `ff="monospace"`, never by naming the family. Do not add any further font package.
+- **Numeric columns render through `@repo/ui/numeric-cell`.** The mono data face carries fixed-width digits inherently, so numbers never shift as values change; `NumericCell` adds the ink classes and the optional leading pictogram. No per-cell `tabular-nums` styling.
+- **Hierarchy comes from weight, case, and color — not size inflation.** Inside a dense region, a section or metadata label is `<Text size="xs" tt="uppercase" c="dimmed">` (no positive letter-spacing — see the parity rules), not a bigger heading. (`c="dimmed"` is correct here: a section label is not a filter/sort value — see Color semantics.) Reserve theme heading sizes for page and view titles.
 
 ## Designing a new view
 
@@ -157,18 +157,18 @@ Two-tier system. **Mantine token strings** for structural/container-level spacin
 
 Every structural chrome region uses consistent padding so the table edges stay visually aligned across all states (loading, empty, error, data):
 
-| Region              | Props             | Why                                                                                                                      |
-| ------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Toolbar row         | `px="md" py="xs"` | Medium horizontal keeps content clear of Paper edge; extra-small vertical keeps the toolbar compact above the table      |
-| Footer row          | `px="md" py="sm"` | Same horizontal alignment as toolbar; slightly taller vertical because pagination controls need more touch target height |
-| Empty / error state | `p="xl"`          | Full padding on all sides — the state fills the Paper with nothing else competing for space                              |
-| Page-level Stack    | `gap="md"`        | Medium vertical separation between filters, alerts, and the table card                                                   |
+| Region              | Props             | Why                                                                                                                                  |
+| ------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Toolbar row         | `px="md" py={4}`  | Medium horizontal keeps content clear of Paper edge; 4px vertical keeps the sort summary a caption on the table, not a band above it |
+| Footer row          | `px="md" py="xs"` | Same horizontal alignment as toolbar; slightly taller vertical because pagination controls need more touch target height             |
+| Empty / error state | `p="xl"`          | Full padding on all sides — the state fills the Paper with nothing else competing for space                                          |
+| Page-level Stack    | `gap="md"`        | Medium vertical separation between filters, alerts, and the table card                                                               |
 
-Skeleton toolbar and footer mirror these values exactly so the container dimensions don't change when data arrives.
+Do not restate these paddings. `@repo/ui/data-table` exports `TABLE_TOOLBAR_PADDING` and `TABLE_FOOTER_PADDING`; the real toolbar, the real footer, and the skeleton that stands in for both spread the same object, so the container dimensions cannot drift between states.
 
 ### Table density
 
-Set `verticalSpacing="md"` on `<Table>`, never per-row. This is the only spacing prop that controls row height — do not add `py` to `Table.Td` or override it per cell. The medium vertical spacing gives rows enough breathing room for a three-line identity cell without wasting space.
+`DataTable` owns row height: it applies the exported `TABLE_VERTICAL_SPACING` (`"sm"`) to its `<Table>`, and a skeleton's `<Table>` imports the same constant. Never pass `verticalSpacing` per page and never add `py` to `Table.Td` or override it per cell. The product is data-dense — the reference tables read correctly at what a looser scale showed at 80% zoom — and `sm` still clears a three-line identity cell.
 
 ### Intra-cell gap scale
 
@@ -230,9 +230,17 @@ Use `<Paper shadow="sm" radius="md">` without `withBorder` when the Paper sits o
 
 **Decision tree — choose exactly one:**
 
-1. **Taxonomy label** — any categorical dimension the user filters or sorts on, rendered inline in a dense data row (sport name, genre, content type, etc.):
+1. **Taxonomy label on an entity row** (an athlete's sport, an artist's genre) — a categorical dimension classifying a _person or act_, rendered inline in a dense data row:
    → `<Text c={getCategoryColor(item)} size="xs">` where `getCategoryColor` is the vertical's color-mapping function (e.g. `getSportColor`, `getGenreColor`).
    → **Never** `<Badge>` — Badge adds pill geometry (border-radius, padding) that misaligns text in dense rows and visually competes with row borders.
+
+   **Catalog rows are the exception** (parity finding, 2026-08-19): when the
+   row _is_ the category's container — a league tagged with its sport, a
+   playlist tagged with its platform — the tag is a quiet neutral chip inline
+   with the name (`<Badge variant="default" c="dimmed" ff="monospace"
+fw={400} tt="none" radius="sm">`), not colored text. The color signal
+   belongs to classification of entities, not to a row describing its own
+   kind.
 
 2. **Level or tier** (2–4 discrete status values like Pro/College):
    → `<Badge variant="light" color={semanticColor}>` — contained Badge communicates "this has a status."
@@ -254,7 +262,7 @@ The three-line hierarchy for any entity identity cell in a data table (athlete, 
 
 ```
 <Group gap="sm" wrap="nowrap">
-  <Avatar size={40} radius="xl" bd="1px solid var(--mantine-color-default-border)" />
+  <Avatar size={40} radius="50%" bd="1px solid var(--mantine-color-default-border)" />
   <Stack gap={2} miw={0}>
     <Group gap={6} wrap="nowrap">         ← Line 1: name + inline badge
       <Text fw={600} size="sm" truncate>
@@ -275,7 +283,7 @@ The three-line hierarchy for any entity identity cell in a data table (athlete, 
 
 **Rules:**
 
-- **Avatar:** `size={40}` (large enough for face recognition, small enough to let text drive row height). `radius="xl"` (round) for people; `radius="sm"` for organisations, teams, or brands. `bd="1px solid var(--mantine-color-default-border)"` — required when the image may be absent (initials fallback) or when the photo background matches the page background; the 1px ring uses the default border color and adapts to light/dark mode.
+- **Avatar:** `size={40}` (large enough for face recognition, small enough to let text drive row height). `radius="50%"` (round) for people; `radius="sm"` for organisations, teams, or brands. The radius scale is square-leaning, so no scale key produces a circle — a person avatar states the percentage. `bd="1px solid var(--mantine-color-default-border)"` — required when the image may be absent (initials fallback) or when the photo background matches the page background; the 1px ring uses the default border color and adapts to light/dark mode.
 - **Stack gap:** `gap={2}` between all three lines.
 - **Social row extra gap:** The social `<Group>` carries `mt={2}` in addition to the Stack `gap={2}`, giving 4px total before the social row. This matches the visual weight of the icon row versus text rows.
 - **Line 1 height** (Text `size="sm"`, 14px): rendered line-height = `14 × 1.55 = 21.7px`.
@@ -314,9 +322,9 @@ Headers stay real so the user can see which column was just sorted. Row count st
 
 Every data table skeleton must contain all three structural regions:
 
-1. **Skeleton toolbar** — `<Group justify="space-between" px="md" py="xs">` with placeholder bars at the same padding as the real toolbar. If absent, the skeleton card is shorter than the loaded card and jumps down when data arrives.
-2. **Table body** — `<Table.ScrollContainer>` → `<Table>` → `<Thead>`/`<Tbody>` mirroring the real column widths.
-3. **Skeleton footer** — `<Group justify="space-between" px="md" py="sm">` with placeholder bars at the same padding as the real footer. Same layout-shift risk if absent.
+1. **Skeleton toolbar** — `<Group justify="space-between" {...TABLE_TOOLBAR_PADDING}>` with placeholder bars. If absent, the skeleton card is shorter than the loaded card and jumps down when data arrives.
+2. **Table body** — `<Table.ScrollContainer>` → `<Table verticalSpacing={TABLE_VERTICAL_SPACING}>` → `<Thead>`/`<Tbody>` mirroring the real column widths and order.
+3. **Skeleton footer** — `<Group justify="space-between" {...TABLE_FOOTER_PADDING}>` with placeholder bars. Same layout-shift risk if absent.
 
 **Skeleton bar height — use CSS variables, not integer px:**
 
@@ -343,7 +351,7 @@ Every data table skeleton must contain all three structural regions:
 
 1. **Check whether a skeleton row component already exists for this table before writing a new one.** The existing component has correct per-column widths, avatar circles, and text-line bar heights. A generic `<Skeleton height={12} />` dropped into every cell ignores all of that work.
 2. Identify every structural region of the loaded component (header, toolbar, table, footer, pagination).
-3. For each region: is it rendered while `isPending`? If not, add a placeholder with matching `px`/`py` padding.
+3. For each region: is it rendered while `isPending`? If not, add a placeholder spreading the same exported padding constant the real region uses.
 4. **Row count must equal the page size** — import the page-size constant and drive `Array.from({ length: PAGE_SIZE })` directly from it. Never hardcode a row count. A number that doesn't match the real page size produces a skeleton taller or shorter than the loaded table, which is a layout shift.
 5. Confirm bar heights use the CSS variable formula, not integer px.
 6. Confirm avatar placeholder uses `<Skeleton circle height={avatarSize}>` (not a rectangle).
@@ -378,27 +386,31 @@ if (!isActive) return <FontAwesomeIcon icon={faArrowsUpDown} />; // adds noise t
 
 ---
 
-## Row hover accent
+## Row hover
 
 ```tsx
 // Set on the Paper wrapper that owns this table — not on DataTable itself
-const HOVER_STYLE = {
-  "--table-highlight-on-hover-color": "var(--mantine-color-<accent>-light)",
+const ROW_HOVER_STYLE = {
+  "--table-highlight-on-hover-color":
+    "light-dark(var(--mantine-color-gray-1),var(--mantine-color-<accent>-light))",
 } as const;
 
-<Paper shadow="sm" radius="md" style={HOVER_STYLE}>
+<Paper shadow="sm" radius="md" style={ROW_HOVER_STYLE}>
   <DataTable ... />
 </Paper>
 ```
 
 Replace `<accent>` with the vertical's accent color from the [Vertical accent colors](#vertical-accent-colors) table. All current verticals use `teal`.
 
-**Why:** The `-light` variant is Mantine's soft wash (very subtle in light mode, tinted in dark mode). It reinforces the vertical's identity on every row hover at zero extra DOM cost.
+**Why:** light-mode hovers are gray — color on hover reads as selection,
+not affordance (parity rule, 2026-08-20). In dark mode gray steps vanish
+against the near-black body, so the accent's `-light` wash carries the
+hover there.
 
 **Rules:**
 
 - Set it on the nearest Paper ancestor that owns this specific table. Never on `DataTable` itself — `DataTable` is shared; its default stays neutral.
-- All current verticals use `teal`. If a future vertical adopts a different accent, update the [Vertical accent colors](#vertical-accent-colors) table first, then set the corresponding `-light` token here.
+- The gray side always comes first in the `light-dark()`; only the dark side is vertical-accented.
 - Sticky cells in `DataTable.module.css` inherit this CSS variable in their `tr:hover` rule to maintain consistent hover appearance across frozen and scrollable columns.
 
 ---
@@ -427,6 +439,271 @@ import { faMinus } from "@fortawesome/pro-solid-svg-icons/faMinus";
 **Import rule:** import each icon by its full path (`/faArrowUp`), not from the barrel (`@fortawesome/pro-solid-svg-icons`). Barrel imports defeat tree-shaking.
 
 ---
+
+## Data display integrity
+
+Rules harvested from the leagues page design review (2026-08-19). Each
+came from a real defect visible in the shipped page.
+
+**Display labels are never raw data values.** A warehouse enum arrives
+in whatever casing the pipeline stored (`football`, `tennis`); render it
+through a label formatter that capitalizes (`toDisplayLabel` /
+`toSportLabel`), in every surface that shows it — table cells and filter
+pills alike. A page that renders one casing in the cell and another in
+the pill is showing the user the database, not the product.
+
+**Peer columns share one type scale.** Cells that sit side by side in
+the same row band use the same Mantine text size; a column whose text is
+visibly larger than its neighbours reads as emphasis the data does not
+justify. When two columns genuinely need different weights, vary `fw` or
+color, not `size`.
+
+**Tooltips are themed surfaces, and overflow affordances summarize —
+they never enumerate.** A tooltip uses the Mantine `Tooltip` surface so
+it adapts to the color scheme; a default-styled floating box reads as
+foreign chrome. And a "+N" affordance may expand to a _few_ more items
+(cap ~10 with an ellipsis) or simply explain what N counts — a tooltip
+listing 42 entries is a wall of text nobody can scan. If the full set
+matters, it belongs on a detail surface, not in a hover.
+
+**Platform-specific metrics name their platform.** A filter or column
+called "Reach" hides which platform it measures; label it "IG Reach"
+(and define the aggregation in the column tooltip: sum of tracked
+athletes' Instagram followers, not a deduplicated audience). Users make
+decisions on these numbers — ambiguity about the source is a data bug,
+not a copy nit.
+
+**Filter–column parity.** Every metric dimension offered as a filter
+exists as a visible, sortable column. Filtering by a value the user
+cannot see or rank by makes the filter's effect unverifiable ("why did
+this league disappear?"). When a filter is added, its column lands in
+the same change.
+
+## Theme tokens (prototype parity)
+
+Verified against the deployed prototype's CSS (2026-08-19):
+`--app-font-sans: "Inter"`, `--app-font-mono: "Space Mono", Menlo,
+monospace`, `--radius: 0.3rem`.
+
+**Typography.** Inter is the UI face (already the theme `fontFamily`).
+`Space Mono` is the data face: numeric table cells, counts, and metric
+values render in the theme `fontFamilyMonospace`. Numbers in a table
+column share the exact text size of neighbouring text cells, right-align,
+and line up digit-for-digit down the column (the mono face provides
+tabular figures inherently). A numeric column is never an exception to
+the peer-column type-scale rule. One deliberate exception: ordinal/rank
+columns (`#`) stay left-aligned beside the identity column — they are row
+labels, not measurements, and the reference design reads them that way. One `NumericCell` renders every such
+value with `ff="monospace"`, which resolves to the theme face — no cell
+ever names the family.
+
+**Radius.** The scale is square-leaning to match the prototype's
+`0.3rem` base: `xs 0.125rem / sm 0.1875rem / md 0.3rem / lg 0.375rem /
+xl 0.5rem`. Cards and table Papers use `md`; controls default smaller.
+No key on this scale produces a circle, so a person avatar asks for
+`radius="50%"` directly; organisation marks stay `sm` per the
+identity-cell rule.
+
+**Floating surfaces follow the active color scheme — never invert.**
+A tooltip or popover that renders dark-on-light in light mode and
+light-on-dark in dark mode reads as foreign chrome and fails the
+state-sibling consistency principle. Set the Tooltip (and any floating
+surface) colors once in the shared theme so both schemes resolve to a
+same-scheme surface; never restyle per call site.
+
+**Density.** The product is data-dense; the reference tables read
+correctly at what the previous scale showed at 80% zoom. Tables use
+`verticalSpacing="sm"`; toolbar rows `py={4}`; footer rows `py="xs"`.
+Distribute row width by content: identity columns get fixed widths,
+list columns (chips, nationality lists) flex, numeric metric columns
+get compact fixed widths at the right edge.
+
+**Page header composition.** One header row owns the page's controls:
+title + live count, inline search, then quick-filter pill groups — in
+that order, wrapping as a group. A search input never floats detached
+in the page corner; if it filters the table, it sits with the other
+things that filter the table.
+
+**Column order.** Identity leftmost (after the ordinal), descriptive
+list columns next, numeric metric columns at the right edge. For
+leagues: `# | League/Competition | Key Athletes | Nationalities |
+Athletes | IG Reach`.
+
+## Visual parity rules (harvested from the loop, iterations 1–18)
+
+Every rule below started as a measured delta against the reference
+prototype, was fixed, and was re-verified by measurement. Numeric
+tokens are stated as principles with their owner named —
+`packages/ui/theme/theme.ts` holds the current values; do not trust a
+number written in prose over the token.
+
+### Typography
+
+**px size parity is not visual parity.** Space Mono's letterforms are
+wide: at equal font-size it reads a size larger and "letterspaced"
+compared to narrower monos. The compensation (negative tracking on the
+mono face) lives on the typeface, as props-conditional theme styles on
+`Text`/`Badge` (`ff="monospace"` → tightened `letterSpacing`) — never
+per call site.
+
+**Size hierarchy follows importance.** An identity name outranks its
+tag in size, not only weight (name one token above the tag). A tag
+rendering larger than the name it annotates is an inversion, however
+correct the weights are.
+
+**Bold belongs to the page title alone.** One bold element per page:
+identity names are medium (500) mono, headers 500, data 400, and all
+buttons 400 (`Button` theme styles own this — filter pills, sort
+menus, and chrome buttons never carry weight). Emphasis beyond the
+title comes from ink or size bands, not weight.
+
+**The scale is set by iteration against the reference, owned by the
+theme.** `fontSizes`, `lineHeights`, and `headings` in
+`packages/ui/theme/theme.ts` are the only source for sizes; skeleton
+bars derive from `var(--mantine-font-size-*) * var(--mantine-line-height-*)`
+so they track every retune automatically. A surface that looks
+oversized means a local override, not a token change.
+
+**Ink lives in narrow bands.** Data ink is the theme `black`
+(`#17171c` — soft near-black, never harder), label ink one step
+lighter (`gray-7`/`dark-2` band), list text dimmed, overflow counts
+lighter still. Headers carry no positive letter-spacing.
+
+### Space and structure
+
+**A table's flexible column is a design decision.** Fixed-width
+columns push all slack into whichever column has only a `minWidth`;
+know which column that is and make it the one whose content benefits
+(the wrapping list column), not whichever happened to be declared
+flexible. Probe with `getBoundingClientRect`, not by eye.
+
+**Wrapping list columns wrap whole items.** Multi-word entries are
+internally no-break-bound ("Costa Rica" never splits), the +N count is
+glued to the last item with a no-break space, the preview count is
+budgeted so the clamp never produces an ellipsis, and the +N reads
+lighter than its list.
+
+**Section dividers recede.** Nav group headers (LIBRARY / DISCOVER /
+TOOLS) and taglines are dimmed translucent white on the rail — they
+must call less attention than the items they group. A divider brighter
+than its tabs has the hierarchy backwards.
+
+**Controls are compact and the filter row fits a laptop.** Buttons and
+inputs at default `xs` are 26px with theme-owned label sizes; the nav
+rail is 190px. Concrete acceptance: at a 1512px viewport, one header
+row holds title + count + search + every pill group + the sort control
+with margin, nothing wraps — including the header labels themselves
+(inline `nowrap`).
+
+**Sorted metric headers read as one unit.** On right-aligned columns
+the arrow precedes the label; inactive headers reserve the arrow's box
+invisibly so all headers share a baseline and nothing shifts when sort
+moves. Sort lives in the page header as a menu (re-selecting the
+active column flips direction); a "Sort:" caption row is dead space.
+
+**Default sort is the page's ranking metric,** not the alphabet —
+which also sinks empty rows.
+
+### Color and surfaces
+
+**The accent is ink, not neon.** `teal.9` (`#083940`) fills every
+selected control and the nav rail; the content area stays achromatic.
+Brighter teal steps are for hovers and links only.
+
+**Dark means near-black.** The `colors.dark` scale is teal-tinged
+near-black (owner: theme); never lighten it per surface.
+
+**Chips are soft fills, never wiry outlines.** Athlete chips: soft
+gray fill, hairline border, gray ink. Tags on catalog rows: soft fill,
+no border, dark ink.
+
+**Light-mode hovers are gray, not colorful.** Row hover and chip/tag
+hover use gray steps in light mode (`light-dark()` with the gray side
+first); the teal wash and accent hover survive only in dark mode,
+where gray steps vanish against near-black. Color on hover in light
+mode reads as selection, not affordance.
+
+**Dividers whisper; the header row encloses.** Row dividers sit at the
+faintest gray step (theme `Table` vars); the header row's top and
+bottom borders sit one step darker than the dividers.
+
+**Icons are always outline (`pro-regular`).** A glyph that is
+inherently a filled silhouette is the wrong glyph — pick an
+outline-native one.
+
+### Mantine mechanics the loop paid for
+
+**Variant colors arrive as inline-style variables.** Class-level
+`--badge-*`/`--button-*` assignments always lose to them; override the
+real CSS properties with a doubled-class selector
+(`.chip.chip { background-color: … }`). Import order also matters:
+page CSS modules load before `@mantine/core/styles.css`, so a single
+class ties and loses.
+
+**`--input-bd` and `--button-bd` do not read
+`--mantine-color-default-border`.** Route them through it explicitly in
+the theme's component vars, alongside the `cssVariablesResolver` that
+softens the default border.
+
+**Mantine's `disabled`, `Tooltip` events, and `NavLink` semantics all
+under-deliver silently** — see the identity-cell, tooltip, and nav
+sections above; the pattern is general: verify the rendered DOM, not
+the prop name.
+
+### Enforcement by shared component (PR-review rules, 2026-08-20)
+
+**Design constants and cell primitives have exactly one owner, in
+`@repo/ui` — never per feature.** A `cell-typography.ts` duplicated
+into two page trees is a defect, full stop. The scale, chip styling,
+hover behavior, and overflow budgets live in shared components and
+theme tokens; a feature that needs them imports them.
+
+**Cells render through the shared primitives, not raw Mantine.** Table
+cell text goes through `@repo/ui/cell-text` (which owns the cell
+scale), numbers through `@repo/ui/numeric-cell` (mono, ink classes,
+optional leading pictogram), entity references through
+`@repo/ui/entity-chip`, kind tags through `@repo/ui/kind-tag`, and
+quick filters through `@repo/ui/pill` / `pill-group` /
+`single-select-pills`. Passing `size`/`ff`/ink props to a bare `Text`
+in a cell means a primitive is missing — add it there, not locally.
+
+**The nav shell is shared; verticals contribute only content.** One
+navbar implementation serves every vertical; what differs per vertical
+is declared data — sections, items, labels, paths — supplied by that
+vertical's configuration and rendered by the shared shell. Behavior
+(collapse, active state, a11y, hover) never forks per vertical.
+(Implementation of per-vertical config modules is a planned follow-up
+PR; the rule binds now.)
+
+### How to run the loop (method)
+
+Tooling is committed: `pnpm --filter web screenshot [route] [out]
+[light|dark]` drives the system Chrome against the dev server via the
+auth-less `preview.html` entry. Rules of the loop, each learned the
+hard way:
+
+- **Compare in the reviewer's color scheme, and check both.** The
+  entire first loop ran dark-only and shipped a light mode that failed
+  review on sight.
+- **Compare at the reviewer's viewport width.** Oversized screenshot
+  viewports flatter density; 1512px is the reference width.
+- **Measure; never eyeball.** `getBoundingClientRect` probes for
+  geometry, sampled hexes for color, and a fresh-context agent for
+  image comparison when the session's context cannot load screenshots.
+- **DOM computed styles are the arbiter.** When a pixel heuristic says
+  "heavier" and `getComputedStyle` says 400/Inter/11px on both
+  elements, the DOM wins — antialiasing lies at small sizes.
+- **A static reference shows the rest state only — never delete an
+  interactive affordance because a screenshot lacks it.** The pinned
+  columns' scrolled-state shadow was lost exactly this way: the
+  reference never scrolled, so parity work removed the chrome and its
+  vestigial tests together. Before removing hover/scroll/focus
+  behavior during parity work, reproduce the interactive state; and
+  when deleting a stale test, check whether the behavior it guarded is
+  stale or only its implementation.
+- **Every delta lands as a rule in this file in the same iteration**,
+  with stale numbers repointed at their token owner rather than
+  restated.
 
 ## Anti-patterns
 

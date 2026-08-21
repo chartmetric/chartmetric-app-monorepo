@@ -1,0 +1,42 @@
+{
+  "id": "05-leagues-page",
+  "title": "leagues list page",
+  "status": "completed",
+  "depends_on": [
+    "03-leagues-api",
+    "04-nav-sections"
+  ],
+  "acceptance": [
+    "Route /sports/leagues renders a LeaguesPage from apps/web/src/pages/sports/leagues/, and the sports vertical declares the Leagues nav item under the Discover section",
+    "Header row matches the mock: localized title with the live total from meta.total, inline SearchInput, and quick-pill groups - sport (single-select: All Sports plus each sport from /app/leagues/filter-options), ATHLETES 2+/5+/10+, REACH 1M+/10M+/100M+, and a Mega only toggle - mapping to sports[], minTrackedAthletes, minAggregatedIgFollowers, and megaOnly; changing any filter resets offset to 0",
+    "Table matches the mock: # ordinal derived from offset, League/Competition identity cell (logo Avatar radius='sm', name, sport rendered as colored Text via getSportColor - not a Badge), Key Athletes as 3 chips plus a '+N' overflow with a tooltip listing the rest, Nationalities as an inline list plus '+N' with tooltip; the league column sorts asc/desc with the directional icon on the active column only",
+    "All request/response types derive from @repo/api-client paths (no hand-written API types); TanStack Query keys are ['leagues', query] and ['league-filter-options']",
+    "Loading, empty, error, and data states share identical Paper props; the skeleton mirrors toolbar, body, and footer with CSS-var bar heights and a row count driven by the page-size constant; the teal hover accent is set on the Paper wrapper",
+    "getSportColor is promoted out of apps/web/src/pages/sports/athletes/utils/ to a location shared by both sports pages; the athletes page imports the promoted module and no duplicate sport-color mapping remains",
+    "All user-facing strings go through Lingui and are translated in all 7 locales; behavior tests cover filter-to-query mapping, pill single-select behavior, and the four page states; pnpm typecheck, pnpm test, and pnpm build pass"
+  ],
+  "files": [
+    "apps/web/src/App.tsx",
+    "apps/web/src/verticals.ts",
+    "apps/web/src/pages/sports/**",
+    "apps/web/src/locales/sports/**",
+    "apps/web/src/locales/common/**"
+  ],
+  "gates": [
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build"
+  ],
+  "verification_cmd": "pnpm --filter web exec vitest run src/pages/sports/leagues",
+  "smoke_cmd": "",
+  "security_review": false,
+  "notes": "PRD: docs/PRD.md '## Leagues list (sports vertical)'. Depends on phase 03 for generated @repo/api-client types and phase 04 for the nav section mechanism. The mock is authoritative for information architecture and filter behavior; visual treatment follows docs/design/DESIGN_LANGUAGE.md (sport labels are colored Text per the taxonomy rule, not the mock's gray badges; organisation avatars use radius='sm'). This page is the explicit first ground-up test of the design language doc - treat its rules as acceptance-blocking. Reuse @repo/ui (search-input, data-table, table-pagination) and the athletes quick-pill precedent (PillGroup/Pill); a leagues page needs no column picker and no URL state (both out of scope in the PRD).",
+  "attempts": 1,
+  "run_started_at": "2026-08-19T22:27:05+00:00",
+  "stage": "commit",
+  "out_of_scope_files": [
+    "apps/web/src/layout/Layout.test.tsx"
+  ],
+  "review_findings": "SHOULD_FIX:\n- apps/web/src/pages/sports/leagues/filters/sort-state.ts:21 \u2014 the only sortable column is inert: `changeQuerySort` sets `sortBy` to \"name\", which is already the default, so the header button (accessible name \"Sort by League / Competition\") re-issues a structurally identical query key and aria-sort never changes. The acceptance amendment to a fixed per-column direction is legitimate, but shipping a control that can never change state is not \u2014 drop `sortKey` from the league column until `GET /app/leagues` gains `sortDirection` (the toolbar already shows the direction), or land that contract phase first.\n- apps/web/src/pages/sports/leagues/components/LeagueListStates/LeagueListLoading.tsx:36 \u2014 skeleton header and data rows hard-code `miw={280}`/`miw={220}`, restating the non-exported KEY_ATHLETES_MIN_WIDTH / NATIONALITIES_MIN_WIDTH (columns/table-columns.ts:15-16) while importing the other two widths; export and import them so the skeleton cannot drift.\n- apps/web/src/pages/sports/athletes/components/AthleteFilters/AthleteFilters.tsx:36 \u2014 the helper dedupe (out-of-scope per the phase's own \"Out of scope\") silently changes athletes' filter-option counts: the deleted `useCompactNumberFormatter` used compact defaults, `useListFormatters().compact` sets `maximumFractionDigits: 1` (12500 renders \"12.5K\", was \"13K\"). No test covers it; add one or note the change in the retro.\n- apps/web/src/pages/sports/leagues/components/LeaguesTable.tsx:141 \u2014 `sortedColumn?.label ?? sortBy` leaks the raw API key (\"name\") into the localized \"Sort:\" toolbar; use a translated fallback.\n- apps/web/src/pages/sports/leagues/components/LeagueCells/NationalitiesCell.tsx:11 \u2014 prop typed `readonly string[]` rather than derived `League[\"nationalities\"]`, unlike the sibling KeyAthletesCell which derives `KeyAthlete`.\n- apps/web/src/pages/sports/leagues/components/LeagueCells/OverflowCount.tsx:16 \u2014 `String(items.length)` bypasses the existing formatting owner, so \"+N\" is unlocalized while row ordinals go through `useListFormatters().plain`.\n- apps/web/src/pages/sports/leagues/LeaguesPage.test.tsx:152 \u2014 sort coverage only asserts aria-sort at rest; no test clicks the sort header, which is why the inert control cleared the gates.\n- apps/web/src/layout/Layout.test.tsx:84 \u2014 out-of-scope file, but the one-line Discover expectation follows unavoidably from the nav item acceptance 1 requires; incidental, not scope creep.\n\nBACKLOG_WORTHY:\n- medium \u2014 leagues and athletes search fire one request per keystroke; artists debounces 350ms via useDebouncedCallback. Unify search debouncing across list pages.\n- low \u2014 LeagueListLoading's SkeletonToolbar/SkeletonFooter now duplicate AthleteListLoading's byte-for-byte; a second consumer exists, so promote them beside the shared pills.\n- low \u2014 the athletes list error state uses Alert while leagues uses the design-language Paper state sibling; align athletes to the documented rule.\n- low \u2014 apps/web/AGENTS.md mandates one React component per .tsx, yet LeaguesTable.tsx and LeagueListLoading.tsx declare 3-5 each (copying athletes). Carve an explicit toolbar/footer/skeleton exception or split both pages.\n- low \u2014 SkeletonDataRow sets key={index} on its own root Table.Tr, which React ignores; both call sites already pass key (inherited from athletes).",
+  "review_cycles": 1
+}

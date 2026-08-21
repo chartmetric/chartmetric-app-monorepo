@@ -1,3 +1,0 @@
-.navLink:hover:not([data-active]) {
-  background-color: var(--mantine-color-teal-8);
-}
