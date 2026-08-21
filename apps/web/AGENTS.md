@@ -18,6 +18,7 @@ Read `docs/design/DESIGN_LANGUAGE.md` before any design-oriented UI work in `app
 - **Row hover / state changes:** spread `ROW_HOVER_STYLE` from `@repo/ui/data-table` on the Paper wrapper, not on DataTable — gray in light mode, accent wash in dark. General rule: any state or mode change (hover, selected, tag/chip washes) shifts one step on the scale, never a bright/saturated leap.
 - **Icons:** FA outline (`@fortawesome/pro-regular-svg-icons`, individual path imports) everywhere — never solid, never Unicode symbols (`▲ ▼ — ↑ ↓`).
 - **Control placement:** filters live in the page header grouped by target; utility controls (column picker, export) share the title/count row right-aligned — no control gets an otherwise-empty row of its own. Header wraps to a balanced second row, never a lopsided strip.
+- **Adaptive layout:** headers wrap by group — the container wraps while title+count, search, each pill group, and utility controls are atomic `wrap="nowrap"` units; search reflows with the filters, utility controls right-align via `ml="auto"` inside the wrap, fixed widths become `w={{ base: "100%", sm: N }}`. See [Adaptive layout](../../docs/design/framework.md#adaptive-layout).
 - **Accessibility & contrast:** every text/background and label/fill pair meets WCAG 2.2 AA (4.5:1 text, 3:1 large text/UI) in both color schemes — measured against the actual fill (button/badge/washed row), not the page. Color is never the only signal; focus is always visible.
 
 Full rationale, decision trees, and anti-patterns: `docs/design/DESIGN_LANGUAGE.md`.

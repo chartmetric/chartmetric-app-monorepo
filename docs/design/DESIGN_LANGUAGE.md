@@ -22,6 +22,7 @@ Each rule states its **condition, the Mantine/`@repo/ui` API it maps to, and one
 | Add a cell, badge, tag, chip, or icon                               | [Component Rules](rules-components.md)                                                                                 |
 | Pick a color, state treatment, type size, or surface                | [Visual System Rules](rules-visual-system.md)                                                                          |
 | Add a filter, control, or header layout                             | [Filters, controls, and layout](framework.md#filters-controls-and-layout)                                              |
+| Make a view work at narrow or mobile widths                         | [Adaptive layout](framework.md#adaptive-layout)                                                                        |
 | Verify a visual change                                              | [Method](method.md)                                                                                                    |
 
 ## Contents
@@ -34,6 +35,7 @@ Each rule states its **condition, the Mantine/`@repo/ui` API it maps to, and one
 - [Designing a new view](framework.md#designing-a-new-view)
 - [Data states](framework.md#data-states)
 - [Filters, controls, and layout](framework.md#filters-controls-and-layout)
+- [Adaptive layout](framework.md#adaptive-layout)
 - [Pagination](framework.md#pagination)
 - [Charts and motion](framework.md#charts-and-motion)
 - [Performance is part of the design](framework.md#performance-is-part-of-the-design)

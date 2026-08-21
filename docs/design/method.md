@@ -6,7 +6,7 @@ _Part of the [Design Language](DESIGN_LANGUAGE.md). Read the [index](DESIGN_LANG
 
 Process, not design law: the [rules files](DESIGN_LANGUAGE.md#contents) say what to build; this is how the team verifies visual changes against the reference prototype.
 
-Tooling is committed: `pnpm --filter web screenshot [route] [out] [light|dark]` drives the system Chrome against the dev server via the auth-less `preview.html` entry. Rules of the loop, each learned the hard way:
+Tooling is committed: `pnpm --filter web screenshot [route] [out] [light|dark] [width]` drives the system Chrome against the dev server via the auth-less `preview.html` entry. Width defaults to the 1512px reference; pass a narrow width for the [adaptive layout](framework.md#adaptive-layout) checks. Rules of the loop, each learned the hard way:
 
 - **Compare in the reviewer's color scheme, and check both.** The first loop ran dark-only and shipped a light mode that failed review on sight.
 - **Compare at the reviewer's viewport width.** Oversized screenshot viewports flatter density; 1512px is the reference width.

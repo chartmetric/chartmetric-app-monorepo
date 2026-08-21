@@ -242,6 +242,8 @@ These patterns caused real defects. Each has been fixed; this table prevents reg
 | Black text on a dark fill / any label not measured against its actual background         | Choose the label color for its fill; meet WCAG 2.2 AA in both schemes                             |
 | A bright/saturated wash on hover or a light-mode row                                     | One gray step in light mode; the accent `-light` wash only in dark mode                           |
 | A control isolated in an otherwise-empty toolbar row                                     | Move it onto the title/count or filter row; no row >~60% empty                                    |
+| A `nowrap` header container whose child groups wrap internally (title/count stack)       | Invert it: the container wraps, each group is an atomic `wrap="nowrap"` unit                      |
+| A fixed control width that overflows a phone viewport                                    | Responsive width: `w={{ base: "100%", sm: N }}`                                                   |
 | `<Paper withBorder>` on a plain page background                                          | `<Paper shadow="sm" radius="md">`                                                                 |
 | Different Paper variants across state siblings (loading/empty/error/data)                | Same `shadow="sm" radius="md"` on all states                                                      |
 | Skeleton that covers only data rows but not toolbar or footer                            | Mirror the complete layout including toolbar and footer structural rows                           |
