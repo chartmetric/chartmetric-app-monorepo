@@ -65,7 +65,7 @@ msgstr "Adicione, remova ou reordene colunas"
 msgid "Age"
 msgstr "Idade"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:47
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:49
 msgid "All Sports"
 msgstr "Todos os esportes"
 
@@ -75,7 +75,7 @@ msgstr "Atleta"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:159
 #: src/pages/sports/leagues/columns/table-columns.ts:128
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:61
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:63
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:29
 msgid "Athletes"
 msgstr "Atletas"
@@ -182,7 +182,7 @@ msgstr "Corações"
 msgid "Hidden"
 msgstr "Ocultas"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:70
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:72
 msgid "IG Reach"
 msgstr "Alcance no IG"
 
@@ -249,7 +249,7 @@ msgstr "Carregando ligas"
 msgid "Maximum CM score"
 msgstr "Pontuação CM máxima"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:80
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:82
 msgid "Mega only"
 msgstr "Somente mega"
 
@@ -366,7 +366,7 @@ msgstr "Salvar como grupo"
 msgid "Search athletes…"
 msgstr "Buscar atletas…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:44
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:63
 msgid "Search by league name"
 msgstr "Pesquisar por nome da liga"
 
@@ -378,7 +378,7 @@ msgstr "Pesquisar por nome"
 msgid "Search columns…"
 msgstr "Buscar colunas…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:49
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:68
 msgid "Search leagues…"
 msgstr "Buscar ligas…"
 
@@ -404,7 +404,7 @@ msgid "Sort:"
 msgstr "Ordenar:"
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:43
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:48
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:50
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:28
 msgid "Sport"
 msgstr "Esporte"

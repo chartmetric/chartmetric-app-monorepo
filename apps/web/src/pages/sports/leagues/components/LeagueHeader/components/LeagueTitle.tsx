@@ -13,7 +13,7 @@ export const LeagueTitle: FC<LeagueTitleProps> = ({ total }) => {
   const { t } = useLingui();
 
   return (
-    <Group align="baseline" gap={6} miw={0}>
+    <Group align="baseline" gap={6} wrap="nowrap">
       <FontAwesomeIcon aria-hidden icon={faTrophy} />
       <Title order={1} size="h5">
         {t`Leagues`}

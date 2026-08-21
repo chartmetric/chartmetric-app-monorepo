@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
-import { Divider, Group } from "@mantine/core";
+import { Divider } from "@mantine/core";
 import { Pill } from "@repo/ui/pill";
 import { SingleSelectPills } from "@repo/ui/single-select-pills";
 
@@ -41,8 +41,10 @@ export const LeagueQuickFilters: FC<LeagueQuickFiltersProps> = ({
       };
     });
 
+  // A fragment, not a Group: each pill group must be a direct child of the
+  // header's wrapping row so groups reflow whole at narrow widths.
   return (
-    <Group align="center" gap="sm">
+    <>
       <SingleSelectPills
         clearLabel={t`All Sports`}
         groupLabel={t`Sport`}
@@ -82,6 +84,6 @@ export const LeagueQuickFilters: FC<LeagueQuickFiltersProps> = ({
           onChange({ ...values, isMegaOnly: !values.isMegaOnly });
         }}
       />
-    </Group>
+    </>
   );
 };
