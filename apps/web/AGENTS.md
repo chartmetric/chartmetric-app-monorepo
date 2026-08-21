@@ -8,14 +8,15 @@ Also follow `/AGENTS.md`, `/apps/AGENTS.md`, and `/docs/architecture/access-and-
 
 Read `docs/design/DESIGN_LANGUAGE.md` before any design-oriented UI work in `apps/web/`. Quick-reference rules:
 
+- **New views start from the decision framework:** write the decision sentence (“after this view a user can decide ___”), pick the comparison unit (table / chart / KPI cards), build the reading order (orientation → signals → evidence → action), and design loading/error/empty/partial states before polishing the loaded state.
 - **Table surface:** `<Paper shadow="sm" radius="md">` without `withBorder` on plain page backgrounds. All state siblings (loading, empty, error) use the same Paper variant so no visual jump occurs on transition.
 - **Color semantics:** `dimmed`/`gray` = absent or ignorable. `teal` = active/established. `orange` = rising. `red` = declining. `blue` = informational. Never use `dimmed` for a value the user can filter or sort on.
 - **Categorical data:** sport/taxonomy label → `<Text c={getSportColor(sport)}>`. Level (Pro/College) → `<Badge variant="light">`. Momentum direction → FA icon + semantic color. Secondary non-filter text → `<Text c="dimmed" size="xs">`. Never `Badge variant="dot"` inside a dense table cell.
-- **Identity cells:** Avatar `size={40} radius="50%"` with border ring. Three lines: name `fw={600} size="sm"` → classification (flag + sport color) → social icon row. Stack `gap={2}`; social row adds `mt={2}`. Round avatar (`radius="50%"`) = person; `radius="sm"` = organisation.
-- **Table loading:** skeleton must mirror the full layout — toolbar row, table, footer row — spreading the `TABLE_TOOLBAR_PADDING` / `TABLE_FOOTER_PADDING` / `TABLE_VERTICAL_SPACING` constants `@repo/ui/data-table` exports rather than restating them. Bar heights use `height="calc(var(--mantine-font-size-sm) * 1.55)"` not integer px. `isPending` → skeleton; `isFetching && !isPending` → `<LoadingOverlay>`.
+- **Identity cells:** round avatar (`radius="50%"` — the square-leaning scale means no radius key reaches a circle) = person; `radius="sm"` = organisation, with the default-border ring. Cell text renders through `@repo/ui/cell-text` (`CellText`), names one size above their row; entity chips through `@repo/ui/entity-chip`, kind tags through `@repo/ui/kind-tag`.
+- **Table loading:** skeleton must mirror the full layout — toolbar row, table, footer row — spreading the `TABLE_TOOLBAR_PADDING` / `TABLE_FOOTER_PADDING` / `TABLE_VERTICAL_SPACING` constants `@repo/ui/data-table` exports rather than restating them. Bar heights derive from `calc(var(--mantine-font-size-*) * var(--mantine-line-height-*))`, never a literal multiplier. `isPending` → full skeleton; `isFetching && !isPending` → pass `renderSkeletonRow` so body rows go skeleton while headers stay real. Never `LoadingOverlay`.
 - **Sort icon:** only the active column shows a directional FA icon. Inactive columns return `null`. Wrap icon in `aria-hidden` span; communicate sort state via `aria-sort` on the `<th>`.
-- **Row hover:** set `--table-highlight-on-hover-color: var(--mantine-color-<accent>-light)` on the Paper wrapper, not on DataTable. Accent is vertical-specific (athletes = `teal`).
-- **Icons:** FA (`@fortawesome/pro-solid-svg-icons`, individual path imports) for all status/directional indicators. No Unicode symbols (`▲ ▼ — ↑ ↓`) anywhere.
+- **Row hover:** spread `ROW_HOVER_STYLE` from `@repo/ui/data-table` on the Paper wrapper, not on DataTable — gray in light mode, accent wash in dark, per the design rule.
+- **Icons:** FA outline (`@fortawesome/pro-regular-svg-icons`, individual path imports) everywhere — never solid, never Unicode symbols (`▲ ▼ — ↑ ↓`).
 
 Full rationale, decision trees, and anti-patterns: `docs/design/DESIGN_LANGUAGE.md`.
 

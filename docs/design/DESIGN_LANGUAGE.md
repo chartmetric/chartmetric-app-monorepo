@@ -1,8 +1,119 @@
 # Design Language
 
-Chartmetric-specific design decisions for `apps/web/`. Every rule follows the pattern: **condition → Mantine API call → one-sentence why → exception if any.**
+Chartmetric-specific design decisions for `apps/web/`. The document has two layers: a **decision framework** (Product philosophy through Performance) governing how to approach any new view, and **mechanical rules** (Vertical accent colors onward) where every rule follows the pattern **condition → Mantine API call → one-sentence why → exception if any.** Read the framework before designing a view; read the rules before writing its components.
 
 This document is the single source of truth for all verticals (athletes, music artists, creators, and any future entity type). Rules are derived from real implementation work and apply universally unless a section explicitly marks a rule as vertical-specific. `apps/web/AGENTS.md` and `packages/ui/AGENTS.md` carry short-form pointers; the `web-design-guidelines` skill prepends a read instruction. Do not duplicate rules across files.
+
+## Product philosophy
+
+This is a professional analytics workspace, not a consumer product. Its users — analysts, managers, operators — spend hours comparing entities, scanning ranked tables, and moving between profiles. Every design decision favors speed, stable context, and information density over spectacle. The reference points are calm tools (Notion, Linear, a Bloomberg terminal), not expressive products (Spotify, Instagram).
+
+- A screen exists to get the user to a defensible answer with fewer clicks and less scrolling. Color, imagery, animation, and large type earn their place only by improving comprehension, orientation, or feedback — otherwise they compete with the data.
+- The product spans music, sports, creators, and future verticals but remains **one workspace**: one shell, one interaction model, one hierarchy. Data and domain vocabulary change inside the shell; the visual language does not. VerticalConfig varies branding and terminology — never interaction patterns.
+- Density is a capacity decision, not an aesthetic. On a typical display, compact text and spacing fit roughly half again as many comparable rows as leisurely sizing, and the dominant task is comparison. `packages/ui/theme/theme.ts` already encodes this (a tightened spacing scale, `Button`/`Input` defaulting to the compact 26px `xs` tier — read the current tokens from the theme, not from prose). Do not undo it locally with custom padding, larger type, or hero regions — and do not tighten further with per-component overrides; change the theme or nothing.
+
+## App shell
+
+- **The navbar is brand-anchored, not theme-reactive.** `AppShell.Navbar` uses `bg="teal.9"` with `withBorder={false}` in both color schemes. Navigation is the stable frame around changing data; it must stay recognizable when the page theme flips. Do not "fix" it to a light/dark surface token.
+- **The header is a thin strip for global controls only** (auth, color scheme, locale, global search when it exists). Page-level features never move into the shell — every pixel of chrome is a pixel the data cannot use.
+- **Geometry comes from the theme.** Radius, spacing, and control sizes come from `packages/ui/theme/theme.ts` exclusively. Never introduce a local radius value or a pill-shaped card: compact corners signal a working tool; large rounding signals consumer software.
+
+## Typography
+
+- **Two typefaces, both theme-owned.** Inter Variable for UI chrome; Space Mono (the theme `fontFamilyMonospace`) as the data face for table cells, counts, and metric values — reached only via `ff="monospace"`, never by naming the family. Do not add any further font package.
+- **Numeric columns render through `@repo/ui/numeric-cell`.** The mono data face carries fixed-width digits inherently, so numbers never shift as values change; `NumericCell` adds the ink classes and the optional leading pictogram. No per-cell `tabular-nums` styling.
+- **Hierarchy comes from weight, case, and color — not size inflation.** Inside a dense region, a section or metadata label is `<Text size="xs" tt="uppercase" c="dimmed">` (no positive letter-spacing — see the parity rules), not a bigger heading. (`c="dimmed"` is correct here: a section label is not a filter/sort value — see Color semantics.) Reserve theme heading sizes for page and view titles.
+
+## Designing a new view
+
+Work through these steps in order, before choosing any component.
+
+**1. Write the decision sentence.** "After using this view, a user can decide ___." If the sentence is unclear, the feature has too much scope or needs discovery — stop and resolve that first. An "Audience" tab answers "who is this subject reaching and where?", not "every audience field the API returns."
+
+**2. Pick the primary comparison unit.**
+
+| The user compares…                           | Start with…                                       |
+| -------------------------------------------- | ------------------------------------------------- |
+| Many named entities across the same measures | A table                                           |
+| A change across time                         | A chart, with the current value placed next to it |
+| A quick status before deciding where to dig  | A small group of KPI cards                        |
+
+Cards are not dashboard decoration: each card must answer a _different_ decision-relevant question. Two cards restating the same signal in different words get combined or removed.
+
+**3. Build the reading order.** One scan path, top to bottom:
+
+1. **Orientation** — title, time period, the one or two facts that establish context.
+2. **Decision signals** — the compact summary values or the main chart/table answering the view's question.
+3. **Evidence** — the rows, segments, or drill-downs the user needs to trust or challenge the summary.
+4. **Action** — shortlist, compare, export — only when it directly follows from the analysis.
+
+This ordering is why a dense screen still feels calm; it prevents the "dashboard of unrelated cards" failure where every metric shouts at the same level.
+
+**4. Run the decision sequence.**
+
+| Question                                        | Design consequence                                                                  |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------- |
+| What is the user trying to decide?              | Make the corresponding measure, comparison, or action prominent.                    |
+| What is the smallest useful default view?       | Show the common case first; hide advanced controls until needed.                    |
+| What needs side-by-side comparison?             | Aligned columns, shared axes, tabular numerals — not separate cards.                |
+| What can change the answer?                     | Make that dimension a filter, a sort, or a visible period selector.                 |
+| What happens when data is absent or late?       | Design loading, empty, error, and partial states before polishing the loaded state. |
+| What must stay visible while inspecting detail? | Preserve identity, scope, and key context via headings or sticky columns.           |
+
+The user must never have to infer whether a value is current, filtered, estimated, or unavailable. Prefer a compact label, period selector, or inline "not available" over a blank that looks accidentally unfinished.
+
+**Profile and detail pages** are for analysis, not showcase: a compact identity header (small avatar, metadata, platform links) with views available immediately — never a cover-image hero that delays the data. Keep the full set of views visible on desktop; on narrow screens translate the _same_ set into a horizontally scrollable bar. One information architecture, responsively rendered.
+
+**Completion checklist** — walk the view as an analyst before calling it done:
+
+1. Can I state the decision this view helps me make in one sentence?
+2. Can I understand the default view without opening a filter or tooltip?
+3. Does every KPI, chart, and control change understanding or action?
+4. Does the first viewport work for its living — no decorative hero, no permanently empty control strip?
+5. Are loading, error, empty, partial-data, and narrow-screen states truthful and usable?
+6. Can I share the filtered/sorted view and return to the same position later?
+
+If any answer is no, simplify before adding visual treatment. A feature earns polish by making research faster and more reliable, not by accumulating decoration.
+
+## Data states
+
+Design the state model before polishing the happy path. Every view distinguishes four states, in this order:
+
+```tsx
+if (query.isPending) return <ViewSkeleton />; // mirrors the final geometry — no jump on arrival
+if (query.isError) return <ErrorAlert onRetry={query.refetch} />;
+if (rows.length === 0) return <EmptyState title="..." description="..." />;
+return <DataView rows={rows} />;
+```
+
+- **A request failure is not an empty result.** An empty table caused by a timeout is indistinguishable from "no records" unless the error state is visually distinct and says what failed with a concrete recovery action (Mantine `<Alert color="red">` with a retry). Silent failure is never acceptable in an analytical product.
+- **A valid empty result guides the next step** ("No results for this selection — try another period or remove a filter"), it does not dead-end.
+- **Partial coverage is labeled, not hidden.** When one platform or metric is missing, show the known values and mark the gap inline; never hide the section or substitute zero.
+
+Table-specific mechanics (skeleton structure, refetch rows, bar heights) are specified in [Table loading states](#table-loading-states).
+
+## Filters, controls, and shareable state
+
+- Every control must answer: **"what decision does changing this affect?"** A control that changes interpretation (time period, market, level) earns visible placement near the evidence it affects. Cosmetic or rarely used options go behind a compact trigger showing a truthful active-filter count — they do not get permanent screen real estate.
+- **Changing filters or sort resets pagination to page 1.** Never leave the user on an orphaned page of a result set that no longer exists.
+- **State that changes what a colleague would see belongs in the URL** — filters, sort, page, period — so any important view is shareable and reproducible.
+
+## Pagination
+
+Explicit server-side pagination with a fixed page size — never infinite scroll. Rosters run to tens of thousands of entities; infinite scroll accumulates DOM nodes, degrades sorting and filtering over time, and destroys "return to where I was." Explicit pages bound memory, put the position in the URL, and give the user a reliable anchor. Do not trade those properties for apparent smoothness.
+
+## Charts and motion
+
+- **Charts use `@mantine/charts`** (Recharts under Mantine theming). Series colors are Mantine color tokens with the semantic meanings from [Color semantics](#color-semantics), so every chart follows the active color scheme — never per-chart hardcoded hex.
+- A chart's job is the trend; **place the current value beside the chart** rather than making the user read it off an axis.
+- If a visualization needs a primitive `@mantine/charts` does not own (e.g. geographic maps), propose the smallest library that owns it — per the root technology-choices rule — rather than forcing the wrong tool or hand-rolling.
+- **No JavaScript animation library on data pages.** These regions re-render on every query response, filter change, and sort toggle — exactly when JS-driven motion janks. Feedback is short CSS transitions (~150ms, colors/transform). Never animate a region that re-renders with data.
+
+## Performance is part of the design
+
+Server-side pagination for large lists; debounce type-ahead filters (`useDebouncedValue`); don't render off-screen rows speculatively. A view is not complete if it is polished at 20 rows and slow or unstable at realistic scale.
+
+---
 
 ## Vertical accent colors
 
@@ -190,12 +301,15 @@ The three-line hierarchy for any entity identity cell in a data table (athlete, 
 | `query.isPending` — no data exists yet                                | Initial load | Show the full skeleton (toolbar + table + footer)                        |
 | `query.isFetching && !query.isPending` — data exists, being refreshed | Refetch      | Replace body rows with the existing `SkeletonDataRow`; headers stay real |
 
-For the refetch state, pass `isFetching` and `renderSkeletonRow` to `DataTable`:
+For the refetch state, pass `renderSkeletonRow` to `DataTable` only while fetching — the prop's presence is the signal; `DataTable` has no separate `isFetching` prop:
 
 ```tsx
 <DataTable
-  isFetching={isFetching}
-  renderSkeletonRow={(index) => <SkeletonDataRow index={index} key={index} />}
+  renderSkeletonRow={
+    isFetching
+      ? (index) => <SkeletonDataRow index={index} key={index} />
+      : undefined
+  }
   ...
 />
 ```

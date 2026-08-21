@@ -16,13 +16,8 @@ const SPORT_COLORS: Readonly<Record<string, MantineColor>> = {
   volleyball: "cyan",
 };
 
-const UNKNOWN_SPORT_COLOR: MantineColor = "gray";
-const UNMAPPED_SPORT_COLOR: MantineColor = "violet";
-
 export const getSportColor = (sport: string | null): MantineColor => {
-  if (sport === null) return UNKNOWN_SPORT_COLOR;
+  const key = sport?.toLowerCase().replaceAll(" ", "_") ?? "";
 
-  const key = sport.toLowerCase().replaceAll(" ", "_");
-
-  return SPORT_COLORS[key] ?? UNMAPPED_SPORT_COLOR;
+  return SPORT_COLORS[key] ?? "gray";
 };

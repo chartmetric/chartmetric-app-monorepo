@@ -27,7 +27,7 @@ export default defineConfig(
     files: ["**/src/**/*.{ts,tsx}", "**/components/**/*.{ts,tsx}"],
     ignores: [
       "**/*.test.{ts,tsx}",
-      "**/*.test.helpers.ts",
+      "**/*.test.helpers.{ts,tsx}",
       "**/vitest.setup.ts",
     ],
     rules: {
