@@ -44,19 +44,21 @@ export const LeagueHeader: FC<LeagueHeaderProps> = ({
   );
 
   // The sort control renders twice so keyboard order always matches visual
-  // order: on the title row while the header wraps (below lg), at the end of
+  // order: on the title row while the header wraps (below xl), at the end of
   // the single row above it. display:none keeps the inactive copy out of the
-  // accessibility tree.
+  // accessibility tree. xl because the switch must sit at or above the width
+  // where the single row fits, or the control wraps to the bottom row before
+  // jumping to the title row as the viewport narrows.
   return (
     <Group align="center" gap="sm" wrap="wrap">
       <LeagueTitle total={total} />
-      <Box hiddenFrom="lg" ml="auto">
+      <Box hiddenFrom="xl" ml="auto">
         {sortMenu}
       </Box>
       {/* Closes the title row while the header wraps, so search and the
           filter groups start on their own rows instead of filling the slack
           beside the sort control. */}
-      <Box flex="1 0 100%" h={0} hiddenFrom="lg" />
+      <Box flex="1 0 100%" h={0} hiddenFrom="xl" />
       <SearchInput
         label={t`Search by league name`}
         name="league-search"
@@ -72,7 +74,7 @@ export const LeagueHeader: FC<LeagueHeaderProps> = ({
         sports={options?.sports ?? []}
         values={filterValues}
       />
-      <Box ml="auto" visibleFrom="lg">
+      <Box ml="auto" visibleFrom="xl">
         {sortMenu}
       </Box>
     </Group>

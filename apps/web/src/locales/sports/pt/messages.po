@@ -366,7 +366,7 @@ msgstr "Salvar como grupo"
 msgid "Search athletes…"
 msgstr "Buscar atletas…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:61
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:63
 msgid "Search by league name"
 msgstr "Pesquisar por nome da liga"
 
@@ -378,7 +378,7 @@ msgstr "Pesquisar por nome"
 msgid "Search columns…"
 msgstr "Buscar colunas…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:66
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:68
 msgid "Search leagues…"
 msgstr "Buscar ligas…"
 

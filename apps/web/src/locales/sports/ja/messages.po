@@ -366,7 +366,7 @@ msgstr "グループとして保存"
 msgid "Search athletes…"
 msgstr "アスリートを検索…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:61
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:63
 msgid "Search by league name"
 msgstr "リーグ名で検索"
 
@@ -378,7 +378,7 @@ msgstr "名前で検索"
 msgid "Search columns…"
 msgstr "列を検索…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:66
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:68
 msgid "Search leagues…"
 msgstr "リーグを検索…"
 
