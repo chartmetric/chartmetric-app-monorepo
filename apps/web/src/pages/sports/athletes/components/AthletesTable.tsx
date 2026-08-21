@@ -5,13 +5,13 @@ import { faArrowUp } from "@fortawesome/pro-regular-svg-icons/faArrowUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Text } from "@mantine/core";
+import { DataTable } from "@repo/ui/data-table";
+import { TablePagination } from "@repo/ui/table-pagination";
 import {
-  DataTable,
   ROW_HOVER_STYLE,
   TABLE_FOOTER_PADDING,
   TABLE_TOOLBAR_PADDING,
-} from "@repo/ui/data-table";
-import { TablePagination } from "@repo/ui/table-pagination";
+} from "@repo/ui/table-tokens";
 
 import type {
   Athlete,

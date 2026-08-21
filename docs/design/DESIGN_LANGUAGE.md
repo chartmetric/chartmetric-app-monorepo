@@ -693,6 +693,14 @@ hard way:
 - **DOM computed styles are the arbiter.** When a pixel heuristic says
   "heavier" and `getComputedStyle` says 400/Inter/11px on both
   elements, the DOM wins — antialiasing lies at small sizes.
+- **A static reference shows the rest state only — never delete an
+  interactive affordance because a screenshot lacks it.** The pinned
+  columns' scrolled-state shadow was lost exactly this way: the
+  reference never scrolled, so parity work removed the chrome and its
+  vestigial tests together. Before removing hover/scroll/focus
+  behavior during parity work, reproduce the interactive state; and
+  when deleting a stale test, check whether the behavior it guarded is
+  stale or only its implementation.
 - **Every delta lands as a rule in this file in the same iteration**,
   with stale numbers repointed at their token owner rather than
   restated.

@@ -223,7 +223,7 @@ msgid "League / Competition"
 msgstr "리그 / 대회"
 
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:19
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:111
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:107
 msgid "Leagues"
 msgstr "리그"
 
@@ -287,7 +287,7 @@ msgid "New group name…"
 msgstr "새 그룹 이름…"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:102
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:51
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:47
 msgid "Next"
 msgstr "다음"
 
@@ -310,7 +310,7 @@ msgstr "일치하는 옵션이 없습니다"
 #. Current page number in the athletes list
 #. Current page number in the leagues list
 #: src/pages/sports/athletes/components/AthletesTable.tsx:108
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:57
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:53
 msgid "Page {current} of {pageCount}"
 msgstr "{pageCount}페이지 중 {current}페이지"
 
@@ -328,7 +328,7 @@ msgid "Posts"
 msgstr "게시물"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:114
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:63
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:59
 msgid "Previous"
 msgstr "이전"
 
@@ -388,14 +388,14 @@ msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "총 {totalRows}명 중 {firstRow}–{lastRow}명 표시"
 
 #. Range of leagues shown out of the filtered total
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:103
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:99
 msgid "Showing {firstRow}–{lastRow} of {totalRows} leagues"
 msgstr "총 {totalRows}개 중 {firstRow}–{lastRow}개 표시"
 
 #. Accessible label for a sortable athletes table column
 #. Accessible label for a sortable leagues table column
 #: src/pages/sports/athletes/components/AthletesTable.tsx:175
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:125
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:121
 msgid "Sort by {label}"
 msgstr "{label} 기준 정렬"
 
@@ -503,7 +503,7 @@ msgstr "이름 없는 리그"
 msgid "Updating athletes"
 msgstr "선수 정보 업데이트 중"
 
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:50
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:46
 msgid "Updating leagues"
 msgstr "리그 정보 업데이트 중"
 

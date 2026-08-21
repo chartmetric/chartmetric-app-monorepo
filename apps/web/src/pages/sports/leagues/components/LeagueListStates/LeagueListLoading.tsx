@@ -5,7 +5,7 @@ import { Group, Paper, Skeleton, Stack, Table } from "@mantine/core";
 import {
   TABLE_FOOTER_PADDING,
   TABLE_VERTICAL_SPACING,
-} from "@repo/ui/data-table";
+} from "@repo/ui/table-tokens";
 
 import { LEAGUE_PAGE_SIZE } from "../../api/league-list";
 import {

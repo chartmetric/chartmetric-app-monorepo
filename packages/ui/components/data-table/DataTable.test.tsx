@@ -157,13 +157,45 @@ describe("DataTable", () => {
     expect(first?.className).toContain("stickyCell");
   });
 
-  it("paints pinned cells with the body background, not a tint", () => {
+  it("marks only the last pinned cell with the shadow carrier class", () => {
     renderSticky();
 
     const cells = screen.getAllByRole("cell");
 
-    expect(cells[0]?.className).toContain("stickyCell");
-    expect(cells[1]?.className).not.toContain("lastStickyCell");
+    expect(cells[0]?.className).not.toContain("lastStickyCell");
+    expect(cells[1]?.className).toContain("lastStickyCell");
+    expect(cells[2]?.className).not.toContain("lastStickyCell");
+  });
+
+  // The scrolled-state shadow was silently lost once before: a static
+  // reference screenshot shows only the rest state, and the vestigial tests
+  // were deleted with the old implementation. These two guard the behavior.
+  it("marks the scroll container scrolled while horizontally scrolled", () => {
+    renderSticky();
+    const scrollDiv = screen.getByRole("table", {
+      name: "People",
+    }).parentElement;
+    if (scrollDiv === null) throw new Error("Table has no parent element");
+
+    scrollDiv.scrollLeft = 50;
+    fireEvent.scroll(scrollDiv);
+
+    expect(scrollDiv.className).toContain("scrolled");
+  });
+
+  it("clears the scrolled mark when scroll returns to origin", () => {
+    renderSticky();
+    const scrollDiv = screen.getByRole("table", {
+      name: "People",
+    }).parentElement;
+    if (scrollDiv === null) throw new Error("Table has no parent element");
+
+    scrollDiv.scrollLeft = 50;
+    fireEvent.scroll(scrollDiv);
+    scrollDiv.scrollLeft = 0;
+    fireEvent.scroll(scrollDiv);
+
+    expect(scrollDiv.className).not.toContain("scrolled");
   });
 });
 

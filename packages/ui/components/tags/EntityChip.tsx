@@ -2,8 +2,8 @@ import type { FC, ReactNode } from "react";
 
 import { Badge } from "@mantine/core";
 
-import { CELL_TEXT_SIZE } from "./CellText";
-import classes from "./Chips.module.css";
+import { CELL_TEXT_SIZE } from "../data-table/CellText";
+import classes from "./Tags.module.css";
 
 interface EntityChipProps {
   children: ReactNode;

@@ -223,7 +223,7 @@ msgid "League / Competition"
 msgstr "リーグ / 大会"
 
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:19
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:111
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:107
 msgid "Leagues"
 msgstr "リーグ"
 
@@ -287,7 +287,7 @@ msgid "New group name…"
 msgstr "新しいグループ名…"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:102
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:51
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:47
 msgid "Next"
 msgstr "次へ"
 
@@ -310,7 +310,7 @@ msgstr "一致する選択肢がありません"
 #. Current page number in the athletes list
 #. Current page number in the leagues list
 #: src/pages/sports/athletes/components/AthletesTable.tsx:108
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:57
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:53
 msgid "Page {current} of {pageCount}"
 msgstr "{pageCount} ページ中 {current} ページ"
 
@@ -328,7 +328,7 @@ msgid "Posts"
 msgstr "投稿"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:114
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:63
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:59
 msgid "Previous"
 msgstr "前へ"
 
@@ -388,14 +388,14 @@ msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "{totalRows} 人中 {firstRow}–{lastRow} 人を表示"
 
 #. Range of leagues shown out of the filtered total
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:103
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:99
 msgid "Showing {firstRow}–{lastRow} of {totalRows} leagues"
 msgstr "{totalRows} 件中 {firstRow}–{lastRow} 件を表示"
 
 #. Accessible label for a sortable athletes table column
 #. Accessible label for a sortable leagues table column
 #: src/pages/sports/athletes/components/AthletesTable.tsx:175
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:125
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:121
 msgid "Sort by {label}"
 msgstr "{label}で並べ替え"
 
@@ -503,7 +503,7 @@ msgstr "名称未設定のリーグ"
 msgid "Updating athletes"
 msgstr "選手情報を更新中"
 
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:50
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:46
 msgid "Updating leagues"
 msgstr "リーグ情報を更新中"
 

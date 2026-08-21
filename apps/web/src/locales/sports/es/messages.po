@@ -223,7 +223,7 @@ msgid "League / Competition"
 msgstr "Liga / Competición"
 
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueTitle.tsx:19
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:111
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:107
 msgid "Leagues"
 msgstr "Ligas"
 
@@ -287,7 +287,7 @@ msgid "New group name…"
 msgstr "Nombre del nuevo grupo…"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:102
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:51
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:47
 msgid "Next"
 msgstr "Siguiente"
 
@@ -310,7 +310,7 @@ msgstr "No hay opciones coincidentes"
 #. Current page number in the athletes list
 #. Current page number in the leagues list
 #: src/pages/sports/athletes/components/AthletesTable.tsx:108
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:57
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:53
 msgid "Page {current} of {pageCount}"
 msgstr "Página {current} de {pageCount}"
 
@@ -328,7 +328,7 @@ msgid "Posts"
 msgstr "Publicaciones"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:114
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:63
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:59
 msgid "Previous"
 msgstr "Anterior"
 
@@ -388,14 +388,14 @@ msgid "Showing {firstRow}–{lastRow} of {totalRows} athletes"
 msgstr "Mostrando {firstRow}–{lastRow} de {totalRows} atletas"
 
 #. Range of leagues shown out of the filtered total
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:103
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:99
 msgid "Showing {firstRow}–{lastRow} of {totalRows} leagues"
 msgstr "Mostrando {firstRow}–{lastRow} de {totalRows} ligas"
 
 #. Accessible label for a sortable athletes table column
 #. Accessible label for a sortable leagues table column
 #: src/pages/sports/athletes/components/AthletesTable.tsx:175
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:125
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:121
 msgid "Sort by {label}"
 msgstr "Ordenar por {label}"
 
@@ -503,7 +503,7 @@ msgstr "Liga sin nombre"
 msgid "Updating athletes"
 msgstr "Actualizando deportistas"
 
-#: src/pages/sports/leagues/components/LeaguesTable.tsx:50
+#: src/pages/sports/leagues/components/LeaguesTable.tsx:46
 msgid "Updating leagues"
 msgstr "Actualizando ligas"
 

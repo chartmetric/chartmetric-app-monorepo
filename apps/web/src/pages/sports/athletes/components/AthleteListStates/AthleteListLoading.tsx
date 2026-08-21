@@ -6,7 +6,7 @@ import {
   TABLE_FOOTER_PADDING,
   TABLE_TOOLBAR_PADDING,
   TABLE_VERTICAL_SPACING,
-} from "@repo/ui/data-table";
+} from "@repo/ui/table-tokens";
 
 import { ATHLETE_PAGE_SIZE } from "../../api/athlete-list";
 

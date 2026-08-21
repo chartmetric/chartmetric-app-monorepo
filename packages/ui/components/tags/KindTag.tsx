@@ -2,7 +2,7 @@ import type { FC, ReactNode } from "react";
 
 import { Badge } from "@mantine/core";
 
-import classes from "./Chips.module.css";
+import classes from "./Tags.module.css";
 
 interface KindTagProps {
   children: ReactNode;

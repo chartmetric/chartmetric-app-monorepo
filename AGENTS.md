@@ -165,4 +165,6 @@ The first three were harvested from recurring pull-request review comments rathe
 
 - **Lingui's `t` macro only transforms template literals bound to `useLingui`'s own identifier.** Pass `t` as a function parameter and the macro skips the call site: it compiles to a runtime call with a raw template array and silently renders an empty string — tests see `""` labels, not an error. Resolve user-facing strings inside the hook/component that called `useLingui` and pass plain strings to module-level builders.
 
+- **A static reference screenshot shows the rest state only; interactive affordances (scroll shadows, hovers, focus rings) must be reproduced in their triggered state before parity work may remove them.** The pinned-column scroll shadow was deleted because the reference never scrolled — and its tests went with it, because they were asserting a removed implementation rather than the behavior. When deleting a stale test, ask whether the _behavior_ it guarded is stale or only its implementation; if the behavior survives, rewrite the test against the new implementation in the same commit.
+
 See `docs/ARCHITECTURE.md` for the full statement of each, including the file-layout diagrams and the canonical type-derivation idiom.

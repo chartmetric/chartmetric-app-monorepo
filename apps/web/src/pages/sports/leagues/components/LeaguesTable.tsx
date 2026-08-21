@@ -2,13 +2,9 @@ import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
 import { Group, Paper, Text } from "@mantine/core";
-import {
-  DataTable,
-  type DataTableSortDirection,
-  ROW_HOVER_STYLE,
-  TABLE_FOOTER_PADDING,
-} from "@repo/ui/data-table";
+import { DataTable, type DataTableSortDirection } from "@repo/ui/data-table";
 import { TablePagination } from "@repo/ui/table-pagination";
+import { ROW_HOVER_STYLE, TABLE_FOOTER_PADDING } from "@repo/ui/table-tokens";
 
 import type { League, LeagueSortBy } from "../api/types";
 

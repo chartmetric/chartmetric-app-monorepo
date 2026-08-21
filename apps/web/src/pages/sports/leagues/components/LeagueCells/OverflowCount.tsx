@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { Plural, useLingui } from "@lingui/react/macro";
 import { Text, Tooltip, VisuallyHidden } from "@mantine/core";
 import { CELL_TEXT_SIZE } from "@repo/ui/cell-text";
-import { TOOLTIP_ITEM_LIMIT, TOOLTIP_WIDTH } from "@repo/ui/data-table";
+import { TOOLTIP_ITEM_LIMIT, TOOLTIP_WIDTH } from "@repo/ui/table-tokens";
 
 interface OverflowCountProps {
   items: readonly string[];

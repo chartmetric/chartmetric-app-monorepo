@@ -14,7 +14,30 @@ tr:hover .stickyCell {
   );
 }
 
-/* Header ink sits between data ink and dimmed: E's #52505b band. */
+/* At rest pinned columns are invisible chrome (reference parity). While the
+   table is horizontally scrolled, the last pinned cell casts a shadow so
+   content visibly slides under the frozen columns. */
+.lastStickyCell::after {
+  background: linear-gradient(
+    to right,
+    light-dark(rgba(11, 18, 21, 0.14), rgba(0, 0, 0, 0.55)),
+    transparent
+  );
+  bottom: 0;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: -12px;
+  top: 0;
+  transition: opacity 150ms ease;
+  width: 12px;
+}
+
+.scrolled .lastStickyCell::after {
+  opacity: 1;
+}
+
 .headerLabel {
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-2));
   white-space: nowrap;
