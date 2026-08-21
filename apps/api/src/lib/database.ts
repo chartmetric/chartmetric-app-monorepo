@@ -51,3 +51,13 @@ export const orderByExpression = <Builder>(
     expression,
     direction,
   ) as unknown as Builder;
+
+/**
+ * Applies a builder transform only when the filter value is present — the
+ * shared shape of every list endpoint's filter chain.
+ */
+export const applyWhen = <Builder, Value>(
+  builder: Builder,
+  value: Value | undefined,
+  apply: (builder: Builder, value: Value) => Builder,
+): Builder => (value === undefined ? builder : apply(builder, value));

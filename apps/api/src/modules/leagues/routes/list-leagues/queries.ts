@@ -10,11 +10,13 @@ import type {
 } from "./types.ts";
 
 import {
+  applyWhen,
   type DatabaseQueryFactory,
   type ExecutableQuery,
   type JoinableChain,
   orderByExpression,
 } from "../../../../lib/database.ts";
+import { resolveSortDirection } from "../../../../lib/sorting.ts";
 
 const CATALOG = "new_vertical.leagues";
 const AGGREGATE = "league_athletes";
@@ -95,10 +97,6 @@ export const selectLeagueCatalog = ((database) =>
       ),
     )) satisfies DatabaseQueryFactory;
 
-// hypequery cannot type a CTE alias as a join source or a qualified left
-// column, so the join goes through the structural escape hatch. Both mistakes
-// typecheck, which is why every variant of this query is run against real
-// ClickHouse.
 const withLeagueAthletes = <Builder>(
   builder: Builder,
   database: ClickHouseDatabase,
@@ -164,29 +162,21 @@ const applyFilters = (
 ): LeagueCatalogBuilder => {
   let next = builder;
 
-  if (query.name !== undefined) next = applyNameFilter(next, query.name);
-  if (query.sports !== undefined) next = applySportFilter(next, query.sports);
-  if (query.minTrackedAthletes !== undefined) {
-    next = applyAggregateMinimum(
-      next,
-      AGGREGATE_COLUMN.trackedAthletes,
-      query.minTrackedAthletes,
-    );
-  }
-  if (query.minAggregatedIgFollowers !== undefined) {
-    next = applyAggregateMinimum(
-      next,
-      AGGREGATE_COLUMN.aggregatedIgFollowers,
-      query.minAggregatedIgFollowers,
-    );
-  }
-  if (query.megaOnly === true) {
-    next = applyAggregateMinimum(
-      next,
+  next = applyWhen(next, query.name, applyNameFilter);
+  next = applyWhen(next, query.sports, applySportFilter);
+  next = applyWhen(next, query.minTrackedAthletes, (b, minimum) =>
+    applyAggregateMinimum(b, AGGREGATE_COLUMN.trackedAthletes, minimum),
+  );
+  next = applyWhen(next, query.minAggregatedIgFollowers, (b, minimum) =>
+    applyAggregateMinimum(b, AGGREGATE_COLUMN.aggregatedIgFollowers, minimum),
+  );
+  next = applyWhen(next, query.megaOnly === true ? true : undefined, (b) =>
+    applyAggregateMinimum(
+      b,
       AGGREGATE_COLUMN.maxIgFollowers,
       MEGA_IG_FOLLOWERS,
-    );
-  }
+    ),
+  );
 
   return next;
 };
@@ -238,17 +228,8 @@ const QUERY_SETTINGS = {
 const sortBy = (query: ListLeaguesQuery): keyof typeof SORT_COLUMNS =>
   query.sortBy ?? DEFAULT_SORT_BY;
 
-// An explicit request wins; otherwise the useful first look depends on the
-// column. Names and sports start ascending, athlete counts and reach
-// descending, so `sortBy=trackedAthletes` returns the deepest leagues rather
-// than the emptiest.
-const sortDirection = (query: ListLeaguesQuery): "ASC" | "DESC" => {
-  const requested =
-    query.sortDirection ??
-    (ASCENDING_FIRST.has(sortBy(query)) ? "asc" : "desc");
-
-  return requested === "asc" ? "ASC" : "DESC";
-};
+const sortDirection = (query: ListLeaguesQuery): "ASC" | "DESC" =>
+  resolveSortDirection(query.sortDirection, sortBy(query), ASCENDING_FIRST);
 
 const listLeagues = (
   database: ClickHouseDatabase,
