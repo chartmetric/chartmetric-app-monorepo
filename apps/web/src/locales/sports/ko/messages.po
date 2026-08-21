@@ -65,7 +65,7 @@ msgstr "열 추가, 제거 또는 순서 변경"
 msgid "Age"
 msgstr "나이"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:47
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:49
 msgid "All Sports"
 msgstr "모든 종목"
 
@@ -75,7 +75,7 @@ msgstr "선수"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:159
 #: src/pages/sports/leagues/columns/table-columns.ts:128
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:61
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:63
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:29
 msgid "Athletes"
 msgstr "선수"
@@ -182,7 +182,7 @@ msgstr "하트"
 msgid "Hidden"
 msgstr "숨김"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:70
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:72
 msgid "IG Reach"
 msgstr "IG 도달수"
 
@@ -249,7 +249,7 @@ msgstr "리그 불러오는 중"
 msgid "Maximum CM score"
 msgstr "최대 CM 점수"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:80
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:82
 msgid "Mega only"
 msgstr "메가만"
 
@@ -366,7 +366,7 @@ msgstr "그룹으로 저장"
 msgid "Search athletes…"
 msgstr "선수 검색…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:44
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:61
 msgid "Search by league name"
 msgstr "리그 이름으로 검색"
 
@@ -378,7 +378,7 @@ msgstr "이름으로 검색"
 msgid "Search columns…"
 msgstr "열 검색…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:49
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:66
 msgid "Search leagues…"
 msgstr "리그 검색…"
 
@@ -404,7 +404,7 @@ msgid "Sort:"
 msgstr "정렬:"
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:43
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:48
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:50
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:28
 msgid "Sport"
 msgstr "종목"

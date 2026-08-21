@@ -65,7 +65,7 @@ msgstr "列の追加、削除、並べ替え"
 msgid "Age"
 msgstr "年齢"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:47
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:49
 msgid "All Sports"
 msgstr "すべての競技"
 
@@ -75,7 +75,7 @@ msgstr "選手"
 
 #: src/pages/sports/athletes/components/AthletesTable.tsx:159
 #: src/pages/sports/leagues/columns/table-columns.ts:128
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:61
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:63
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:29
 msgid "Athletes"
 msgstr "選手"
@@ -182,7 +182,7 @@ msgstr "ハート"
 msgid "Hidden"
 msgstr "非表示"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:70
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:72
 msgid "IG Reach"
 msgstr "IGリーチ"
 
@@ -249,7 +249,7 @@ msgstr "リーグを読み込み中"
 msgid "Maximum CM score"
 msgstr "最大CMスコア"
 
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:80
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:82
 msgid "Mega only"
 msgstr "メガのみ"
 
@@ -366,7 +366,7 @@ msgstr "グループとして保存"
 msgid "Search athletes…"
 msgstr "アスリートを検索…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:44
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:61
 msgid "Search by league name"
 msgstr "リーグ名で検索"
 
@@ -378,7 +378,7 @@ msgstr "名前で検索"
 msgid "Search columns…"
 msgstr "列を検索…"
 
-#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:49
+#: src/pages/sports/leagues/components/LeagueHeader/LeagueHeader.tsx:66
 msgid "Search leagues…"
 msgstr "リーグを検索…"
 
@@ -404,7 +404,7 @@ msgid "Sort:"
 msgstr "並び順："
 
 #: src/pages/sports/athletes/components/AthleteFilters/components/AthleteEntityFilters.tsx:43
-#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:48
+#: src/pages/sports/leagues/components/LeagueHeader/components/LeagueQuickFilters.tsx:50
 #: src/pages/sports/leagues/components/LeagueHeader/components/LeagueSortMenu.tsx:28
 msgid "Sport"
 msgstr "競技"

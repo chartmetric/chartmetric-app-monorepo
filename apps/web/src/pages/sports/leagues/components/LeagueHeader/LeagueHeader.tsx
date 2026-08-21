@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
 import { useLingui } from "@lingui/react/macro";
-import { Group } from "@mantine/core";
+import { Box, Group } from "@mantine/core";
 import { SearchInput } from "@repo/ui/search-input";
 
 import type {
@@ -35,32 +35,46 @@ export const LeagueHeader: FC<LeagueHeaderProps> = ({
 }) => {
   const { t } = useLingui();
   const { filterValues, updateFilters } = useLeagueFilterValues(onChange);
+  const sortMenu = (
+    <LeagueSortMenu
+      onSort={onSort}
+      sortBy={sortBy}
+      sortDirection={sortDirection}
+    />
+  );
 
+  // The sort control renders twice so keyboard order always matches visual
+  // order: on the title row while the header wraps (below lg), at the end of
+  // the single row above it. display:none keeps the inactive copy out of the
+  // accessibility tree.
   return (
-    <Group align="center" gap="xs" justify="space-between" wrap="nowrap">
-      <Group align="center" gap="xs" miw={0} wrap="nowrap">
-        <LeagueTitle total={total} />
-        <SearchInput
-          label={t`Search by league name`}
-          name="league-search"
-          onChange={(name) => {
-            updateFilters({ ...filterValues, name });
-          }}
-          placeholder={t`Search leagues…`}
-          value={filterValues.name}
-          width={170}
-        />
-        <LeagueQuickFilters
-          onChange={updateFilters}
-          sports={options?.sports ?? []}
-          values={filterValues}
-        />
-      </Group>
-      <LeagueSortMenu
-        onSort={onSort}
-        sortBy={sortBy}
-        sortDirection={sortDirection}
+    <Group align="center" gap="sm" wrap="wrap">
+      <LeagueTitle total={total} />
+      <Box hiddenFrom="lg" ml="auto">
+        {sortMenu}
+      </Box>
+      {/* Closes the title row while the header wraps, so search and the
+          filter groups start on their own rows instead of filling the slack
+          beside the sort control. */}
+      <Box flex="1 0 100%" h={0} hiddenFrom="lg" />
+      <SearchInput
+        label={t`Search by league name`}
+        name="league-search"
+        onChange={(name) => {
+          updateFilters({ ...filterValues, name });
+        }}
+        placeholder={t`Search leagues…`}
+        value={filterValues.name}
+        width={{ base: "100%", sm: 170 }}
       />
+      <LeagueQuickFilters
+        onChange={updateFilters}
+        sports={options?.sports ?? []}
+        values={filterValues}
+      />
+      <Box ml="auto" visibleFrom="lg">
+        {sortMenu}
+      </Box>
     </Group>
   );
 };
