@@ -105,6 +105,61 @@ describe("GET /influencers", () => {
     await app.close();
   });
 
+  it("keeps filter options off the v1 developer surface", async () => {
+    const app = await buildApp({
+      clickhouse: stubClickhouse(rows),
+      config: testConfig,
+    });
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/v1/influencers/filter-options",
+    });
+
+    expect(response.statusCode).toBe(404);
+    await app.close();
+  });
+
+  it("returns the four filter-option vocabularies on the app surface", async () => {
+    const app = await buildApp({
+      clickhouse: stubClickhouse({
+        "new_vertical.profile": [
+          { count: "20", value: "US" },
+          { count: "5", value: "BR" },
+          { count: "1", value: "" },
+        ],
+      }),
+      config: testConfig,
+    });
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/app/influencers/filter-options",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual({
+      ageGroups: [
+        { count: 0, value: "18-" },
+        { count: 0, value: "18-24" },
+        { count: 0, value: "25-34" },
+        { count: 0, value: "35-44" },
+        { count: 0, value: "45-64" },
+        { count: 0, value: "65+" },
+      ],
+      categories: [],
+      countries: [
+        { count: 20, value: "US" },
+        { count: 5, value: "BR" },
+      ],
+      genders: [
+        { count: 20, value: "US" },
+        { count: 5, value: "BR" },
+      ],
+    });
+    await app.close();
+  });
+
   it("accepts repeated include and exclude filter parameters", async () => {
     const app = await buildApp({
       clickhouse: stubClickhouse(rows),

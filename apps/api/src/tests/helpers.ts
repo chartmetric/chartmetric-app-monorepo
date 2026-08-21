@@ -17,6 +17,7 @@ type StubRows = Partial<Record<keyof Database, unknown[]>>;
 
 interface StubChain {
   argMax: () => StubChain;
+  arrayJoin: () => StubChain;
   count: () => StubChain;
   countDistinct: () => StubChain;
   execute: () => Promise<unknown[]>;
@@ -60,6 +61,7 @@ export const stubClickhouse = (rowsByTable: StubRows = {}): ClickHouse => {
     let isSelectsAggregate = false;
     const chain: StubChain = {
       argMax: () => chain,
+      arrayJoin: () => chain,
       count: () => chain,
       countDistinct: () => chain,
 

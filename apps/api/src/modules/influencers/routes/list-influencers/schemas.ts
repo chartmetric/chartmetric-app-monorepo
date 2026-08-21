@@ -25,7 +25,7 @@ const OptionalCategoricalFilter = Type.Optional(
 
 // The six supported buckets. The source table also carries overlapping
 // data-quality values (18-34, 25-44, …) that this contract rejects.
-const AgeGroupSchema = Type.Union([
+export const AgeGroupSchema = Type.Union([
   Type.Literal("18-"),
   Type.Literal("18-24"),
   Type.Literal("25-34"),
